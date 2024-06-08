@@ -2,7 +2,7 @@
 
 This is a general help for NightHawk pages. This is a project to assist students on their learning journey in Computer Science and Software Engineering (CSSE), AP Computer Science Principles (CSP), and AP Computer Science A (CSA).   
 
-- Nighthawk Pages originated from a project called [Fastpages](https://fastpages.fast.ai/), but is completely broken off and is no longer tracking its changes.   After the 1st year of Nighthawk Pages, Fastpages was deprecated in favor of [Quarto](https://quarto.org/), which was investigated but seemed to lose some of the raw development features of Fastpages.
+- Nighthawk Pages (now portfolio_2025) originated from a project called [Fastpages](https://fastpages.fast.ai/), but is completely broken off and is no longer tracking its changes. The Apache license given to this project follows Fastpages license.  During the 1st year of Nighthawk Pages, Fastpages was deprecated in favor of [Quarto](https://quarto.org/).  After an investigation of Quarto, it was determined that some of the raw development features of Fastpages were changed.  This led to the decision to start and maintain an independent project.  
 
 - Nighthawk Pages contains Tech Talks and Frontend code examples.  It is a mixture of code examples, plans, and lectures.  As of this writing, it contains ...
 
@@ -22,7 +22,7 @@ This is a general help for NightHawk pages. This is a project to assist students
   - [Mimima Theme](https://github.com/jekyll/minima) and SASS styling
   - GitHub Projects integration, new in April 2024, to author weekly plans for student and teacher projects.
 - Notable contributions ...
-  - September 2023 Tirth Thakker, Mirza Beg supporting Nighthawk pages break from Fastpages: theme, search and tags. 
+  - September 2023 Tirth Thakker, Mirza Beg supporting Nighthawk pages break away from Fastpages: theme, search and tags. 
   - April 2024 Toby Ledder supported GitHub API work, GitHub action, and scripts to bring GitHub Projects into GitHub pages.
 
 ## GitHub Pages setup
