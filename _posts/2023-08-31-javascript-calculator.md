@@ -4,15 +4,14 @@ comments: true
 hide: true
 layout: default
 description: A common way to become familiar with a language is to build a calculator.  This calculator shows off button with actions.
+permalink: /frontend/js-calculator
 categories: [C7.0]
-courses: { csse: {week: 2}, csp: {week: 2, categories: [2.C]}, csa: {week: 2} }
-type: ccc
 ---
 
 <!-- 
-Hack 0: Right justify result
-Hack 1: Test conditions on small, big, and decimal numbers, report on findings. Fix issues.
-Hack 2: Add the common math operation that is missing from calculator
+Hack 0: Right justify the result
+Hack 1: Test conditions on small, big, and decimal numbers, and report on findings. Fix issues.
+Hack 2: Add the common math operation that is missing from the calculator
 Hack 3: Implement 1 number operation (ie SQRT) 
 -->
 
@@ -22,15 +21,15 @@ HTML implementation of the calculator.
 
 <!-- 
     Style and Action are aligned with HRML class definitions
-    style.css contains majority of style definition (number, operation, clear, and equals)
-    - The div calculator-container sets 4 elements to a row
-    Background is credited to Vanta JS and is implemented at bottom of this page
+    style.css contains the majority of style definitions (number, operation, clear, and equals)
+    - The div calculator container sets 4 elements to a row
+    The background is credited to Vanta JS and is implemented at the bottom of this page
 -->
 <style>
   .calculator-output {
     /*
-      calulator output
-      top bar shows the results of the calculator;
+      calculator output
+      the top bar shows the results of the calculator;
       result to take up the entirety of the first row;
       span defines 4 columns and 1 row
     */
@@ -84,7 +83,7 @@ HTML implementation of the calculator.
 var firstNumber = null;
 var operator = null;
 var nextReady = true;
-// build objects containing key elements
+//Build objects containing key elements
 const output = document.getElementById("output");
 const numbers = document.querySelectorAll(".calculator-number");
 const operations = document.querySelectorAll(".calculator-operation");
@@ -211,7 +210,7 @@ var vantaInstances = {
 // obtain a random vanta function
 var vantaInstance = vantaInstances[Object.keys(vantaInstances)[Math.floor(Math.random() * Object.keys(vantaInstances).length)]];
 
-// run the animation
+//Run the animation
 vantaInstance({
   el: "#animation",
   mouseControls: true,

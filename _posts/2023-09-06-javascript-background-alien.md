@@ -1,16 +1,15 @@
 ---
 layout: default
 title: Alien World Background
-description: Use JavaScript without external libraries to animate Mario moving across a screen, OOP style.
+description: Use JavaScript without external libraries to move background across a screen, OOP style.
 categories: [C5.0, C7.0, C7.6]
-image: /images/alien_planet.jpg
-courses: { csse: {week: 10}, csp: {week: 7} }
-type: ccc
+permalink: /frontend/background
+image: /images/alien_planet1.jpg
 ---
 
-{% assign alienPlanetFile = site.baseurl | append: page.image %}
-{% assign WIDTH = 7000 %}
-{% assign HEIGHT = 2500 %}
+{% assign IMAGE = site.baseurl | append: page.image %}
+{% assign WIDTH = 6435 %}
+{% assign HEIGHT = 3000 %}
 
 <canvas id="alienWorld"></canvas>
 
@@ -59,7 +58,7 @@ type: ccc
   }
 
   const backgroundImg = new Image();
-  backgroundImg.src = '{{alienPlanetFile}}';
+  backgroundImg.src = '{{IMAGE}}';
   var backgroundObj = new Layer(backgroundImg, 0.5)
 
   function background() {

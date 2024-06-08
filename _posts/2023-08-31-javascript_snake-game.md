@@ -4,8 +4,7 @@ comments: false
 layout: post
 title: Snake Game
 description: this is the snake game
-type: hacks
-courses: { csse: {week: 3} }
+permalink: /frontend/snake
 ---
 
 <style>
