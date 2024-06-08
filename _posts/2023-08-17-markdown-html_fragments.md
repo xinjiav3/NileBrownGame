@@ -6,7 +6,7 @@ description: JavaScript, HTML, CSS and Markdown are coding languages used by blo
 categories: [1.B, C7.0]
 courses: { csse: {week: 2}, csp: {week: 0}, csa: {week: 0} }
 categories: [C4.3, C5.0]
-type: devops
+type: ccc
 ---
 
 ## HTML Fragments and Markdown
