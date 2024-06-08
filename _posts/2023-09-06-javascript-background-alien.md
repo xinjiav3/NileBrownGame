@@ -61,18 +61,17 @@ image: /images/alien_planet2.jpg
       this.speed = gameSpeed * this.speedRatio;
       this.frame = 0;
     }
-    update() {
+    update() {a
+      // Move the x position of the background for animation effect
       this.x = (this.x - this.speed) % this.width;
     }
+
     draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // Scale the image to fit the canvas
+      // Left side draw
       ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
       
-      // If the image has moved left (this.x is negative), draw the wrap-around on the right
-      if (this.x < 0) {
-        ctx.drawImage(this.image, this.x + this.width, this.y, this.width, this.height);
-      }
+      // Right side draw.  As the image moves left, draw the Right side
+      ctx.drawImage(this.image, this.x + this.width, this.y, this.width, this.height);
     }
   }
 
