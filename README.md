@@ -8,8 +8,8 @@ This is a general help for NightHawk pages. This is a project to assist students
 
 - Code for ...
   - JavaScript Platformer Game.
-  - JavaScript Frontend code for a Python JSON Web Token user database.
-  - JavaScript Frontend code for a Java JSON Web Token user database.
+  - JavaScript Frontend code for a Python JSON Web Token user database, works with flask_portfolio.
+  - JavaScript Frontend code for a Java JSON Web Token user database, works with spring_portfolio.
 - Blogs for ...
   - Many Jupyter Notebooks are used in interactive lessons and coding challenges using JavaScript, Python, and Java.
   - Instruction on Developer Tools and setup for JavaScript, Python, and Java Development.
