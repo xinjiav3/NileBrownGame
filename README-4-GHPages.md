@@ -1,6 +1,6 @@
 ---
 layout: base 
-title: README.md 
+title: README.md
 ---
 {% include nav_home.html %}
 

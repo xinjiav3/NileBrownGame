@@ -1,30 +1,41 @@
-# README
+## README
 
-This is a general help for NightHawk pages. This is a project to assist students on their learning journey in Computer Science and Software Engineering (CSSE), AP Computer Science Principles (CSP), and AP Computer Science A (CSA).   
+Nighthawk Pages is a project designed to support students in their Computer Science and Software Engineering education. It offers a wide range of resources including tech talks, code examples, and educational blogs. This project was initially based on Fastpages but has since evolved into an independent entity, it is no longer following Fastpages' updates. The decision to separate from Fastpages was influenced by the deprecation of Fastpages in favor of Quarto, and the subsequent changes in development features that did not align with our goals.
 
-- Nighthawk Pages (now portfolio_2025) originated from a project called [Fastpages](https://fastpages.fast.ai/), but is completely broken off and is no longer tracking its changes. The Apache license given to this project follows Fastpages license.  During the 1st year of Nighthawk Pages, Fastpages was deprecated in favor of [Quarto](https://quarto.org/).  After an investigation of Quarto, it was determined that some of the raw development features of Fastpages were changed.  This led to the decision to start and maintain an independent project.  
+### Key Features
 
-- Nighthawk Pages contains Tech Talks and Frontend code examples.  It is a mixture of code examples, plans, and lectures.  As of this writing, it contains ...
+- **Code Examples**: Provides practical coding examples in JavaScript, including a platformer game, and frontend code for user databases using Python and Java backends.
+- **Educational Blogs**: Offers instructional content on various topics such as developer tools setup, deployment on AWS, SQL databases, machine learning, and data structures. It utilizes Jupyter Notebooks for interactive lessons and coding challenges.
+- **Tools and Integrations**: Features GitHub actions for blog publishing, Utterances for blog commenting, local development support via Makefile and scripts, and styling with the Minima Theme and SASS. It also includes a new integration with GitHub Projects for planning purposes.
 
-- Code for ...
-  - JavaScript Platformer Game.
-  - JavaScript Frontend code for a Python JSON Web Token user database, works with flask_portfolio.
-  - JavaScript Frontend code for a Java JSON Web Token user database, works with spring_portfolio.
-- Blogs for ...
-  - Many Jupyter Notebooks are used in interactive lessons and coding challenges using JavaScript, Python, and Java.
-  - Instruction on Developer Tools and setup for JavaScript, Python, and Java Development.
-  - Instruction on Deployment topic for backend servers on AWS on Ubuntu using Docker, Nginx, and Certbot.
-  - Introductory topics on SQL database, Machine Learning (ML), and Data Structures.
-- Tools and integrations...
-  - Support for GitHub actions to produce a publicly available Blogging platform.
-  - Integration with Utterances to allow commenting on Blogs using GitHub Issues.
-  - A Makefile and scripts that support IPYNB to Markdown local development and test before promoting to GitHub actions.
-  - [Mimima Theme](https://github.com/jekyll/minima) and SASS styling
-  - GitHub Projects integration, new in April 2024, to author weekly plans for student and teacher projects.
-- Notable contributions ...
-  - September 2023 Tirth Thakker, Mirza Beg supporting Nighthawk pages break away from Fastpages: theme, search and tags. 
-  - April 2024 Toby Ledder supported GitHub API work, GitHub action, and scripts to bring GitHub Projects into GitHub pages.
+### Contributions
 
+- **Notable Contributions**: Highlights significant contributions to the project, including theme development, search and tagging functionality, GitHub API integration, and the incorporation of GitHub Projects into GitHub pages. Contributors such as Tirth Thakker, Mirza Beg, and Toby Ledder have played crucial roles in these developments.
+
+## GitHub Pages setup
+
+#### Activating GitHub Pages Actions
+1. **Activate GitHub Pages Actions**: This step involves enabling GitHub Pages Actions for your project. By doing so, your project will be automatically deployed using GitHub Pages Actions, ensuring that your project is always up to date with the latest changes you push to your repository.
+
+- On the GitHub website for the repository go to menu: Settings -> Pages ->  Build and Deployment and select "GitHub Actions". 
+
+#### Configuring the `_config.yml`
+2. **Update `_config.yml`**: You need to modify the `_config.yml` file to reflect your repository's name. This configuration is crucial because it ensures that your project's styling is correctly applied, making your deployed site look as intended rather than unstyled or broken.
+
+```
+github_repo: "portfolio_2025" 
+baseurl: "/portfolio_2025"
+```
+
+#### Updating the Makefile
+3. **Set Repository Name in Makefile**: Adjust the `REPO_NAME` variable in your Makefile to match your GitHub repository's name. This action facilitates the automatic updating of posts and notebooks on your local development server, improving the development process.
+
+```
+# Configuration, override port with usage: make PORT=4200
+PORT ?= 4100
+REPO_NAME ?= portfolio_2025
+LOG_FILE = /tmp/jekyll$(PORT).log
+```
 
 ## GitHub Pages setup
 The absolutes in setup up...
@@ -40,7 +51,7 @@ To get started you need to activate and configure GitHub Actions with a Theme.
 ### GitHub Pages config
 Edit the _config.yml file in this project.  All the lines in this file should be personalized.   
 
-These lines must be changed to match the GitHub repostitory.
+These lines must be changed to match the GitHub the repository.
 
 ```
 github_repo: "portfolio_2025" 
@@ -63,19 +74,21 @@ All `GitHub Pages` websites are managed on GitHub infrastructure. GitHub uses `J
 
 - GitHub Pages is powered by: [Jekyll](https://jekyllrb.com/).
 
-### Preparing a Preview Site
+### Instructions for Setting Up Your Environment
 
-### WSL and/or Ubuntu installation requirements
+Depending on your operating system, follow the specific instructions below to set up your environment. Navigate to the `scripts` directory in your terminal and execute the corresponding script.
 
-- Run scripts in the scripts directory:  activate_ubuntu.sh.
+#### For WSL and/or Ubuntu Users
 
-### MacOs installation requirements
+- Execute the script: `./activate_ubuntu.sh`
 
-Run scripts in the scripts directory: activate_macos.sh. 
+#### For macOS Users
 
-### Kasm requirements
+- Execute the script: `./activate_macos.sh`
 
-Run scripts in the scripts directory: activate.sh. 
+#### For Kasm Users
+
+- Execute the script: `./activate.sh`
 
 ### Preview
 

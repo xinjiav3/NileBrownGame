@@ -6,7 +6,7 @@ title: Tools and Equipment Overview
 description: Tools and equipment have changed lives, look at the mobile phone.  Tools, equipment, with the addition of coding can make you immensely more successful in any field.
 courses: { csse: {week: 0}, csp: {week: 0}, csa: {week: 0} }
 categories: [C4.3, C5.0]
-type: devops
+type: ccc
 ---
 
 ## Make Development Easy
