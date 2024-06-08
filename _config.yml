@@ -1,14 +1,14 @@
-title: Teacher 2.0
-description: "August 2023 to June 2024"
+title: Portfolio 3.0
+description: "August 2024 to June 2025"
 owner_name: John Mortensen
 github_username: nighthawkcoders
-github_repo: "teacher_portfolio"
-baseurl: "/teacher_portfolio"
+github_repo: "portfolio_2025" 
+baseurl: "/portfolio_2025"
 future: true
 remote_theme: jekyll/minima
 minima:
   social_links:
-    - { platform: github, user_url: "https://github.com/nighthawkcoders/teacher_portfolio"}
+    - { platform: github, user_url: "https://github.com/nighthawkcoders"}
     - { platform: x, user_url: "https://x.com/NighthawkCoding/" }
     - { platform: youtube, user_url: "https://www.youtube.com/@nighthawkcodingsociety2868" }      
 # remote_theme: pages-themes/dinky@v0.2.0
