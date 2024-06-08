@@ -66,8 +66,7 @@ To get started you need to activate and configure GitHub Actions with a Theme.
 
 ### NAVIGATION BAR
 
-- To add pages to the navigation bar add them to the general main directory then add the alpha tag that will order them in the way that you desire such as AA Being the first page and ZZ being the last page. 
-- A better option is to use config.yml to order and determine which menus you want and how to order.
+- To add pages to the top navigation bar use _config.yml to order and determine which menus you want and how to order.
 
 ### BLOG PAGE
 
@@ -198,10 +197,3 @@ Metadata, also known as "front matter", is a set of key-value pairs that can pro
 - The courses will tell us which menu item it will be under, in this case, the `compsci` menu, and the `week` tells it what row (week) it will appear under that menu.
 
 - In our examples,  hacks(ToDo) contain references to our IPYNB files; these are stored in GitHub under the `_notebooks` folder.   The plans and tangibles contain references to our MD files; these are stored in GitHub under the `_posts` folder.
-
-### Key files in Computer Science Lab Notebook
-
-- `compsci.md` - this is the "Computer Science Lab Notebook" page and is the link `https://nighthawkcoders.github.io/student/compsci`.  It contains the Title and Number of units on the page.
-- `_data/compsci.yml` - this contains the supporting data that helps organize the units on the page.
-- `_layouts`\schedule.html - this contains code, in the Liquid language, that generates the HTML for all the rows and columns.
-- FYI, the schedule.html could work for another type of page.  For instance, you could make a csa.md, _data/csa.yml, and tag files with `csa: {week: 0}` under courses.
