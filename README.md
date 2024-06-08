@@ -25,16 +25,105 @@ This is a general help for NightHawk pages. This is a project to assist students
   - September 2023 Tirth Thakker, Mirza Beg supporting Nighthawk pages break away from Fastpages: theme, search and tags. 
   - April 2024 Toby Ledder supported GitHub API work, GitHub action, and scripts to bring GitHub Projects into GitHub pages.
 
+
 ## GitHub Pages setup
+The absolutes in setup up...
+1. Activate GitHub Pages Actions.   The benefit, your project will be deployed via GitHub Pages Actions.
+2. Configure the _config.yml to match the name of the repository. The benefit, your project style will be activated and your project won't look awful when deployed.
+3. Set your repository name in your Makefile.  The benefit, your project will automatically update posts and notebooks to your localhost server during development.
+
+### GitHub Pages Actions
 To get started you need to activate and configure GitHub Actions with a Theme.
 
-- Go to settings and configure pages, and configure Build and Deployment for "GitHub Actions". IF YOU DO NOT DO THIS YOUR PAGE WILL NOT BUILD.
+- Go to Settings -> Pages ->  Build and Deployment and select "GitHub Actions". 
 
-- In case of issues with the user for your repository not being able to be resolved resulting in the page not building do the following: instead of the usual `repository: yourRepoName` in the repository section write `repository: usr/yourRepoName`
+### GitHub Pages config
+Edit the _config.yml file in this project.  All the lines in this file should be personalized.   
 
-- Game projects use the minima theme.   To understand files and organization read [Minima README.md](https://github.com/jekyll/minima#readme)
+These lines must be changed to match the GitHub repostitory.
 
-## File Names in "_posts", "_notebooks"
+```
+github_repo: "portfolio_2025" 
+baseurl: "/portfolio_2025"
+```
+
+### Makefile edit
+Edit the REPO_NAME to match your server at the top of the Makefile.
+
+```
+# Configuration, override port with usage: make PORT=4200
+PORT ?= 4100
+REPO_NAME ?= portfolio_2025
+LOG_FILE = /tmp/jekyll$(PORT).log
+```
+
+## GitHub Pages Tool requirements
+
+All `GitHub Pages` websites are managed on GitHub infrastructure. GitHub uses `Jekyll` to transform your content into static websites and blogs. Each time we change files in GitHub it initiates a GitHub Action that rebuilds and publishes the site with Jekyll.  
+
+- GitHub Pages is powered by: [Jekyll](https://jekyllrb.com/).
+
+### Preparing a Preview Site
+
+### WSL and/or Ubuntu installation requirements
+
+- Run scripts in the scripts directory:  activate_ubuntu.sh.
+
+### MacOs installation requirements
+
+Run scripts in the scripts directory: activate_macos.sh. 
+
+### Kasm requirements
+
+Run scripts in the scripts directory: activate.sh. 
+
+### Preview
+
+- Complete installation
+
+```bash
+bundle install
+```
+
+- Run Server.  This requires running terminal commands `make`, `make stop`, `make clean`, or `make convert` to manage the running server.  Logging of details will appear in the terminal.   A `Makefile` has been created in the project to support commands and start processes.
+
+  - Start the preview server in the terminal
+The terminal output shows the server address. "Cmd" or "Ctl" click the http location to open the preview server in a browser. Example Server address message...
+
+    ```text
+    Clicke on Server address to load: http://0.0.0.0:4100/portfolio_2025/
+    ```
+
+    - Save on ".ipynb" or ".md" file activiates "regeneration". Refresh the browser to see updates. Example terminal message...
+
+    ```
+    Regenerating: 1 file(s) changed at 2023-07-31 06:54:32
+        _notebooks/2024-01-04-cockpit-setup.ipynb
+    ```
+
+  - Terminal messages are generated from background processes.  Click return or enter to obtain a prompt and use the terminal as needed for other tasks.  Always return to the root of project `cd ~/vscode/portfolio_2025` for all "make" actions.
+
+  - Stop the preview server, but leave constructed files in the project for your review.
+
+    ```bash
+    make stop
+    ```
+
+  - Stop the server and "clean" constructed files, this is the best choice when renaming files to eliminate potential duplicates in constructed files.
+
+    ```bash
+    make clean
+    ```
+
+  - Test notebook conversions, this is the best choice to see if IPYNB conversion is acting up.
+
+    ```bash
+    make convert
+    ```
+
+## Development Support 
+
+### File Names in "_posts", "_notebooks"
 
 - To name a file, use the following structure (Note that dates should never be in the future and should always be in the format YYYY-MM-DD):
 
@@ -53,8 +142,6 @@ To get started you need to activate and configure GitHub Actions with a Theme.
       - BAD EXAMPLE: 2021-8-2-first-day.ipynb
       - BAD EXAMPLE: first-day.ipynb
       - BAD EXAMPLE: 2069-12-31-First-Day.ipynb
-
-## NIGHTHAWK-Pages CHANGES
 
 ### TAGS
 
@@ -84,10 +171,6 @@ To get started you need to activate and configure GitHub Actions with a Theme.
 
 - To create a custom page layout, make an HTML page inside the _layouts directory, and when you want to use that layout in a file, use the following front matter `layout: [your layout here]` Using another pre-existing layout use the same front matter syntax as defined above. This layout will have to be written in in logic customizing liquid to define the structure of the page.
 
-### CONFIG.YML
-
-- NIGHTHAWK-Pages allows for social links to be added at the bottom of every page, along with other things. To change the pre-set social links and names, go to the _config.yml file and change the desired category to the desired nomenclature. There are only a few supported social links that you can choose from.
-
 ## Blog site using GitHub Pages and Jekyll
 
 > This site is intended for Students.   This is to record plans, complete hacks, and do work for your learnings.
@@ -96,75 +179,6 @@ To get started you need to activate and configure GitHub Actions with a Theme.
 - All tangible artifact work is in a _posts|_notebooks.  
 - Front matter (aka metadata) in ".ipynb" and md files are used to organize information according to week and column in the running website.
 
-## GitHub Pages
-
-All `GitHub Pages` websites are managed on GitHub infrastructure. GitHub uses `Jekyll` to transform your content into static websites and blogs. Each time we change files in GitHub it initiates a GitHub Action that rebuilds and publishes the site with Jekyll.  
-
-- GitHub Pages is powered by: [Jekyll](https://jekyllrb.com/).
-- Published teacher website: [nighthawkcoders.github.io/teacher](https://nighthawkcoders.github.io/teacher/)
-
-## Preparing a Preview Site
-
-In all development, it is recommended to test your code before deployment.  The GitHub Pages development process is optimized by testing your development on your local machine, before committing files to GitHub.
-
-Development Cycle. For GitHub pages, the tooling described below will support a development cycle, such as `make-code-save-preview`.  In the development cycle, it is a requirement to preview work locally, before doing a VSCode `commit` to git.  Preview functionality requires Python and Python libraries.
-
-Deployment Cycle.  In the deployment cycle, `sync-github-action-review`, it is a requirement to complete the development cycle before doing a VSCode `sync`.  The sync triggers a GitHub repository update.  The action starts with the Jekyll build to publish the website.  Any step can have errors and will require you to do a review of GitHub Actions.
-
-### WSL and/or Ubuntu installation requirements
-
-- The result of these steps is Ubuntu tools to run the preview server.  These procedures were created using [jekyllrb.com](https://jekyllrb.com/docs/installation/ubuntu/)
-- Run scripts in the scripts directory of the student repo: activate_ubuntu.sh. The expected name of the repository to run these scripts is the name of the repo, ie 'student'.
-
-### MacOs installation requirements
-
-The result of these steps is MacOS tools to run the preview server.  These procedures were created using [jekyllrb.com](https://jekyllrb.com/docs/installation/macos/). Run scripts in the scripts directory of the student repo: activate_macos.sh. The expected name of the repository to run these scripts is 'student'.
-
-### Preview
-
-- The result of these steps is the server running on: <http://0.0.0.0:4100/teacher/>.  Regeneration messages will run in the terminal on any save.  Press the Enter or Return key in the terminal at any time to enter commands.
-
-- Complete installation
-
-```bash
-bundle install
-```
-
-- Run Server.  This requires running terminal commands `make`, `make stop`, `make clean`, or `make convert` to manage the running server.  Logging of details will appear in the terminal.   A `Makefile` has been created in the project to support commands and start processes.
-
-  - Start the preview server in the terminal
-The terminal output shows the server address. "Cmd" or "Ctl" click the http location to open the preview server in a browser. Example Server address message...
-
-    ```text
-    Server address: http://0.0.0.0:4100/teacher/
-    ```
-
-    - Save on ".ipynb" or ".md" file activiates "regeneration". Refresh the browser to see updates. Example terminal message...
-
-    ```
-    Regenerating: 1 file(s) changed at 2023-07-31 06:54:32
-        _notebooks/2024-01-04-cockpit-setup.ipynb
-    ```
-
-  - Terminal messages are generated from background processes.  Click return or enter to obtain a prompt and use the terminal as needed for other tasks.  Always return to the root of project `cd ~/vscode/teacher` for all "make" actions.
-
-  - Stop the preview server, but leave constructed files in the project for your review.
-
-    ```bash
-    make stop
-    ```
-
-  - Stop the server and "clean" constructed files, this is the best choice when renaming files to eliminate potential duplicates in constructed files.
-
-    ```bash
-    make clean
-    ```
-
-  - Test notebook conversions, this is the best choice to see if IPYNB conversion is acting up.
-
-    ```bash
-    make convert
-    ```
 
 Metadata, also known as "front matter", is a set of key-value pairs that can provide additional information to GitHub Pages about .md and .ipynb files. This can and probably will be used in other file types (ie doc, pdf) if we add them to the system.
 

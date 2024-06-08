@@ -8,7 +8,7 @@
 #     $ is not part of command
 
 # Start a terminal for commands
-$ git clone https://github.com/nighthawkcoders/student.git
+git clone https://github.com/nighthawkcoders/portfolio_2025.git
 $ ./student/activate.sh
 
 # Run the cat command, leave this terminal open ...

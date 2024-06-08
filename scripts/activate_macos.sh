@@ -10,20 +10,20 @@
 # Start a terminal for commands
 $ mdkir vscode
 cd vscode
-git clone https://github.com/nighthawkcoders/teacher_portfolio.git
-cd ~/vscode/teacher_portfolio/scripts
+git clone https://github.com/nighthawkcoders/portfolio_2025.git
+cd ~/vscode/portfolio_2025/scripts
 ./activate_ubuntu.sh
 
 # Run the head command, leave this terminal open ...
 #    the head command shows remaining instructions  ...
 #    find this spot and continue on
-head -34 ~/vscode/teacher_portfolio/scripts/activate_ubuntu.sh
+head -34 ~/vscode/portfolio_2025/scripts/activate_ubuntu.sh
 
 # Start a new terminal ...
 #    the "new" terminal is the command terminal ...
 #    the "original" terminal shows commands ...
 #    type commands in "new" terminal
-cd ~/vscode/teacher_portfolio
+cd ~/vscode/portfolio_2025
 pip install -r requirements.txt
 bundle install
 make
