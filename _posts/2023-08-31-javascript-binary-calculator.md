@@ -2,7 +2,7 @@
 title: Binary Calculator
 layout: default
 description: A Binary Math illustrative application using HTML, Liquid, and JavaScript.
-categories: [C4.4]
+categories: [Javascript]
 permalink: /frontend/binary-calculator
 ---
 

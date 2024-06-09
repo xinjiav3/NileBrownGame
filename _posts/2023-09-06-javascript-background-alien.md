@@ -2,8 +2,8 @@
 layout: default
 title: Alien World Background
 description: Use JavaScript without external libraries to move background across a screen, OOP style.
-categories: [C5.0, C7.0, C7.6]
 permalink: /frontend/background
+categories: [Javascript]
 image: /images/alien_planet2.jpg
 ---
 

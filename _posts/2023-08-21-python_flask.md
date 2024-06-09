@@ -6,7 +6,7 @@ title: Flask/Python Web Application
 description: Setting up a Flask/Python project.  Flask is a Web Application framework written in Python.
 type: collab
 courses: { csp: {week: 12} }
-categories: [C1.4]
+categories: [Python, Flask]
 ---
 
 ## Flask/Python Web Application

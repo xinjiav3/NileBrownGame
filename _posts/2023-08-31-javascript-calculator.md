@@ -5,7 +5,7 @@ hide: true
 layout: default
 description: A common way to become familiar with a language is to build a calculator.  This calculator shows off button with actions.
 permalink: /frontend/js-calculator
-categories: [C7.0]
+categories: [Javascript]
 ---
 
 <!-- 

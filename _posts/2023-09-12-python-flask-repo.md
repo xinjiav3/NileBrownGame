@@ -4,9 +4,8 @@ toc: true
 comments: false
 title: Flask/Python Repo and App
 description: Setting up a Flask/Python project.  Flask is a Web Application framework written in Python.
-courses: { csp: {week: 5, categories: [5.A]}  }
-categories: [C7.1]
-type: devops
+courses: { csp: {week: 5}  }
+categories: [Flask, DevOps]
 ---
 
 ## Flask/Python Web Application

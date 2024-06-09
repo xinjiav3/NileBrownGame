@@ -2,6 +2,7 @@
 title: Game of Life
 layout: base
 description: A remix of Conway's game of Life using a timer, onclick and algorithms.
+categories: [Javascript]
 permalink: /frontend/life
 ---
 

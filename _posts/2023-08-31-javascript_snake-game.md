@@ -4,6 +4,7 @@ comments: false
 layout: post
 title: Snake Game
 description: this is the snake game
+categories: [Javascript]
 permalink: /frontend/snake
 ---
 

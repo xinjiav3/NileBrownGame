@@ -3,8 +3,8 @@ comments: false
 layout: default
 title: JS Itunes API
 description: API's are a primary source for obtaining data from the internet.  There is information in API's for almost any interest.
-categories: [C7.0]
-courses: { csp: {week: 5, categories: [2.C]}, csa: {week: 2} }
+categories: [Javascript]
+courses: { csp: {week: 5 }, csa: {week: 2} }
 type: ccc
 ---
 
