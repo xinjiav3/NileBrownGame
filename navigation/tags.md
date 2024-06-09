@@ -14,15 +14,9 @@ search_exclude: true
   {% endfor %}
   {% assign categories = categories | sort_natural %}
 
-  <ul>
+  <ul> 
   {% for category in categories %}
-    <li><a href="#{{ category }}">{{ category }}</a></li>
-  {% endfor %}
-  </ul>
-
-  {% for category in categories %}
-      <h3 id ="{{ category }}"><i class="fas fa-tags category-tags-icon"></i></i> {{ category }}</h3>
-      <a name="{{ category | slugize }}"></a>
+      <li><a href="#{{ category }}">{{ category }}</a></li>
       {% for post in site.categories[category] %}
         {% if post.hide != true %}
         {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
@@ -32,5 +26,6 @@ search_exclude: true
         {% endif %}
       {% endfor %}
   {% endfor %}
+  </ul>
 
 {% endif %}
