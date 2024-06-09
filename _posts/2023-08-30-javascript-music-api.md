@@ -9,7 +9,7 @@ type: ccc
 ---
 
 
-{% include nav_home.html %}
+{% include nav/home.html %}
 
 <!-- Input box and button for filter -->
 <div>
