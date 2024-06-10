@@ -1,13 +1,16 @@
 ---
-toc: true
+toc: false
 comments: true
 layout: post
 title: Tools and Equipment Overview
 description: Tools and equipment have changed lives, look at the mobile phone.  Tools, equipment, with the addition of coding can make you immensely more successful in any field.
 courses: { csse: {week: 0}, csp: {week: 0}, csa: {week: 0} }
+permalink: /devops/tools/home
 categories: [DevOps]
 type: ccc
 ---
+
+{% include nav/devops_tools.html %}
 
 ## Make Development Easy
 Learning Development tools, working with Projects, is the key to a <mark>rapid entry into Code/Code/Coding</mark>.  A Computer, Git, and an Code Editor are the starting points for coding.  Add Jupyter Notebooks (computational documents) and you bridge a Computer with Data Science.  The beauty of Jupyter Notebooks is that it creates a computational narrative, a document that allows code and data with visual analysis, hypothesis, and conjecture.
