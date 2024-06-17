@@ -53,17 +53,12 @@ default: server
 
 
 # Start the local web server
-server: stop issues convert
+server: stop convert
 	@echo "Starting server..."
 	@@nohup bundle exec jekyll serve -H 127.0.0.1 -P $(PORT) > $(LOG_FILE) 2>&1 & \
 		PID=$$!; \
 		echo "Server PID: $$PID"
 	@@until [ -f $(LOG_FILE) ]; do sleep 1; done
-
-issues:
-	@echo "Pulling issues..."
-	@@rm -f _posts/*_GithubIssue_.md
-	@python -c 'import sys; from scripts.pull_issues import create_issues; create_issues()'
 
 # Convert .ipynb files to Markdown with front matter
 convert: $(MARKDOWN_FILES)
