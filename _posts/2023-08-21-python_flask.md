@@ -2,11 +2,11 @@
 toc: true
 comments: true
 layout: post
-title: Flask/Python Web Application
+title: Python/Flask Web Application
 description: Setting up a Flask/Python project.  Flask is a Web Application framework written in Python.
 type: collab
 courses: { csp: {week: 12} }
-categories: [Python, Flask]
+categories: [Python Flask]
 ---
 
 ## Flask/Python Web Application
