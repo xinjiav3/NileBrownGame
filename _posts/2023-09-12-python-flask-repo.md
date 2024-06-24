@@ -2,10 +2,10 @@
 layout: post
 toc: true
 comments: false
-title: Flask/Python Repo and App
+title: Python/Flask Repo and App
 description: Setting up a Flask/Python project.  Flask is a Web Application framework written in Python.
 courses: { csp: {week: 5}  }
-categories: [Flask, DevOps]
+categories: [Python Flask, DevOps]
 ---
 
 ## Flask/Python Web Application
@@ -21,8 +21,8 @@ categories: [Flask, DevOps]
 - Generate your own copy of repository GitHub: [https://github.com/nighthawkcoders/flask_portfolio/generate](https://github.com/nighthawkcoders/flask_portfolio/generate)
 - "Copy" https address of newly Generated repository, use screen that looks like this:
 ![clone-address]({{site.baseurl}}/images/flask-python-repo/clone_http_address.png)
-- Open terminal and goto your vscode directory: `cd ~/vscode`
-- Clone new GitHub project by run `git clone <paste/replace with https link>`
+- Open the terminal and go to your VSCode directory: `cd ~/vscode`
+- Clone a new GitHub project by running `git clone <paste/replace with https link>`
 - Run VSCode project `code <replace with name of project>`
 - In VSCode type Shift-Command-P or Shift-Control-P to select your Python Interpreter
 ![python interpreter]({{site.baseurl}}/images/flask-python-repo/python_interpreter.png)

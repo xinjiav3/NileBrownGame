@@ -76,7 +76,7 @@ web_dev_layers: &web_dev_layers |
 # CSP course meta data
 Sprint1:
   title: Tools and Software Development Processes
-  description: By the end of Weeks 0-3, students will have gained practical experience in blogging, coding with Jupyter Notebooks, and GitHub Pages; learning will begin with Linux, Python, Markdown, HTML, and JavaScript. Students will establish a foundation using essential tools and software development processes to support their coding journey.
+  description: By the end of Weeks 0-3, students will have gained practical experience in blogging, coding with Jupyter Notebooks, and GitHub Pages; learning will begin with Linux tool Setup, Markdown, HTML, and JavaScript. Students will establish a foundation using essential tools and software development processes to support their coding journey.  As we move to live review students will begin study of College Board Unit 3 and learn coding concepts with Python programming.
   illustration: *introduction_tools
   start: 0
   end: 3
