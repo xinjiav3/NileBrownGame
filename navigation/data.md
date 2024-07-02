@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Flask
+title: Create
 permalink: /create
 ---
 
