@@ -35,7 +35,7 @@ search_exclude: true
     width: 100%;
     padding: 10px;
     margin-top: 20px;
-    background-color: #007BFF;
+    background-color: #007BFxF;
     color: white;
     border: none;
     border-radius: 5px;
@@ -75,7 +75,7 @@ search_exclude: true
             <th>Name</th>
             <th>ID</th>
             <th>Age</th>
-            <th>Roles</th>
+            <th>Role</th>
         </tr>
         </thead>
         <tbody id="javaResult">
@@ -105,11 +105,14 @@ search_exclude: true
     <table id="pythonTable">
         <thead>
         <tr>
-            <th>Name</th>
-            <th>ID</th>
-            <th>Age</th>
-            <th>Role</th>
-        </tr>
+           <th>ID</th>
+                <th>Name</th>
+                <th>UID</th>
+                <th>Role</th>
+                <th>Profile Picture</th>
+                <th>KASM Server Needed</th>
+                <th>Classes</th>
+                 </tr>
         </thead>
         <tbody id="pythonResult">
             <!-- javascript generated data -->
@@ -123,42 +126,32 @@ search_exclude: true
 <script type="module">
     import { login, javaURI, pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-    // Method to login user
-    window.javaLogin = function() {
-        // Set login options
-        const options = {};
-        // Authentication endpoint
-        options.URL = javaURI + '/authenticate';
-        options.callback = javaDatabase;  // method to call on success
-        options.message = "java-message"; 
-        // Set fetch options
-        options.method = "POST";
-        options.cache = "no-cache";
-        options.body = {
-            email: document.getElementById("uid").value,
-            password: document.getElementById("password").value,
-        };
-        login(options);
-    }
+  window.javaLogin = function() {
+    const options = {};
+    options.URL = javaURI + '/authenticate';
+    options.callback = javaDatabase;
+    options.message = "java-message";
+    options.method = "POST";
+    options.cache = "no-cache";
+    options.body = {
+        email: document.getElementById("uid").value,
+        password: document.getElementById("password").value,
+    };
+    login(options);
+}
 
-    function javaDatabase() {
-       const URL = javaURI + '/api/person';
-       // Define the loginForm and dataTable variables
-       const loginForm = document.getElementById('javaForm');
-       const dataTable = document.getElementById('javaTable');
-       const dataButton = document.getElementById('javaButton');
+// Method to fetch and display data for Java
+function javaDatabase() {
+    const URL = javaURI + '/api/person';
+    const loginForm = document.getElementById('javaForm');
+    const dataTable = document.getElementById('javaTable');
+    const dataButton = document.getElementById('javaButton');
+    const resultContainer = document.getElementById("javaResult");
+    resultContainer.innerHTML = '';
 
-        // prepare HTML result container for new output
-        const resultContainer = document.getElementById("javaResult");
-        resultContainer.innerHTML = ''; // clear each access
-
-        // fetch the API
-        fetch(URL, fetchOptions)
-            // response is a RESTful "promise" on any successful fetch
-            .then(response => {
-            // check for response errors and display
+    fetch(URL, fetchOptions)
+        .then(response => {
             if (response.status !== 200) {
-                // fails, show login form and hide data
                 loginForm.style.display = 'block';
                 dataTable.style.display = 'none';
                 dataButton.style.display = 'none';
@@ -172,39 +165,32 @@ search_exclude: true
                 resultContainer.appendChild(tr);
                 return;
             }
-            // valid response will contain JSON data
+
             loginForm.style.display = 'none';
             dataTable.style.display = 'block';
             dataButton.style.display = 'block';
 
             response.json().then(data => {
-                console.log(data);
-                // tr and td build out for each row
                 const tr = document.createElement("tr");
                 const name = document.createElement("td");
                 const id = document.createElement("td");
                 const age = document.createElement("td");
                 const roles = document.createElement("td");
-                // data is specific to the API
-                name.innerHTML = data.name; 
-                id.innerHTML = data.email; 
-                age.innerHTML = data.age; 
-                roles.innerHTML = data.roles.map(role => role.name).join(', ');                 
-                // this builds td's into tr
+                name.innerHTML = data.name;
+                id.innerHTML = data.email;
+                age.innerHTML = data.age;
+                roles.innerHTML = data.roles.map(role => role.name).join(', ');
                 tr.appendChild(name);
                 tr.appendChild(id);
                 tr.appendChild(age);
                 tr.appendChild(roles);
-                // append the row to table
                 resultContainer.appendChild(tr);
             })
         })
-        // catch fetch errors (ie ACCESS to server blocked)
         .catch(err => {
-           // fails, show login form and hide data
             loginForm.style.display = 'block';
-            dataTable.style.display = 'none'; 
-            dataButton.style.display = 'none'; 
+            dataTable.style.display = 'none';
+            dataButton.style.display = 'none';
 
             console.error("Network error: " + err);
             const tr = document.createElement("tr");
@@ -213,44 +199,35 @@ search_exclude: true
             tr.appendChild(td);
             resultContainer.appendChild(tr);
         });
-    }
+}
 
-    // Method to login user
-    window.pythonLogin = function() {
-        // Set login options
-        const options = {};
-        // Authentication endpoint
-        options.URL = pythonURI + '/api/authenticate';
-        options.callback = pythonDatabase;  // method to call on success
-        options.message = "python-message"; 
-        // Set fetch options
-        options.method = "POST";
-        options.cache = "no-cache";
-        options.body = {
-            uid: document.getElementById("python-uid").value,
-            password: document.getElementById("python-password").value,
-        };
-        login(options);
-    }
+// Method to login user for Python
+window.pythonLogin = function() {
+    const options = {};
+    options.URL = pythonURI + '/api/authenticate';
+    options.callback = pythonDatabase;
+    options.message = "python-message";
+    options.method = "POST";
+    options.cache = "no-cache";
+    options.body = {
+        uid: document.getElementById("python-uid").value,
+        password: document.getElementById("python-password").value,
+    };
+    login(options);
+}
 
-    function pythonDatabase() {
-       const URL = pythonURI + '/api/id';
-       // Define the loginForm and dataTable variables
-       const loginForm = document.getElementById('pythonForm');
-       const dataTable = document.getElementById('pythonTable');
-       const dataButton = document.getElementById('pythonButton');
+// Method to fetch and display data for Python
+function pythonDatabase() {
+    const URL = pythonURI + '/api/id';
+    const loginForm = document.getElementById('pythonForm');
+    const dataTable = document.getElementById('pythonTable');
+    const dataButton = document.getElementById('pythonButton');
+    const resultContainer = document.getElementById("pythonResult");
+    resultContainer.innerHTML = '';
 
-        // prepare HTML result container for new output
-        const resultContainer = document.getElementById("pythonResult");
-        resultContainer.innerHTML = ''; // clear each access
-
-        // fetch the API
-        fetch(URL, fetchOptions)
-            // response is a RESTful "promise" on any successful fetch
-            .then(response => {
-            // check for response errors and display
+    fetch(URL, fetchOptions)
+        .then(response => {
             if (response.status !== 200) {
-                // fails, show login form and hide data
                 loginForm.style.display = 'block';
                 dataTable.style.display = 'none';
                 dataButton.style.display = 'none';
@@ -264,21 +241,18 @@ search_exclude: true
                 resultContainer.appendChild(tr);
                 return;
             }
-            // valid response will contain JSON data
+
             loginForm.style.display = 'none';
             dataTable.style.display = 'block';
             dataButton.style.display = 'block';
 
             response.json().then(data => {
-                console.log(data);
                 resultContainer.appendChild(displayRow(data));
             })
         })
-        // catch fetch errors (ie ACCESS to server blocked)
         .catch(err => {
-           // fails, show login form and hide data
             loginForm.style.display = 'block';
-            dataTable.style.display = 'none'; 
+            dataTable.style.display = 'none';
             dataButton.style.display = 'none';
 
             console.error("Network error: " + err);
@@ -288,27 +262,41 @@ search_exclude: true
             tr.appendChild(td);
             resultContainer.appendChild(tr);
         });
-    }
+}
 
-    function displayRow(row) {
-        const tr = document.createElement("tr");
-        const name = document.createElement("td");
-        const id = document.createElement("td");
-        const age = document.createElement("td");
-        const role = document.createElement("td");
-        name.innerHTML = row.name;
-        id.innerHTML = row.uid;
-        age.innerHTML = row.age;
-        role.innerHTML = row.role;
-        tr.appendChild(name);
-        tr.appendChild(id);
-        tr.appendChild(age);
-        tr.appendChild(role);
-        return tr;
-    }
+// Function to display data row
+function displayRow(row) {
+    const tr = document.createElement("tr");
+    const idCell = document.createElement("td");
+    const nameCell = document.createElement("td");
+    const uidCell = document.createElement("td");
+    const roleCell = document.createElement("td");
+    const profileCell = document.createElement("td");
+    const kasmCell = document.createElement("td");
+    const classesCell = document.createElement("td");
 
-    window.onload = function() {
-        javaDatabase();
-        pythonDatabase();
-    };
+    idCell.innerHTML = ""; // Add appropriate data for "D" column
+    nameCell.innerHTML = row.name;
+    uidCell.innerHTML = row.uid;
+    roleCell.innerHTML = row.role;
+    profileCell.innerHTML = row.pfp; // Add appropriate data for "Profile Picture" column
+    kasmCell.innerHTML = row.kasm_server_needed; // Add appropriate data for "KASM Server Needed" column
+    classesCell.innerHTML = ""; // Add appropriate data for "Classes" column
+
+    tr.appendChild(idCell);
+    tr.appendChild(nameCell);
+    tr.appendChild(uidCell);
+    tr.appendChild(roleCell);
+    tr.appendChild(profileCell);
+    tr.appendChild(kasmCell);
+    tr.appendChild(classesCell);
+
+    return tr;
+}
+
+// Call relevant database functions on page load
+window.onload = function() {
+    javaDatabase();
+    pythonDatabase();
+};
 </script>
