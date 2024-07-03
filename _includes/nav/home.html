@@ -1,127 +1,118 @@
 <style>
-    /* Dropdown Button */
-    .dropbtn {
-      background-color: #4CAF50;
-      color: white;
-      padding: 16px;
-      font-size: 16px;
-      border: none;
-      cursor: pointer;
-    }
-    
-    /* Dropdown button on hover & focus */
-    .dropbtn:hover, .dropbtn:focus {
-      background-color: #3e8e41;
-    }
-    
-    /* The container <div> - needed to position the dropdown content */
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-    
-    /* Dropdown Content (Hidden by Default) */
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #f9f9f9;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1;
-    }
-    
-    /* Links inside the dropdown */
-    .dropdown-content a {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
-    
-    /* Change color of dropdown links on hover */
-    .dropdown-content a:hover {background-color: #f1f1f1}
-    
-    /* Show the dropdown menu on hover */
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-  </style>
+  /* Dropdown Button */
+  .dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Dropdown button on hover & focus */
+  .dropbtn:hover, .dropbtn:focus {
+    background-color: #3e8e41;
+  }
+  
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {background-color: #f1f1f1}
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+</style>
 
-  <table>
+<table>
     <tr>
         <td><img src="{{site.baseurl}}/images/logo.png" height="60" title="Home" alt=""></td>
         <td><a href="{{site.baseurl}}/navigation/csse">CSSE</a></td>
         <td><a href="{{site.baseurl}}/navigation/csp">CSP</a></td>
         <td><a href="{{site.baseurl}}/navigation/csa">CSA</a></td>
-        <td><a href="{{site.baseurl}}/README-4-GHPages">README</a></td>>
-        <td id="loginArea"><a href="{{site.baseurl}}/navigation/backend">Guest User</a></td>
-      </tr>
-  </table>
-  
-  <script type="module">
+        <td><a href="{{site.baseurl}}/README-4-GHPages">README</a></td>
+        <td id="loginArea"><a href="{{site.baseurl}}/navigation/backend">Login</a></td>
+    </tr>
+</table>
+
+<script type="module">
     import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
-    
-    document.addEventListener('DOMContentLoaded', async function() {
-        const data = await getCredentials(); 
-        const loginArea = document.getElementById('loginArea');
-    
-        if (data) {
-            // User is authenticated, replace "Login" with dropdown menu
-            loginArea.innerHTML = `
-                <div class="dropdown">
-                    <button class="dropbtn">${data.name}</button>
-                    <div class="dropdown-content">
-                        <a href="#" id="logoutLink">Logout</a>
-                        <a href="{{site.baseurl}}/profile">Profile</a>
-                        <a href="{{site.baseurl}}/flaskhome">Flask Home</a>
+
+    document.addEventListener('DOMContentLoaded', function() {
+    getCredentials() // Call the function to get credentials
+        .then(data => {
+            const loginArea = document.getElementById('loginArea');
+            if (data) { // Update the login area based on the data
+                // User is authenticated, replace "Login" with User's name
+                loginArea.innerHTML = `
+                    <div class="dropdown">
+                        <button class="dropbtn">${data.name}</button>
+                        <div class="dropdown-content">
+                            <a href="#" onclick="logout()">Logout</a>
+                            <a href="{{site.baseurl}}/navigation/profile">Profile</a>
+                            <a href="{{site.baseurl}}/navigation/friends">Friends</a>
+                        </div>
                     </div>
-                </div>
-            `;
-            // Add event listener for logout link
-            document.getElementById('logoutLink').addEventListener('click', logout);
-        } else {
-            // User is not authenticated, show "Login" link
-            loginArea.innerHTML = '<a href="{{site.baseurl}}/navigation/backend">Login</a>';
-        }
-    });
-    
-    async function getCredentials() {
-        const URL = pythonURI + '/api/id';
-        try {
-            const response = await fetch(URL, fetchOptions);
-            if (response.status !== 200) {
-                console.error("HTTP status code: " + response.status);
-                return null;
+                `;
+            } else {
+                // User is not authenticated, then "Login" link is shown
+                loginArea.innerHTML = '<a href="{{site.baseurl}}/navigation/backend">Login</a>';
             }
-            const data = await response.json();
-            console.log(data); // Log data to verify it contains uid, name, etc.
-            return data;
-        } catch (err) {
-            console.error("Fetch error: ", err);
-            return null;
-        }
+        })
+        .catch(err => { // General error handler
+            console.error("Error fetching credentials: ", err);
+            // Handle any errors that occurred during getCredentials
+        });
+    });
+
+    function getCredentials() {
+        const URL = pythonURI + '/api/id';
+        return fetch(URL, fetchOptions)
+            .then(response => { // API response handler 
+                if (response.status !== 200) {
+                    console.error("HTTP status code: " + response.status);
+                    return null; // prepares to stop the chain by returning null.
+                }
+                return response.json(); // plans to continue the chain with the data.
+            })
+            .then(data => { // Data handler from the previous promise  
+                if (data === null) return null; // stops the chain, returns null.
+                console.log(data); // logs data with should contain uid, name, etc.
+                return data; // returns data to caller 
+            })
+            .catch(err => { // General error handler
+                console.error("Fetch error: ", err);
+                return null;
+            });
     }
 
-    function logout(event) {
-        event.preventDefault(); // Prevent default anchor behavior
-        event.preventDefault(); // Prevent default anchor behavior
-        console.log('Logging out...');
-        sessionStorage.clear();
-        console.log('Storage cleared.');
-        document.cookie = "jwt-python=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        // Redirect or refresh the page
-        window.location.href = '{{site.baseurl}}/login'; // Redirect to login page after logout
-        // window.location.reload(); // Alternatively, refresh the current page
-        console.log('Logout successful');
+    function logout() {
+        // Implement logout functionality here
+        console.log('Logout clicked');
+        // Then redirect or refresh the page
     }
+
 </script>
-
-    
-  
-  </script>
-
-
-
-
-
-
