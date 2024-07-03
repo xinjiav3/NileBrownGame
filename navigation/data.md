@@ -1,11 +1,11 @@
 ---
-layout: base
-permalink: /devops/cloud_database
+layout: post
+title: Create
+permalink: /create
 ---
 
-# Database CRUD Operations
 
-{% include nav/home.html %}
+{% include nav/flask.html %}
 
 
 {% include create_user.html %}
