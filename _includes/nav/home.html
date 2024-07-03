@@ -54,7 +54,7 @@
         <td><a href="{{site.baseurl}}/navigation/csp">CSP</a></td>
         <td><a href="{{site.baseurl}}/navigation/csa">CSA</a></td>
         <td><a href="{{site.baseurl}}/README-4-GHPages">README</a></td>
-        <td id="loginArea"><a href="{{site.baseurl}}/navigation/backend">Login</a></td>
+        <td id="loginArea"><a href="{{site.baseurl}}/login>Login</a></td>
     </tr>
 </table>
 
@@ -72,14 +72,15 @@
                         <button class="dropbtn">${data.name}</button>
                         <div class="dropdown-content">
                             <a href="#" onclick="logout()">Logout</a>
-                            <a href="{{site.baseurl}}/navigation/profile">Profile</a>
-                            <a href="{{site.baseurl}}/navigation/friends">Friends</a>
+                            <a href="{{site.baseurl}}/create">Create User</a>
+                            <a href="{{site.baseurl}}/profile">Profile</a>
+                            <a href="{{site.baseurl}}/flaskhome">Flask Information</a>
                         </div>
                     </div>
                 `;
             } else {
                 // User is not authenticated, then "Login" link is shown
-                loginArea.innerHTML = '<a href="{{site.baseurl}}/navigation/backend">Login</a>';
+                loginArea.innerHTML = '<a href="{{site.baseurl}}/login">Login</a>';
             }
         })
         .catch(err => { // General error handler
