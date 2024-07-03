@@ -309,13 +309,13 @@ function displayRow(row) {
    const classesCell = document.createElement("td");
 
 
-   idCell.innerHTML = ""; // Add appropriate data for "D" column
+   idCell.innerHTML = row.id; // Add appropriate data for "D" column
    nameCell.innerHTML = row.name;
    uidCell.innerHTML = row.uid;
    roleCell.innerHTML = row.role;
    profileCell.innerHTML = row.pfp; // Add appropriate data for "Profile Picture" column
    kasmCell.innerHTML = row.kasm_server_needed; // Add appropriate data for "KASM Server Needed" column
-   classesCell.innerHTML = ""; // Add appropriate data for "Classes" column
+   classesCell.innerHTML = row.sections; // Add appropriate data for "Classes" column
 
 
    tr.appendChild(idCell);

@@ -105,14 +105,14 @@ Full-stack development involves working on both the front-end (client-side) and 
 
 ## Getting Started with Your Project
 
-1. **Setup Flask Environment:** Download VS Code and install dependencies, including flask. This should be in
+1. **Setup Flask Environment:** Download VS Code and install dependencies, including flask. 
 
-2. **Explore CRUD Operations:** Create a simple database-driven application by forking/using the teacher's backend. Use  Flask to perform CRUD operations.
+2. **Explore CRUD Operations:** Create a simple database-driven application by forking/generating a template using the teacher's backend. Use  Flask  Restful API to add CRUD operations. Test with Postman.
 
 3. **Implement JWT Authentication:** Secure your Flask application using JWT tokens for user authentication and authorization.
 
-4. **Adopt Agile Practices:** Begin your project with an Agile mindset, breaking down tasks into manageable iterations, establish roles for teammates, being flexible and understanding, etc. 
+4. **Adopt Agile Practices:** Begin your project with an Agile mindset, breaking down tasks into manageable iterations, establishing roles for teammates, being flexible and understanding, etc. 
 
-Explore the navbar and experiment with creating users,  logging in, profile creation, admin privileges, etc. Here are some sample questions to guide you: Can you create the same user twice? Do you get an error, and if so, what  type error do you get? Can you see all the users if you are logged in as a regular user, or do you need to be an admin? By experimenting and taking a look at the code, you can be prepared to start your trimester project, and use this knowledge in your Collegeboard Create Performance Task 
+Explore the navbar and experiment with creating users,  logging in, profile creating,  etc. Here are some sample questions to guide you: Can you create the same user twice? Do you get an error, and if so, what  type  of error do you get? Can you see all the users if you are logged in as a regular user, or do you need to be an admin? By experimenting and taking a look at the code, you can be prepared to start your trimester project, and use this knowledge in your Collegeboard Create Performance Task. 
 
 Happy coding!
