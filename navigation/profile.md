@@ -12,7 +12,8 @@ permalink: /profile
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Setup</title>
     <script type="module" src="{{site.baseurl}}/assets/js/api/config.js"></script>
-    
+
+
     <style>
     /* Global styles */
     body {
@@ -107,7 +108,6 @@ permalink: /profile
     }
 </style>
 
-    </style>
 </head>
 <body>
 
