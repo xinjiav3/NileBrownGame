@@ -5,7 +5,7 @@ permalink: /login
 search_exclude: true
 ---
 
-{% include nav/flask.html %}
+{% include nav/home.html %}
 
 <style>
 .login-container {

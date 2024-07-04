@@ -4,7 +4,7 @@ title: Profile Setup
 permalink: /profile
 ---
 
-{% include nav/flask.html %}
+{% include nav/home.html %}
 
 <html lang="en">
 <head>
