@@ -28,28 +28,6 @@ search_exclude: true
 .login-card h1 {
     margin-bottom: 20px;
 }
-
-.login-card table {
-    width: 100%;
-    margin-top: 20px;
-}
-
-.details-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-top: 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center; /* center the text */
-}
-
-.details-button:hover {
-    background-color: #0056b3;
-}
 </style>
 
 <div class="login-container">
