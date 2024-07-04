@@ -44,10 +44,10 @@ export function login(options) {
         .then(response => {
                 // Trap error response from Web API
                 if (!response.ok) {
-                const errorMsg = 'Login error: ' + response.status;
-                console.log(errorMsg);
-                document.getElementById(options.message).textContent = errorMsg;
-                return;
+                        const errorMsg = 'Login error: ' + response.status;
+                        console.log(errorMsg);
+                        document.getElementById(options.message).textContent = errorMsg;
+                        return;
                 }
                 // Success!!!
                 // Redirect to the Database location

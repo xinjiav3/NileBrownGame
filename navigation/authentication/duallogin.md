@@ -1,7 +1,7 @@
 ---
 layout: base
 title: Login
-permalink: /login
+permalink: /duallogin
 search_exclude: true
 ---
 
@@ -53,13 +53,13 @@ search_exclude: true
 </style>
 
 <div class="login-container">
-    <!-- Python Login Form -->
+    <!-- Java Login Form -->
     <div class="login-card">
-        <h1 id="pythonTitle">User Login (Python/Flask)</h1>
-        <form id="pythonForm" onsubmit="pythonLogin(); return false;">
+        <h1 id="javaTitle"> User Login (Java)</h1>
+        <form id="javaForm" onsubmit="javaLogin(); return false;">
             <p>
                 <label>
-                    GitHub ID:
+                    User ID:
                     <input type="text" name="uid" id="uid" required>
                 </label>
             </p>
@@ -72,14 +72,51 @@ search_exclude: true
             <p>
                 <button type="submit">Login</button>
             </p>
-            <p id="message" style="color: red;"></p>
+            <p id="java-message" style="color: red;"></p>
+        </form>
+        <!-- Data Table Layout -->
+        <table id="javaTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>ID</th>
+                    <th>Age</th>
+                    <th>Roles</th>
+                </tr>
+            </thead>
+            <tbody id="javaResult">
+                <!-- javascript generated data -->
+            </tbody>
+        </table>
+        <a href="{{ site.baseurl }}/javaUI" id="javaButton" class="details-button">Java Details</a>
+    </div>
+    <!-- Python Login Form -->
+    <div class="login-card">
+        <h1 id="pythonTitle">User Login (Python)</h1>
+        <form id="pythonForm" onsubmit="pythonLogin(); return false;">
+            <p>
+                <label>
+                    User ID:
+                    <input type="text" name="python-uid" id="python-uid" required>
+                </label>
+            </p>
+            <p>
+                <label>
+                    Password:
+                    <input type="password" name="python-password" id="python-password" required>
+                </label>
+            </p>
+            <p>
+                <button type="submit">Login</button>
+            </p>
+            <p id="python-message" style="color: red;"></p>
         </form>
         <table id="pythonTable">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>GH ID</th>
+                    <th>UID</th>
                     <th>Role</th>
                     <th>Profile Picture</th>
                     <th>KASM Server Needed</th>
@@ -90,24 +127,87 @@ search_exclude: true
                 <!-- javascript generated data -->
             </tbody>
         </table>
-        <a href="{{site.baseurl}}/profile" id="pythonButton" class="details-button">Profile Details</a>
+        <a href="#" id="pythonButton" class="details-button">Python Details</a>
     </div>
 </div>
 
 <script type="module">
-    import { login, pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+    import { login, javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+
+    // Function to handle Java login
+    window.javaLogin = function() {
+        const options = {
+            URL: `${javaURI}/authenticate`,
+            callback: javaDatabase,
+            message: "java-message",
+            method: "POST",
+            cache: "no-cache",
+            body: {
+                email: document.getElementById("uid").value,
+                password: document.getElementById("password").value,
+            }
+        };
+        login(options);
+    }
+
+    // Function to fetch and display Java data
+    function javaDatabase() {
+        const URL = `${javaURI}/api/person`;
+        const loginForm = document.getElementById('javaForm');
+        const dataTable = document.getElementById('javaTable');
+        const dataButton = document.getElementById('javaButton');
+        const resultContainer = document.getElementById("javaResult");
+        resultContainer.innerHTML = '';
+
+        fetch(URL, fetchOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Spring server response: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                loginForm.style.display = 'none';
+                dataTable.style.display = 'block';
+                dataButton.style.display = 'block';
+
+                const tr = document.createElement("tr");
+                const name = document.createElement("td");
+                const id = document.createElement("td");
+                const age = document.createElement("td");
+                const roles = document.createElement("td");
+                name.textContent = data.name;
+                id.textContent = data.email;
+                age.textContent = data.age;
+                roles.textContent = data.roles.map(role => role.name).join(', ');
+                tr.appendChild(name);
+                tr.appendChild(id);
+                tr.appendChild(age);
+                tr.appendChild(roles);
+                resultContainer.appendChild(tr);
+            })
+            .catch(error => {
+                console.error("Java Database Error:", error);
+                const errorMsg = `Java Database Error: ${error.message}`;
+                const tr = document.createElement("tr");
+                const td = document.createElement("td");
+                td.textContent = errorMsg;
+                tr.appendChild(td);
+                resultContainer.appendChild(tr);
+            });
+    }
 
     // Function to handle Python login
     window.pythonLogin = function() {
         const options = {
             URL: `${pythonURI}/api/authenticate`,
             callback: pythonDatabase,
-            message: "message",
+            message: "python-message",
             method: "POST",
             cache: "no-cache",
             body: {
-                uid: document.getElementById("uid").value,
-                password: document.getElementById("password").value,
+                uid: document.getElementById("python-uid").value,
+                password: document.getElementById("python-password").value,
             }
         };
         login(options);
@@ -179,8 +279,9 @@ search_exclude: true
             });
     }
 
-    // Call relevant database functions on the page load
+    // Call relevant database functions on page load
     window.onload = function() {
-         pythonDatabase();
+        javaDatabase();
+        pythonDatabase();
     };
 </script>
