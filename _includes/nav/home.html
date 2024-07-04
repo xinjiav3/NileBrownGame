@@ -71,7 +71,7 @@
                     <div class="dropdown">
                         <button class="dropbtn">${data.name}</button>
                         <div class="dropdown-content">
-                            <a href="#" onclick="logout()">Logout</a>
+                            <a href="{{site.baseurl}}/logout">Logout</a>
                             <a href="{{site.baseurl}}/create">Create User</a>
                             <a href="{{site.baseurl}}/profile">Profile</a>
                             <a href="{{site.baseurl}}/flaskhome">Flask Information</a>
@@ -108,12 +108,6 @@
                 console.error("Fetch error: ", err);
                 return null;
             });
-    }
-
-    function logout() {
-        // Implement logout functionality here
-        console.log('Logout clicked');
-        // Then redirect or refresh the page
     }
 
 </script>
