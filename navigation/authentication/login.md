@@ -74,23 +74,6 @@ search_exclude: true
             </p>
             <p id="message" style="color: red;"></p>
         </form>
-        <table id="pythonTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>GH ID</th>
-                    <th>Role</th>
-                    <th>Profile Picture</th>
-                    <th>KASM Server Needed</th>
-                    <th>Classes</th>
-                </tr>
-            </thead>
-            <tbody id="pythonResult">
-                <!-- javascript generated data -->
-            </tbody>
-        </table>
-        <a href="{{site.baseurl}}/profile" id="pythonButton" class="details-button">Profile Details</a>
     </div>
 </div>
 
@@ -116,11 +99,6 @@ search_exclude: true
     // Function to fetch and display Python data
     function pythonDatabase() {
         const URL = `${pythonURI}/api/id`;
-        const loginForm = document.getElementById('pythonForm');
-        const dataTable = document.getElementById('pythonTable');
-        const dataButton = document.getElementById('pythonButton');
-        const resultContainer = document.getElementById("pythonResult");
-        resultContainer.innerHTML = '';
 
         fetch(URL, fetchOptions)
             .then(response => {
@@ -130,52 +108,11 @@ search_exclude: true
                 return response.json();
             })
             .then(data => {
-                loginForm.style.display = 'none';
-                dataTable.style.display = 'block';
-                dataButton.style.display = 'block';
-
-                const tr = document.createElement("tr");
-                const id = document.createElement("td");
-                const name = document.createElement("td");
-                const uid = document.createElement("td");
-                const role = document.createElement("td");
-                const profile = document.createElement("td");
-                const kasm = document.createElement("td");
-                const classes = document.createElement("td");
-
-                id.textContent = data.id;
-                name.textContent = data.name;
-                uid.textContent = data.uid;
-                role.textContent = data.role;
-                profile.textContent = data.pfp;
-                kasm.textContent = data.kasm_server_needed;
-
-                if (Array.isArray(data.sections)) {
-                    classes.innerHTML = data.sections.map(section => `${section.abbreviation} - ${section.name}`).join('<br>');
-                } else {
-                    classes.textContent = '';
-                }
-
-                tr.appendChild(id);
-                tr.appendChild(name);
-                tr.appendChild(uid);
-                tr.appendChild(role);
-                tr.appendChild(profile);
-                tr.appendChild(kasm);
-                tr.appendChild(classes);
-                resultContainer.appendChild(tr);
+                window.location.href = '{{site.baseurl}}/profile';
             })
             .catch(error => {
-                loginForm.style.display = 'block';
-                dataTable.style.display = 'none';
-                dataButton.style.display = 'none';
                 console.error("Python Database Error:", error);
                 const errorMsg = `Python Database Error: ${error.message}`;
-                const tr = document.createElement("tr");
-                const td = document.createElement("td");
-                td.textContent = errorMsg;
-                tr.appendChild(td);
-                resultContainer.appendChild(tr);
             });
     }
 

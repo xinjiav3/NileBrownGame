@@ -51,7 +51,6 @@ export function login(options) {
                 }
                 // Success!!!
                 // Redirect to the Database location
-                document.getElementById(options.message).textContent = "Success: " + document.getElementById("uid").value 
                 options.callback();
         })
         .catch(error => {
