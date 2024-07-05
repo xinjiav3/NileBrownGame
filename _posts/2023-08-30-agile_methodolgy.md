@@ -3,7 +3,7 @@ toc: true
 layout: post
 title: Agile Methodology
 description: The Agile methodology helps bring out all the good characteristics in group development.  The sociology of how an individual and group of individuals work in a Scrum Team using Agile methodology is a key development skill.  Often interview questions focus on the processes of how you work on code.
-courses: { csse: {week: 4}, csp: {week: 6}, csa: {week: 4}}
+courses: { csse: {week: 4}, csp: {week: 6}, csa: {week: 3}}
 categories: [Collaboration]
 type: collab
 ---

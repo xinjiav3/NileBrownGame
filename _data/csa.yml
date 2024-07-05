@@ -188,12 +188,12 @@ Sprint1:
   description: Students should have experience in blogging, coding with Jupyter Notebooks, and GitHub Pages. Understanding of Linux, Python, Markdown, HTML, and JavaScript is expected. Students have previously established a foundation using essential tools and software development processes. Weeks 0-3 will provide a quick review, and students will start their Java coding journey.
   illustration: *introduction_tools
   start: 0
-  end: 3
+  end: 2
 Sprint2:
   title: Java Mini-labs
   description: Students should have an understanding of Fundamentals of Programming from Python, JavaScript, or other backgrounds. In this Sprint, students will become familiar with Java types, booleans, iteration, recursion, using and writing objects through Mini-labs. These labs will introduce AP required aspects of Java, FRQ requirements, and review College Board's 10 Sprints online.
   illustration: *college_board_fundamentals
-  start: 4
+  start: 3
   end: 7
 Sprint3:
   title: Individual/Team Projects, N@tM
