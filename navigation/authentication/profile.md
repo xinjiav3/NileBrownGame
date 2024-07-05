@@ -1,20 +1,13 @@
 ---
-layout: post
-title: Profile Setup
+layout: base
+title: Profile S
 permalink: /profile
+search_exclude: true
 ---
 
 {% include nav/home.html %}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Setup</title>
-    <script type="module" src="{{site.baseurl}}/assets/js/api/config.js"></script>
-
-
-    <style>
+<style>
     /* Global styles */
     body {
         font-family: Arial, sans-serif;
@@ -31,14 +24,13 @@ permalink: /profile
         border: 1px solid #34495e; /* Darker border */
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-top: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
         color: #ffffff; /* White text */
     }
 
     .login-card h1 {
         font-size: 24px;
-        margin-bottom: 20px;
         text-align: center;
     }
 
@@ -108,30 +100,26 @@ permalink: /profile
     }
 </style>
 
-</head>
-<body>
-
 <div class="login-container">
-
     <!-- Profile Setup -->
     <div class="login-card">
         <h1>Profile Setup</h1>
         <form id="profileForm">
-            <div class="form-group">
-                <label for="sectionDropdown">Choose Section:</label>
-                <select id="sectionDropdown">
-                    <!-- Options will be dynamically populated -->
-                </select>
-            </div>
-            <div class="form-group">
-                <button type="button" onclick="addSection()">Add Section</button>
-            </div>
             <div class="form-group">
                 <label for="profilePicture">Upload Profile Picture:</label>
                 <input type="file" id="profilePicture" accept="image/*" onchange="uploadProfilePicture(this)">
             </div>
             <p id="profile-message" style="color: red;"></p>
         </form>
+        <div class="form-group">
+            <label for="sectionDropdown">Choose Section:</label>
+            <select id="sectionDropdown">
+                <!-- Options will be dynamically populated -->
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="button" onclick="addSection()">Add Section</button>
+        </div>
         <table class="profile-table" id="profileTable">
             <thead>
                 <tr>
@@ -319,5 +307,3 @@ permalink: /profile
     }
 </script>
 
-</body>
-</html>
