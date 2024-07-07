@@ -3,8 +3,8 @@
 
 
 // Options for a themes
-@import "minima/dracula/_dracula";
-//@import "minima/leaf/_leaf";  //Leaf theme
+//@import "minima/dracula/_dracula";
+@import "minima/leaf/_leaf";  //Leaf theme
 //@import "minima/hamilton/main"; //Hamilton theme
 //@import "minima/monophase/main"; //Monophase theme 
 //@import "minima/hacker/jekyll-theme-hacker"; //Hacker theme 
@@ -13,5 +13,5 @@
 
 // Styles for nighthawk theme
 @import "minima/nighthawk/calculator-button";
-@import "minima/nighthawk/dropdown-menu.scss";
+//@import "minima/nighthawk/dropdown-menu.scss";
 @import "minima/nighthawk/platformer-game.scss";

@@ -7,6 +7,7 @@ baseurl: "/portfolio_2025"
 future: true
 remote_theme: jekyll/minima
 minima:
+  skin: dark
   social_links:
     - { platform: github, user_url: "https://github.com/nighthawkcoders"}
     - { platform: x, user_url: "https://x.com/NighthawkCoding/" }
