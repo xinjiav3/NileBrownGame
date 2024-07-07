@@ -4,7 +4,7 @@
     width: auto;
     height: auto;
     border-radius: 10px;
-    background-color: #21807c;
+    background-color: lightseagreen;
     border: 3px solid black;
     font-size: 1.5em;
 
@@ -26,7 +26,7 @@
 
    /* darkens the background color on hover to create a selecting effect */
   .button:hover {
-    background-color: #373737;
+    background-color: darkslateblue;
   }
 
   /* "row style" is flexible size and aligns pictures in center */
@@ -74,12 +74,12 @@
   /* styling for the calculator clear button */
   .calculator-clear {
     @extend .button;
-    background-color: #e68b1c;
+    background-color: orange;
   }
   
   /* styling for the calculator equals button */
   .calculator-equals {
     @extend .button;
-    background-color: #e70f0f;
+    background-color: red;
   }
 
