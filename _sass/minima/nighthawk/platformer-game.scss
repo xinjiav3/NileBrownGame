@@ -30,6 +30,7 @@
 }
 /// Color mixin
 /// @description This mixin is defined to share colors with classes in this stylesheet.
+$high-emph: rgba(white, 0.87);
 @mixin dark-mode-color {
   color: $high-emph !important; // use the high-emphasis color for the text
   background-color: darkgray !important; // use the dark grey color for the background
