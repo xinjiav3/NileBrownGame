@@ -20,7 +20,7 @@
   position: relative;
   z-index: 2; // z-index position ensures these buttons are on top.
   padding: 5px;
-  color: $dt-red !important; // use the high-emphasis color for the text
+  color: darkred !important; // use the high-emphasis color for the text
 }
 #addRow, #backToGame {
   position: relative;
@@ -32,8 +32,8 @@
 /// @description This mixin is defined to share colors with classes in this stylesheet.
 @mixin dark-mode-color {
   color: $high-emph !important; // use the high-emphasis color for the text
-  background-color: $dark-grey !important; // use the dark grey color for the background
-  border: 1px solid $dt-blue; // from dracula-highlight.scss
+  background-color: darkgray !important; // use the dark grey color for the background
+  border: 1px solid blue; // from dracula-highlight.scss
 }
 /// Horizontal Submenu
 /// @description This class styles the horizontal submenu for score and buttons in the game. It has many style elements (e.g. placing submenu below header).
@@ -101,23 +101,23 @@
   background-color: rgb(163, 55, 163);
 }
 
-$dt-leaderboard: #B385EB;
+$leaderboard-color: lightseagreen;
 .table.scores, th, tr, td {
   text-align: center;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 .table.scores {
   th {
-    background-color: #5F3692;
+    background-color: darkmagenta;
   }
   tr {
     td {
-      border: 1px solid mix($dt-leaderboard, black, 50%);
+      border: 1px solid mix($leaderboard-color, black, 50%);
       &:nth-child(odd) {
-        background-color: $dt-leaderboard; // Background color for odd rows
+        background-color: $leaderboard-color; // Background color for odd rows
       }
       &:nth-child(even) {
-        background-color: mix($dt-leaderboard, gray, 60%); // Background color for even rows
+        background-color: mix($leaderboard-color, gray, 60%); // Background color for even rows
       }
     }
   }
@@ -128,10 +128,10 @@ $dt-leaderboard: #B385EB;
   tr {
     cursor: pointer; // Change the cursor to a pointer when it hovers over a row
     td {
-      border: 1px solid $dt-blue; // from dracula-highlight.scss
+      border: 1px solid blue; // from dracula-highlight.scss
     }
     &:hover { // Change the background when a row is hovered over
-      background-color: $dt-blue; // from dracula-highlight.scss
+      background-color: blue; // from dracula-highlight.scss
       td {
         background-color: inherit; // Make the background color of the td elements the same as the tr element
       }
@@ -217,7 +217,7 @@ $dt-leaderboard: #B385EB;
   animation: fadeout 0.5s 3s;
 }
 body{
-  background: #FFB6C1;
+  background: salmon;
 }
 #container{
   width: 95%;
