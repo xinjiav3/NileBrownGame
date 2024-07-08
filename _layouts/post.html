@@ -4,6 +4,9 @@ layout: base
 <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
+    {%- if page.menu -%}
+      {% include {{page.menu}} html=content %}
+    {%- endif -%}
     <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
     {%- if page.description -%}
       {%- if site.html_escape.description -%}
@@ -61,9 +64,6 @@ layout: base
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    {%- if page.menu -%}
-      {% include {{page.menu}} html=content %}
-    {%- endif -%}
     {%- if page.toc -%}
       {% include toc.html html=content %}
     {%- endif -%}
