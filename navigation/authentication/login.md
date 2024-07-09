@@ -1,11 +1,11 @@
 ---
-layout: base
+layout: post 
 title: Login
 permalink: /login
 search_exclude: true
+menu: nav/home.html
+show_reading_time: false 
 ---
-
-{% include nav/home.html %}
 
 <style>
 .login-container {
