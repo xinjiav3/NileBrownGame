@@ -1,39 +1,22 @@
 ---
-layout: base
-title: Profile Setup
+layout: post 
 permalink: /profile
+menu: nav/home.html
 search_exclude: true
+show_reading_time: false
 ---
 
 
-{% include nav/home.html %}
-
-
 <style>
-   /* Global styles */
-   * {
-       margin: 0;
-       padding: 0;
-       box-sizing: border-box;
-   }
 
-
-   html, body {
-       font-family: Arial, sans-serif;
-       line-height: 1.6;
-       background-color: #f0f0f0;
-   }
-
-
-   .login-container {
+   .profile-container {
        display: flex;
        justify-content: center;
        align-items: center;
-       height: 100vh;
    }
 
 
-   .login-card {
+   .profile-card {
        width: 100%;
        max-width: 600px;
        background-color: #2c3e50; /* Dark blue background */
@@ -45,28 +28,16 @@ search_exclude: true
    }
 
 
-   .login-card h1 {
-       font-size: 24px;
-       text-align: center;
-       margin-bottom: 20px;
-   }
-
-
-   .form-group {
-       margin-bottom: 20px;
-   }
-
-
-   .form-group label {
+   .profile-card label {
        display: block;
        font-weight: bold;
        margin-bottom: 5px;
    }
 
 
-   .form-group input[type="text"],
-   .form-group input[type="file"],
-   .form-group select {
+   .profile-card input[type="text"],
+   .profile-card input[type="file"],
+   .profile-card select {
        width: calc(100% - 12px);
        padding: 8px;
        border: 1px solid #ddd;
@@ -75,7 +46,7 @@ search_exclude: true
    }
 
 
-   .form-group button {
+   .profile-card button {
        background-color: #3498db; /* Blue button */
        color: #ffffff;
        border: none;
@@ -86,7 +57,7 @@ search_exclude: true
    }
 
 
-   .form-group button:hover {
+   .profile-card button:hover {
        background-color: #2980b9; /* Darker blue on hover */
    }
 
@@ -141,29 +112,25 @@ search_exclude: true
 </style>
 
 
-<div class="login-container">
+<div class="profile-container">
    <!-- Profile Setup -->
-   <div class="login-card">
+   <div class="profile-card">
        <h1>Profile Setup</h1>
-       <form id="profileForm">
-           <div class="form-group">
-               <label for="profilePicture">Upload Profile Picture:</label>
-               <input type="file" id="profilePicture" accept="image/*" onchange="previewProfilePicture(this)">
-           </div>
-           <div class="profile-image-box" id="profileImageBox">
-               <!-- Profile picture will be displayed here -->
-           </div>
-           <div class="form-group">
-               <button type="button" onclick="saveProfilePicture()">Save Profile Image</button>
-           </div>
-           <p id="profile-message" style="color: red;"></p>
-           <div class="form-group">
+       <form>
+            <label for="profilePicture">Upload Profile Picture:</label>
+            <input type="file" id="profilePicture" accept="image/*" onchange="previewProfilePicture(this)">
+            <div class="profile-image-box" id="profileImageBox">
+                <!-- Profile picture will be displayed here -->
+            </div>
+            <button type="button" onclick="saveProfilePicture()">Save Profile Image</button>
+            <p id="profile-message" style="color: red;"></p>
+           <div>
                <label for="sectionDropdown">Choose Section:</label>
                <select id="sectionDropdown">
                    <!-- Options will be dynamically populated -->
                </select>
            </div>
-           <div class="form-group">
+           <div>
                <button type="button" onclick="addSection()">Add Section</button>
            </div>
            <table class="profile-table" id="profileTable">
