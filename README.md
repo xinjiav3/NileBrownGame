@@ -16,7 +16,9 @@ Exchange of information could be:
 
 
 ### History and License
-This project was initially based on Fastpages. But this project has diverged from those roots into an independent entity.  The decision to separate from Fastpages was influenced by the deprecation of Fastpages by authors.  It is believed the authors turned to Quatro, that change did not align with the Teacher's goals to have more of a raw development blogging site.
+This project is in its 3rd revision (aka 3.0).
+
+The project was initially based on Fastpages. But this project has diverged from those roots into an independent entity.  The decision to separate from Fastpages was influenced by the deprecation of Fastpages by authors.  It is believed the authors turned to Quatro, that change did not align with the Teacher's goals to have more of a raw development blogging site.
 
 The Apache license has its roots in Fastpages.
 
