@@ -1,6 +1,6 @@
 ---
 title: Binary Calculator
-layout: default
+layout: post
 description: A Binary Math illustrative application using HTML, Liquid, and JavaScript.
 categories: [Javascript]
 permalink: /frontend/binary-calculator
