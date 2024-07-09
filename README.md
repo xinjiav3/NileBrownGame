@@ -1,9 +1,19 @@
 ## Introduction
-Students will be required to have a review of their personal GitHub Pages at each midterm and final.
-
 Nighthawk Pages is a project designed to support students in their Computer Science and Software Engineering education. It offers a wide range of resources including tech talks, code examples, and educational blogs. 
 
-GitHub Pages can be customized by the blogger to support computer science as you work through the pathway of using Javascript, Python/Flask, Java/Spring.  Students and Teachers are expected to use GitHub pages to build lessons, complete classroom hacks, and serve as a frontend in a full-stack application.
+GitHub Pages can be customized by the blogger to support computer science learnings as the student works through the pathway of using Javascript, Python/Flask, Java/Spring.  
+
+### Del Norte HS Students
+Del Norte HS students will be required to review their personal GitHub Pages at each midterm and final.  This review will contain a compilation of personal work performed within each significant grading period.
+
+In general, Students and Teachers are expected to use GitHub pages to build lessons, complete classroom hacks, and serve as a frontend in a full-stack application.
+
+Exchange of information could be:
+1. sharing a file:  `wget "raw-lin.ipynb"
+2. creating a template of the repository
+3. sharing a fork amongst team member
+4. etc.
+
 
 ### History and License
 This project was initially based on Fastpages. But this project has diverged from those roots into an independent entity.  The decision to separate from Fastpages was influenced by the deprecation of Fastpages by authors.  It is believed the authors turned to Quatro, that change did not align with the Teacher's goals to have more of a raw development blogging site.
