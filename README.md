@@ -1,4 +1,4 @@
-## README
+## Introduction
 
 Nighthawk Pages is a project designed to support students in their Computer Science and Software Engineering education. It offers a wide range of resources including tech talks, code examples, and educational blogs. This project was initially based on Fastpages but has since evolved into an independent entity, it is no longer following Fastpages' updates. The decision to separate from Fastpages was influenced by the deprecation of Fastpages in favor of Quarto, and the subsequent changes in development features that did not align with our goals.
 
