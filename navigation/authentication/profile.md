@@ -187,75 +187,42 @@ search_exclude: true
    // Import fetchOptions from config.js
    import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-   // Function to fetch user profile data
-   async function fetchUserProfile() {
-       const URL = `${pythonURI}/api/id/pfp`; // Endpoint to fetch user profile data
-
-       try {
-           const response = await fetch(URL, fetchOptions);
-           if (!response.ok) {
-               throw new Error(`Failed to fetch user profile: ${response.status}`);
-           }
-
-           const profileData = await response.json();
-           displayUserProfile(profileData);
-       } catch (error) {
-           console.error('Error fetching user profile:', error.message);
-           // Handle error display or fallback mechanism
-       }
-   }
-
-   // Function to display user profile data
-   function displayUserProfile(profileData) {
-       const profileImageBox = document.getElementById('profileImageBox');
-       if (profileData.pfp) {
-           getBase64Image(profileData.pfp)
-               .then(base64String => {
-                   const img = document.createElement('img');
-                   img.src = base64String;
-                   img.alt = 'Profile Picture';
-                   profileImageBox.innerHTML = ''; // Clear existing content
-                   profileImageBox.appendChild(img); // Append new image element
-               })
-               .catch(error => {
-                   console.error('Error fetching profile picture:', error.message);
-                   profileImageBox.innerHTML = '<p>Error loading profile picture.</p>';
-               });
-       } else {
-           profileImageBox.innerHTML = '<p>No profile picture available.</p>';
-       }
-
-       // Display other profile information as needed
-       // Example: Update HTML elements with profileData.username, profileData.email
-   }
-
-   // Function to get profile picture as base64 string from backend
-  async function getBase64Image() {
-    const URL = `${pythonURI}/api/id/pfp`; // Endpoint to fetch profile picture base64 data
+ // Function to fetch user profile data
+async function fetchUserProfile() {
+    const URL = `${pythonURI}/api/id/pfp`; // Endpoint to fetch user profile data
 
     try {
         const response = await fetch(URL, fetchOptions);
         if (!response.ok) {
-            throw new Error(`Failed to fetch profile picture: ${response.status}`);
+            throw new Error(`Failed to fetch user profile: ${response.status}`);
         }
 
-        const imageData = await response.blob();
-        return await convertBlobToBase64(imageData);
+        const profileData = await response.json();
+        displayUserProfile(profileData);
     } catch (error) {
-        throw new Error(`Error fetching profile picture: ${error.message}`);
+        console.error('Error fetching user profile:', error.message);
+        // Handle error display or fallback mechanism
     }
 }
 
+// Function to display user profile data
+function displayUserProfile(profileData) {
+    const profileImageBox = document.getElementById('profileImageBox');
+    if (profileData.pfp) {
+        const img = document.createElement('img');
+        img.src = `data:image/jpeg;base64,${profileData.pfp}`;
+        img.alt = 'Profile Picture';
+        profileImageBox.innerHTML = ''; // Clear existing content
+        profileImageBox.appendChild(img); // Append new image element
+    } else {
+        profileImageBox.innerHTML = '<p>No profile picture available.</p>';
+    }
 
-   // Function to convert blob data to base64 string
-   function convertBlobToBase64(blob) {
-       return new Promise((resolve, reject) => {
-           const reader = new FileReader();
-           reader.onloadend = () => resolve(reader.result);
-           reader.onerror = reject;
-           reader.readAsDataURL(blob);
-       });
-   }
+    // Display other profile information as needed
+    // Example: Update HTML elements with profileData.username, profileData.email
+}
+
+
 
    // Function to fetch existing sections
    async function fetchSections() {
