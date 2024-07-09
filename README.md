@@ -11,7 +11,7 @@ In general, Students and Teachers are expected to use GitHub pages to build less
 Exchange of information could be:
 1. sharing a file:  `wget "raw-lin.ipynb"
 2. creating a template of the repository
-3. sharing a fork amongst team member
+3. sharing a fork among team members
 4. etc.
 
 
@@ -52,9 +52,7 @@ REPO_NAME ?= portfolio_2025
 LOG_FILE = /tmp/jekyll$(PORT).log
 ```
 
----
-
-## GitHub Pages Development: Tool requirements
+### Tool requirements
 
 All `GitHub Pages` websites are managed on GitHub infrastructure and use GitHub version control.  Each time we change files in GitHub it initiates a GitHub Action, a continuous integration and development toolset, that rebuilds and publishes the site with Jekyll.  
 
@@ -107,14 +105,14 @@ Start the server, this is the best choice for initial and iterative development.
 
 ### Load web application into the Browser
 Start the preview server in the terminal,
-The terminal output from `make` shows the server address. "Cmd" or "Ctl" click the http location to open the preview server in a browser. Here is example Server address message, cick on Server address to load:...
+The terminal output from `make` shows the server address. "Cmd" or "Ctl" click the http location to open the preview server in a browser. Here is an example Server address message, click on Server address to load:...
 
   ```text
   http://0.0.0.0:4100/portfolio_2025/
   ```
 
 ### Regeneration of web application
-Save on ".ipynb" or ".md" file activiates "regeneration". Example terminal message is below.  Refresh the browser to see updates after the message displays.
+Save on ".ipynb" or ".md" file activiates "regeneration". An example terminal message is below.  Refresh the browser to see updates after the message displays.
 
   ```
   Regenerating: 1 file(s) changed at 2023-07-31 06:54:32
@@ -122,7 +120,7 @@ Save on ".ipynb" or ".md" file activiates "regeneration". Example terminal messa
   ```
 
 ### Other "make" commands
-Terminal messages are generated from background processes.  At anythim, click return or enter in terminal window to obtain a prompt.  Once you have the prompt you can use the terminal as needed for other tasks.  Always return to the root of project `cd ~/vscode/portfolio_2025` for all "make" actions.
+Terminal messages are generated from background processes.  At any time, click return or enter in a terminal window to obtain a prompt.  Once you have the prompt you can use the terminal as needed for other tasks.  Always return to the root of project `cd ~/vscode/portfolio_2025` for all "make" actions.
 
 #### Stop the preview server
 Stopping the server ends the web server applications running process.  However, it leaves constructed files in the project in a ready state for the next time you run `make`.
@@ -139,7 +137,7 @@ This command will top the server and "clean" all previously constructed files (i
     ```
 
 ### Observe build errors
-Test Jupyter Notebook conversions (ie .ipynb -> .md), this is the best choice to see if an IPYNB conversion error is occuring.
+Test Jupyter Notebook conversions (ie .ipynb -> .md), this is the best choice to see if an IPYNB conversion error is occurring.
 
     ```bash
     make convert
@@ -150,7 +148,7 @@ Test Jupyter Notebook conversions (ie .ipynb -> .md), this is the best choice to
 ## Development Support 
 
 ### File Names in "_posts", "_notebooks"
-There are two primary directories for creating blogs.  Th3 "_posts" directory is for authoring in markdown only.  The "_notebooks" allows for markdown, pythons, javascript and more.
+There are two primary directories for creating blogs.  The "_posts" directory is for authoring in markdown only.  The "_notebooks" allows for markdown, pythons, javascript and more.
 
 To name a file, use the following structure (If dates are in the future, review your config.yml setting if you want them to be viewed).  Review these naming conventions.
 
@@ -181,7 +179,7 @@ To add pages to the top navigation bar use _config.yml to order and determine wh
 There is a blog page that has options for images and a description of the page. This page can help the viewer understand what the page is about and what they can expect to find on the page. The way to add images to a page is to have the following front matter `image: /images/file.jpg` and then the name of the image that you want to use. The image must be in the `images` folder. Furthermore, if you would like the file to not show up on the blog page `hide: true` can be added to the front matter.
 
 ### SASS support
-NIGHTHAWK Pages supports a variety of different themes that are each overlaid on top of minima. To use each theme, go to the "_sass/minima/custom-styles.scss" file and simply comment or uncomment the theme you want to use. 
+NIGHTHAWK Pages support a variety of different themes that are each overlaid on top of minima. To use each theme, go to the "_sass/minima/custom-styles.scss" file and simply comment or uncomment the theme you want to use. 
 
 To learn about the minima themes search for "GitHub Pages minima" and review the README.
 
@@ -220,6 +218,6 @@ In the front matter, you can also define things like a title and description for
 
 - Here we can modify things like the title and description.
 
-- The type value will tell us which column this is going to appear under time box supported pages.  The "ccc" stands for Code, Code, Code.
+- The type value will tell us which column this is going to appear under the time box supported pages.  The "ccc" stands for Code, Code, Code.
 
 - The courses will tell us which menu item it will be under, in this case, the `csa` menu, and the `week` tells it what row (week) it will appear under that menu.
