@@ -12,55 +12,21 @@ Nighthawk Pages is a project designed to support students in their Computer Scie
 
 - **Notable Contributions**: Highlights significant contributions to the project, including theme development, search and tagging functionality, GitHub API integration, and the incorporation of GitHub Projects into GitHub pages. Contributors such as Tirth Thakker, Mirza Beg, and Toby Ledder have played crucial roles in these developments.
 
-## GitHub Pages setup
-
-#### Activating GitHub Pages Actions
-1. **Activate GitHub Pages Actions**: This step involves enabling GitHub Pages Actions for your project. By doing so, your project will be automatically deployed using GitHub Pages Actions, ensuring that your project is always up to date with the latest changes you push to your repository.
-
-- On the GitHub website for the repository go to menu: Settings -> Pages ->  Build and Deployment and select "GitHub Actions". 
-
-#### Configuring the `_config.yml`
-2. **Update `_config.yml`**: You need to modify the `_config.yml` file to reflect your repository's name. This configuration is crucial because it ensures that your project's styling is correctly applied, making your deployed site look as intended rather than unstyled or broken.
-
-```
-github_repo: "portfolio_2025" 
-baseurl: "/portfolio_2025"
-```
-
-#### Updating the Makefile
-3. **Set Repository Name in Makefile**: Adjust the `REPO_NAME` variable in your Makefile to match your GitHub repository's name. This action facilitates the automatic updating of posts and notebooks on your local development server, improving the development process.
-
-```
-# Configuration, override port with usage: make PORT=4200
-PORT ?= 4100
-REPO_NAME ?= portfolio_2025
-LOG_FILE = /tmp/jekyll$(PORT).log
-```
+---
 
 ## GitHub Pages setup
 The absolutes in setup up...
-1. Activate GitHub Pages Actions.   The benefit, your project will be deployed via GitHub Pages Actions.
-2. Configure the _config.yml to match the name of the repository. The benefit, your project style will be activated and your project won't look awful when deployed.
-3. Set your repository name in your Makefile.  The benefit, your project will automatically update posts and notebooks to your localhost server during development.
 
-### GitHub Pages Actions
-To get started you need to activate and configure GitHub Actions with a Theme.
+1. **Activate GitHub Pages Actions**: This step involves enabling GitHub Pages Actions for your project. By doing so, your project will be automatically deployed using GitHub Pages Actions, ensuring that your project is always up to date with the latest changes you push to your repository.
+- On the GitHub website for the repository go to the menu: Settings -> Pages ->Build
+- Under the Deployment location on the page, select "GitHub Actions". 
 
-- Go to Settings -> Pages ->  Build and Deployment and select "GitHub Actions". 
-
-### GitHub Pages config
-Edit the _config.yml file in this project.  All the lines in this file should be personalized.   
-
-These lines must be changed to match the GitHub the repository.
-
+2. **Update `_config.yml`**: You need to modify the `_config.yml` file to reflect your repository's name. This configuration is crucial because it ensures that your project's styling is correctly applied, making your deployed site look as intended rather than unstyled or broken.
 ```
 github_repo: "portfolio_2025" 
 baseurl: "/portfolio_2025"
 ```
-
-### Makefile edit
-Edit the REPO_NAME to match your server at the top of the Makefile.
-
+3. **Set Repository Name in Makefile**: Adjust the `REPO_NAME` variable in your Makefile to match your GitHub repository's name. This action facilitates the automatic updating of posts and notebooks on your local development server, improving the development process.
 ```
 # Configuration, override port with usage: make PORT=4200
 PORT ?= 4100
@@ -68,17 +34,31 @@ REPO_NAME ?= portfolio_2025
 LOG_FILE = /tmp/jekyll$(PORT).log
 ```
 
-## GitHub Pages Tool requirements
+---
 
-All `GitHub Pages` websites are managed on GitHub infrastructure. GitHub uses `Jekyll` to transform your content into static websites and blogs. Each time we change files in GitHub it initiates a GitHub Action that rebuilds and publishes the site with Jekyll.  
+## GitHub Pages Development: Tool requirements
 
-- GitHub Pages is powered by: [Jekyll](https://jekyllrb.com/).
+All `GitHub Pages` websites are managed on GitHub infrastructure and use GitHub version control.  Each time we change files in GitHub it initiates a GitHub Action, a continuous integration and development toolset, that rebuilds and publishes the site with Jekyll.  
 
-### Instructions for Setting Up Your Environment
+- GitHub uses `Jekyll` to transform your markdown and HTML content into static websites and blogs. [Jekyll](https://jekyllrb.com/).
+- A Linux shell is required to work with this project integration with GitHub Pages, GitHub and VSCode.  Ubuntu is the preferred shell, though MacOS shell is supported as well.  There will be some key setup scripts that follow in the README.
+- Visual Studio Code is the Nighthawk Pages author's preferred code editor and extensible development environment.  VSCode has a rich ecosystem of developer extensions that ease working with GitHub Pages, GitHub, and many programming languages.  Setting up VSCode and extensions will be elaborated upon in this document.
+- An anatomy section in this README will describe GitHub Pages and conventions that are used to organize content and files.  This includes file names, key coding files, metadata tagging of blogs, styling tooling for blogs, etc.
 
-Depending on your operating system, follow the specific instructions below to set up your environment. Navigate to the `scripts` directory in your terminal and execute the corresponding script.
+### Getting Started with a Development Environment
+Comprehensive start. A topic-by-topic guide to getting this project running is published [here](https://nighthawkcoders.github.io/portfolio_2025/devops/tools/home).
 
-#### For WSL and/or Ubuntu Users
+Quick start.  A quick start below is a reminder, but is dependent on your knowledge.  Only follow this instruction if you need a refresher.  Always default to the comprehensive start if any problem occurs.
+
+#### All users should clone
+Run these commands to obtain the project, then locate into the project directory with the terminal, install an extensive set of tools, and make.
+
+```bash
+git clone <this-repo> # git clone https://github.com/nighthawkcoders/portfolio_2025.git 
+cd <repo-dir>/scripts # cd portfolio_2025
+```
+
+#### Windows Users with WSL and/or Ubuntu Users
 
 - Execute the script: `./activate_ubuntu.sh`
 
@@ -86,25 +66,26 @@ Depending on your operating system, follow the specific instructions below to se
 
 - Execute the script: `./activate_macos.sh`
 
-#### For Kasm Users
+#### For Kasm Cloud Desktop Users
 
 - Execute the script: `./activate.sh`
 
-### Preview
+## Run this Project
+To preview the project you will need to "make" the project.
 
-- Complete installation
+- The very first time you clone the project you need to run this Ruby command as the final part of your setup.
 
 ```bash
 bundle install
 ```
 
-- Run Server.  This requires running terminal commands `make`, `make stop`, `make clean`, or `make convert` to manage the running server.  Logging of details will appear in the terminal.   A `Makefile` has been created in the project to support commands and start processes.
+- Run the Server.  This requires running terminal commands `make`, `make stop`, `make clean`, or `make convert` to manage the running server.  Logging of details will appear in the terminal.   A `Makefile` has been created in the project to support commands and start processes.
 
   - Start the preview server in the terminal
 The terminal output shows the server address. "Cmd" or "Ctl" click the http location to open the preview server in a browser. Example Server address message...
 
     ```text
-    Clicke on Server address to load: http://0.0.0.0:4100/portfolio_2025/
+    Click on Server address to load: http://0.0.0.0:4100/portfolio_2025/
     ```
 
     - Save on ".ipynb" or ".md" file activiates "regeneration". Refresh the browser to see updates. Example terminal message...
@@ -128,7 +109,13 @@ The terminal output shows the server address. "Cmd" or "Ctl" click the http loca
     make clean
     ```
 
-  - Test notebook conversions, this is the best choice to see if IPYNB conversion is acting up.
+  - Start the server, this is the best choice for initial and iterative development.  Note. after the initial `make`, you should see files automatically refresh in the terminal on VSCode save.
+
+    ```bash
+    make
+    ``` 
+
+  - Test Jupyter Notebook conversions, this is the best choice to see if an IPYNB conversion error occurs.
 
     ```bash
     make convert
