@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Login 
-permalink: /login
+permalink: /loginred
 search_exclude: true
 menu: nav/home.html
 show_reading_time: false 

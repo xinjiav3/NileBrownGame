@@ -70,6 +70,41 @@ show_reading_time: false
         </form>
     </div>
 </div>
+ <!-- Signup Form -->
+    <div class="signup-card">
+        <h1 id="signupTitle">Sign Up</h1>
+        <form id="signupForm" onsubmit="signup(); return false;">
+            <p>
+                <label>
+                    Name:
+                    <input type="text" name="name" id="name" required>
+                </label>
+            </p>
+            <p>
+                <label>
+                    GitHub ID:
+                    <input type="text" name="signupUid" id="signupUid" required>
+                </label>
+            </p>
+            <p>
+                <label>
+                    Password:
+                    <input type="password" name="signupPassword" id="signupPassword" required>
+                </label>
+            </p>
+            <p>
+                <label>
+                    <input type="checkbox" name="kasmNeeded" id="kasmNeeded">
+                    Kasm Server Needed
+                </label>
+            </p>
+            <p>
+                <button type="submit">Sign Up</button>
+            </p>
+            <p id="signupMessage" style="color: green;"></p>
+        </form>
+    </div>
+</div>
 
 <script type="module">
     import { login, pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
