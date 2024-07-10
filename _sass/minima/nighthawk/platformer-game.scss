@@ -22,6 +22,12 @@
   padding: 5px;
   color: darkred !important; // use the high-emphasis color for the text
 }
+/// Game Begin, Game Over, Settings IDs
+/// @description These IDs correspond to buttons in game screen. Key styling is to ensure they are on top of other elements.
+#gameBegin, #gameOver, #settings, #leaderboard {
+  position: relative;
+  z-index: 2; // z-index position ensures these buttons are on top.
+}
 #addRow, #backToGame {
   position: relative;
   z-index: 2; // z-index position ensures these buttons are on top.
@@ -30,11 +36,10 @@
 }
 /// Color mixin
 /// @description This mixin is defined to share colors with classes in this stylesheet.
-$high-emph: rgba(white, 0.87);
 @mixin dark-mode-color {
-  color: $high-emph !important; // use the high-emphasis color for the text
-  background-color: darkgray !important; // use the dark grey color for the background
-  border: 1px solid blue; // from dracula-highlight.scss
+  color: #FFFFFF!important; // use the high-emphasis color for the text
+  background-color: #000000 !important; // use the dark grey color for the background
+  border: 1px solid $dt-blue; // from dracula-highlight.scss
 }
 /// Horizontal Submenu
 /// @description This class styles the horizontal submenu for score and buttons in the game. It has many style elements (e.g. placing submenu below header).
@@ -49,8 +54,6 @@ $high-emph: rgba(white, 0.87);
   .submenu-item {
     display: inline-block; // Make the score and buttons inline
     margin-right: $spacing-unit; // Add some margin to the right of each item
-    position: relative;
-    z-index: 2; // z-index position ensures these buttons are on top.
   }
 }
 /// Sidebar class
@@ -94,31 +97,31 @@ $high-emph: rgba(white, 0.87);
 
 #leaderboardTitle {
   text-align: center;
-  color: greenyellow;
+  color: #3d3af2;
   text-decoration: wavy;
   font-weight: 900;
-  font-size: 100px;
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  background-color: rgb(163, 55, 163);
+  font-size: 70px;
+  font-family: "Press Start 2P", system-ui;
+  background-color: #b01a2e;
 }
 
-$leaderboard-color: lightseagreen;
+$dt-leaderboard: #e85252;
 .table.scores, th, tr, td {
   text-align: center;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 .table.scores {
   th {
-    background-color: darkmagenta;
+    background-color: #e0b2b2;
   }
   tr {
     td {
-      border: 1px solid mix($leaderboard-color, black, 50%);
+      border: 1px solid mix($dt-leaderboard, black, 50%);
       &:nth-child(odd) {
-        background-color: $leaderboard-color; // Background color for odd rows
+        background-color: $dt-leaderboard; // Background color for odd rows
       }
       &:nth-child(even) {
-        background-color: mix($leaderboard-color, gray, 60%); // Background color for even rows
+        background-color: mix($dt-leaderboard, gray, 60%); // Background color for even rows
       }
     }
   }
@@ -129,10 +132,10 @@ $leaderboard-color: lightseagreen;
   tr {
     cursor: pointer; // Change the cursor to a pointer when it hovers over a row
     td {
-      border: 1px solid blue; // from dracula-highlight.scss
+      border: 1px solid $dt-blue; // from dracula-highlight.scss
     }
     &:hover { // Change the background when a row is hovered over
-      background-color: blue; // from dracula-highlight.scss
+      background-color: $dt-blue; // from dracula-highlight.scss
       td {
         background-color: inherit; // Make the background color of the td elements the same as the tr element
       }
@@ -147,6 +150,7 @@ $leaderboard-color: lightseagreen;
 /// @param {Number} border-radius - The border radius of the input field, rounded corners.
 /// @param {Number} padding - The padding inside the input field, space between the border and the text.
 /// @param {String} text-align - The text alignment inside the input field, left, right, or center.
+
 @mixin input {
   @include dark-mode-color; // use the dark mode color scheme
   height: 30px;
@@ -168,7 +172,7 @@ $leaderboard-color: lightseagreen;
 }
 /// @import is used to import other stylesheets, see @import of this file in “_sass/minima/custom-styles.sccs”.
 #toggleCanvasEffect, #background, #platform{
-  animation: fadein 5s;
+  animation: fadein 3s;
 }
 #startGame, #marioSays{
   animation: flash 0.5s infinite;
@@ -218,7 +222,7 @@ $leaderboard-color: lightseagreen;
   animation: fadeout 0.5s 3s;
 }
 body{
-  background: salmon;
+  background: #FFB6C1;
 }
 #container{
   width: 95%;
