@@ -155,9 +155,9 @@ show_reading_time: false
     // Global variable to hold predefined sections
     let predefinedSections = [];
 
-    // Function to fetch predefined sections
+    // Function to fetch  sections from kasm2_backend
     async function fetchPredefinedSections() {
-        const URL = `${pythonURI}/api/section`; // Adjust endpoint as needed
+        const URL = `${pythonURI}/api/section`; 
 
         try {
             const response = await fetch(URL, fetchOptions);

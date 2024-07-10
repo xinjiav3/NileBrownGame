@@ -1,6 +1,6 @@
 ---
 layout: base
-title: Login and Signup
+title: Login 
 permalink: /login
 search_exclude: true
 ---
