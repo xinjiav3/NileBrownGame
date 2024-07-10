@@ -1,11 +1,12 @@
 ---
-layout: post 
-title: Login
+layout: post
+title: Login 
 permalink: /login
 search_exclude: true
 menu: nav/home.html
 show_reading_time: false 
 ---
+
 
 <style>
 .login-container {
@@ -43,7 +44,6 @@ show_reading_time: false
 .signup-card h1 {
     margin-bottom: 20px;
 }
-
 </style>
 
 <div class="login-container">
@@ -67,6 +67,41 @@ show_reading_time: false
                 <button type="submit">Login</button>
             </p>
             <p id="message" style="color: red;"></p>
+        </form>
+    </div>
+
+    <!-- Signup Form -->
+    <div class="signup-card">
+        <h1 id="signupTitle">Sign Up</h1>
+        <form id="signupForm" onsubmit="signup(); return false;">
+            <p>
+                <label>
+                    Name:
+                    <input type="text" name="name" id="name" required>
+                </label>
+            </p>
+            <p>
+                <label>
+                    GitHub ID:
+                    <input type="text" name="signupUid" id="signupUid" required>
+                </label>
+            </p>
+            <p>
+                <label>
+                    Password:
+                    <input type="password" name="signupPassword" id="signupPassword" required>
+                </label>
+            </p>
+            <p>
+                <label>
+                    <input type="checkbox" name="kasmNeeded" id="kasmNeeded">
+                    Kasm Server Needed
+                </label>
+            </p>
+            <p>
+                <button type="submit">Sign Up</button>
+            </p>
+            <p id="signupMessage" style="color: green;"></p>
         </form>
     </div>
 </div>
@@ -127,7 +162,7 @@ show_reading_time: false
         });
     }
 
-    // Function to fetch and display Python data
+    // Function to fetch and display Python data after login
     function pythonDatabase() {
         const URL = `${pythonURI}/api/id`;
 
