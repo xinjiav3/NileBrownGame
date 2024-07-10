@@ -1,11 +1,12 @@
 ---
-toc: true
-comments: false
 layout: post
 title: Snake Game
-description: this is the snake game
+description: A Javascript Snake game that contains score and preferences.
 categories: [Javascript]
-permalink: /frontend/snake
+menu: nav/javascript_project.html
+permalink: /javascript/project/snake
+toc: true
+comments: false
 ---
 
 <style>
