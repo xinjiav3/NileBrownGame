@@ -69,8 +69,6 @@ show_reading_time: false
             <p id="message" style="color: red;"></p>
         </form>
     </div>
-</div>
- <!-- Signup Form -->
     <div class="signup-card">
         <h1 id="signupTitle">Sign Up</h1>
         <form id="signupForm" onsubmit="signup(); return false;">
