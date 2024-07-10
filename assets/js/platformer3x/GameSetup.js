@@ -9,14 +9,6 @@ import GameSet from './GameSet.js';
 import GameSetterStart from './GameSetterStart.js';
 import GameSetterHills from './GameSetterHills.js';
 import GameSetterWater from './GameSetterWater.js';
-import GameSetterGreece from './GameSetterGreece.js';
-import GameSetterGreeceMini from './GameSetterGreeceMini.js';
-import GameSetterQuidditch from './GameSetterQuidditch.js';
-import GameSetterHogwarts from './GameSetterHogwarts.js';
-import GameSetterWinter from './GameSetterWinter.js';
-import GameSetterWinterIce from './GameSetterWinterIce.js';
-import GameSetterBoss from './GameSetterBoss.js';
-import GameSetterSkibidi from './GameSetterSkibidi.js';
 import GameSetterEnd from './GameSetterEnd.js';
 //test comment
 
@@ -228,15 +220,7 @@ const GameSetup = {
     GameLevelSetup(GameSetterStart, this.path, this.homeScreenCallback, true);
     // Game Levels added to the Game ...
     GameLevelSetup(GameSetterHills, this.path, this.playerOffScreenCallBack);
-    GameLevelSetup(GameSetterGreece, this.path, this.playerOffScreenCallBack);
-    GameLevelSetup(GameSetterGreeceMini, this.path, this.playerOffScreenCallBack);
     GameLevelSetup(GameSetterWater, this.path, this.playerOffScreenCallBack);
-    GameLevelSetup(GameSetterQuidditch, this.path, this.playerOffScreenCallBack);
-    GameLevelSetup(GameSetterHogwarts, this.path, this.playerOffScreenCallBack);
-    GameLevelSetup(GameSetterWinter, this.path, this.playerOffScreenCallBack);
-    GameLevelSetup(GameSetterWinterIce, this.path, this.playerOffScreenCallBack);
-    GameLevelSetup(GameSetterSkibidi, this.path, this.playerOffScreenCallBack);
-    GameLevelSetup(GameSetterBoss, this.path, this.playerOffScreenCallBack);
     // End Game
     GameLevelSetup(GameSetterEnd, this.path, this.gameOverCallBack, true);
 
