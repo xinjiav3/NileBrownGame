@@ -1,9 +1,12 @@
 ---
 title: Game of Life
-layout: base
+layout: post
 description: A remix of Conway's game of Life using a timer, onclick and algorithms.
 categories: [Javascript]
-permalink: /frontend/life
+permalink: /javascript/project/game-of-life
+menu: nav/javascript_project.html
+toc: true
+comments: false
 ---
 
 {% comment %}
