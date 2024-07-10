@@ -1,11 +1,12 @@
 ---
-layout: post 
-title: Login
-permalink: /login
+layout: post
+title: Login 
+permalink: /loginred
 search_exclude: true
 menu: nav/home.html
 show_reading_time: false 
 ---
+
 
 <style>
 .login-container {
@@ -43,7 +44,6 @@ show_reading_time: false
 .signup-card h1 {
     margin-bottom: 20px;
 }
-
 </style>
 
 <div class="login-container">
@@ -69,6 +69,8 @@ show_reading_time: false
             <p id="message" style="color: red;"></p>
         </form>
     </div>
+
+    <!-- Signup Form -->
     <div class="signup-card">
         <h1 id="signupTitle">Sign Up</h1>
         <form id="signupForm" onsubmit="signup(); return false;">
@@ -160,7 +162,7 @@ show_reading_time: false
         });
     }
 
-    // Function to fetch and display Python data
+    // Function to fetch and display Python data after login
     function pythonDatabase() {
         const URL = `${pythonURI}/api/id`;
 

@@ -152,75 +152,31 @@ show_reading_time: false
     // Import fetchOptions from config.js
     import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-    // Predefined sections JSON object
-    const predefinedSections = [
-        {
-            "abbreviation": "CSA",
-            "id": 1,
-            "name": "Computer Science A"
-        },
-        {
-            "abbreviation": "CSP",
-            "id": 2,
-            "name": "Computer Science Principles"
-        },
-        {
-            "abbreviation": "Robotics",
-            "id": 3,
-            "name": "Engineering Robotics"
-        },
-        {
-            "abbreviation": "CSSE",
-            "id": 4,
-            "name": "Computer Science and Software Engineering"
-        }
-        // Add more sections as needed
-    ];
+    // Global variable to hold predefined sections
+    let predefinedSections = [];
 
-    // Global variable to hold user sections
-    let userSections = [];
-
-    // Function to fetch user profile data
-    async function fetchUserProfile() {
-        const URL = `${pythonURI}/api/id/pfp`; // Endpoint to fetch user profile data
+    // Function to fetch  sections from kasm2_backend
+    async function fetchPredefinedSections() {
+        const URL = `${pythonURI}/api/section`; 
 
         try {
             const response = await fetch(URL, fetchOptions);
             if (!response.ok) {
-                throw new Error(`Failed to fetch user profile: ${response.status}`);
+                throw new Error(`Failed to fetch predefined sections: ${response.status}`);
             }
 
-            const profileData = await response.json();
-            displayUserProfile(profileData);
+            return await response.json();
         } catch (error) {
-            console.error('Error fetching user profile:', error.message);
-            // Handle error display or fallback mechanism
+            console.error('Error fetching predefined sections:', error.message);
+            return []; // Return empty array on error
         }
-    }
-
-    // Function to display user profile data
-    function displayUserProfile(profileData) {
-        const profileImageBox = document.getElementById('profileImageBox');
-        if (profileData.pfp) {
-            const img = document.createElement('img');
-            img.src = `data:image/jpeg;base64,${profileData.pfp}`;
-            img.alt = 'Profile Picture';
-            profileImageBox.innerHTML = ''; // Clear existing content
-            profileImageBox.appendChild(img); // Append new image element
-        } else {
-            profileImageBox.innerHTML = '<p>No profile picture available.</p>';
-        }
-
-        // Display other profile information as needed
-        // Example: Update HTML elements with profileData.username, profileData.email
     }
 
     // Function to populate section dropdown menu
-    function populateSectionDropdown() {
+    function populateSectionDropdown(predefinedSections) {
         const sectionDropdown = document.getElementById('sectionDropdown');
         sectionDropdown.innerHTML = ''; // Clear existing options
 
-        // Populate dropdown with predefined sections
         predefinedSections.forEach(section => {
             const option = document.createElement('option');
             option.value = section.abbreviation;
@@ -231,6 +187,9 @@ show_reading_time: false
         // Display sections in the table
         displayProfileSections();
     }
+
+    // Global variable to hold user sections
+    let userSections = [];
 
     // Function to add a section
     window.addSection = function () {
@@ -278,89 +237,6 @@ show_reading_time: false
 
             tableBody.appendChild(tr);
         });
-    }
-
-    // Function to save profile picture
-  window.saveProfilePicture = async function () {
-    const fileInput = document.getElementById('profilePicture');
-    const file = fileInput.files[0];
-    if (!file) return;
-
-    try {
-        const base64String = await convertToBase64(file);
-        await sendProfilePicture(base64String);
-        console.log('Profile picture uploaded successfully!');
-        // Update UI immediately after successful upload
-        const profileImage = document.getElementById('profileImage');
-        profileImage.src = base64String; // Set the src attribute directly
-
-        // Fetch image data from backend
-        const imageData = await fetchProfilePictureData(); // Implement this function
-
-        // Process imageData as needed
-        console.log('Image data from backend:', imageData);
-    } catch (error) {
-        console.error('Error uploading profile picture:', error.message);
-        // Handle error display or fallback mechanism
-    }
-}
-
-async function fetchProfilePictureData() {
-    try {
-        const response = await fetch('/api/id/pfp', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                // Include any necessary authorization headers if required
-            },
-        });
-        if (!response.ok) {
-            throw new Error('Failed to fetch profile picture data');
-        }
-        const imageData = await response.json();
-        return imageData; // Assuming the backend returns JSON data
-    } catch (error) {
-        console.error('Error fetching profile picture data:', error.message);
-        throw error;
-    }
-}
-
-
-
-    // Function to convert file to base64
-    async function convertToBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result.split(',')[1]); // Remove the prefix part of the result
-            reader.onerror = error => reject(error);
-            reader.readAsDataURL(file);
-        });
-    }
-
-    // Function to send profile picture to server
-    async function sendProfilePicture(base64String) {
-        const URL = `${pythonURI}/api/id/pfp`; // Adjust endpoint as needed
-        const options = {
-            ...fetchOptions,
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                // Add any other headers if necessary
-            },
-            body: JSON.stringify({ pfp: base64String })
-        };
-
-        try {
-            const response = await fetch(URL, options);
-            if (!response.ok) {
-                throw new Error(`Failed to upload profile picture: ${response.status}`);
-            }
-            console.log('Profile picture uploaded successfully!');
-            // Handle success response as needed
-        } catch (error) {
-            console.error('Error uploading profile picture:', error.message);
-            // Handle error display or fallback mechanism
-        }
     }
 
     // Function to save sections in the specified format
@@ -436,27 +312,152 @@ async function fetchProfilePictureData() {
         });
     }
 
-     window.previewProfilePicture = function(input) {
-   const file = input.files[0];
-   if (file) {
-       const reader = new FileReader();
-       reader.onload = function() {
-           const profileImageBox = document.getElementById('profileImageBox');
-           profileImageBox.innerHTML = `<img src="${reader.result}" alt="Profile Picture">`;
-       };
-       reader.readAsDataURL(file);
-   }
-}
+    // Function to fetch user profile data
+    async function fetchUserProfile() {
+        const URL = `${pythonURI}/api/id/pfp`; // Endpoint to fetch user profile data
 
+        try {
+            const response = await fetch(URL, fetchOptions);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch user profile: ${response.status}`);
+            }
 
-    // Call fetchUserProfile and populateSectionDropdown when DOM content is loaded
+            const profileData = await response.json();
+            displayUserProfile(profileData);
+        } catch (error) {
+            console.error('Error fetching user profile:', error.message);
+            // Handle error display or fallback mechanism
+        }
+    }
+
+    // Function to display user profile data
+    function displayUserProfile(profileData) {
+        const profileImageBox = document.getElementById('profileImageBox');
+        if (profileData.pfp) {
+            const img = document.createElement('img');
+            img.src = `data:image/jpeg;base64,${profileData.pfp}`;
+            img.alt = 'Profile Picture';
+            profileImageBox.innerHTML = ''; // Clear existing content
+            profileImageBox.appendChild(img); // Append new image element
+        } else {
+            profileImageBox.innerHTML = '<p>No profile picture available.</p>';
+        }
+
+        // Display other profile information as needed
+        // Example: Update HTML elements with profileData.username, profileData.email
+    }
+
+    // Function to save profile picture
+    window.saveProfilePicture = async function () {
+        const fileInput = document.getElementById('profilePicture');
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        try {
+            const base64String = await convertToBase64(file);
+            await sendProfilePicture(base64String);
+            console.log('Profile picture uploaded successfully!');
+            // Update UI immediately after successful upload
+            const profileImage = document.getElementById('profileImage');
+            profileImage.src = base64String; // Set the src attribute directly
+
+            // Fetch image data from backend
+            const imageData = await fetchProfilePictureData(); // Implement this function
+
+            // Process imageData as needed
+            console.log('Image data from backend:', imageData);
+        } catch (error) {
+            console.error('Error uploading profile picture:', error.message);
+            // Handle error display or fallback mechanism
+        }
+    }
+
+    // Function to fetch profile picture data
+    async function fetchProfilePictureData() {
+        try {
+            const response = await fetch('/api/id/pfp', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Include any necessary authorization headers if required
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch profile picture data');
+            }
+            const imageData = await response.json();
+            return imageData; // Assuming the backend returns JSON data
+        } catch (error) {
+            console.error('Error fetching profile picture data:', error.message);
+            throw error;
+        }
+    }
+
+    // Function to convert file to base64
+    async function convertToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result.split(',')[1]); // Remove the prefix part of the result
+            reader.onerror = error => reject(error);
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // Function to send profile picture to server
+    async function sendProfilePicture(base64String) {
+        const URL = `${pythonURI}/api/id/pfp`; // Adjust endpoint as needed
+        const options = {
+            ...fetchOptions,
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                // Add any other headers if necessary
+            },
+            body: JSON.stringify({ pfp: base64String })
+        };
+
+        try {
+            const response = await fetch(URL, options);
+            if (!response.ok) {
+                throw new Error(`Failed to upload profile picture: ${response.status}`);
+            }
+            console.log('Profile picture uploaded successfully!');
+            // Handle success response as needed
+        } catch (error) {
+            console.error('Error uploading profile picture:', error.message);
+            // Handle error display or fallback mechanism
+        }
+    }
+
+    // Function to preview profile picture
+    window.previewProfilePicture = function(input) {
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const profileImageBox = document.getElementById('profileImageBox');
+                profileImageBox.innerHTML = `<img src="${reader.result}" alt="Profile Picture">`;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Call fetchPredefinedSections and initializeProfileSetup when DOM content is loaded
     document.addEventListener('DOMContentLoaded', async function () {
-        await fetchUserProfile();
-        populateSectionDropdown(); // Directly populate dropdown with predefined sections
-        await fetchDataAndPopulateTable(); // Fetch initial data and populate table
+        try {
+            predefinedSections = await fetchPredefinedSections();
+            console.log('Predefined Sections:', predefinedSections);
+            populateSectionDropdown(predefinedSections); // Populate dropdown with fetched sections
+            await fetchUserProfile(); // Fetch user profile data
+            await fetchDataAndPopulateTable(); // Fetch and populate table with user sections
+        } catch (error) {
+            console.error('Initialization error:', error.message);
+            // Handle initialization error gracefully
+        }
     });
 
 </script>
+
 
 
 
