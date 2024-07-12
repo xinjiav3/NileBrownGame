@@ -1,9 +1,9 @@
 import requests
 from datetime import datetime
 import math
-import requests
 import json
 from datetime import date
+import github_api_funcs as gha
 
 
 def generate_markdown_file(issue_data, file_path, course):
@@ -102,9 +102,9 @@ def get_github_repository_issues(token=None):
 
 def create_issues():
   # extract the GitHub API token from the secrets in AWS Secrets Manager
-  token = getToken()["GithubApi"] 
+  # token = getToken() # via amazon secrets manager
+  token = gha.get_token() # via .env file
   
-
   # Call the function to get the issues data, then extract a nested data structure from the response, this corresonds to an array of issues
   # we need to extract the specific project data, perhaps "projectsV2" in the code to yml file, so we can run CSP and CSSE with same python script
   csa_data = get_github_repository_issues(token)["data"]["organization"]["projectsV2"]["nodes"][0]["items"]["nodes"]
@@ -160,6 +160,7 @@ def create_issues():
         generate_markdown_file(issue_data, f"_posts/{dueDate}-{issue['title'].replace(' ', '-').replace('/', ' ')}_GithubIssue_.md", "csp")
 
 
+# Not used in this script, but can be used to get the token
 def getToken():
     # confirm that this endpoing is storing key that works for all nighthawkcoders repos 
     api_endpoint = 'https://7vybv54v24.execute-api.us-east-2.amazonaws.com/GithubSecret'
