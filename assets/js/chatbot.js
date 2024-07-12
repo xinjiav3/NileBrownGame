@@ -54,7 +54,7 @@ elements.retrieveChatHistory.addEventListener("click", async (event) => {
   chats.forEach(chat => { // Loop through each chat message
     console.log(chat);
     appendMessage(assets.personName, assets.personImg, "right", chat['chatMessage'], assets.personTitle, chat['id'], formatMessageDate(chat['timestamp'])); // Append user's message
-    appendMessage(assets.botName, assets.botImg, "left", chat['chatReponse'], assets.botTitle, chat['id'], formatMessageDate(chat['timestamp'])); // Append bot's response
+    appendMessage(assets.botName, assets.botImg, "left", chat['chatResponse'], assets.botTitle, chat['id'], formatMessageDate(chat['timestamp'])); // Append bot's response
   });
 });
 
@@ -113,7 +113,7 @@ async function deleteChat(id){
   chats.forEach(chat => { // Loop through each chat message
     console.log(chat);
     appendMessage(assets.personName, assets.personImg, "right", chat['chatMessage'], assets.personTitle, chat['id'], formatMessageDate(chat['timestamp'])); // Append user's message
-    appendMessage(assets.botName, assets.botImg, "left", chat['chatReponse'], assets.botTitle, chat['id'], formatMessageDate(chat['timestamp'])); // Append bot's response
+    appendMessage(assets.botName, assets.botImg, "left", chat['chatResponse'], assets.botTitle, chat['id'], formatMessageDate(chat['timestamp'])); // Append bot's response
   });
   
   //elements.retrieveChatHistory.dispatchEvent(new Event("click"));
@@ -121,7 +121,7 @@ async function deleteChat(id){
 
 async function secondbotResponse(msgText) {
   const data = await fetchData(`${urls.chat}${msgText}&personid=${elements.personid.value}`); // Fetch the bot's response
-  appendMessage(assets.botName, assets.botImg, "left", data.chatReponse, assets.botTitle,data.id, formatMessageDate(data.timestamp)); // Append the bot's response to the chat
+  appendMessage(assets.botName, assets.botImg, "left", data.chatResponse, assets.botTitle,data.id, formatMessageDate(data.timestamp)); // Append the bot's response to the chat
   elements.spinner.style.display = "none"; // Hide the loading spinner
 }
 
@@ -136,11 +136,11 @@ async function botResponse(msgText) {
   const data = await fetchData(`${urls.chat}${msgText}&personid=${elements.personid.value}`);
 
   console.log(data);
-  console.log(data.chatReponse);
+  console.log(data.chatResponse);
   console.log(data.id);
 
   if (instantChatResponseFlag){
-    appendMessage(assets.botName, assets.botImg, "left", data.chatReponse, assets.botTitle,data.id, formatMessageDate(data.timestamp)); // Append the bot's response to the chat
+    appendMessage(assets.botName, assets.botImg, "left", data.chatResponse, assets.botTitle,data.id, formatMessageDate(data.timestamp)); // Append the bot's response to the chat
     elements.spinner.style.display = "none"; // Hide the loading spinner
   } else {
   // Function to split the data into smaller chunks
@@ -153,7 +153,7 @@ async function botResponse(msgText) {
 
   
   // Split the response into chunks of a specified size (e.g., 10 characters)
-  const chunks = Array.from(chunkString(data.chatReponse, 10));
+  const chunks = Array.from(chunkString(data.chatResponse, 10));
 
   // Create a single message container for the response
   appendMessage(assets.botName, assets.botImg, "left", "", assets.botTitle, data.id, formatMessageDate(data.timestamp));
