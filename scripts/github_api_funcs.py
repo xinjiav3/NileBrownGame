@@ -246,7 +246,7 @@ if __name__ == "__main__":
             print("Could not retrieve projects.")
             
         projects_with_issues = list_org_projects_v2_with_issues(token, target_name)
-        selected_project_title = "@jm1021's CSSE 1-2,  2025"
+        selected_project_title = "CSSE 1-2,  2025"
         selected_project = next((project for project in projects_with_issues if project['title'] == selected_project_title), None)
         
         if selected_project:
