@@ -150,6 +150,7 @@ def list_org_projects_v2_with_issues(token, org_login):
                         id
                         title
                         url
+                        body
                     }
                     }
                 }
@@ -185,7 +186,8 @@ def list_org_projects_v2_with_issues(token, org_login):
                 issues = [{
                     'id': item['content']['id'],
                     'title': item['content']['title'],
-                    'url': item['content']['url']
+                    'url': item['content']['url'],
+                    'body': item['content']['body']
                 } for item in project['items']['nodes'] if item['type'] == 'ISSUE']
                 
                 if issues:  # Check if there are any issues
@@ -253,7 +255,8 @@ if __name__ == "__main__":
             print(f"Issues for project {selected_project['title']}:")
             if 'issues' in selected_project and selected_project['issues']:
                 for issue in selected_project['issues']:
-                    print(f"- {issue['title']}: {issue['url']}")
+                    print(f"- {issue['title']}, {issue['url']}")
+                    print(f"\t {issue['body']}")
             else:
                 print("No issues found for this project.")
         else:
