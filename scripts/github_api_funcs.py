@@ -223,6 +223,59 @@ def list_org_projects_v2_with_issues(token, org_login):
 
     return projects_with_issues
 
+def get_project_issues_as_dict(token, target_name, selected_project_title):
+    projects_with_issues = list_org_projects_v2_with_issues(token, target_name)
+    selected_project = next((project for project in projects_with_issues if project['title'] == selected_project_title), None)
+    project_data = {}
+
+    if selected_project:
+        project_data['title'] = selected_project['title']
+        project_data['issues'] = []
+        if 'issues' in selected_project and selected_project['issues']:
+            for issue in selected_project['issues']:
+                issue_data = {
+                    'title': issue['title'],
+                    'url': issue['url'],
+                    'start_week': next((int(field['number']) for field in issue['fields'] if 'number' in field), 'N/A'),
+                    'start_date': next((field['date'] for field in issue['fields'] if 'date' in field), 'N/A'),
+                    'end_date': next((field['date'] for field in issue['fields'] if 'date' in field and field['date'] != project_data['issues'][-1]['start_date']), 'N/A'),
+                    'body': issue['body']
+                }
+                project_data['issues'].append(issue_data)
+        else:
+            project_data['error'] = "No issues found for this project."
+    else:
+        project_data['error'] = "Project not found."
+
+    return project_data
+
+def get_project_issues_as_dict(token, target_name, selected_project_title):
+    projects_with_issues = list_org_projects_v2_with_issues(token, target_name)
+    selected_project = next((project for project in projects_with_issues if project['title'] == selected_project_title), None)
+    project_data = {}
+
+    if selected_project:
+        project_data['title'] = selected_project['title']
+        project_data['issues'] = []
+        if 'issues' in selected_project and selected_project['issues']:
+            for issue in selected_project['issues']:
+                date_fields = [field['date'] for field in issue['fields'] if 'date' in field]
+                issue_data = {
+                    'title': issue['title'],
+                    'url': issue['url'],
+                    'start_week': next((str(int(field['number'])) for field in issue['fields'] if 'number' in field), 'N/A'),
+                    'start_date': date_fields[0] if date_fields else 'N/A',
+                    'end_date': date_fields[1] if len(date_fields) > 1 else 'N/A',
+                    'body': issue['body']
+                }
+                project_data['issues'].append(issue_data)
+        else:
+            project_data['error'] = "No issues found for this project."
+    else:
+        project_data['error'] = "Project not found."
+
+    return project_data
+
 
 if __name__ == "__main__":
     # Validate Token and extract profile information
@@ -282,4 +335,7 @@ if __name__ == "__main__":
                 print("No issues found for this project.")
         else:
             print("Project not found.")
+            
+        project_issues_dict = get_project_issues_as_dict(token, target_name, selected_project_title)
+        print(project_issues_dict)
             
