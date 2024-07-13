@@ -5,9 +5,46 @@ from dotenv import load_dotenv
 
 load_dotenv()  # Load environment variables from .env file
 
-def get_token():
+def get_token_dotenv():
     """Retrieve the GitHub token from environment variables."""
     return os.getenv('GITHUB_TOKEN')
+
+# Correcting the get_token_aws function to properly parse the JSON response
+def get_token_aws():
+    api_endpoint = 'https://7vybv54v24.execute-api.us-east-2.amazonaws.com/GithubSecret'
+    headers = {'Content-Type': 'application/json'}
+
+    try:
+        response = requests.post(api_endpoint, headers=headers)
+        if response.status_code == 200:
+            # Assuming the API returns a JSON object with the token in a field named 'token'
+            return response.json().get('token')
+        else:
+            print("Request failed with status code:", response.status_code)
+            print("Response:", response.text)
+    except Exception as e:
+        print("Error:", str(e))
+        return None
+    
+def get_github_token():
+    """
+    Attempts to retrieve the GitHub token first from environment variables.
+    If not found, it falls back to retrieving the token from AWS.
+    """
+    # Attempt to get the token from .env
+    token = get_token_dotenv()
+    
+    # If the token is not found in .env, attempt to get it from AWS
+    if not token:
+        print("Token not found in .env, attempting to retrieve from AWS...")
+        token = get_token_aws()
+        
+        # Ensure the token received from AWS is valid
+        if not token:
+            print("Failed to retrieve token from AWS.")
+            return None
+    
+    return token
 
 def get_target_info():
     """Retrieve the target type and name from environment variables."""
@@ -282,19 +319,20 @@ def get_project_issues_as_dict(token, target_name, selected_project_title):
 if __name__ == "__main__":
     # Main function to test the GitHub API functions
     
-    ''' Extract the token and target info from environment variables, allowing for easy reuse
+    ''' Development Testing: 
+    # ENV files allow for easy reuse, changing of tokens and target names
     # Example .env file:
-    GITHUB_TOKEN=ghp_1234567890abcdefgh # GitHub Personal Access Token
-    GITHUB_TARGET_TYPE=organization  # Use 'organization' or 'user'
-    GITHUB_TARGET_NAME=nighthawkcoders
+    GITHUB_TOKEN=ghp_1234567890abcdefgh # GitHub Personal Access Token, obtain through GitHub Developer Settings
+    GITHUB_TARGET_TYPE=organization  # Use 'organization' or 'user', some items only work for organizations
+    GITHUB_TARGET_NAME=nighthawkcoders # This is a GitHub organization example
     '''
-    
+
     # Initialize primary data variables 
     profile = None # User or organization profile
     projects = None # List of projects
    
     # Retrieve and validate the token
-    token = get_token()
+    token = get_github_token()
     target_type, target_name = get_target_info()
     if token and test_token(token): # Token is valid
         # Test GitHub API with the token, returns the name of the GitHub organization or user 
