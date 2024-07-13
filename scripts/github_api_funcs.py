@@ -125,6 +125,7 @@ def list_org_projects_v2(token, org_login):
     return projects
 
 def list_org_projects_v2_with_issues(token, org_login):
+    '''Fetch all projectsV2 for a given organization, including issues for each project.'''
     projects_with_issues = []
     graphql_url = 'https://api.github.com/graphql'
     headers = {
@@ -224,6 +225,7 @@ def list_org_projects_v2_with_issues(token, org_login):
     return projects_with_issues
 
 def get_project_issues_as_dict(token, target_name, selected_project_title):
+    '''Retrieve the issues for a specific project as a dictionary.'''
     projects_with_issues = list_org_projects_v2_with_issues(token, target_name)
     selected_project = next((project for project in projects_with_issues if project['title'] == selected_project_title), None)
     project_data = {}
@@ -278,12 +280,24 @@ def get_project_issues_as_dict(token, target_name, selected_project_title):
 
 
 if __name__ == "__main__":
-    # Validate Token and extract profile information
-    profile = None
-    projects = None
+    # Main function to test the GitHub API functions
+    
+    ''' Extract the token and target info from environment variables, allowing for easy reuse
+    # Example .env file:
+    GITHUB_TOKEN=ghp_1234567890abcdefgh # GitHub Personal Access Token
+    GITHUB_TARGET_TYPE=organization  # Use 'organization' or 'user'
+    GITHUB_TARGET_NAME=nighthawkcoders
+    '''
+    
+    # Initialize primary data variables 
+    profile = None # User or organization profile
+    projects = None # List of projects
+   
+    # Retrieve and validate the token
     token = get_token()
     target_type, target_name = get_target_info()
-    if token and test_token(token):
+    if token and test_token(token): # Token is valid
+        # Test GitHub API with the token, returns the name of the GitHub organization or user 
         profile = fetch_profile(token, target_type, target_name)
         if profile:
             print(f"{target_type.capitalize()} Profile:", profile['name'])
@@ -292,15 +306,21 @@ if __name__ == "__main__":
     else:
         print("Exiting due to invalid token.")
         
+    # List all repositories for organization or user
+    repos = list_org_repos(token, target_name)
+    if repos:
+        print(f"Repositories for {target_name}:")
+        for repo in repos:
+            print(f"- {repo['name']}: {repo['html_url']}")
+    else:
+        print("Could not retrieve repositories.")
+        
+        
+    ''' Organization-specific functions 
+    List all repositories, projects, and issues for a given organizationi
+    '''
     if profile and target_type == 'organization':
-        repos = list_org_repos(token, target_name)
-        if repos:
-            print(f"Repositories for {target_name}:")
-            for repo in repos:
-                print(f"- {repo['name']}: {repo['html_url']}")
-        else:
-            print("Could not retrieve repositories.")
-            
+        # List all projects for the organization, V1 project only    
         projects = list_org_projects(token, target_name)
         if projects:
             print(f"Projects V1 for {target_name}:")
@@ -308,7 +328,8 @@ if __name__ == "__main__":
                 print(f"- {project['name']}: {project['html_url']}")
         else:
             print("Could not retrieve projects.")
-          
+        
+        # List all projects for the organization, V2 projects
         projectsV2 = list_org_projects_v2(token, target_name)
         if projectsV2:
             print(f"Projects V2 for {target_name}:")
@@ -316,26 +337,18 @@ if __name__ == "__main__":
                 print(f"- {project['title']}: {project['url']}")
         else:
             print("Could not retrieve projects.")
-            
-        projects_with_issues = list_org_projects_v2_with_issues(token, target_name)
+           
+        # Obtain a specific project and its issues   
         selected_project_title = "CSSE 1-2,  2025"
-        selected_project = next((project for project in projects_with_issues if project['title'] == selected_project_title), None)
-        
-        if selected_project:
-            print(f"Issues for project {selected_project['title']}:")
-            if 'issues' in selected_project and selected_project['issues']:
-                for issue in selected_project['issues']:
-                    print(f"- {issue['title']}, {issue['url']}")
-                    print(f"Start Week: {next((int(field['number']) for field in issue['fields'] if 'number' in field), 'N/A')}")
-                    date_fields = [field['date'] for field in issue['fields'] if 'date' in field]
-                    print(f"Start Date: {date_fields[0] if date_fields else 'N/A'}")
-                    print(f"End Date: {date_fields[1] if len(date_fields) > 1 else 'N/A'}")
-                    print(f"{issue['body']}")
-            else:
-                print("No issues found for this project.")
-        else:
-            print("Project not found.")
-            
-        project_issues_dict = get_project_issues_as_dict(token, target_name, selected_project_title)
-        print(project_issues_dict)
+        project_issues = get_project_issues_as_dict(token, target_name, selected_project_title)
+        print()
+        print(f"Issues for project {project_issues['title']}:")
+        for issue in project_issues['issues']:
+            print("---")
+            print(f"- {issue['title']}, {issue['url']}")
+            print(f"Start Week: {issue['start_week']}")
+            print(f"Start Date: {issue['start_date']}")
+            print(f"End Date: {issue['end_date']}")
+            print(f"{issue['body']}")
+            print("---")
             
