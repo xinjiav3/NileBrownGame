@@ -389,26 +389,26 @@ if __name__ == "__main__":
         # Test GitHub API with the token, returns the name of the GitHub organization or user 
         profile = fetch_profile(token, target_type, target_name)
         if profile:
-            print(f"{target_type.capitalize()} Profile:", profile['name'])
+            print(f"{target_type.capitalize()} Profile:", profile['name'], profile['html_url'], profile['email'])
         else:
             print("Could not retrieve profile.")
     else:
         print("Exiting due to invalid token.")
-        
-    # List all repositories for organization or user
-    repos = list_org_repos(token, target_name)
-    if repos:
-        print(f"Repositories for {target_name}:")
-        for repo in repos:
-            print(f"- {repo['name']}: {repo['html_url']}")
-    else:
-        print("Could not retrieve repositories.")
-        
+    
         
     ''' Organization-specific functions 
     List all repositories, projects, and issues for a given organizationi
     '''
     if profile and target_type == 'organization':
+        # List all repositories for organization 
+        repos = list_org_repos(token, target_name)
+        if repos:
+            print(f"Repositories for {target_name}:")
+            for repo in repos:
+                print(f"- {repo['name']}: {repo['html_url']}")
+        else:
+            print("Could not retrieve repositories.")
+        
         # List all projects for the organization, V1 project only    
         projects = list_org_projects(token, target_name)
         if projects:
