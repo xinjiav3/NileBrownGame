@@ -151,6 +151,23 @@ def list_org_projects_v2_with_issues(token, org_login):
                         title
                         url
                         body
+                        projectItems(first: 10){
+                        nodes{
+                            fieldValues(first:10){
+                            nodes{
+                                ... on ProjectV2ItemFieldTextValue{
+                                   text 
+                                }
+                                ... on ProjectV2ItemFieldNumberValue{
+                                   number 
+                                }
+                                ... on ProjectV2ItemFieldDateValue{
+                                   date 
+                                }
+                            }
+                            }
+                        }
+                    }
                     }
                     }
                 }
@@ -187,9 +204,9 @@ def list_org_projects_v2_with_issues(token, org_login):
                     'id': item['content']['id'],
                     'title': item['content']['title'],
                     'url': item['content']['url'],
-                    'body': item['content']['body']
+                    'body': item['content']['body'],
+                    'fields': item['content']['projectItems']['nodes'][0]['fieldValues']['nodes']
                 } for item in project['items']['nodes'] if item['type'] == 'ISSUE']
-                
                 if issues:  # Check if there are any issues
                     projects_with_issues.append({
                         'id': project['id'],
@@ -256,7 +273,11 @@ if __name__ == "__main__":
             if 'issues' in selected_project and selected_project['issues']:
                 for issue in selected_project['issues']:
                     print(f"- {issue['title']}, {issue['url']}")
-                    print(f"\t {issue['body']}")
+                    print(f"Start Week: {next((int(field['number']) for field in issue['fields'] if 'number' in field), 'N/A')}")
+                    date_fields = [field['date'] for field in issue['fields'] if 'date' in field]
+                    print(f"Start Date: {date_fields[0] if date_fields else 'N/A'}")
+                    print(f"End Date: {date_fields[1] if len(date_fields) > 1 else 'N/A'}")
+                    print(f"{issue['body']}")
             else:
                 print("No issues found for this project.")
         else:
