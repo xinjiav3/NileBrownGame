@@ -118,13 +118,38 @@ def list_org_projects(token, org_name):
     return projects
 
 def list_org_projects_v2(token, org_login):
-    """Fetch all projectsV2 for a given organization, handling pagination with GraphQL."""
-    projects = []
-    graphql_url = 'https://api.github.com/graphql'
-    headers = {
+    """
+    Fetch all projectsV2 for a given organization using the GitHub GraphQL API.
+    
+    Handles pagination to fetch more than the initial 100 projects limit.
+    
+    Parameters:
+    - token (str): GitHub API token for authorization.
+    - org_login (str): The login name of the organization.
+    
+    Returns:
+    - list: A list of dictionaries, each containing the id, title, and URL of a project.
+    """ 
+       
+    projects = [] # List to store projects
+    graphql_url = 'https://api.github.com/graphql' # GitHub GraphQL API endpoint
+    headers = { #  credentials and content type for the request
         'Authorization': f'Bearer {token}',
         'Content-Type': 'application/json',
     }
+    
+    ''' 
+    GraphQL query to fetch projectsV2 for an organization, 
+        - nightHawkCoders is an example organization
+        - example GitHub Projects: https://github.com/orgs/nighthawkcoders/projects
+        - the query fetches ID, title, and URL of each project
+        - review GraphQL "query" to see the organization and field names
+        
+    The query has pagination
+        - first fetch returns up to 100 projects 
+        - subsequent fetches use the 'endCursor' to fetch the next set 
+    '''
+    # GraphQL query to fetch projectsV2 for an organization, including pagination support.
     query = """
     query($orgLogin: String!, $cursor: String) {
       organization(login: $orgLogin) {
@@ -144,17 +169,21 @@ def list_org_projects_v2(token, org_login):
       }
     }
     """
+    # Variables for the query
+    #   - orgLogin: the organization login name
+    #   - cursor: pagination cursor, initially set to None which means the first fetch
     variables = {'orgLogin': org_login, 'cursor': None}
 
     while True:
+        # Send a POST request to the GraphQL API with the query and variables defined above
         response = requests.post(graphql_url, headers=headers, json={'query': query, 'variables': variables})
         if response.status_code == 200:
-            data = response.json()['data']['organization']['projectsV2']
-            projects.extend([edge['node'] for edge in data['edges']])
-            if data['pageInfo']['hasNextPage']:
+            data = response.json()['data']['organization']['projectsV2'] # location of project 
+            projects.extend([edge['node'] for edge in data['edges']]) # add projects to the list 
+            if data['pageInfo']['hasNextPage']: # check if there is another page
                 variables['cursor'] = data['pageInfo']['endCursor']
             else:
-                break
+                break # processed all pages
         else:
             print(f"Failed to fetch projectsV2, status code: {response.status_code}")
             break
@@ -162,13 +191,24 @@ def list_org_projects_v2(token, org_login):
     return projects
 
 def list_org_projects_v2_with_issues(token, org_login):
-    '''Fetch all projectsV2 for a given organization, including issues for each project.'''
+    """
+    Fetch all projectsV2 for a given organization, including issues for each project.
+    
+    Parameters:
+    - token (str): GitHub API token for authorization.
+    - org_login (str): The login name of the organization.
+    
+    Returns:
+    - list: A list of projects with their issues. Each project includes id, title, url, and issues.
+            Each issue includes id, title, url, body, and custom fields.
+    """
     projects_with_issues = []
     graphql_url = 'https://api.github.com/graphql'
     headers = {
         'Authorization': f'Bearer {token}',
         'Content-Type': 'application/json',
     }
+    # GraphQL query to fetch projectsV2 and their issues, including custom fields for each issue.
     query = """
     query($orgLogin: String!, $cursor: String) {
     organization(login: $orgLogin) {
@@ -226,18 +266,23 @@ def list_org_projects_v2_with_issues(token, org_login):
     while True:
         response = requests.post(graphql_url, headers=headers, json={'query': query, 'variables': variables})
         response_json = response.json()
+        
+        # Check for successful response
         if response.status_code == 200:
             if 'errors' in response_json:
                 print(f"Error in GraphQL query: {response_json['errors']}")
                 break
+            
             data = response_json.get('data', {}).get('organization', {}).get('projectsV2', None)
             if data is None:
                 print("No projectsV2 data found.")
                 break
+            
+            # Process each project and its issues
             for edge in data['edges']:
                 project = edge['node']
                 
-                # Adjusted filtering logic to account for nested structure
+                # There is some tricky nesting in the projects response
                 issues = [{
                     'id': item['content']['id'],
                     'title': item['content']['title'],
@@ -245,13 +290,15 @@ def list_org_projects_v2_with_issues(token, org_login):
                     'body': item['content']['body'],
                     'fields': item['content']['projectItems']['nodes'][0]['fieldValues']['nodes']
                 } for item in project['items']['nodes'] if item['type'] == 'ISSUE']
-                if issues:  # Check if there are any issues
+                if issues:  # Add project with issues to the result list
                     projects_with_issues.append({
                         'id': project['id'],
                         'title': project['title'],
                         'url': project['url'],
                         'issues': issues
                     })
+                    
+            # Pagination: Check if there's a next page
             if not data['pageInfo']['hasNextPage']:
                 break
             variables['cursor'] = data['pageInfo']['endCursor']
@@ -262,55 +309,59 @@ def list_org_projects_v2_with_issues(token, org_login):
     return projects_with_issues
 
 def get_project_issues_as_dict(token, target_name, selected_project_title):
-    '''Retrieve the issues for a specific project as a dictionary.'''
+    """
+    Retrieves issues for a specific project within an organization and formats them as a dictionary.
+    
+    This function first fetches all projects with their issues for a given organization. It then filters
+    out the specific project by title and formats the issues into a more simplified dictionary structure
+    for easier consumption.
+    
+    Parameters:
+    - token (str): GitHub API token for authorization.
+    - target_name (str): The login name of the organization.
+    - selected_project_title (str): The title of the project to retrieve issues for.
+    
+    Returns:
+    - dict: A dictionary containing the project title and a list of issues, each issue also being a dictionary
+            with keys for title, url, start_week, start_date, end_date, and body. If the project or issues are
+            not found, returns a dictionary with an error key.
+    """
+    # Fetch all projects with their issues for the given organization
     projects_with_issues = list_org_projects_v2_with_issues(token, target_name)
+    
+    # Filter for the selected project by title
     selected_project = next((project for project in projects_with_issues if project['title'] == selected_project_title), None)
     project_data = {}
 
     if selected_project:
+        # If the project is found, prepare the project data dictionary
         project_data['title'] = selected_project['title']
         project_data['issues'] = []
+        
+        # Check if the selected project has issues
         if 'issues' in selected_project and selected_project['issues']:
             for issue in selected_project['issues']:
-                issue_data = {
-                    'title': issue['title'],
-                    'url': issue['url'],
-                    'start_week': next((int(field['number']) for field in issue['fields'] if 'number' in field), 'N/A'),
-                    'start_date': next((field['date'] for field in issue['fields'] if 'date' in field), 'N/A'),
-                    'end_date': next((field['date'] for field in issue['fields'] if 'date' in field and field['date'] != project_data['issues'][-1]['start_date']), 'N/A'),
-                    'body': issue['body']
-                }
-                project_data['issues'].append(issue_data)
-        else:
-            project_data['error'] = "No issues found for this project."
-    else:
-        project_data['error'] = "Project not found."
-
-    return project_data
-
-def get_project_issues_as_dict(token, target_name, selected_project_title):
-    projects_with_issues = list_org_projects_v2_with_issues(token, target_name)
-    selected_project = next((project for project in projects_with_issues if project['title'] == selected_project_title), None)
-    project_data = {}
-
-    if selected_project:
-        project_data['title'] = selected_project['title']
-        project_data['issues'] = []
-        if 'issues' in selected_project and selected_project['issues']:
-            for issue in selected_project['issues']:
+                # Extract date fields from issue fields
                 date_fields = [field['date'] for field in issue['fields'] if 'date' in field]
+                
+                # Prepare issue data dictionary
                 issue_data = {
                     'title': issue['title'],
                     'url': issue['url'],
+                    # Extract the start week number, if available
                     'start_week': next((str(int(field['number'])) for field in issue['fields'] if 'number' in field), 'N/A'),
+                    # Use the first date field as the start date, if available
                     'start_date': date_fields[0] if date_fields else 'N/A',
+                    # Use the second date field as the end date, if available
                     'end_date': date_fields[1] if len(date_fields) > 1 else 'N/A',
                     'body': issue['body']
                 }
                 project_data['issues'].append(issue_data)
         else:
+            # If no issues are found for the project, set an error message
             project_data['error'] = "No issues found for this project."
     else:
+        # If the project is not found, set an error message
         project_data['error'] = "Project not found."
 
     return project_data
