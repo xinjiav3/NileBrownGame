@@ -1,4 +1,4 @@
-title: Home of Nighthawk Pages 3.0
+title: Home of Nighthawk Pages
 description: "August 2024 to June 2025"
 owner_name: John Mortensen
 github_username: nighthawkcoders
@@ -20,6 +20,6 @@ minima:
 plugins:
 - jekyll-remote-theme
 header_pages:
+  - navigation/game.md
   - navigation/blog.md
-  - navigation/game2.html
   - navigation/search.html

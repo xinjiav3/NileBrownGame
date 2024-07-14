@@ -1,7 +1,8 @@
 ---
-layout: base 
+layout: post 
 title: README.md
+menu: nav/home.html
+toc: true
+comments: true
 ---
-{% include nav/home.html %}
-
 {% include_relative README.md %}

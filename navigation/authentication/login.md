@@ -1,11 +1,11 @@
 ---
-layout: base
+layout: post 
 title: Login
 permalink: /login
 search_exclude: true
+menu: nav/home.html
+show_reading_time: false 
 ---
-
-{% include nav/home.html %}
 
 <style>
 .login-container {
@@ -28,6 +28,22 @@ search_exclude: true
 .login-card h1 {
     margin-bottom: 20px;
 }
+
+.signup-card {
+    margin-top: 0; /* remove the top margin */
+    width: 45%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+    overflow-x: auto; /* Enable horizontal scrolling */
+}
+
+.signup-card h1 {
+    margin-bottom: 20px;
+}
+
 </style>
 
 <div class="login-container">
@@ -53,6 +69,39 @@ search_exclude: true
             <p id="message" style="color: red;"></p>
         </form>
     </div>
+    <div class="signup-card">
+        <h1 id="signupTitle">Sign Up</h1>
+        <form id="signupForm" onsubmit="signup(); return false;">
+            <p>
+                <label>
+                    Name:
+                    <input type="text" name="name" id="name" required>
+                </label>
+            </p>
+            <p>
+                <label>
+                    GitHub ID:
+                    <input type="text" name="signupUid" id="signupUid" required>
+                </label>
+            </p>
+            <p>
+                <label>
+                    Password:
+                    <input type="password" name="signupPassword" id="signupPassword" required>
+                </label>
+            </p>
+            <p>
+                <label>
+                    <input type="checkbox" name="kasmNeeded" id="kasmNeeded">
+                    Kasm Server Needed
+                </label>
+            </p>
+            <p>
+                <button type="submit">Sign Up</button>
+            </p>
+            <p id="signupMessage" style="color: green;"></p>
+        </form>
+    </div>
 </div>
 
 <script type="module">
@@ -72,6 +121,43 @@ search_exclude: true
             }
         };
         login(options);
+    }
+
+    // Function to handle signup
+    window.signup = function() {
+        const signupOptions = {
+            URL: `${pythonURI}/api/user`,
+            method: "POST",
+            cache: "no-cache",
+            body: {
+                name: document.getElementById("name").value,
+                uid: document.getElementById("signupUid").value,
+                password: document.getElementById("signupPassword").value,
+                kasmNeeded: document.getElementById("kasmNeeded").checked,
+            }
+        };
+
+        fetch(signupOptions.URL, {
+            method: signupOptions.method,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(signupOptions.body)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Signup failed: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById("signupMessage").textContent = "Signup successful!";
+            // Optionally redirect to login page or handle as needed
+        })
+        .catch(error => {
+            console.error("Signup Error:", error);
+            document.getElementById("signupMessage").textContent = `Signup Error: ${error.message}`;
+        });
     }
 
     // Function to fetch and display Python data

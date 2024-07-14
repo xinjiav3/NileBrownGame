@@ -1,221 +1,228 @@
 ---
-layout: base
-title: Profile S
+layout: post 
 permalink: /profile
+menu: nav/home.html
 search_exclude: true
+show_reading_time: false
 ---
 
-{% include nav/home.html %}
-
 <style>
-    /* Global styles */
-    body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-        background-color: #f0f0f0;
-        margin: 0;
-        padding: 0;
-    }
 
-    .login-card {
-        width: 100%;
-        max-width: 600px;
-        background-color: #2c3e50; /* Dark blue background */
-        border: 1px solid #34495e; /* Darker border */
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        padding-left: 20px;
-        padding-right: 20px;
-        color: #ffffff; /* White text */
-    }
+   .profile-container {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+   }
 
-    .login-card h1 {
-        font-size: 24px;
-        text-align: center;
-    }
+ .profile-card {
+       width: 100%;
+       max-width: 600px;
+       background-color: #2c3e50; /* Dark blue background */
+       border: 1px solid #34495e; /* Darker border */
+       border-radius: 5px;
+       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+       padding: 20px;
+       color: #ffffff; /* White text */
+   }
 
-    .form-group {
-        margin-bottom: 20px;
-    }
 
-    .form-group label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
+   .profile-card label {
+       display: block;
+       font-weight: bold;
+       margin-bottom: 5px;
+   }
 
-    .form-group input[type="text"],
-    .form-group input[type="file"],
-    .form-group select {
-        width: calc(100% - 12px);
-        padding: 8px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 16px;
-    }
 
-    .form-group button {
-        background-color: #3498db; /* Blue button */
-        color: #ffffff;
-        border: none;
-        border-radius: 4px;
-        padding: 10px 20px;
-        cursor: pointer;
-        font-size: 16px;
-    }
+   .profile-card input[type="text"],
+   .profile-card input[type="file"],
+   .profile-card select {
+       width: calc(100% - 12px);
+       padding: 8px;
+       border: 1px solid #ddd;
+       border-radius: 4px;
+       font-size: 16px;
+   }
 
-    .form-group button:hover {
-        background-color: #2980b9; /* Darker blue on hover */
-    }
 
-    .profile-table {
-        width: 100%;
-        margin-top: 20px;
-        border-collapse: collapse;
-    }
+   .profile-card button {
+       background-color: #3498db; /* Blue button */
+       color: #ffffff;
+       border: none;
+       border-radius: 4px;
+       padding: 10px 20px;
+       cursor: pointer;
+       font-size: 16px;
+   }
 
-    .profile-table th,
-    .profile-table td {
-        border: 1px solid #ddd;
-        padding: 10px;
-        text-align: left;
-    }
 
-    .details-button {
-        display: block;
-        width: 100%;
-        padding: 10px;
-        margin-top: 20px;
-        background-color: #3498db; /* Blue button */
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        text-align: center;
-        text-decoration: none;
-    }
+   .profile-card button:hover {
+       background-color: #2980b9; /* Darker blue on hover */
+   }
 
-    .details-button:hover {
-        background-color: #2980b9; /* Darker blue on hover */
-    }
+
+   .profile-table {
+       width: 100%;
+       margin-top: 20px;
+       border-collapse: collapse;
+   }
+
+
+   .profile-table th,
+   .profile-table td {
+       border: 1px solid #ddd;
+       padding: 10px;
+       text-align: left;
+   }
+
+
+   .details-button {
+       display: block;
+       width: 100%;
+       padding: 10px;
+       margin-top: 20px;
+       background-color: #3498db; /* Blue button */
+       color: white;
+       border: none;
+       border-radius: 5px;
+       cursor: pointer;
+       text-align: center;
+       text-decoration: none;
+   }
+
+
+   .details-button:hover {
+       background-color: #2980b9; /* Darker blue on hover */
+   }
+
+
+   .profile-image-box {
+       text-align: center;
+       margin-top: 20px;
+   }
+
+
+   .profile-image-box img {
+       max-width: 100%;
+       height: auto;
+       border-radius: 50%;
+       border: 2px solid #34495e;
+   }
+   /* CSS styles remain unchanged */
 </style>
 
-<div class="login-container">
-    <!-- Profile Setup -->
-    <div class="login-card">
-        <h1>Profile Setup</h1>
-        <form id="profileForm">
-            <div class="form-group">
-                <label for="profilePicture">Upload Profile Picture:</label>
-                <input type="file" id="profilePicture" accept="image/*" onchange="uploadProfilePicture(this)">
-            </div>
-            <p id="profile-message" style="color: red;"></p>
-        </form>
-        <div class="form-group">
-            <label for="sectionDropdown">Choose Section:</label>
-            <select id="sectionDropdown">
-                <!-- Options will be dynamically populated -->
-            </select>
-        </div>
-        <div class="form-group">
-            <button type="button" onclick="addSection()">Add Section</button>
-        </div>
-        <table class="profile-table" id="profileTable">
-            <thead>
-                <tr>
-                    <th>Abbreviation</th>
-                    <th>Name</th>
-                </tr>
-            </thead>
-            <tbody id="profileResult">
-                <!-- Table rows will be dynamically populated -->
-            </tbody>
-        </table>
-        <a href="#" id="saveSectionsButton" class="details-button" onclick="saveSections()">Save Sections</a>
-    </div>
-
+<div class="profile-container">
+   <!-- Profile Setup -->
+   <div class="profile-card">
+       <h1>Profile Setup</h1>
+       <form>
+           <label for="profilePicture">Upload Profile Picture:</label>
+           <input type="file" id="profilePicture" accept="image/*" onchange="previewProfilePicture(this)">
+           <div class="profile-image-box" id="profileImageBox">
+               <!-- Profile picture will be displayed here -->
+           </div>
+           <button type="button" onclick="saveProfilePicture()">Save Profile Picture</button>
+           <p id="profile-message" style="color: red;"></p>
+           <div>
+               <label for="sectionDropdown">Choose Section:</label>
+               <select id="sectionDropdown">
+                   <!-- Options will be dynamically populated -->
+               </select>
+           </div>
+           <div>
+               <button type="button" onclick="addSection()">Add Section</button>
+           </div>
+           <table class="profile-table" id="profileTable">
+               <thead>
+                   <tr>
+                       <th>Abbreviation</th>
+                       <th>Name</th>
+                   </tr>
+               </thead>
+               <tbody id="profileResult">
+                   <!-- Table rows will be dynamically populated -->
+               </tbody>
+           </table>
+           <a href="#" id="saveSectionsButton" class="details-button" onclick="saveSections()">Save Sections</a>
+       </form>
+   </div>
 </div>
+
 
 <script type="module">
     // Import fetchOptions from config.js
     import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-    // Array to store user-added sections
-    let userSections = [];
+    // Global variable to hold predefined sections
+    let predefinedSections = [];
 
-    document.addEventListener('DOMContentLoaded', async function() {
-        // Fetch existing sections on page load
-        await fetchSections();
-
-        // Populate section dropdown menu
-        populateSectionDropdown();
-    });
-
-    // Function to fetch existing sections
-    async function fetchSections() {
-        const URL = `${pythonURI}/api/user/section`; // Adjusted endpoint
+    // Function to fetch  sections from kasm2_backend
+    async function fetchPredefinedSections() {
+        const URL = pythonURI + "/api/section"; 
 
         try {
             const response = await fetch(URL, fetchOptions);
             if (!response.ok) {
-                throw new Error(`Failed to fetch sections: ${response.status}`);
+                throw new Error(`Failed to fetch predefined sections: ${response.status}`);
             }
 
-            const data = await response.json();
-            userSections = data.sections || []; // Assuming data is in { "sections": [...] } format
-
-            // Display fetched sections
-            displayProfileSections();
+            return await response.json();
         } catch (error) {
-            console.error('Error fetching sections:', error.message);
-            // Handle error display or fallback mechanism
+            console.error('Error fetching predefined sections:', error.message);
+            return []; // Return empty array on error
         }
     }
 
     // Function to populate section dropdown menu
-    function populateSectionDropdown() {
+    function populateSectionDropdown(predefinedSections) {
         const sectionDropdown = document.getElementById('sectionDropdown');
-        const sections = [
-            { "abbreviation": "CSA", "id": 1, "name": "Computer Science A" },
-            { "abbreviation": "CSP", "id": 2, "name": "Computer Science Principles" },
-            { "abbreviation": "CSSE", "id": 4, "name": "Computer Science and Software Engineering" }
-            // Add more sections as needed
-        ];
+        sectionDropdown.innerHTML = ''; // Clear existing options
 
-        sections.forEach(section => {
+        predefinedSections.forEach(section => {
             const option = document.createElement('option');
-            option.value = section.id;
+            option.value = section.abbreviation;
             option.textContent = `${section.abbreviation} - ${section.name}`;
             sectionDropdown.appendChild(option);
         });
+
+        // Display sections in the table
+        displayProfileSections();
     }
 
+    // Global variable to hold user sections
+    let userSections = [];
+
     // Function to add a section
-    function addSection() {
+    window.addSection = function () {
         const dropdown = document.getElementById('sectionDropdown');
         const selectedOption = dropdown.options[dropdown.selectedIndex];
-        const abbreviation = selectedOption.textContent.split(' ')[0];
-        const name = document.getElementById('sectionName').value.trim();
+        const abbreviation = selectedOption.value;
+        const name = selectedOption.textContent.split(' ').slice(1).join(' ');
 
         if (!abbreviation || !name) {
-            document.getElementById('profile-message').textContent = 'Please fill in both fields.';
+            document.getElementById('profile-message').textContent = 'Please select a section from the dropdown.';
             return;
         }
 
         // Clear error message
         document.getElementById('profile-message').textContent = '';
 
-        // Add section to userSections array
-        userSections.push({ abbreviation, name });
+        // Add section to userSections array if not already added
+        const sectionExists = userSections.some(section => section.abbreviation === abbreviation && section.name === name);
+        if (!sectionExists) {
+            userSections.push({ abbreviation, name });
 
-        // Display added section in the table
-        displayProfileSections();
+            // Display added section in the table
+            displayProfileSections();
+
+            // Save sections immediately
+            saveSections();
+        }
     }
 
     // Function to display added sections in the table
     function displayProfileSections() {
         const tableBody = document.getElementById('profileResult');
-        tableBody.innerHTML = '';
+        tableBody.innerHTML = ''; // Clear existing rows
 
         userSections.forEach(section => {
             const tr = document.createElement('tr');
@@ -232,56 +239,15 @@ search_exclude: true
         });
     }
 
-    // Function to upload profile picture
-    async function uploadProfilePicture(fileInput) {
-        const file = fileInput.files[0];
-        if (!file) return;
-
-        try {
-            const base64String = await convertToBase64(file);
-            await sendProfilePicture(base64String);
-            console.log('Profile picture uploaded successfully!');
-            // Handle success message or UI update
-        } catch (error) {
-            console.error('Error uploading profile picture:', error.message);
-            // Handle error display or fallback mechanism
-        }
-    }
-
-    // Function to convert file to base64 string
-    function convertToBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result.split(',')[1]);
-            reader.onerror = error => reject(error);
-        });
-    }
-
-    // Function to send profile picture to server
-    async function sendProfilePicture(base64String) {
-        const URL = `${pythonURI}/api/id/pfp`; // Adjust endpoint as needed
-        const options = {
-            ...fetchOptions,
-            method: 'POST',
-            body: JSON.stringify({ base64String }),
-        };
-
-        const response = await fetch(URL, options);
-        if (!response.ok) {
-            throw new Error(`Failed to upload profile picture: ${response.status}`);
-        }
-        // Handle success response as needed
-    }
-
-    // Function to save sections (example action)
-    function saveSections() {
-        const URL = `${pythonURI}/api/user/section`; // Adjusted endpoint
+    // Function to save sections in the specified format
+    window.saveSections = async function () {
+        const sectionAbbreviations = userSections.map(section => section.abbreviation);
 
         const sectionsData = {
-            sections: userSections
+            sections: sectionAbbreviations
         };
 
+        const URL = pythonURI + "/api/user/section"; // Adjusted endpoint
         const options = {
             ...fetchOptions,
             method: 'POST',
@@ -292,18 +258,213 @@ search_exclude: true
             body: JSON.stringify(sectionsData)
         };
 
-        fetch(URL, options)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Failed to save sections: ${response.status}`);
-                }
-                // Handle success response as needed
-                console.log('Sections saved successfully!');
-            })
-            .catch(error => {
-                console.error('Error saving sections:', error.message);
-                // Handle error display or fallback mechanism
-            });
+        try {
+            const response = await fetch(URL, options);
+            if (!response.ok) {
+                throw new Error(`Failed to save sections: ${response.status}`);
+            }
+            console.log('Sections saved successfully!');
+
+            // Fetch updated data and update table immediately after saving
+            await fetchDataAndPopulateTable();
+        } catch (error) {
+            console.error('Error saving sections:', error.message);
+            // Handle error display or fallback mechanism
+        }
     }
+
+    // Function to fetch data from backend and populate table
+    async function fetchDataAndPopulateTable() {
+        const URL = pythonURI + "/api/user/section"; // Endpoint to fetch sections data
+
+        try {
+            const response = await fetch(URL, fetchOptions);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch sections: ${response.status}`);
+            }
+
+            const sectionsData = await response.json();
+            updateTableWithData(sectionsData); // Call function to update table with fetched data
+        } catch (error) {
+            console.error('Error fetching sections:', error.message);
+            // Handle error display or fallback mechanism
+        }
+    }
+
+    // Function to update table with fetched data
+    function updateTableWithData(data) {
+        const tableBody = document.getElementById('profileResult');
+        tableBody.innerHTML = ''; // Clear existing rows
+
+        data.sections.forEach(section => {
+            const tr = document.createElement('tr');
+            const abbreviationCell = document.createElement('td');
+            const nameCell = document.createElement('td');
+
+            abbreviationCell.textContent = section.abbreviation;
+            nameCell.textContent = section.name;
+
+            tr.appendChild(abbreviationCell);
+            tr.appendChild(nameCell);
+
+            tableBody.appendChild(tr);
+        });
+    }
+
+    // Function to fetch user profile data
+    async function fetchUserProfile() {
+        const URL = pythonURI + "/api/id/pfp"; // Endpoint to fetch user profile data
+
+        try {
+            const response = await fetch(URL, fetchOptions);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch user profile: ${response.status}`);
+            }
+
+            const profileData = await response.json();
+            displayUserProfile(profileData);
+        } catch (error) {
+            console.error('Error fetching user profile:', error.message);
+            // Handle error display or fallback mechanism
+        }
+    }
+
+    // Function to display user profile data
+    function displayUserProfile(profileData) {
+        const profileImageBox = document.getElementById('profileImageBox');
+        if (profileData.pfp) {
+            const img = document.createElement('img');
+            img.src = `data:image/jpeg;base64,${profileData.pfp}`;
+            img.alt = 'Profile Picture';
+            profileImageBox.innerHTML = ''; // Clear existing content
+            profileImageBox.appendChild(img); // Append new image element
+        } else {
+            profileImageBox.innerHTML = '<p>No profile picture available.</p>';
+        }
+
+        // Display other profile information as needed
+        // Example: Update HTML elements with profileData.username, profileData.email
+    }
+
+    // Function to save profile picture
+    window.saveProfilePicture = async function () {
+        const fileInput = document.getElementById('profilePicture');
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        try {
+            const base64String = await convertToBase64(file);
+            await sendProfilePicture(base64String);
+            console.log('Profile picture uploaded successfully!');
+            // Update UI immediately after successful upload
+            const profileImage = document.getElementById('profileImage');
+            profileImage.src = base64String; // Set the src attribute directly
+
+            // Fetch image data from backend
+            const imageData = await fetchProfilePictureData(); // Implement this function
+
+            // Process imageData as needed
+            console.log('Image data from backend:', imageData);
+        } catch (error) {
+            console.error('Error uploading profile picture:', error.message);
+            // Handle error display or fallback mechanism
+        }
+    }
+
+    // Function to fetch profile picture data
+    async function fetchProfilePictureData() {
+        const URL = pythonURI + "/api/id/pfp";
+        try {
+            const response = await fetch(URL, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Include any necessary authorization headers if required
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch profile picture data');
+            }
+            const imageData = await response.json();
+            return imageData; // Assuming the backend returns JSON data
+        } catch (error) {
+            console.error('Error fetching profile picture data:', error.message);
+            throw error;
+        }
+    }
+
+    // Function to convert file to base64
+    async function convertToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result.split(',')[1]); // Remove the prefix part of the result
+            reader.onerror = error => reject(error);
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // Function to send profile picture to server
+    async function sendProfilePicture(base64String) {
+        const URL = pythonURI + "/api/id/pfp"; // Adjust endpoint as needed
+        
+        const options = {
+            ...fetchOptions,
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                // Add any other headers if necessary
+            },
+            body: JSON.stringify({ pfp: base64String })
+        };
+
+        try {
+            const response = await fetch(URL, options);
+            if (!response.ok) {
+                throw new Error(`Failed to upload profile picture: ${response.status}`);
+            }
+            console.log('Profile picture uploaded successfully!');
+            // Handle success response as needed
+        } catch (error) {
+            console.error('Error uploading profile picture:', error.message);
+            // Handle error display or fallback mechanism
+        }
+    }
+
+    // Function to preview profile picture
+    window.previewProfilePicture = function(input) {
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const profileImageBox = document.getElementById('profileImageBox');
+                profileImageBox.innerHTML = `<img src="${reader.result}" alt="Profile Picture">`;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Call fetchPredefinedSections and initializeProfileSetup when DOM content is loaded
+    document.addEventListener('DOMContentLoaded', async function () {
+        try {
+            predefinedSections = await fetchPredefinedSections();
+            console.log('Predefined Sections:', predefinedSections);
+            populateSectionDropdown(predefinedSections); // Populate dropdown with fetched sections
+            await fetchUserProfile(); // Fetch user profile data
+            await fetchDataAndPopulateTable(); // Fetch and populate table with user sections
+        } catch (error) {
+            console.error('Initialization error:', error.message);
+            // Handle initialization error gracefully
+        }
+    });
+
 </script>
+
+
+
+
+
+
+
+
+
 
