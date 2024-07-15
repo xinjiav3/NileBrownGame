@@ -15,7 +15,7 @@ type: ccc
 
 <head>
 <title>AI Chat Bot</title>
-<link rel="stylesheet" href="/portfolio_2025/assets/css/chatbot.css"> 
+<!-- <link rel="stylesheet" href="/portfolio_2025/assets/css/chatbot.css"> -->
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
  <meta charset="utf-8">
 </head>
@@ -29,10 +29,6 @@ type: ccc
           <h1 id="initName"></h1>
           <input type="hidden" id="initId">
           <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        </div>
-        <div class="account-card">
-          <div id="profilePicture">
-          </div>
         </div>
       </div>
       <br>
@@ -85,7 +81,6 @@ type: ccc
 </body>
 
 
-</script>
 <script type="text/javascript" src="/portfolio_2025/assets/js/chatbot.js">
 </script>
 </html>
