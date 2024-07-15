@@ -157,7 +157,7 @@ show_reading_time: false
 
     // Function to fetch  sections from kasm2_backend
     async function fetchPredefinedSections() {
-        const URL = `${pythonURI}/api/section`; 
+        const URL = pythonURI + "/api/section"; 
 
         try {
             const response = await fetch(URL, fetchOptions);
@@ -247,8 +247,7 @@ show_reading_time: false
             sections: sectionAbbreviations
         };
 
-        const URL = `${pythonURI}/api/user/section`; // Adjusted endpoint
-
+        const URL = pythonURI + "/api/user/section"; // Adjusted endpoint
         const options = {
             ...fetchOptions,
             method: 'POST',
@@ -276,7 +275,7 @@ show_reading_time: false
 
     // Function to fetch data from backend and populate table
     async function fetchDataAndPopulateTable() {
-        const URL = `${pythonURI}/api/user/section`; // Endpoint to fetch sections data
+        const URL = pythonURI + "/api/user/section"; // Endpoint to fetch sections data
 
         try {
             const response = await fetch(URL, fetchOptions);
@@ -314,7 +313,7 @@ show_reading_time: false
 
     // Function to fetch user profile data
     async function fetchUserProfile() {
-        const URL = `${pythonURI}/api/id/pfp`; // Endpoint to fetch user profile data
+        const URL = pythonURI + "/api/id/pfp"; // Endpoint to fetch user profile data
 
         try {
             const response = await fetch(URL, fetchOptions);
@@ -374,8 +373,9 @@ show_reading_time: false
 
     // Function to fetch profile picture data
     async function fetchProfilePictureData() {
+        const URL = pythonURI + "/api/id/pfp";
         try {
-            const response = await fetch('/api/id/pfp', {
+            const response = await fetch(URL, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -405,7 +405,8 @@ show_reading_time: false
 
     // Function to send profile picture to server
     async function sendProfilePicture(base64String) {
-        const URL = `${pythonURI}/api/id/pfp`; // Adjust endpoint as needed
+        const URL = pythonURI + "/api/id/pfp"; // Adjust endpoint as needed
+        
         const options = {
             ...fetchOptions,
             method: 'PUT',
