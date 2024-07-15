@@ -139,6 +139,11 @@ show_reading_time: false
   <div class="profile-card">
       <h1>Profile Setup</h1>
       <form>
+          <div>
+              <label for="newUid">Enter New UID:</label>
+              <input type="text" id="newUid" placeholder="New UID">
+              <button type="button" onclick="changeUid()">Change UID</button>
+          </div>
           <label for="profilePicture">Upload Profile Picture:</label>
           <input type="file" id="profilePicture" accept="image/*" onchange="previewProfilePicture(this)">
           <div class="profile-image-box" id="profileImageBox">
@@ -166,10 +171,10 @@ show_reading_time: false
                   <!-- Table rows will be dynamically populated -->
               </tbody>
           </table>
-          <a href="#" id="saveSectionsButton" class="details-button" onclick="saveSections()">Save Sections</a>
       </form>
   </div>
 </div>
+
 
 
 
@@ -227,7 +232,7 @@ show_reading_time: false
 
 
    // Function to add a section
-   window.addSection = function () {
+   window.addSection = async function () {
        const dropdown = document.getElementById('sectionDropdown');
        const selectedOption = dropdown.options[dropdown.selectedIndex];
        const abbreviation = selectedOption.value;
@@ -255,7 +260,7 @@ show_reading_time: false
 
 
            // Save sections immediately
-           saveSections();
+           await saveSections();
        }
    }
 
@@ -286,7 +291,7 @@ show_reading_time: false
 
 
    // Function to save sections in the specified format
-   window.saveSections = async function () {
+   async function saveSections() {
        const sectionAbbreviations = userSections.map(section => section.abbreviation);
 
 
@@ -515,6 +520,47 @@ show_reading_time: false
        }
    }
 
+     window.changeUid = async function() {
+     const newUid = document.getElementById('newUid').value.trim();
+     const URL = `${pythonURI}/api/user`; // Adjusted endpoint
+
+
+     if (!newUid) {
+         alert('Please enter a new UID.');
+         return;
+     }
+
+
+     const data = { uid: newUid };
+
+
+     const options = {
+         ...fetchOptions,
+         method: 'PUT',
+         headers: {
+             ...fetchOptions.headers,
+             'Content-Type': 'application/json',
+         },
+         body: JSON.stringify(data)
+     };
+
+
+     try {
+         const response = await fetch(URL, options);
+         if (!response.ok) {
+             throw new Error(`Failed to change UID: ${response.status}`);
+         }
+         console.log('UID changed successfully!');
+
+
+         // Optionally, refresh data or UI after UID change
+     } catch (error) {
+         console.error('Error changing UID:', error.message);
+         // Handle error display or fallback mechanism
+     }
+    sendProfilePicture(base64String); 
+ };
+
 
    // Call fetchPredefinedSections and initializeProfileSetup when DOM content is loaded
    document.addEventListener('DOMContentLoaded', async function () {
@@ -532,26 +578,3 @@ show_reading_time: false
 
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
