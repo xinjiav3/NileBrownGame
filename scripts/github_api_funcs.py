@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 import requests
 import os
@@ -93,6 +94,79 @@ def fetch_profile(token, target_type, target_name):
         print(f"Failed to fetch data: {error_message}, status: {response.status_code}")
         return None
     
+def fetch_user_commits(token, username):
+    """
+    Fetches a user's information from GitHub, including repositories and commit counts.
+    
+    Parameters:
+    - token (str): Personal Access Token for GitHub API.
+    - username (str): The GitHub username.
+    
+    Returns:
+    - dict: User information including repositories and their commit counts.
+    """
+    
+    # GraphQL query
+    # Define the GraphQL query as a multi-line string. The query will:
+    # Fetch user information based on the username.
+    # Get a list of repositories for the user.
+    # For each repository, fetch the number of commits made by the user.
+    query = """
+    query userInfo($username: String!) {
+    user(login: $username) {
+        name
+        repositories(first: 100, orderBy: {field: CREATED_AT, direction: DESC}) {
+        nodes {
+            name
+            url
+            defaultBranchRef {
+            name
+            target {
+                ... on Commit {
+                history {
+                    totalCount
+                }
+                }
+            }
+            }
+        }
+        }
+    }
+    }
+    """
+    
+    # Headers for authorization
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json",
+    }
+    
+    # Request payload
+    payload = {
+        "query": query,
+        "variables": {"username": username},
+    }
+    
+    # Make the request
+    response = requests.post('https://api.github.com/graphql', json=payload, headers=headers)
+    
+    # Check for errors
+    if response.status_code == 200:
+        return response.json()  # Return the parsed JSON response
+    else:
+        raise Exception(f"Query failed to run by returning code of {response.status_code}. {response.text}")
+
+def fetch_user_organization_commits(token, username, organization):
+    headers = {"Authorization": f"Bearer {token}"}
+    query = f"org:{organization} author:{username}"
+    url = f"https://api.github.com/search/commits?q={query}"
+    
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return None
+        
 def list_org_projects(token, org_name):
     """Fetch all projects for a given organization, handling pagination."""
     projects = []
@@ -441,3 +515,52 @@ if __name__ == "__main__":
             print(f"{issue['body']}")
             print("---")
             
+    
+    if profile and target_type == 'user':
+        # Look a specific user commits
+        usernames = ["rachit-j","tanishapatil1234","TDWolff","iKAN2025","tuckergol"]
+        organization = "nighthawkcoders"
+        
+        for username in usernames:
+            print()
+            # Look at user's repositories and commit
+            """
+            user_info = fetch_user_commits(token, username)
+            print("Repo Info:", user_info['data']['user']['name'])
+            for repo in user_info['data']['user']['repositories']['nodes']:
+                print(repo['defaultBranchRef']['target']['history']['totalCount'], repo['name'], repo['url'], repo['defaultBranchRef']['name'])
+            
+            print() 
+            """
+            
+            # Look at user's commits for a specific organization
+            print("Commits for user/organization", username, organization) 
+            commits = fetch_user_organization_commits(token, username, organization)
+            # Assuming 'commits' is the result from the fetch_user_organization_commits function
+            if commits:
+                print('Total commits: ', commits['total_count'])
+                for commit in commits['items']:
+                    commit_url = commit['url']
+                    # Make an additional request to fetch detailed commit data
+                    response = requests.get(commit_url, headers={"Authorization": f"Bearer {token}"})
+                    if response.status_code == 200:
+                        commit_data = response.json()
+                        additions = commit_data['stats']['additions']
+                        deletions = commit_data['stats']['deletions']
+                        
+                        # Parse and format the commit date as before
+                        commit_date_str = commit['commit']['committer']['date']
+                        if commit_date_str[-3] == ':':
+                            commit_date_str = commit_date_str[:-3] + commit_date_str[-2:]
+                        commit_date = datetime.fromisoformat(commit_date_str)
+                        formatted_date = commit_date.strftime("%B %d, %Y, %H:%M")
+                        
+                        # Extract repository name and commit hash from the html_url for a concise display
+                        url_parts = commit['html_url'].split('/')
+                        repo_name = url_parts[4]  # Assuming standard GitHub URL format
+                        commit_hash = url_parts[-1]
+                        abbreviated_url = f"{repo_name}@{commit_hash[:7]}"  # Shorten the commit hash for brevity
+
+                        # Print the formatted date, commit message, plus/minus lines, and abbreviated URL
+                        print(f"{formatted_date}: {commit['commit']['message']} (+{additions}/-{deletions}) {abbreviated_url}")
+                print()
