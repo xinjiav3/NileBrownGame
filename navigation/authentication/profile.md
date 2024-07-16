@@ -144,6 +144,15 @@ show_reading_time: false
               <input type="text" id="newUid" placeholder="New UID">
               <button type="button" onclick="changeUid()">Change UID</button>
           </div>
+           <div>
+              <label for="newUid">Enter New Name:</label>
+              <input type="text" id="newName" placeholder="New Name">
+              <button type="button" onclick="changeName()">Change Name</button>
+          </div>
+          <div>
+            <label for="kasmServerNeeded">Kasm Server Needed:</label>
+            <input type="checkbox" id="kasmServerNeeded" onclick="toggleKasmServerNeeded()">
+     </div> 
           <label for="profilePicture">Upload Profile Picture:</label>
           <input type="file" id="profilePicture" accept="image/*" onchange="previewProfilePicture(this)">
           <div class="profile-image-box" id="profileImageBox">
@@ -520,7 +529,47 @@ show_reading_time: false
        }
    }
 
-     window.changeUid = async function() {
+     window.changeName = async function() {
+     const newName = document.getElementById('newName').value.trim();
+     const URL = `${pythonURI}/api/user`; // Adjusted endpoint
+
+
+     if (!newName) {
+         alert('Please enter a new name.');
+         return;
+     }
+
+
+     const data = { name : newName };
+
+
+     const options = {
+         ...fetchOptions,
+         method: 'PUT',
+         headers: {
+             ...fetchOptions.headers,
+             'Content-Type': 'application/json',
+         },
+         body: JSON.stringify(data)
+     };
+
+
+     try {
+         const response = await fetch(URL, options);
+         if (!response.ok) {
+             throw new Error(`Failed to change UID: ${response.status}`);
+         }
+         console.log('Name changed successfully!');
+
+
+         // Optionally, refresh data or UI after UID change
+     } catch (error) {
+         console.error('Error changing UID:', error.message);
+         // Handle error display or fallback mechanism
+     }
+ };
+
+   window.changeUid = async function() {
      const newUid = document.getElementById('newUid').value.trim();
      const URL = `${pythonURI}/api/user`; // Adjusted endpoint
 
@@ -558,8 +607,62 @@ show_reading_time: false
          console.error('Error changing UID:', error.message);
          // Handle error display or fallback mechanism
      }
-    sendProfilePicture(base64String); 
  };
+
+ window.fetchKasmServerNeeded = async function() {
+    const URL = `${pythonURI}/api/id`; // Adjusted endpoint
+
+    try {
+        const response = await fetch(URL, fetchOptions);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch kasm_server_needed: ${response.status}`);
+        }
+
+        const userData = await response.json();
+        const kasmServerNeeded = userData.kasm_server_needed || false; // Default to false if attribute doesn't exist
+
+        // Update checkbox state based on fetched value
+        const checkbox = document.getElementById('kasmServerNeeded');
+        checkbox.checked = kasmServerNeeded;
+    } catch (error) {
+        console.error('Error fetching kasm_server_needed:', error.message);
+        // Handle error display or fallback mechanism
+    }
+};
+
+// Function to toggle kasm_server_needed attribute on checkbox change
+window.toggleKasmServerNeeded = async function() {
+    const checkbox = document.getElementById('kasmServerNeeded');
+    const newKasmServerNeeded = checkbox.checked;
+
+    const URL = `${pythonURI}/api/user`; // Adjusted endpoint
+
+    const data = {
+        kasm_server_needed: newKasmServerNeeded
+    };
+
+    const options = {
+        ...fetchOptions,
+        method: 'PUT',
+        headers: {
+            ...fetchOptions.headers,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    };
+
+    try {
+        const response = await fetch(URL, options);
+        if (!response.ok) {
+            throw new Error(`Failed to update kasm_server_needed: ${response.status}`);
+        }
+        console.log('Kasm Server Needed updated successfully!');
+    } catch (error) {
+        console.error('Error updating kasm_server_needed:', error.message);
+        // Handle error display or fallback mechanism
+    }
+};
+
 
 
    // Call fetchPredefinedSections and initializeProfileSetup when DOM content is loaded
@@ -570,6 +673,7 @@ show_reading_time: false
            populateSectionDropdown(predefinedSections); // Populate dropdown with fetched sections
            await fetchUserProfile(); // Fetch user profile data
            await fetchDataAndPopulateTable(); // Fetch and populate table with user sections
+           await fetchKasmServerNeeded();
        } catch (error) {
            console.error('Initialization error:', error.message);
            // Handle initialization error gracefully
