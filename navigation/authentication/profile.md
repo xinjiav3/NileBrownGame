@@ -663,7 +663,48 @@ window.toggleKasmServerNeeded = async function() {
     }
 };
 
+window.fetchUid = async function() {
+    const URL = `${pythonURI}/api/id`; // Adjusted endpoint for fetching user data
 
+    try {
+        const response = await fetch(URL, fetchOptions);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch UID: ${response.status}`);
+        }
+
+        const userData = await response.json();
+        const oldUid = userData.uid || ''; // Default to empty string if attribute doesn't exist
+
+        // Prefill UID input field
+        const uidInput = document.getElementById('newUid');
+        uidInput.value = oldUid;
+    } catch (error) {
+        console.error('Error fetching UID:', error.message);
+        // Handle error display or fallback mechanism
+    }
+};
+
+// Function to fetch existing Name from backend
+window.fetchName = async function() {
+    const URL = `${pythonURI}/api/id`; // Adjusted endpoint for fetching user data
+
+    try {
+        const response = await fetch(URL, fetchOptions);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch Name: ${response.status}`);
+        }
+
+        const userData = await response.json();
+        const oldName = userData.name || ''; // Default to empty string if attribute doesn't exist
+
+        // Prefill Name input field
+        const nameInput = document.getElementById('newName');
+        nameInput.value = oldName;
+    } catch (error) {
+        console.error('Error fetching Name:', error.message);
+        // Handle error display or fallback mechanism
+    }
+};
 
    // Call fetchPredefinedSections and initializeProfileSetup when DOM content is loaded
    document.addEventListener('DOMContentLoaded', async function () {
