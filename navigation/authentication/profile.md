@@ -619,7 +619,7 @@ show_reading_time: false
         }
 
         const userData = await response.json();
-        const kasmServerNeeded = userData.kasm_server_needed || false; // Default to false if attribute doesn't exist
+        const kasmServerNeeded = userData.kasm_server_needed 
 
         // Update checkbox state based on fetched value
         const checkbox = document.getElementById('kasmServerNeeded');
