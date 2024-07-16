@@ -8,37 +8,38 @@
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    background-color: $bg-color;
+    background-color: $bg-color !important; //!important means bg colors take highest importance, preventing errors from overlapping colors. Can't seem to find where this overlapping is occuring...
   
     &:hover {
-      background-color: $hover-color;
+      background-color: $hover-color !important;
     }
   }
 
 // Variables
 $toggle-btn-bg: #28a745;
-$toggle-btn-hover-bg: #218838;
+$toggle-btn-hover-bg: #0f4b1c;
 $msger-send-btn-bg: #007bff;
 $msger-send-btn-hover-bg: #0056b3;
 $left-msg-bg: #ececec;
 $right-msg-bg: #579ffb;
 
 
-#toggle-response-btn {
+.toggle-response-btn {
     @include button($toggle-btn-bg, $toggle-btn-hover-bg);
   }
   
-  #profile-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start; /* Align items to the top */
-      margin: 50px auto;
-      padding: 20px;
-      max-width: 800px; /* Adjust as needed */ 
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
+  //obselete for now...
+  // #profile-container {
+  //     display: flex;
+  //     justify-content: space-between;
+  //     align-items: flex-start; /* Align items to the top */
+  //     margin: 50px auto;
+  //     padding: 20px;
+  //     max-width: 800px; /* Adjust as needed */ 
+  //     border: 1px solid #ccc;
+  //     border-radius: 8px;
+  //     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  // }
   
 
   .page-content {
@@ -49,11 +50,6 @@ $right-msg-bg: #579ffb;
     @include button($msger-send-btn-bg, $msger-send-btn-hover-bg);
   }
   
-  #profilePicChangeButton:hover {
-      background-color: #0056b3;
-  }
-  
-
   .close {
       color: #aaa;
       float: right;
@@ -198,7 +194,7 @@ $right-msg-bg: #579ffb;
     transition: background 0.23s;
   }
   .msger-send-btn:hover {
-    background: rgb(0, 180, 50);
+    background: rgb(6, 99, 32);
   }
   
   .msger-chat {

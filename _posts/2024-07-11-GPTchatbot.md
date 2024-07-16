@@ -12,7 +12,6 @@ type: ccc
 <html lang="en">
 
 
-
 <head>
 <title>AI Chat Bot</title>
 <!-- <link rel="stylesheet" href="/portfolio_2025/assets/css/chatbot.css"> -->
@@ -23,7 +22,6 @@ type: ccc
 <section class="msger">
   <header class="msger-header">
     <div class="container-profile">
-
       <div class="summary-row">
         <div class="sumText">
           <h1 id="initName"></h1>
@@ -33,8 +31,6 @@ type: ccc
       </div>
       <br>
     </div>
-
-
     <!-- header, contains chat history retrieve button and delete chat button-->
     <div class="msger-header-title">
       <i class="fa fa-comment" title="AI Chat Bot"></i> AI Chat Bot
@@ -46,9 +42,7 @@ type: ccc
       <span id="retieve_chat_history" style="cursor: pointer;"><i class="fa fa-history" title="Retrieve Chat History..."></i></span>
       <span style="width: 10px;display: inline-block;">&nbsp;</span>
       <span id="delete_chat" style="cursor: pointer;"><i class="fa fa-trash" title="Delete Chat History..."></i></span>
-    </div>
-
-    
+    </div>  
   </header>
 
   <main class="msger-chat">
@@ -58,12 +52,10 @@ type: ccc
        style="background-image: url(/portfolio_2025/assets/icons/icons8-chat-bot-64.png); width: 64px;
   height: 64px;" title="AI Bot"
       ></div>
-
       <div class="msg-bubble">
         <div class="msg-info">
           <div class="msg-info-name">Chat Bot</div>
         </div>
-
         <div class="msg-text">
           Hi, welcome to AI Chat Bot! Go ahead and send me a message. 😄
         </div>
@@ -71,14 +63,17 @@ type: ccc
     </div>
   </main>
 
+
+
   <!-- area for submitting the chat response-->
   <form class="msger-inputarea">
     <input type="text" class="msger-input" placeholder="Enter your message...">
     <button type="submit" id = "msger-send-btn" class="msger-send-btn">Send</button>
   </form>
-  <button id="toggle-response-btn">Toggle Response type (instant or streamed)</button>
+  <button id="toggle-response-btn" class = "toggle-response-btn">Toggle Response type (instant or streamed)</button>
 </section>
 </body>
+
 
 
 <script type="text/javascript" src="/portfolio_2025/assets/js/chatbot.js">
