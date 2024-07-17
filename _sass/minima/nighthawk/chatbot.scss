@@ -1,34 +1,36 @@
+// Defined colors for each item
+$toggle-btn-bg: green;
+$toggle-btn-hover-bg: darkgreen;
+$msger-send-btn-bg: blue;
+$msger-send-btn-hover-bg: darkblue;
+$left-msg-bg: white;
+$right-msg-bg: lightblue;
+
 //mixin
-@mixin button($bg-color, $hover-color) {
+@mixin button($bg-color, $hover-color) { // $bg-color and $hover-color are variables that are passed in as parameters to the mixin
     margin-top: 10px;
     padding: 10px;
-    color: #fff;
+    color: white;
     border: none;
     border-radius: 6px;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    background-color: $bg-color !important; //!important means bg colors take highest importance, preventing errors from overlapping colors. Can't seem to find where this overlapping is occuring...
+    background-color: $bg-color !important; //!important means this color is taking highest importance and overriding any potential color changes outside here
   
     &:hover {
       background-color: $hover-color !important;
     }
   }
 
-// Variables
-$toggle-btn-bg: #28a745;
-$toggle-btn-hover-bg: #0f4b1c;
-$msger-send-btn-bg: #007bff;
-$msger-send-btn-hover-bg: #0056b3;
-$left-msg-bg: #ececec;
-$right-msg-bg: #579ffb;
+
 
 
 .toggle-response-btn {
     @include button($toggle-btn-bg, $toggle-btn-hover-bg);
   }
   
-  //obselete for now...
+  //obselete profile styling
   // #profile-container {
   //     display: flex;
   //     justify-content: space-between;
@@ -51,7 +53,7 @@ $right-msg-bg: #579ffb;
   }
   
   .close {
-      color: #aaa;
+      color: white;
       float: right;
       font-size: 28px;
       font-weight: bold;
@@ -71,8 +73,8 @@ $right-msg-bg: #579ffb;
   
   
   :root {
-    --body-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    --msger-bg: #fff;
+    --body-bg: linear-gradient(135deg, white 0%, gray 100%);
+    --msger-bg: white;
     --border: 2px solid #ddd;
     --left-msg-bg: #ececec;
     --right-msg-bg: #579ffb;
@@ -98,7 +100,7 @@ $right-msg-bg: #579ffb;
     padding: 10px;
     border-bottom: var(--border);
     background: #eee;
-    color: #666;
+    color: gray;
   }
   
   .msger-chat {

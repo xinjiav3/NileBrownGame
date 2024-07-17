@@ -116,7 +116,6 @@ async function deleteChat(id){
     appendMessage(assets.botName, assets.botImg, "left", chat['chatResponse'], assets.botTitle, chat['id'], formatMessageDate(chat['timestamp'])); // Append bot's response
   });
   
-  //elements.retrieveChatHistory.dispatchEvent(new Event("click"));
 }
 
 async function secondbotResponse(msgText) {
