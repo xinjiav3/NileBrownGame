@@ -5,13 +5,13 @@ comments: false
 title: GPT chatbot with java spring backend
 description: example frontend for gpt chatbot, making calls to spring_portfolio backend
 courses: { csa: {week: 3}  }
+permalink: /GPT_overview/chatbot_example
+menu: nav/GPT_overview.html
 type: ccc
 ---
 
 
 <html lang="en">
-
-
 <head>
 <title>AI Chat Bot</title>
 <!-- <link rel="stylesheet" href="/portfolio_2025/assets/css/chatbot.css"> -->
