@@ -256,7 +256,7 @@ show_reading_time: false
 
   // Function to fetch  sections from kasm2_backend
   async function fetchPredefinedSections() {
-      const URL = `${pythonURI}/api/section`;
+      const URL = pythonURI + "/api/section";
 
 
 
@@ -406,7 +406,7 @@ show_reading_time: false
 
 
 
-      const URL = `${pythonURI}/api/user/section`; // Adjusted endpoint
+      const URL = pythonURI + "/api/user/section"; // Adjusted endpoint
 
 
 
@@ -414,10 +414,6 @@ show_reading_time: false
       const options = {
           ...fetchOptions,
           method: 'POST',
-          headers: {
-              ...fetchOptions.headers,
-              'Content-Type': 'application/json',
-          },
           body: JSON.stringify(sectionsData)
       };
 
@@ -445,9 +441,9 @@ show_reading_time: false
 
 
 
-  // Function to fetch data from backend and populate table
+  // Function to fetch data from the backend and populate the table
   async function fetchDataAndPopulateTable() {
-      const URL = `${pythonURI}/api/user/section`; // Endpoint to fetch sections data
+      const URL = pythonURI + "/api/user/section"; // Endpoint to fetch sections data
 
 
 
@@ -509,7 +505,7 @@ show_reading_time: false
 
   // Function to fetch user profile data
   async function fetchUserProfile() {
-      const URL = `${pythonURI}/api/id/pfp`; // Endpoint to fetch user profile data
+      const URL = pythonURI + "/api/id/pfp"; // Endpoint to fetch user profile data
 
 
 
@@ -570,21 +566,15 @@ show_reading_time: false
           const base64String = await convertToBase64(file);
           await sendProfilePicture(base64String);
           console.log('Profile picture uploaded successfully!');
+
+          // These lines were failing or not run
           // Update UI immediately after successful upload
-          const profileImage = document.getElementById('profileImage');
-          profileImage.src = base64String; // Set the src attribute directly
-
-
-
-
+          //const profileImage = document.getElementById('profileImage');
+          //profileImage.src = base64String; // Set the src attribute directly
           // Fetch image data from backend
-          const imageData = await fetchProfilePictureData(); // Implement this function
-
-
-
-
+          //const imageData = await fetchProfilePictureData(); // Implement this function
           // Process imageData as needed
-          console.log('Image data from backend:', imageData);
+          //console.log('Image data from backend:', imageData);
       } catch (error) {
           console.error('Error uploading profile picture:', error.message);
           // Handle error display or fallback mechanism
@@ -599,10 +589,6 @@ show_reading_time: false
       try {
           const response = await fetch('/api/id/pfp', {
               method: 'GET',
-              headers: {
-                  'Content-Type': 'application/json',
-                  // Include any necessary authorization headers if required
-              },
           });
           if (!response.ok) {
               throw new Error('Failed to fetch profile picture data');
@@ -633,14 +619,10 @@ show_reading_time: false
 
   // Function to send profile picture to server
   async function sendProfilePicture(base64String) {
-      const URL = `${pythonURI}/api/id/pfp`; // Adjust endpoint as needed
+      const URL = pythonURI + "/api/id/pfp"; // Adjust endpoint as needed
       const options = {
           ...fetchOptions,
           method: 'PUT',
-          headers: {
-              'Content-Type': 'application/json',
-              // Add any other headers if necessary
-          },
           body: JSON.stringify({ pfp: base64String })
       };
 
@@ -679,7 +661,7 @@ show_reading_time: false
 
     window.changeName = async function() {
     const newName = document.getElementById('newName').value.trim();
-    const URL = `${pythonURI}/api/user`; // Adjusted endpoint
+    const URL = pythonURI + "/api/user"; // Adjusted endpoint
 
 
 
@@ -700,10 +682,6 @@ show_reading_time: false
     const options = {
         ...fetchOptions,
         method: 'PUT',
-        headers: {
-            ...fetchOptions.headers,
-            'Content-Type': 'application/json',
-        },
         body: JSON.stringify(data)
     };
 
@@ -730,7 +708,7 @@ show_reading_time: false
 
   window.changeUid = async function() {
     const newUid = document.getElementById('newUid').value.trim();
-    const URL = `${pythonURI}/api/user`; // Adjusted endpoint
+    const URL = pythonURI + "/api/user"; // Adjusted endpoint
 
 
 
@@ -751,10 +729,6 @@ show_reading_time: false
     const options = {
         ...fetchOptions,
         method: 'PUT',
-        headers: {
-            ...fetchOptions.headers,
-            'Content-Type': 'application/json',
-        },
         body: JSON.stringify(data)
     };
 
@@ -780,7 +754,7 @@ show_reading_time: false
 
 
 window.fetchKasmServerNeeded = async function() {
-   const URL = `${pythonURI}/api/id`; // Adjusted endpoint
+   const URL = pythonURI + "/api/id"; // Adjusted endpoint
 
 
    try {
@@ -810,7 +784,7 @@ window.toggleKasmServerNeeded = async function() {
    const newKasmServerNeeded = checkbox.checked;
 
 
-   const URL = `${pythonURI}/api/user`; // Adjusted endpoint
+   const URL = pythonURI + "/api/user"; // Adjusted endpoint
 
 
    const data = {
@@ -821,10 +795,6 @@ window.toggleKasmServerNeeded = async function() {
    const options = {
        ...fetchOptions,
        method: 'PUT',
-       headers: {
-           ...fetchOptions.headers,
-           'Content-Type': 'application/json',
-       },
        body: JSON.stringify(data)
    };
 
@@ -841,7 +811,7 @@ window.toggleKasmServerNeeded = async function() {
    }
 };
      window.fetchUid = async function() {
-      const URL = `${pythonURI}/api/id`;
+      const URL = pythonURI + "/api/id"; // Adjusted endpoint
 
 
       try {
@@ -862,7 +832,7 @@ window.toggleKasmServerNeeded = async function() {
 
   // Function to fetch Name from backend
   window.fetchName = async function() {
-      const URL = `${pythonURI}/api/id`;
+      const URL = pythonURI + "/api/id"; // Adjusted endpoint
 
 
       try {
