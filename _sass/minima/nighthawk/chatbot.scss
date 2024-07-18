@@ -44,10 +44,6 @@ $right-msg-bg: lightblue;
   // }
   
 
-  .page-content {
-      margin-left: 270px;
-  }
-  
   #msger-send-btn {
     @include button($msger-send-btn-bg, $msger-send-btn-hover-bg);
   }
