@@ -19,25 +19,25 @@ introduction_tools: &introduction_tools |
     | Version Control |       | 
     +-----------------+
        |
-       | Commit local versions, comment, track changes
+       | Commit local versions, comment, show changes, reset branch
        v
     +-----------------+
     | VS Code, Project|
     | GitHub Sync     |
     +-----------------+
        |
-       | Push changes to cloud Repository
+       | Push changes to GitHub cloud Repository (repo
        v
     +-----------------+
     | GitHub,  Collab |
     | Shared Code     |
     +-----------------+
        |
-       | Understand of Actions, Jekyll build
+       | Tracking GitHub pages Actions, understanding Jekyll build files
        v
     +-----------------+
-    | GitHub Pages    | ->  Highlight language, coding, and course skills
-    | Showcase Project| ->  Share project with the world, with Awesome Style
+    | GitHub Pages    | ->  Highlight languages, coding, and course skills, with Awesome Style
+    | Showcase Project| ->  Share project with the world
     +-----------------+
 
 web_dev_layers: &web_dev_layers |
