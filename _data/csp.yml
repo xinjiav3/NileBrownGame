@@ -36,8 +36,8 @@ introduction_tools: &introduction_tools |
        | Understand of Actions, Jekyll build
        v
     +-----------------+
-    | GitHub Pages    | ->  Highlight language and code skills: JavaScript, HTML, CSS
-    | Showcase Project| ->  Share project with the world
+    | GitHub Pages    | ->  Highlight language, coding, and course skills
+    | Showcase Project| ->  Share project with the world, with Awesome Style
     +-----------------+
 
 web_dev_layers: &web_dev_layers |
