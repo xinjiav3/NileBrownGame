@@ -33,11 +33,11 @@ introduction_tools: &introduction_tools |
     | Shared Code     |
     +-----------------+
        |
-       | Actions, Jekyll build
+       | Understanding of Actions, Jekyll build
        v
     +-----------------+
-    | GitHub Pages    |
-    | Showcase Project|
+    | GitHub Pages    | ->  Highlight language and code skills: JavaScript, HTML, CSS
+    | Showcase Project| ->  Share project with the world
     +-----------------+
 
 # CSSE course meta data
