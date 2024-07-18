@@ -976,7 +976,7 @@ window.updateNameField = function(newName) {
                  throw new Error(`Failed to update Name: ${response.status}`);
              }
              console.log('Name updated successfully!');
-             window.updateNameField(uid);
+             window.updateNameField(name);
          } catch (error) {
              console.error('Error updating Name:', error.message);
              // Handle error display or fallback mechanism
@@ -996,7 +996,7 @@ window.updateNameField = function(newName) {
  document.getElementById('newName').addEventListener('change', function() {
      const name = this.value;
      window.changeName(name);
-  
+     
 
  });
 
