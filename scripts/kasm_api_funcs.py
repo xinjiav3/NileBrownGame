@@ -77,4 +77,6 @@ if __name__ == "__main__":
     endpoint = "/api/public/get_users" 
     data = get_api_data(endpoint)
     if data:
-        print(data)  # Print the JSON response 
+        print("Total users", data["total"])
+        for user in data["users"]:
+            print(user["username"], user["last_session"])
