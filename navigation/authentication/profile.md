@@ -268,6 +268,21 @@ show_reading_time: false
     border-radius: 50%;
     border: 2px solid #34495e;
 }
+
+.delete-button {
+    background-color: red !important;
+    color: white !important;
+    border: none !important;
+    padding: 5px 10px !important;
+    cursor: pointer !important;
+    font-size: 12px !important;
+    margin-left: 10px !important;
+}
+
+.delete-button:hover {
+    background-color: darkred !important;
+}
+
 /* CSS styles remain unchanged */
 </style>
 
@@ -522,51 +537,36 @@ show_reading_time: false
 
  // Function to display added sections in the table
  function displayProfileSections() {
-     const tableBody = document.getElementById('profileResult');
-     tableBody.innerHTML = ''; // Clear existing rows
+        const tableBody = document.getElementById('profileResult');
+        tableBody.innerHTML = ''; // Clear existing rows
 
+        // Create a new row and cell for each section
+        userSections.forEach(section => {
+            const tr = document.createElement('tr');
+            const abbreviationCell = document.createElement('td');
+            const nameCell = document.createElement('td');
+            const actionCell = document.createElement('td');
 
+            // Fill in the corresponding cells with data
+            abbreviationCell.textContent = section.abbreviation;
+            nameCell.textContent = section.name;
 
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.classList.add('delete-button');
+            deleteButton.onclick = function() {
+                deleteSection(section.abbreviation);
+            };
 
+            actionCell.appendChild(deleteButton);
+            tr.appendChild(abbreviationCell);
+            tr.appendChild(nameCell);
+            tr.appendChild(actionCell);
 
-
-
-    // Create a new row and cell for each section
-     userSections.forEach(section => {
-         const tr = document.createElement('tr');
-         const abbreviationCell = document.createElement('td');
-         const nameCell = document.createElement('td');
-
-
-
-
-
-
-
-    // Fill in the corresponding cells with data
-         abbreviationCell.textContent = section.abbreviation;
-         nameCell.textContent = section.name;
-
-
-
-
-
-
-    // Add to the table row
-
-         tr.appendChild(abbreviationCell);
-         tr.appendChild(nameCell);
-
-
-
-
-
-
-
-    // Add the row to table
-         tableBody.appendChild(tr);
-     });
- }
+            // Add the row to table
+            tableBody.appendChild(tr);
+        });
+    }
 
 
 
@@ -639,7 +639,7 @@ show_reading_time: false
      } catch (error) {
          console.error('Error saving sections:', error.message);
          // Handle error display or fallback mechanism
-     }
+     } 
  }
 
 
@@ -689,54 +689,56 @@ show_reading_time: false
 
 
  // Function to update table with fetched data
- function updateTableWithData(data) {
-     const tableBody = document.getElementById('profileResult');
-     tableBody.innerHTML = ''; // Clear existing rows
+function updateTableWithData(data) {
+    const tableBody = document.getElementById('profileResult');
+  
+   tableBody.innerHTML = '';
 
+    data.sections.forEach((section, index) => {
+        const tr = document.createElement('tr');
+        const abbreviationCell = document.createElement('td');
+        const nameCell = document.createElement('td');
+        const deleteButton = document.createElement('button');
 
+        abbreviationCell.textContent = section.abbreviation;
+        nameCell.textContent = section.name;
 
+        deleteButton.textContent = 'Delete';
+        deleteButton.classList.add('delete-button');
+        deleteButton.onclick = async function() {
+            const URL = pythonURI + "/api/user/section"
+            // Remove the row from the table
+            tr.remove();
 
+            // Create fetch options
+            const options = {
+                ...fetchOptions,
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ sections: [section.abbreviation] })
+            };
 
+            try {
+                const response = await fetch(URL, options);
+                if (!response.ok) {
+                    throw new Error(`Failed to delete section: ${response.status}`);
+                }
+                const data = await response.json();
+                console.log('Success:', data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
 
+        nameCell.appendChild(deleteButton);
+        tr.appendChild(abbreviationCell);
+        tr.appendChild(nameCell);
 
-
-     data.sections.forEach(section => {
-         const tr = document.createElement('tr');
-         const abbreviationCell = document.createElement('td');
-         const nameCell = document.createElement('td');
-
-
-
-
-
-
-
-
-         abbreviationCell.textContent = section.abbreviation;
-         nameCell.textContent = section.name;
-
-
-
-
-
-
-
-
-         tr.appendChild(abbreviationCell);
-         tr.appendChild(nameCell);
-
-
-
-
-
-
-
-
-         tableBody.appendChild(tr);
-     });
- }
-
-
+        tableBody.appendChild(tr);
+    });
+}
 
 
 
@@ -922,7 +924,7 @@ show_reading_time: false
 window.updateUidField = function(newUid) {
    const uidInput = document.getElementById('newUid');
    uidInput.value = newUid;
-   uidInput.placeholder = `${newUid}`;
+   uidInput.placeholder = newUid;
 }
 
 
@@ -930,7 +932,7 @@ window.updateUidField = function(newUid) {
 window.updateNameField = function(newName) {
    const nameInput = document.getElementById('newName');
    nameInput.value = newName;
-   nameInput.placeholder = `${newName}`;
+   nameInput.placeholder = newName;
 }
 
 
