@@ -34,6 +34,19 @@ def extract_front_matter(notebook_file, cell):
 
     return front_matter
 
+def get_relative_output_path(notebook_file):
+    # Calculate the relative path of the notebook file
+    relative_path = os.path.relpath(notebook_file, notebook_directory)
+    # Replace the file extension and prepend the subdirectory structure
+    markdown_filename = relative_path.replace(".ipynb", "_IPYNB_2_.md")
+    # Construct the full path for the output file
+    destination_path = os.path.join(destination_directory, markdown_filename)
+    return destination_path
+
+def ensure_directory_exists(path):
+    # Ensure the directory of the given path exists
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    
 # Function to convert the notebook to Markdown with front matter
 def convert_notebook_to_markdown_with_front_matter(notebook_file):
     # Load the notebook file
@@ -57,13 +70,16 @@ def convert_notebook_to_markdown_with_front_matter(notebook_file):
         # Generate the destination Markdown file name by replacing the extension
         destination_file = os.path.basename(notebook_file).replace(".ipynb", "_IPYNB_2_.md")
 
-        # Generate the destination path
-        destination_path = os.path.join(destination_directory, destination_file)
+        # Generate the destination path including subdirectories
+        destination_path = get_relative_output_path(notebook_file)
+        
+        # Ensure the output directory exists
+        ensure_directory_exists(destination_path)
         
         # Write the converted Markdown file
         with open(destination_path, "w", encoding="utf-8") as file:
             file.write(markdown_with_front_matter)
-
+            
 # Function to convert the Jupyter Notebook files to Markdown
 def convert_single_notebook(notebook_file):
     try:
