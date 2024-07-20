@@ -10,7 +10,7 @@ SHELL = /bin/bash -c
 .PHONY: default server issues convert clean stop
 
 # List all .ipynb files in the _notebooks directory
-NOTEBOOK_FILES := $(wildcard _notebooks/*.ipynb)
+NOTEBOOK_FILES := $(shell find _notebooks -name '*.ipynb')
 
 # Specify the target directory for the converted Markdown files
 DESTINATION_DIRECTORY = _posts
@@ -66,6 +66,8 @@ convert: $(MARKDOWN_FILES)
 # Convert .md file, if .ipynb file is newer
 $(DESTINATION_DIRECTORY)/%_IPYNB_2_.md: _notebooks/%.ipynb
 	@echo "Converting source $< to destination $@"
+	@# Ensure the destination directory exists
+	@mkdir -p $(@D)
 	@python -c 'import sys; from scripts.convert_notebooks import convert_single_notebook; convert_single_notebook(sys.argv[1])' "$<"
 
 # Clean up project derived files, to avoid run issues stop is dependency
