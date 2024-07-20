@@ -74,8 +74,8 @@ def convert_single_notebook(notebook_file):
         sys.exit(1)
 
 def convert_notebooks():
-    notebook_files = glob.glob(f"{notebook_directory}/*.ipynb")
-    
+    # Use recursive glob pattern to find .ipynb files in all subdirectories
+    notebook_files = glob.glob(f"{notebook_directory}/**/*.ipynb", recursive=True)
     for notebook_file in notebook_files:
         try:
             convert_single_notebook(notebook_file)

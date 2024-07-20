@@ -4,7 +4,7 @@ if (location.hostname === "localhost") {
 } else if (location.hostname === "127.0.0.1") {
         pythonURI = "http://127.0.0.1:8087";
 } else {
-        pythonURI =  "https://flask.kasm.nighthawkcodingsociety.com";
+        pythonURI =  "https://flask2.nighthawkcodingsociety.com";
 }
 export var javaURI;
 if (location.hostname === "localhost") {
@@ -22,7 +22,7 @@ export const fetchOptions = {
     credentials: 'include', // include, same-origin, omit
     headers: {
         'Content-Type': 'application/json',
-        'X-Origin': 'client' // New custom header to identify so
+        'X-Origin': 'client' // New custom header to identify source
     },
 };
 

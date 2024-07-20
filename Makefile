@@ -10,7 +10,7 @@ SHELL = /bin/bash -c
 .PHONY: default server issues convert clean stop
 
 # List all .ipynb files in the _notebooks directory
-NOTEBOOK_FILES := $(wildcard _notebooks/*.ipynb)
+NOTEBOOK_FILES := $(shell find _notebooks -name '*.ipynb')
 
 # Specify the target directory for the converted Markdown files
 DESTINATION_DIRECTORY = _posts

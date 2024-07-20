@@ -19,25 +19,25 @@ introduction_tools: &introduction_tools |
     | Version Control |       | 
     +-----------------+
        |
-       | Commit local versions, comment, track changes
+       | Commit local versions, comment, show changes, reset branch
        v
     +-----------------+
     | VS Code, Project|
     | GitHub Sync     |
     +-----------------+
        |
-       | Push changes to cloud Repository
+       | Push changes to GitHub cloud Repository (repo
        v
     +-----------------+
     | GitHub,  Collab |
     | Shared Code     |
     +-----------------+
        |
-       | Actions, Jekyll build
+       | Tracking GitHub pages Actions, understanding Jekyll build files
        v
     +-----------------+
-    | GitHub Pages    |
-    | Showcase Project|
+    | GitHub Pages    | ->  Highlight languages, coding, and course skills, with Awesome Style
+    | Showcase Project| ->  Share project with the world
     +-----------------+
 
 college_board_fundamentals: &college_board_fundamentals |
@@ -185,7 +185,7 @@ web_dev_layers: &web_dev_layers |
 # CSA course meta data
 Sprint1:
   title: Tools and Software Development Processes
-  description: Students should have experience in blogging, coding with Jupyter Notebooks, and GitHub Pages. Understanding of Linux, Python, Markdown, HTML, and JavaScript is expected. Students have previously established a foundation using essential tools and software development processes. Weeks 0-3 will provide a quick review, and students will start their Java coding journey.
+  description: Students should have experience in blogging, coding with Jupyter Notebooks, and GitHub Pages. Understanding of Linux, Python, Markdown, HTML, and JavaScript is expected. Students have previously established a foundation using essential tools and software development processes. Weeks 0-2 will provide a quick review,  prior to students starting their College Board CSA and Full Stack Web Development with Java journey.
   illustration: *introduction_tools
   start: 0
   end: 2

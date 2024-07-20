@@ -1,9 +1,10 @@
 ---
 toc: true
 layout: post
-title: Build a Markdown Student Page
+title: Build a Markdown Page
 description: JavaScript, HTML, CSS and Markdown are coding languages used by bloggers when developing in the GitHub Pages system. By using these languages, student developers can add functionality to their GitHub pages site.
-courses: { csse: {week: 1}, csp: {week: 0}, csa: {week: 0} }
+menu: nav/github_pages.html
+permalink: /github/pages/markdown
 categories: [GitHub Pages]
 type: ccc
 ---
