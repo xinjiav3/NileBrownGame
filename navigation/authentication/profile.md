@@ -6,34 +6,12 @@ search_exclude: true
 show_reading_time: false
 ---
 
-
-
-
-
-
-
-
 <style>
-
-
-
-
-
-
-
-
 .profile-container {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
-
-
-
-
-
-
 
 .profile-card {
     width: 100%;
@@ -46,41 +24,11 @@ show_reading_time: false
     color: #ffffff; /* White text */
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .profile-card label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .profile-card input[type="text"],
 .profile-card input[type="file"],
@@ -92,21 +40,6 @@ show_reading_time: false
     font-size: 16px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .profile-card button {
     background-color: #3498db; /* Blue button */
     color: #ffffff;
@@ -117,39 +50,9 @@ show_reading_time: false
     font-size: 16px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .profile-card button:hover {
     background-color: #2980b9; /* Darker blue on hover */
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .profile-table {
     width: 100%;
@@ -157,42 +60,12 @@ show_reading_time: false
     border-collapse: collapse;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .profile-table th,
 .profile-table td {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: left;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .details-button {
     display: block;
@@ -208,59 +81,14 @@ show_reading_time: false
     text-decoration: none;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .details-button:hover {
     background-color: #2980b9; /* Darker blue on hover */
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .profile-image-box {
     text-align: center;
     margin-top: 20px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .profile-image-box img {
     max-width: 100%;
@@ -285,13 +113,6 @@ show_reading_time: false
 
 /* CSS styles remain unchanged */
 </style>
-
-
-
-
-
-
-
 
 <div class="profile-container">
 <!-- Profile Setup -->
@@ -340,69 +161,22 @@ show_reading_time: false
 </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script type="module">
  // Import fetchOptions from config.js
  import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-
-
-
-
-
-
-
  // Global variable to hold predefined sections
  let predefinedSections = [];
-
-
-
-
-
-
-
 
  // Function to fetch  sections from kasm2_backend
  async function fetchPredefinedSections() {
      const URL = pythonURI + "/api/section";
-
-
-
-
-
-
-
 
      try {
          const response = await fetch(URL, fetchOptions);
          if (!response.ok) {
              throw new Error(`Failed to fetch predefined sections: ${response.status}`);
          }
-
-
-
-
-
-
-
 
          return await response.json();
      } catch (error) {
@@ -411,24 +185,10 @@ show_reading_time: false
      }
  }
 
-
-
-
-
-
-
-
  // Function to populate section dropdown menu
  function populateSectionDropdown(predefinedSections) {
      const sectionDropdown = document.getElementById('sectionDropdown');
      sectionDropdown.innerHTML = ''; // Clear existing options
-
-
-
-
-
-
-
 
      predefinedSections.forEach(section => {
          const option = document.createElement('option');
@@ -437,33 +197,12 @@ show_reading_time: false
          sectionDropdown.appendChild(option);
      });
 
-
-
-
-
-
-
-
      // Display sections in the table
      displayProfileSections();
  }
 
-
-
-
-
-
-
-
  // Global variable to hold user sections
  let userSections = [];
-
-
-
-
-
-
-
 
  // Function to add a section
  window.addSection = async function () {
@@ -472,68 +211,26 @@ show_reading_time: false
      const abbreviation = selectedOption.value;
      const name = selectedOption.textContent.split(' ').slice(1).join(' ');
 
-
-
-
-
-
-
-
      if (!abbreviation || !name) {
          document.getElementById('profile-message').textContent = 'Please select a section from the dropdown.';
          return;
      }
 
-
-
-
-
-
-
-
      // Clear error message
      document.getElementById('profile-message').textContent = '';
-
-
-
-
-
-
-
 
      // Add section to userSections array if not already added
      const sectionExists = userSections.some(section => section.abbreviation === abbreviation && section.name === name);
      if (!sectionExists) {
          userSections.push({ abbreviation, name });
 
-
-
-
-
-
-
-
          // Display added section in the table
          displayProfileSections();
-
-
-
-
-
-
-
 
          // Save sections immediately
          await saveSections();
      }
  }
-
-
-
-
-
-
-
 
  // Function to display added sections in the table
  function displayProfileSections() {
@@ -568,57 +265,22 @@ show_reading_time: false
         });
     }
 
-
-
-
-
-
-
-
  // Function to save sections in the specified format
  async function saveSections() {
   
      const sectionAbbreviations = userSections.map(section => section.abbreviation);
 
-
-
-
-
-
-
-
      const sectionsData = {
          sections: sectionAbbreviations
      };
 
-
-
-
-
-
-
-
      const URL = pythonURI + "/api/user/section"; // Adjusted endpoint
-
-
-
-
-
-
-
 
      const options = {
          ...fetchOptions,
          method: 'POST',
          body: JSON.stringify(sectionsData)
      };
-
-
-
-
-
-
-
 
      try {
          const response = await fetch(URL, options);
@@ -627,51 +289,23 @@ show_reading_time: false
          }
          console.log('Sections saved successfully!');
 
-
-
-
-
-
-
-
          // Fetch updated data and update table immediately after saving
          await fetchDataAndPopulateTable();
      } catch (error) {
          console.error('Error saving sections:', error.message);
          // Handle error display or fallback mechanism
-     } 
+     }
  }
-
-
-
-
-
-
-
 
  // Function to fetch data from the backend and populate the table
  async function fetchDataAndPopulateTable() {
      const URL = pythonURI + "/api/user/section"; // Endpoint to fetch sections data
-
-
-
-
-
-
-
 
      try {
          const response = await fetch(URL, fetchOptions);
          if (!response.ok) {
              throw new Error(`Failed to fetch sections: ${response.status}`);
          }
-
-
-
-
-
-
-
 
          const sectionsData = await response.json();
          updateTableWithData(sectionsData); // Call function to update table with fetched data
@@ -680,13 +314,6 @@ show_reading_time: false
          // Handle error display or fallback mechanism
      }
  }
-
-
-
-
-
-
-
 
  // Function to update table with fetched data
 function updateTableWithData(data) {
@@ -740,34 +367,15 @@ function updateTableWithData(data) {
     });
 }
 
-
-
-
-
-
  // Function to fetch user profile data
  async function fetchUserProfile() {
      const URL = pythonURI + "/api/id/pfp"; // Endpoint to fetch user profile data
-
-
-
-
-
-
-
 
      try {
          const response = await fetch(URL, fetchOptions);
          if (!response.ok) {
              throw new Error(`Failed to fetch user profile: ${response.status}`);
          }
-
-
-
-
-
-
-
 
          const profileData = await response.json();
          displayUserProfile(profileData);
@@ -776,13 +384,6 @@ function updateTableWithData(data) {
          // Handle error display or fallback mechanism
      }
  }
-
-
-
-
-
-
-
 
  // Function to display user profile data
  function displayUserProfile(profileData) {
@@ -797,28 +398,12 @@ function updateTableWithData(data) {
          profileImageBox.innerHTML = '<p>No profile picture available.</p>';
      }
 
-
-
-
-
-
-
-
      // Display other profile information as needed
      // Example: Update HTML elements with profileData.username, profileData.email
  }
 
-
-
-
-
-
-
-
  // Function to save profile picture
  window.saveProfilePicture = async function () {
-
-
 
      const fileInput = document.getElementById('profilePicture');
      const file = fileInput.files[0];
@@ -831,9 +416,6 @@ function updateTableWithData(data) {
          reader.readAsDataURL(file);
      }
 
-
-
-
      if (!file) return;
 
      try {
@@ -841,17 +423,11 @@ function updateTableWithData(data) {
          await sendProfilePicture(base64String);
          console.log('Profile picture uploaded successfully!');
 
-
-    
      } catch (error) {
          console.error('Error uploading profile picture:', error.message);
          // Handle error display or fallback mechanism
      }
  }
-
-
-
-
 
  // Function to fetch profile picture data
  async function fetchProfilePictureData() {
@@ -870,8 +446,6 @@ function updateTableWithData(data) {
      }
  }
 
-
-
  // Function to convert file to base64
  async function convertToBase64(file) {
      return new Promise((resolve, reject) => {
@@ -882,9 +456,6 @@ function updateTableWithData(data) {
      });
  }
 
-
-
-
  // Function to send profile picture to server
  async function sendProfilePicture(base64String) {
      const URL = pythonURI + "/api/id/pfp"; // Adjust endpoint as needed
@@ -893,13 +464,6 @@ function updateTableWithData(data) {
          method: 'PUT',
          body: JSON.stringify({ pfp: base64String })
      };
-
-
-
-
-
-
-
 
      try {
          const response = await fetch(URL, options);
@@ -914,12 +478,6 @@ function updateTableWithData(data) {
      }
  }
 
-
-
-
-
-
-
    // Function to update UI with new UID and change placeholder
 window.updateUidField = function(newUid) {
    const uidInput = document.getElementById('newUid');
@@ -927,14 +485,12 @@ window.updateUidField = function(newUid) {
    uidInput.placeholder = newUid;
 }
 
-
 // Function to update UI with new Name and change placeholder
 window.updateNameField = function(newName) {
    const nameInput = document.getElementById('newName');
    nameInput.value = newName;
    nameInput.placeholder = newName;
 }
-
 
  // Function to change UID
  window.changeUid = async function(uid) {
@@ -991,24 +547,17 @@ window.updateNameField = function(newName) {
      const uid = this.value;
      window.changeUid(uid);
 
-
  });
 
  // Event listener to trigger updateName function when Name field is changed
  document.getElementById('newName').addEventListener('change', function() {
      const name = this.value;
      window.changeName(name);
-     
 
  });
 
-
-
 window.fetchKasmServerNeeded = async function() {
   const URL = pythonURI + "/api/id"; // Adjusted endpoint
-
-
-
 
   try {
       const response = await fetch(URL, fetchOptions);
@@ -1016,14 +565,8 @@ window.fetchKasmServerNeeded = async function() {
           throw new Error(`Failed to fetch kasm_server_needed: ${response.status}`);
       }
 
-
-
-
       const userData = await response.json();
       const kasmServerNeeded = userData.kasm_server_needed
-
-
-
 
       // Update checkbox state based on fetched value
       const checkbox = document.getElementById('kasmServerNeeded');
@@ -1034,37 +577,22 @@ window.fetchKasmServerNeeded = async function() {
   }
 };
 
-
-
-
 // Function to toggle kasm_server_needed attribute on checkbox change
 window.toggleKasmServerNeeded = async function() {
   const checkbox = document.getElementById('kasmServerNeeded');
   const newKasmServerNeeded = checkbox.checked;
 
-
-
-
   const URL = pythonURI + "/api/user"; // Adjusted endpoint
-
-
-
 
   const data = {
       kasm_server_needed: newKasmServerNeeded
   };
-
-
-
 
   const options = {
       ...fetchOptions,
       method: 'PUT',
       body: JSON.stringify(data)
   };
-
-
-
 
   try {
       const response = await fetch(URL, options);
@@ -1080,17 +608,11 @@ window.toggleKasmServerNeeded = async function() {
     window.fetchUid = async function() {
      const URL = pythonURI + "/api/id"; // Adjusted endpoint
 
-
-
-
      try {
          const response = await fetch(URL, fetchOptions);
          if (!response.ok) {
              throw new Error(`Failed to fetch UID: ${response.status}`);
          }
-
-
-
 
          const data = await response.json();
          return data.uid;
@@ -1100,24 +622,15 @@ window.toggleKasmServerNeeded = async function() {
      }
  };
 
-
-
-
  // Function to fetch Name from backend
  window.fetchName = async function() {
      const URL = pythonURI + "/api/id"; // Adjusted endpoint
-
-
-
 
      try {
          const response = await fetch(URL, fetchOptions);
          if (!response.ok) {
              throw new Error(`Failed to fetch Name: ${response.status}`);
          }
-
-
-
 
          const data = await response.json();
          return data.name;
@@ -1127,25 +640,14 @@ window.toggleKasmServerNeeded = async function() {
      }
  };
 
-
-
-
-
-
  // Function to set placeholders for UID and Name
  window.setPlaceholders = async function() {
      const uidInput = document.getElementById('newUid');
      const nameInput = document.getElementById('newName');
 
-
-
-
      try {
          const uid = await window.fetchUid();
          const name = await window.fetchName();
-
-
-
 
          if (uid !== null) {
              uidInput.placeholder = uid;
@@ -1157,13 +659,6 @@ window.toggleKasmServerNeeded = async function() {
          console.error('Error setting placeholders:', error.message);
      }
  };
-
-
-
-
-
-
-
 
  // Call fetchPredefinedSections and initializeProfileSetup when DOM content is loaded
  document.addEventListener('DOMContentLoaded', async function () {
@@ -1181,21 +676,4 @@ window.toggleKasmServerNeeded = async function() {
      }
  });
 
-
- 
-
-
-
-
-
-
 </script>
-
-
-
-
-
-
-
-
-

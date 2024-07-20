@@ -4,6 +4,7 @@ title: Logout
 permalink: /logout
 search_exclude: true
 ---
+
 <script type="module">
     import { fetchOptions, pythonURI } from '{{site.baseurl}}/assets/js/api/config.js';
     const URL = pythonURI + '/api/authenticate'; // Assuming pythonURI is defined elsewhere
