@@ -63,16 +63,23 @@ server: stop convert
 # Convert .ipynb files to Markdown with front matter
 convert: $(MARKDOWN_FILES)
 
-# Convert .md file, if .ipynb file is newer
+# Convert .ipynb files to Markdown with front matter, preserving directory structure
 $(DESTINATION_DIRECTORY)/%_IPYNB_2_.md: _notebooks/%.ipynb
 	@echo "Converting source $< to destination $@"
+	@mkdir -p $(@D)
 	@python -c 'import sys; from scripts.convert_notebooks import convert_single_notebook; convert_single_notebook(sys.argv[1])' "$<"
 
 # Clean up project derived files, to avoid run issues stop is dependency
 clean: stop
 	@echo "Cleaning converted IPYNB files..."
-	@@rm -f _posts/*_GithubIssue_.md
-	@@rm -f _posts/*_IPYNB_2_.md
+	@find _posts -type f -name '*_IPYNB_2_.md' -exec rm {} +
+	@echo "Cleaning Github Issue files..."
+	@find _posts -type f -name '*_GithubIssue_.md' -exec rm {} +
+	@echo "Removing empty directories in _posts..."
+	@while [ $$(find _posts -type d -empty | wc -l) -gt 0 ]; do \
+		find _posts -type d -empty -exec rmdir {} +; \
+	done
+	@echo "Removing _site directory..."
 	@rm -rf _site
 
 
