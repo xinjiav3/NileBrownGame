@@ -1,3 +1,9 @@
+@mixin apply-important($properties) {
+  @each $property, $value in $properties {
+    #{$property}: #{$value} !important;
+  }
+}
+
 .profile-container {
   display: flex;
   justify-content: center;
@@ -70,16 +76,20 @@
   }
 
   .section-delete-btn {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-size: 12px;
-    margin-left: 10px;
-
-    &:hover {
-      background-color: darkred;
-    }
+    @include apply-important((
+      background-color: red,
+      color: white,
+      border: none,
+      padding: 5px 10px,
+      cursor: pointer,
+      font-size: 12px,
+      margin-left: 10px
+    ));
+  }
+  
+  .section-delete-btn:hover {
+    @include apply-important((
+      background-color: darkred
+    ));
   }
 }

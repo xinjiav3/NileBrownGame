@@ -6,22 +6,6 @@ search_exclude: true
 show_reading_time: false
 ---
 
-<style>
-.section-delete-btn {
-    background-color: red !important;
-    color: white !important;
-    border: none !important;
-    padding: 5px 10px !important;
-    cursor: pointer !important;
-    font-size: 12px !important;
-    margin-left: 10px !important;
-}
-
-.section-delete-btn:hover {
-    background-color: darkred !important;
-}
-</style>
-
 <div class="profile-container">
 <!-- Profile Setup -->
 <div class="profile-card">
