@@ -1,13 +1,12 @@
 ---
 layout: post
+title: Profile Settings
 permalink: /profile
 menu: nav/home.html
 search_exclude: true
 show_reading_time: false
 ---
 
-
-<h1>Profile Setup</h1>
 <div class="profile-container">
 <div class="card">
     <form>
