@@ -7,97 +7,7 @@ show_reading_time: false
 ---
 
 <style>
-.profile-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.profile-card {
-    width: 100%;
-    max-width: 600px;
-    background-color: #2c3e50; /* Dark blue background */
-    border: 1px solid #34495e; /* Darker border */
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    color: #ffffff; /* White text */
-}
-
-.profile-card label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.profile-card input[type="text"],
-.profile-card input[type="file"],
-.profile-card select {
-    width: calc(100% - 12px);
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-.profile-card button {
-    background-color: #3498db; /* Blue button */
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.profile-card button:hover {
-    background-color: #2980b9; /* Darker blue on hover */
-}
-
-.profile-table {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
-}
-
-.profile-table th,
-.profile-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-}
-
-.details-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-top: 20px;
-    background-color: #3498db; /* Blue button */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-}
-
-.details-button:hover {
-    background-color: #2980b9; /* Darker blue on hover */
-}
-
-.profile-image-box {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.profile-image-box img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 50%;
-    border: 2px solid #34495e;
-}
-
-.delete-button {
+.section-delete-btn {
     background-color: red !important;
     color: white !important;
     border: none !important;
@@ -107,11 +17,9 @@ show_reading_time: false
     margin-left: 10px !important;
 }
 
-.delete-button:hover {
+.section-delete-btn:hover {
     background-color: darkred !important;
 }
-
-/* CSS styles remain unchanged */
 </style>
 
 <div class="profile-container">
@@ -250,7 +158,7 @@ show_reading_time: false
 
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Delete';
-            deleteButton.classList.add('delete-button');
+            deleteButton.classList.add('section-delete-btn');
             deleteButton.onclick = function() {
                 deleteSection(section.abbreviation);
             };
@@ -331,7 +239,7 @@ function updateTableWithData(data) {
         nameCell.textContent = section.name;
 
         deleteButton.textContent = 'Delete';
-        deleteButton.classList.add('delete-button');
+        deleteButton.classList.add('section-delete-btn');
         deleteButton.onclick = async function() {
             const URL = pythonURI + "/api/user/section"
             // Remove the row from the table
