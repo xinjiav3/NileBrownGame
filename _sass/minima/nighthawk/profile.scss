@@ -1,18 +1,13 @@
 @import "minima/nighthawk/_mixin";
 
-.profile-button {
-  @include button($backgroundColor: darkred !important, $hoverBackgroundColor: red !important);
-  margin: 0rem 1rem;
-}
-
 .profile-container {
   display: flex;
   justify-content: center;
   align-items: center;
 
-  .profile-card {
+  .card {
     width: 100%;
-    max-width: 600px;
+    max-width: 800px;
     background-color: #2c3e50; // Dark blue background
     border: 1px solid #34495e; // Darker border
     border-radius: 5px;
@@ -37,43 +32,35 @@
     }
 
     button {
-      background-color: #3498db; // Blue button
-      color: #ffffff;
-      border: none;
-      border-radius: 4px;
-      padding: 10px 20px;
-      cursor: pointer;
-      font-size: 16px;
+      @include button($backgroundColor: darkred !important, $hoverBackgroundColor: red !important);
+      margin: .25rem 1rem;
+    }
 
-      &:hover {
-        background-color: #2980b9; // Darker blue on hover
+    table {
+      width: 100%;
+      margin-top: 10px;
+      border-collapse: collapse;
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+      }
+    }
+
+    .image-container {
+      text-align: center;
+      margin-top: 20px;
+
+      img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 50%;
+        border: 2px solid #34495e;
       }
     }
   }
-
-  .profile-table {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
-
-    th,
-    td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: left;
-    }
-  }
-
-  .profile-image-box {
-    text-align: center;
-    margin-top: 20px;
-
-    img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 50%;
-      border: 2px solid #34495e;
-    }
-  }
+  
 
 }

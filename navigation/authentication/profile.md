@@ -6,10 +6,10 @@ search_exclude: true
 show_reading_time: false
 ---
 
+
+<h1>Profile Setup</h1>
 <div class="profile-container">
-<!-- Profile Setup -->
-<div class="profile-card">
-    <h1>Profile Setup</h1>
+<div class="card">
     <form>
         <div>
             <label for="newUid">Enter New UID:</label>
@@ -22,10 +22,10 @@ show_reading_time: false
         <div>
           <label for="kasmServerNeeded">Kasm Server Needed:</label>
           <input type="checkbox" id="kasmServerNeeded" onclick="toggleKasmServerNeeded()">
-   </div>
+        </div>
         <label for="profilePicture">Upload Profile Picture:</label>
         <input type="file" id="profilePicture" accept="image/*" onchange="saveProfilePicture()">
-        <div class="profile-image-box" id="profileImageBox">
+        <div class="image-container" id="profileImageBox">
             <!-- Profile picture will be displayed here -->
         </div>
         <p id="profile-message" style="color: red;"></p>
@@ -38,7 +38,7 @@ show_reading_time: false
         <div>
             <button type="button" onclick="addSection()">Add Section</button>
         </div>
-        <table class="profile-table" id="profileTable">
+        <table>
             <thead>
                 <tr>
                     <th>Abbreviation</th>
@@ -142,7 +142,6 @@ show_reading_time: false
 
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Delete';
-            deleteButton.classList.add('profile-button');
             deleteButton.onclick = function() {
                 deleteSection(section.abbreviation);
             };
@@ -223,7 +222,6 @@ function updateTableWithData(data) {
         nameCell.textContent = section.name;
 
         deleteButton.textContent = 'Delete';
-        deleteButton.classList.add('profile-button');
         deleteButton.onclick = async function() {
             const URL = pythonURI + "/api/user/section"
             // Remove the row from the table
