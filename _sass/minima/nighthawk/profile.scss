@@ -1,7 +1,8 @@
-@mixin apply-important($properties) {
-  @each $property, $value in $properties {
-    #{$property}: #{$value} !important;
-  }
+@import "minima/nighthawk/_mixin";
+
+.profile-button {
+  @include button($backgroundColor: darkred !important, $hoverBackgroundColor: red !important);
+  margin: 0rem 1rem;
 }
 
 .profile-container {
@@ -75,21 +76,4 @@
     }
   }
 
-  .section-delete-btn {
-    @include apply-important((
-      background-color: red,
-      color: white,
-      border: none,
-      padding: 5px 10px,
-      cursor: pointer,
-      font-size: 12px,
-      margin-left: 10px
-    ));
-  }
-  
-  .section-delete-btn:hover {
-    @include apply-important((
-      background-color: darkred
-    ));
-  }
 }

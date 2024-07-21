@@ -142,7 +142,7 @@ show_reading_time: false
 
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Delete';
-            deleteButton.classList.add('section-delete-btn');
+            deleteButton.classList.add('profile-button');
             deleteButton.onclick = function() {
                 deleteSection(section.abbreviation);
             };
@@ -223,7 +223,7 @@ function updateTableWithData(data) {
         nameCell.textContent = section.name;
 
         deleteButton.textContent = 'Delete';
-        deleteButton.classList.add('section-delete-btn');
+        deleteButton.classList.add('profile-button');
         deleteButton.onclick = async function() {
             const URL = pythonURI + "/api/user/section"
             // Remove the row from the table
