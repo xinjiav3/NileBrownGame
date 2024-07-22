@@ -54,7 +54,7 @@ show_reading_time: false
 
 <script type="module">
  // Import fetchOptions from config.js
- import { pythonURI, fetchOptions, deleteData, postUpdate, putUpdate} from '{{site.baseurl}}/assets/js/api/profile.js';
+ import { pythonURI, fetchOptions, deleteData, postUpdate, putUpdate} from '{{site.baseurl}}/assets/js/api/config.js';
 
  // Global variable to hold predefined sections
  let predefinedSections = [];
@@ -402,18 +402,16 @@ window.changeUid = async function(uid) {
 // Function to change Name
 window.changeName = async function(name) {
     if (name) {
-        const URL = pythonURI + "/api/user"; // Adjusted endpoint
-
+        const URL = pythonURI + "/api/user"; 
         const options = {
             URL,
             body: { name },
-            message: 'name-message', // Adjust the message area as needed
+            message: 'name-message'
             callback: () => {
                 console.log('Name updated successfully!');
                 window.updateNameField(name);
             }
         };
-
         try {
             await putUpdate(options);
         } catch (error) {
@@ -439,16 +437,13 @@ window.changeName = async function(name) {
 
 window.fetchKasmServerNeeded = async function() {
   const URL = pythonURI + "/api/id"; // Adjusted endpoint
-
   try {
       const response = await fetch(URL, fetchOptions);
       if (!response.ok) {
           throw new Error(`Failed to fetch kasm_server_needed: ${response.status}`);
       }
-
       const userData = await response.json();
       const kasmServerNeeded = userData.kasm_server_needed
-
       // Update checkbox state based on fetched value
       const checkbox = document.getElementById('kasmServerNeeded');
       checkbox.checked = kasmServerNeeded;
@@ -462,9 +457,7 @@ window.fetchKasmServerNeeded = async function() {
 window.toggleKasmServerNeeded = async function() {
     const checkbox = document.getElementById('kasmServerNeeded');
     const newKasmServerNeeded = checkbox.checked;
-
     const URL = pythonURI + "/api/user"; // Adjusted endpoint
-
     const options = {
         URL,
         body: { kasm_server_needed: newKasmServerNeeded },
@@ -473,7 +466,6 @@ window.toggleKasmServerNeeded = async function() {
             console.log('Kasm Server Needed updated successfully!');
         }
     };
-
     try {
         await putUpdate(options);
     } catch (error) {
