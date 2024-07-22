@@ -1,4 +1,4 @@
-import {pythonURI, fetchOptions } from './config.js';
+import {fetchOptions } from './config.js';
 
 
 
@@ -13,7 +13,6 @@ export function putUpdate(options) {
     };
 
     // Clear the message area
-    document.getElementById(options.message).textContent = "";
 
     // Send PUT request
     fetch(options.URL, requestOptions)
@@ -22,7 +21,6 @@ export function putUpdate(options) {
             if (!response.ok) {
                 const errorMsg = 'Error: ' + response.status;
                 console.log(errorMsg);
-                document.getElementById(options.message).textContent = errorMsg;
                 return;
             }
             // Success!!!
