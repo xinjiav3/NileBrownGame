@@ -387,6 +387,7 @@ window.changeUid = async function(uid) {
             callback: () => {
                 console.log('UID updated successfully!');
                 window.updateUidField(uid);
+                window.location.href = '/portfolio_2025/login'
             }
         };
 
@@ -406,7 +407,7 @@ window.changeName = async function(name) {
         const options = {
             URL,
             body: { name },
-            message: 'name-message'
+            message: 'name-message',
             callback: () => {
                 console.log('Name updated successfully!');
                 window.updateNameField(name);
@@ -466,6 +467,7 @@ window.toggleKasmServerNeeded = async function() {
             console.log('Kasm Server Needed updated successfully!');
         }
     };
+
     try {
         await putUpdate(options);
     } catch (error) {
