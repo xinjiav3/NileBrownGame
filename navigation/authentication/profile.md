@@ -42,6 +42,8 @@ show_reading_time: false
                 <tr>
                     <th>Abbreviation</th>
                     <th>Name</th>
+                    <th>Year</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody id="profileResult">
@@ -136,11 +138,13 @@ import { putUpdate, postUpdate, deleteData } from "{{site.baseurl}}/assets/js/ap
             const tr = document.createElement('tr');
             const abbreviationCell = document.createElement('td');
             const nameCell = document.createElement('td');
+            const yearCell = document.createElement('td');
             const actionCell = document.createElement('td');
 
             // Fill in the corresponding cells with data
             abbreviationCell.textContent = section.abbreviation;
             nameCell.textContent = section.name;
+            yearCell.textContent = section.year;
 
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Delete';
@@ -151,6 +155,7 @@ import { putUpdate, postUpdate, deleteData } from "{{site.baseurl}}/assets/js/ap
             actionCell.appendChild(deleteButton);
             tr.appendChild(abbreviationCell);
             tr.appendChild(nameCell);
+            tr.appendChild(yearCell);
             tr.appendChild(actionCell);
 
             // Add the row to table
@@ -214,10 +219,13 @@ function updateTableWithData(data) {
         const tr = document.createElement('tr');
         const abbreviationCell = document.createElement('td');
         const nameCell = document.createElement('td');
+        const yearCell = document.createElement('td');
+        const actionCell = document.createElement('td');
         const deleteButton = document.createElement('button');
 
         abbreviationCell.textContent = section.abbreviation;
         nameCell.textContent = section.name;
+        yearCell.textContent = section.year;
 
         deleteButton.textContent = 'Delete';
         deleteButton.onclick = async function() {
@@ -245,9 +253,11 @@ function updateTableWithData(data) {
     }
 };
 
-        nameCell.appendChild(deleteButton);
+        actionCell.appendChild(deleteButton);
         tr.appendChild(abbreviationCell);
         tr.appendChild(nameCell);
+        tr.appendChild(yearCell);
+        tr.appendChild(actionCell);
 
         tableBody.appendChild(tr);
     });
