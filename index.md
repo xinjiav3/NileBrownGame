@@ -196,13 +196,14 @@ hide: true
 > Explore the Computer Science Pathway at Del Norte High School and invest in your technical skills. All Del Norte CompSci classes are designed to provide a real-world development experience. Class time includes tech talks (lectures), peer collaboration, communication with teachers, critical thinking while coding, and creativity in projects. Grading is focused on time invested, participation with peers, and engagement in learning.
 
 - Introduction to concepts and requirements by the teacher
-- Project-based learning with teacher support
-- Peer teams, team work, communication and collaboration
-- Student presentations, peer teaching, and peer grading
-- Coding, developer operations, version control and algorithmic thinking
-- Creativity, research, and utilizing ChatGPT
+- Project-based learning with teacher support, performing Agile/Scrum development
+- Coding, frontend, backend, devops, version control and algorithmic thinking
+- Creativity, research, design, data structures, and utilizing ChatGPT
+- Performing team work, team communication and collaboration, peer reviews/grading
+- Focus on tehnical communications through project presentations and student led teaching
+- Grades are on projects, learnt concepts, and live reviews between student(s) and teacher
 
-Classroom work 3-4 hours, with approximately 2-3 hours of homework per week
+Classroom work time is 3-4 hours per week. Homework expectations are approximately 2-3 hours per week.  Homework is scheduled over a Sprint, approximately 2-4 weeks.  Time lost is extremely hard to make up as all materials are cummulative.
 
 ![ccr]({{site.baseurl}}/images/course-brag/ccr.png)
 
