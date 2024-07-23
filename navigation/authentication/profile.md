@@ -1,123 +1,14 @@
 ---
 layout: post
+title: Profile Settings
 permalink: /profile
 menu: nav/home.html
 search_exclude: true
 show_reading_time: false
 ---
 
-<style>
-.profile-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.profile-card {
-    width: 100%;
-    max-width: 600px;
-    background-color: #2c3e50; /* Dark blue background */
-    border: 1px solid #34495e; /* Darker border */
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    color: #ffffff; /* White text */
-}
-
-.profile-card label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.profile-card input[type="text"],
-.profile-card input[type="file"],
-.profile-card select {
-    width: calc(100% - 12px);
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-.profile-card button {
-    background-color: #3498db; /* Blue button */
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.profile-card button:hover {
-    background-color: #2980b9; /* Darker blue on hover */
-}
-
-.profile-table {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
-}
-
-.profile-table th,
-.profile-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-}
-
-.details-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-top: 20px;
-    background-color: #3498db; /* Blue button */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-}
-
-.details-button:hover {
-    background-color: #2980b9; /* Darker blue on hover */
-}
-
-.profile-image-box {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.profile-image-box img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 50%;
-    border: 2px solid #34495e;
-}
-
-.delete-button {
-    background-color: red !important;
-    color: white !important;
-    border: none !important;
-    padding: 5px 10px !important;
-    cursor: pointer !important;
-    font-size: 12px !important;
-    margin-left: 10px !important;
-}
-
-.delete-button:hover {
-    background-color: darkred !important;
-}
-
-/* CSS styles remain unchanged */
-</style>
-
 <div class="profile-container">
-<!-- Profile Setup -->
-<div class="profile-card">
-    <h1>Profile Setup</h1>
+<div class="card">
     <form>
         <div>
             <label for="newUid">Enter New UID:</label>
@@ -130,10 +21,10 @@ show_reading_time: false
         <div>
           <label for="kasmServerNeeded">Kasm Server Needed:</label>
           <input type="checkbox" id="kasmServerNeeded" onclick="toggleKasmServerNeeded()">
-   </div>
+        </div>
         <label for="profilePicture">Upload Profile Picture:</label>
         <input type="file" id="profilePicture" accept="image/*" onchange="saveProfilePicture()">
-        <div class="profile-image-box" id="profileImageBox">
+        <div class="image-container" id="profileImageBox">
             <!-- Profile picture will be displayed here -->
         </div>
         <p id="profile-message" style="color: red;"></p>
@@ -146,11 +37,13 @@ show_reading_time: false
         <div>
             <button type="button" onclick="addSection()">Add Section</button>
         </div>
-        <table class="profile-table" id="profileTable">
+        <table>
             <thead>
                 <tr>
                     <th>Abbreviation</th>
                     <th>Name</th>
+                    <th>Year</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody id="profileResult">
@@ -242,15 +135,16 @@ show_reading_time: false
             const tr = document.createElement('tr');
             const abbreviationCell = document.createElement('td');
             const nameCell = document.createElement('td');
+            const yearCell = document.createElement('td');
             const actionCell = document.createElement('td');
 
             // Fill in the corresponding cells with data
             abbreviationCell.textContent = section.abbreviation;
             nameCell.textContent = section.name;
+            yearCell.textContent = section.year;
 
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Delete';
-            deleteButton.classList.add('delete-button');
             deleteButton.onclick = function() {
                 deleteSection(section.abbreviation);
             };
@@ -258,6 +152,7 @@ show_reading_time: false
             actionCell.appendChild(deleteButton);
             tr.appendChild(abbreviationCell);
             tr.appendChild(nameCell);
+            tr.appendChild(yearCell);
             tr.appendChild(actionCell);
 
             // Add the row to table
@@ -325,13 +220,15 @@ function updateTableWithData(data) {
         const tr = document.createElement('tr');
         const abbreviationCell = document.createElement('td');
         const nameCell = document.createElement('td');
+        const yearCell = document.createElement('td');
+        const actionCell = document.createElement('td');
         const deleteButton = document.createElement('button');
 
         abbreviationCell.textContent = section.abbreviation;
         nameCell.textContent = section.name;
+        yearCell.textContent = section.year;
 
         deleteButton.textContent = 'Delete';
-        deleteButton.classList.add('delete-button');
         deleteButton.onclick = async function() {
             const URL = pythonURI + "/api/user/section"
             // Remove the row from the table
@@ -359,9 +256,11 @@ function updateTableWithData(data) {
             }
         };
 
-        nameCell.appendChild(deleteButton);
+        actionCell.appendChild(deleteButton);
         tr.appendChild(abbreviationCell);
         tr.appendChild(nameCell);
+        tr.appendChild(yearCell);
+        tr.appendChild(actionCell);
 
         tableBody.appendChild(tr);
     });

@@ -33,10 +33,11 @@ In GitHub Pages, you can define code in Markdown. The <mark>index.md uses markdo
     > Explore the Computer Science Pathway at Del Norte High School and invest in your technical skills. All Del Norte CompSci classes are designed to provide a real-world development experience. Class time includes tech talks (lectures), peer collaboration, communication with teachers, critical thinking while coding, and creativity in projects. Grading is focused on time invested, participation with peers, and engagement in learning.
     - Introduction to concepts and requirements by the teacher
     - Project-based learning with teacher support
-    - Peer communication and collaboration
-    - Coding, developer operations, and critical thinking
+    - Peer teams, team work, communication and collaboration
+    - Student presentations, peer teaching, and peer grading
+    - Coding, Development, DevOps, and critical thinking
     - Creativity, research, and utilizing ChatGPT
-    - Class work with approximately 2-3 hours of homework per week
+    - Classroom work 3-4 hours, with approximately 2-3 hours of homework per week
 
     ![csse]({{site.baseurl}}/images/ccr.png)
     ```
