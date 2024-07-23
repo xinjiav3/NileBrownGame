@@ -80,11 +80,6 @@ show_reading_time: false
             </p>
             <p>
                 <label>
-                    Last Name:
-                    <input type="text" name="lastName" id="lastName" required>
-                </label>
-            <p>
-                <label>
                     GitHub ID:
                     <input type="text" name="signupUid" id="signupUid" required>
                 </label>
@@ -136,7 +131,6 @@ show_reading_time: false
             cache: "no-cache",
             body: {
                 name: document.getElementById("name").value,
-                last_name: document.getElementById("lastName").value,
                 uid: document.getElementById("signupUid").value,
                 password: document.getElementById("signupPassword").value,
                 kasm_server_needed: document.getElementById("kasmNeeded").checked,
