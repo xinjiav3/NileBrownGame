@@ -80,12 +80,6 @@ show_reading_time: false
             </p>
             <p>
                 <label>
-                    Last Name:
-                    <input type="text" name="lastName" id="lastName" required>
-                </label>
-            </p>
-            <p>
-                <label>
                     GitHub ID:
                     <input type="text" name="signupUid" id="signupUid" required>
                 </label>
