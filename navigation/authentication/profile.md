@@ -6,7 +6,6 @@ menu: nav/home.html
 search_exclude: true
 show_reading_time: false
 ---
-
 <div class="profile-container">
 <div class="card">
     <form>
@@ -43,7 +42,6 @@ show_reading_time: false
                     <th>Abbreviation</th>
                     <th>Name</th>
                     <th>Year</th>
-                    <th>Action</th>
                 </tr>
             </thead>
             <tbody id="profileResult">
@@ -53,6 +51,7 @@ show_reading_time: false
     </form>
 </div>
 </div>
+
 
 <script type="module">
  // Import fetchOptions from config.js
@@ -139,24 +138,15 @@ import { putUpdate, postUpdate, deleteData } from "{{site.baseurl}}/assets/js/ap
             const abbreviationCell = document.createElement('td');
             const nameCell = document.createElement('td');
             const yearCell = document.createElement('td');
-            const actionCell = document.createElement('td');
 
             // Fill in the corresponding cells with data
             abbreviationCell.textContent = section.abbreviation;
             nameCell.textContent = section.name;
             yearCell.textContent = section.year;
 
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Delete';
-            deleteButton.onclick = function() {
-                deleteSection(section.abbreviation);
-            };
-
-            actionCell.appendChild(deleteButton);
             tr.appendChild(abbreviationCell);
             tr.appendChild(nameCell);
             tr.appendChild(yearCell);
-            tr.appendChild(actionCell);
 
             // Add the row to table
             tableBody.appendChild(tr);
@@ -220,47 +210,98 @@ function updateTableWithData(data) {
         const abbreviationCell = document.createElement('td');
         const nameCell = document.createElement('td');
         const yearCell = document.createElement('td');
-        const actionCell = document.createElement('td');
-        const deleteButton = document.createElement('button');
 
+        
         abbreviationCell.textContent = section.abbreviation;
         nameCell.textContent = section.name;
         yearCell.textContent = section.year;
 
-        deleteButton.textContent = 'Delete';
-        deleteButton.onclick = async function() {
-        const URL = pythonURI + "/api/user/section";
 
-    // Remove the row from the table
-        tr.remove();
+        const trashIcon = document.createElement('i');
+        trashIcon.className = 'fas fa-trash-alt trash-icon';
+        trashIcon.style.marginLeft = '10px';
+        abbreviationCell.appendChild(trashIcon);
 
-    // Create options object for delete request
-     const options = {
-        URL,
-        body: { sections: [section.abbreviation] },
-        message: 'profile-message', // Adjust the message area as needed
-        callback: async () => {
-            console.log('Section deleted successfully!');
-            await fetchDataAndPopulateTable();
-        }
-    };
+        trashIcon.addEventListener('click', async function (event) {
+            event.preventDefault();
+            const URL = pythonURI + "/api/user/section";
+            
+            // Remove the row from the table
+            tr.remove();
 
-    try {
-        await deleteData(options);
-    } catch (error) {
-        console.error('Error deleting section:', error.message);
-        document.getElementById('profile-message').textContent = 'Error deleting section: ' + error.message;
-    }
-};
+            const options = {
+                URL,
+                body: { sections: [section.abbreviation] },
+                message: 'profile-message',
+                callback: async () => {
+                    console.log('Section deleted successfully!');
+                    await fetchDataAndPopulateTable();
+                }
+            };
 
-        actionCell.appendChild(deleteButton);
+            try {
+                await deleteData(options);
+            } catch (error) {
+                console.error('Error deleting section:', error.message);
+                document.getElementById('profile-message').textContent = 'Error deleting section: ' + error.message;
+            }
+        });
+
+
+       
+
+
+       yearCell.classList.add('editable'); // Make year cell editable
+       yearCell.innerHTML = `${section.year} <i class="fas fa-pencil-alt edit-icon" style="margin-left: 10px;"></i>`;
+
+        // Make the year cell editable
+        yearCell.addEventListener('click', function () {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = section.year;
+            input.className = 'edit-input';
+            yearCell.innerHTML = '';
+            yearCell.appendChild(input);
+
+            input.focus();
+
+            input.addEventListener('blur', async function () {
+                const newYear = input.value;
+                const URL = pythonURI + "/api/user/section";
+                const options = {
+                    URL,
+                    body: { section: { abbreviation: section.abbreviation, year: newYear } },
+                    message: 'profile-message',
+                    callback: async () => {
+                        console.log('Year updated successfully!');
+                        await fetchDataAndPopulateTable();
+                    }
+                };
+
+                try {
+                    await putUpdate(options);
+                } catch (error) {
+                    console.error('Error updating year:', error.message);
+                    document.getElementById('profile-message').textContent = 'Error updating year: ' + error.message;
+                }
+
+                yearCell.textContent = newYear;
+            });
+
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    input.blur();
+                }
+            });
+        });
         tr.appendChild(abbreviationCell);
         tr.appendChild(nameCell);
         tr.appendChild(yearCell);
-        tr.appendChild(actionCell);
 
         tableBody.appendChild(tr);
     });
+
+    
 }
 
  // Function to fetch user profile data
