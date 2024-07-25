@@ -21,7 +21,8 @@ show_reading_time: false
           <label for="kasmServerNeeded">Kasm Server Needed:</label>
           <input type="checkbox" id="kasmServerNeeded" onclick="toggleKasmServerNeeded()">
         </div>
-        <label for="profilePicture">Upload Profile Picture:</label>
+        <label for="profilePicture" class="file-icon"> Upload File <i class="fas fa-upload"></i> <!-- Replace this with your desired icon -->
+        </label>
         <input type="file" id="profilePicture" accept="image/*" onchange="saveProfilePicture()">
         <div class="image-container" id="profileImageBox">
             <!-- Profile picture will be displayed here -->
@@ -29,12 +30,14 @@ show_reading_time: false
         <p id="profile-message" style="color: red;"></p>
         <div>
             <label for="sectionDropdown">Choose Section:</label>
+            <div class="icon-container">
             <select id="sectionDropdown">
                 <!-- Options will be dynamically populated -->
             </select>
+            <i class="fas fa-plus" onclick="addSection()"></i>
+            </div>
         </div>
         <div>
-            <button type="button" onclick="addSection()">Add Section</button>
         </div>
         <table>
             <thead>
@@ -43,7 +46,7 @@ show_reading_time: false
                     <th>Name</th>
                     <th>Year</th>
                 </tr>
-            </thead>
+            </thead> 
             <tbody id="profileResult">
                 <!-- Table rows will be dynamically populated -->
             </tbody>
