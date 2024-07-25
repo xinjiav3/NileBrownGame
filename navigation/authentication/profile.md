@@ -18,8 +18,9 @@ show_reading_time: false
             <input type="text" id="newName" placeholder="New Name">
         </div>
         <div>
-          <label for="kasmServerNeeded">Kasm Server Needed:</label>
+          <label for="kasmServerNeeded">Kasm Server Needed:
           <input type="checkbox" id="kasmServerNeeded" onclick="toggleKasmServerNeeded()">
+          </label>
         </div>
         <label for="profilePicture" class="file-icon"> Upload File <i class="fas fa-upload"></i> <!-- Replace this with your desired icon -->
         </label>
