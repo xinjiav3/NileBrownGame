@@ -7,51 +7,52 @@ search_exclude: true
 show_reading_time: false
 ---
 <div class="profile-container">
-<div class="card">
+  <div class="card">
     <form>
-        <div>
-            <label for="newUid">Enter New UID:</label>
-            <input type="text" id="newUid" placeholder="New UID">
+      <div>
+        <label for="newUid">Enter New UID:</label>
+        <input type="text" id="newUid" placeholder="New UID">
+      </div>
+      <div>
+        <label for="newName">Enter New Name:</label>
+        <input type="text" id="newName" placeholder="New Name">
+      </div>
+      <div>
+        <label for="kasmServerNeeded">Kasm Server Needed:
+        <input type="checkbox" id="kasmServerNeeded" onclick="toggleKasmServerNeeded()">
+        </label>
+      </div>
+      <div>
+        <label for="sectionDropdown">Choose Section:</label>
+        <div class="icon-container">
+          <select id="sectionDropdown">
+            <!-- Options will be dynamically populated -->
+          </select>
+          <i class="fas fa-plus" onclick="addSection()"></i>
         </div>
-         <div>
-            <label for="newUid">Enter New Name:</label>
-            <input type="text" id="newName" placeholder="New Name">
-        </div>
-        <div>
-          <label for="kasmServerNeeded">Kasm Server Needed:</label>
-          <input type="checkbox" id="kasmServerNeeded" onclick="toggleKasmServerNeeded()">
-        </div>
-        <label for="profilePicture">Upload Profile Picture:</label>
-        <input type="file" id="profilePicture" accept="image/*" onchange="saveProfilePicture()">
-        <div class="image-container" id="profileImageBox">
-            <!-- Profile picture will be displayed here -->
-        </div>
-        <p id="profile-message" style="color: red;"></p>
-        <div>
-            <label for="sectionDropdown">Choose Section:</label>
-            <select id="sectionDropdown">
-                <!-- Options will be dynamically populated -->
-            </select>
-        </div>
-        <div>
-            <button type="button" onclick="addSection()">Add Section</button>
-        </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Abbreviation</th>
-                    <th>Name</th>
-                    <th>Year</th>
-                </tr>
-            </thead>
-            <tbody id="profileResult">
-                <!-- Table rows will be dynamically populated -->
-            </tbody>
-        </table>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Abbreviation</th>
+            <th>Name</th>
+            <th>Year</th>
+          </tr>
+        </thead>
+        <tbody id="profileResult">
+          <!-- Table rows will be dynamically populated -->
+        </tbody>
+      </table>
+      <label for="profilePicture" class="file-icon"> Upload File <i class="fas fa-upload"></i> <!-- Replace this with your desired icon -->
+      </label>
+      <input type="file" id="profilePicture" accept="image/*" onchange="saveProfilePicture()">
+      <div class="image-container" id="profileImageBox">
+          <!-- Profile picture will be displayed here -->
+      </div>
+      <p id="profile-message" style="color: red;"></p>
     </form>
+  </div>
 </div>
-</div>
-
 
 <script type="module">
  // Import fetchOptions from config.js
