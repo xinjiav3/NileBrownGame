@@ -14,11 +14,14 @@ show_reading_time: false
         <input type="text" id="newUid" placeholder="New UID">
       </div>
       <div>
+        <label for="newPassword">Enter New Password:</label>
+        <input type="password" id="newPassword" placeholder="New Password">
+      </div>
+      <div>
         <label for="newName">Enter New Name:</label>
         <input type="text" id="newName" placeholder="New Name">
       </div>
-      <div>
-        <label for="kasmServerNeeded">Kasm Server Needed:
+       <div style="margin-top: 20px; margin-bottom: 20px;">        <label for="kasmServerNeeded">Kasm Server Needed:
         <input type="checkbox" id="kasmServerNeeded" onclick="toggleKasmServerNeeded()">
         </label>
       </div>
@@ -43,7 +46,7 @@ show_reading_time: false
           <!-- Table rows will be dynamically populated -->
         </tbody>
       </table>
-      <label for="profilePicture" class="file-icon"> Upload File <i class="fas fa-upload"></i> <!-- Replace this with your desired icon -->
+      <label for="profilePicture" class="file-icon"> Upload Profile Picture <i class="fas fa-upload"></i> <!-- Replace this with your desired icon -->
       </label>
       <input type="file" id="profilePicture" accept="image/*" onchange="saveProfilePicture()">
       <div class="image-container" id="profileImageBox">
@@ -212,7 +215,7 @@ function updateTableWithData(data) {
         const nameCell = document.createElement('td');
         const yearCell = document.createElement('td');
 
-        
+
         abbreviationCell.textContent = section.abbreviation;
         nameCell.textContent = section.name;
         yearCell.textContent = section.year;
@@ -226,7 +229,7 @@ function updateTableWithData(data) {
         trashIcon.addEventListener('click', async function (event) {
             event.preventDefault();
             const URL = pythonURI + "/api/user/section";
-            
+
             // Remove the row from the table
             tr.remove();
 
@@ -247,10 +250,6 @@ function updateTableWithData(data) {
                 document.getElementById('profile-message').textContent = 'Error deleting section: ' + error.message;
             }
         });
-
-
-       
-
 
        yearCell.classList.add('editable'); // Make year cell editable
        yearCell.innerHTML = `${section.year} <i class="fas fa-pencil-alt edit-icon" style="margin-left: 10px;"></i>`;
@@ -302,7 +301,7 @@ function updateTableWithData(data) {
         tableBody.appendChild(tr);
     });
 
-    
+
 }
 
  // Function to fetch user profile data
@@ -423,6 +422,11 @@ window.updateUidField = function(newUid) {
    uidInput.placeholder = newUid;
 }
 
+window.updatePasswordField = function(newPassword) {
+   const uidInput = document.getElementById('newPassword');
+   uidInput.value = newPassword;
+}
+
 // Function to update UI with new Name and change placeholder
 window.updateNameField = function(newName) {
    const nameInput = document.getElementById('newName');
@@ -430,7 +434,7 @@ window.updateNameField = function(newName) {
    nameInput.placeholder = newName;
 }
 
- // Function to change UID
+// Function to change UID
 window.changeUid = async function(uid) {
     if (uid) {
         const URL = pythonURI + "/api/user"; // Adjusted endpoint
@@ -455,10 +459,35 @@ window.changeUid = async function(uid) {
     }
 }
 
+// Function to change UID
+window.changePassword = async function(password) {
+    if (password) {
+        const URL = pythonURI + "/api/user"; // Adjusted endpoint
+
+        const options = {
+            URL,
+            body: { password },
+            message: 'password-message', // Adjust the message area as needed
+            callback: () => {
+                console.log('Password updated successfully!');
+                window.updatePasswordField(password);
+                window.location.href = '/portfolio_2025/login'
+            }
+        };
+
+        try {
+            await putUpdate(options);
+        } catch (error) {
+            console.error('Error updating Password:', error.message);
+            document.getElementById('password-message').textContent = 'Error updating Password: ' + error.message;
+        }
+    }
+}
+
 // Function to change Name
 window.changeName = async function(name) {
     if (name) {
-        const URL = pythonURI + "/api/user"; 
+        const URL = pythonURI + "/api/user";
         const options = {
             URL,
             body: { name },
@@ -484,12 +513,18 @@ window.changeName = async function(name) {
 
  });
 
+// Event listener to trigger updatePassword function when Password field is changed
+ document.getElementById('newPassword').addEventListener('change', function() {
+     const password = this.value;
+     window.changePassword(password);
+});
+
  // Event listener to trigger updateName function when Name field is changed
  document.getElementById('newName').addEventListener('change', function() {
      const name = this.value;
      window.changeName(name);
 
- });
+});
 
 window.fetchKasmServerNeeded = async function() {
   const URL = pythonURI + "/api/id"; // Adjusted endpoint
