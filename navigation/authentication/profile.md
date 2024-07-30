@@ -29,7 +29,7 @@ show_reading_time: false
      </div>
      <br>
      <div>
-       <label for="sectionDropdown">Choose Section:</label>
+       <label for="sectionDropdown">Select and Add Section:</label>
        <div class="icon-container">
          <select id="sectionDropdown">
            <!-- Options will be dynamically populated -->
