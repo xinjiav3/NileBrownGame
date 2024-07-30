@@ -27,6 +27,7 @@ show_reading_time: false
        <input type="checkbox" id="kasmServerNeeded" onclick="toggleKasmServerNeeded()">
        </label>
      </div>
+     <br>
      <div>
        <label for="sectionDropdown">Choose Section:</label>
        <div class="icon-container">
