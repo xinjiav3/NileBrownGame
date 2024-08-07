@@ -27,8 +27,9 @@ show_reading_time: false
        <input type="checkbox" id="kasmServerNeeded" onclick="toggleKasmServerNeeded()">
        </label>
      </div>
+     <br>
      <div>
-       <label for="sectionDropdown">Choose Section:</label>
+       <label for="sectionDropdown">Select and Add Section:</label>
        <div class="icon-container">
          <select id="sectionDropdown">
            <!-- Options will be dynamically populated -->
@@ -48,7 +49,7 @@ show_reading_time: false
          <!-- Table rows will be dynamically populated -->
        </tbody>
      </table>
-     <label for="profilePicture" class="file-icon"> Upload File <i class="fas fa-upload"></i> <!-- Replace this with your desired icon -->
+     <label for="profilePicture" class="file-icon"> Upload Profile Picture <i class="fas fa-upload"></i> <!-- Replace this with your desired icon -->
      </label>
      <input type="file" id="profilePicture" accept="image/*" onchange="saveProfilePicture()">
      <div class="image-container" id="profileImageBox">
