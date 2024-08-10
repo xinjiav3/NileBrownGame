@@ -3,8 +3,11 @@ _site
 __pycache__/
 _posts/**/*_IPYNB_2_.md
 _posts/**/*_GithubIssue_.md
+_posts/**/*_GithubIssue.md
+_posts/**/*_GithubPR.md
 nohup.out
 Gemfile.lock
 node_modules
 .DS_Store
 .env
+_posts/2024-06-25-RDS-and-Flask-Setup-

@@ -1,3 +1,4 @@
+import os
 import requests
 from datetime import datetime
 import math
@@ -103,7 +104,7 @@ def get_github_repository_issues(token=None):
 def create_issues():
   # extract the GitHub API token from the secrets in AWS Secrets Manager
   # token = getToken() # via amazon secrets manager
-  token = gha.get_token() # via .env file
+  token = os.environ.get('GITHUB_TOKEN') # via github secrets
   
   # Call the function to get the issues data, then extract a nested data structure from the response, this corresonds to an array of issues
   # we need to extract the specific project data, perhaps "projectsV2" in the code to yml file, so we can run CSP and CSSE with same python script
