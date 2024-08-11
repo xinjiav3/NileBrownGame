@@ -30,7 +30,7 @@ search_exclude: true
         <div class="details">
             <p id="username"></p>
             <p id="profile-url"></p>
-            <p id="repos-count"></p>
+            <p id="repos-url"></p> <!-- Added for public repos link -->
             <p id="public-repos"></p>
             <p id="public-gists"></p>
             <p id="followers"></p>
@@ -44,12 +44,20 @@ search_exclude: true
     <script type="module">
         import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
 
-        // URLs to fetch user profile and commits
+        // URLs to fetch profile links, user data, and commits
+        const profileLinksUrl = `${pythonURI}/api/analytics/github/user/profile_links`;
         const userProfileUrl = `${pythonURI}/api/analytics/github/user`;
         const commitsUrl = `${pythonURI}/api/analytics/github/user/commits`;
 
         async function fetchData() {
             try {
+                // Fetch profile links
+                const profileLinksResponse = await fetch(profileLinksUrl, fetchOptions);
+                if (!profileLinksResponse.ok) {
+                    throw new Error('Failed to fetch profile links: ' + profileLinksResponse.statusText);
+                }
+                const profileLinks = await profileLinksResponse.json();
+
                 // Fetch user profile data
                 const userProfileResponse = await fetch(userProfileUrl, fetchOptions);
                 if (!userProfileResponse.ok) {
@@ -67,8 +75,9 @@ search_exclude: true
 
                 // Extract relevant information from the user profile data
                 const username = userProfile.login || 'N/A';
-                const profileUrl = userProfile.html_url || 'N/A';
+                const profileUrl = profileLinks.profile_url || 'N/A';
                 const avatarUrl = userProfile.avatar_url || '';
+                const publicReposUrl = profileLinks.repos_url || 'N/A';  // Added for repos URL
                 const publicRepos = userProfile.public_repos || 'N/A';
                 const publicGists = userProfile.public_gists || 'N/A';
                 const followers = userProfile.followers || 'N/A';
@@ -77,8 +86,7 @@ search_exclude: true
                 // Update the HTML elements with the data
                 document.getElementById('avatar').src = avatarUrl;
                 document.getElementById('username').textContent = `Username: ${username}`;
-                document.getElementById('profile-url').textContent = `Profile URL: ${profileUrl}`;
-                document.getElementById('repos-count').textContent = `Public Repos: ${publicRepos}`;
+                document.getElementById('profile-url').innerHTML = `Profile URL: <a href="${profileUrl}" target="_blank">${profileUrl}</a>`;  // Added link to profile URL
                 document.getElementById('public-repos').textContent = `Public Repos: ${publicRepos}`;
                 document.getElementById('public-gists').textContent = `Public Gists: ${publicGists}`;
                 document.getElementById('followers').textContent = `Followers: ${followers}`;
