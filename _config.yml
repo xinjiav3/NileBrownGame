@@ -22,4 +22,5 @@ plugins:
 header_pages:
   - navigation/game.md
   - navigation/blog.md
+  - README4YML.md
   - navigation/search.md
