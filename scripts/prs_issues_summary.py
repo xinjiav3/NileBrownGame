@@ -22,7 +22,6 @@ def get_github_repository_issues_and_prs(token, owner, repo):
             issues(first: 100) {{
                 nodes {{
                     title
-                    body
                     url
                     createdAt
                     author {{
@@ -41,7 +40,6 @@ def get_github_repository_issues_and_prs(token, owner, repo):
             pullRequests(first: 100) {{
                 nodes {{
                     title
-                    body
                     url
                     createdAt
                     author {{
@@ -108,7 +106,6 @@ def create_issues_and_prs_json(owner="nighthawkcoders", repo="portfolio_2025"):
             author_data[author] = {"issues": [], "pull_requests": []}
         author_data[author]["issues"].append({
             'title': issue["title"],
-            'body': issue["body"],
             'url': issue["url"],
             'created_at': issue["createdAt"][:10]
         })
@@ -119,7 +116,6 @@ def create_issues_and_prs_json(owner="nighthawkcoders", repo="portfolio_2025"):
             author_data[author] = {"issues": [], "pull_requests": []}
         author_data[author]["pull_requests"].append({
             'title': pr["title"],
-            'body': pr["body"],
             'url': pr["url"],
             'created_at': pr["createdAt"][:10]
         })
