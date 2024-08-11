@@ -1,5 +1,6 @@
-## Deployment Information
-Change the Backend URL in GameEnv.  For a secure "https" connection use "wss" instead of ws
+# Deployment Information
+
+Change the Backend URL in GameEnv.  For a secure `https` connection use `wss` instead of ws
 portfolio_2025/assets/js/multiplayer/GameEnv.js
 
 ```nodejs
