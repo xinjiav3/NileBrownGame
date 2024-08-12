@@ -4,10 +4,11 @@ title: Terraform Vs Ansible
 description: Differences Between Terraform and Ansible
 type: ccc
 courses: {}
-menu: nav/Kasm_Sections/web_guides.html
+menu: nav/kasm_cloud.html
 toc: true
 comments: true
 permalink: /kasm/config/tf_vs_ans
+author: Torin Wolff
 ---
 
 Terraform and Ansible are both powerful tools, each with their own strengths.

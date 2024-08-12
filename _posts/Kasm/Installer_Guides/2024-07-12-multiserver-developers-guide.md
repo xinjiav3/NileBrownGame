@@ -4,10 +4,12 @@ title: Kasm Multi-Server Installer Developers Guide
 description: This document goes through the menu options and other options while explaining how the system is configured and works. Think of this as an extended guide explaining how everything works.
 type: ccc
 courses: {}
-menu: nav/Kasm_Sections/installer.html
+menu: nav/kasm_cloud.html
 toc: true
 comments: true
 permalink: /kasm/installer/developer_guide
+author: Rachit Jaiswal
+excerpt: "A detailed explanation of the Kasm multiserver installation program."
 ---
 
 {% raw %}
