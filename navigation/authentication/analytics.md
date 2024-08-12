@@ -9,14 +9,20 @@ search_exclude: true
     .container {
         display: flex;
         justify-content: center;
-        align-items: center;
-        margin: 20px;
+        width: 100%;
+        max-width: 1200px;
+        padding: 20px;
+        box-sizing: border-box;
     }
     .profile {
         display: flex;
         align-items: flex-start;
         max-width: 800px;
         width: 100%;
+        background-color: #2c3e50;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     .left-side {
         display: flex;
