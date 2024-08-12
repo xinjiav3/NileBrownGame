@@ -1,40 +1,45 @@
-## Introduction TEST FROM MS Cloud Server
+# Introduction
 
 Nighthawk Pages is a project designed to support students in their Computer Science and Software Engineering education. It offers a wide range of resources including tech talks, code examples, and educational blogs.
 
 GitHub Pages can be customized by the blogger to support computer science learnings as the student works through the pathway of using Javascript, Python/Flask, Java/Spring.  
 
-### Del Norte HS Students
+## Student Requirements
 
 Del Norte HS students will be required to review their personal GitHub Pages at each midterm and final.  This review will contain a compilation of personal work performed within each significant grading period.
 
-In general, Students and Teachers are expected to use GitHub pages to build lessons, complete classroom hacks, and serve as a frontend in a full-stack application.
+In general, Students and Teachers are expected to use GitHub pages to build lessons, complete classroom hacks, perform work on JavaScript games, and serve as a frontend to full-stack applications.
 
 Exchange of information could be:
 
-1. sharing a file:  `wget "raw-lin.ipynb"
-2. creating a template for the repository
+1. sharing a file:  `wget "raw-link.ipynb"
+2. creating a template from this repository
 3. sharing a fork among team members
 4. etc.
 
+---
 
-### History and License
+## History
 
 This project is in its 3rd revision (aka 3.0).
 
-The project was initially based on Fastpages. But this project has diverged from those roots into an independent entity.  The decision to separate from Fastpages was influenced by the deprecation of Fastpages by authors.  It is believed the authors turned to Quatro, that change did not align with the Teacher's goals to have more of a raw development blogging site.
+The project was initially based on Fastpages. But this project has diverged from those roots into an independent entity.  The decision to separate from Fastpages was influenced by the deprecation of Fastpages by authors.  It is believed by our community that the authors of fastpages turned toward Quatro.  After that change of direction fastpages did not align with the Teacher's goals and student needs. The Nighthawk Pages project has more of a raw development blogging need.
 
-The Apache license has its roots in Fastpages.
+### License
+
+The Apache license has its roots in Fastpages.  Thus, it carries its license forward.  However, most of the code is likely unrecognizable from those roots.
 
 ### Key Features
 
 - **Code Examples**: Provides practical coding examples in JavaScript, including a platformer game, and frontend code for user databases using Python and Java backends.
 - **Educational Blogs**: Offers instructional content on various topics such as developer tools setup, deployment on AWS, SQL databases, machine learning, and data structures. It utilizes Jupyter Notebooks for interactive lessons and coding challenges.
-- **Tools and Integrations**: Features GitHub actions for blog publishing, Utterances for blog commenting, local development support via Makefile and scripts, and styling with the Minima Theme and SASS. It also includes a new integration with GitHub Projects for planning purposes.
+- **Tools and Integrations**: Features GitHub actions for blog publishing, Utterances for blog commenting, local development support via Makefile and scripts, and styling with the Minima Theme and SASS. It also includes a new integration with GitHub Projects and Issues.
 
 ### Contributions
 
 - **Notable Contributions**: Highlights significant contributions to the project, including theme development, search and tagging functionality, GitHub API integration, and the incorporation of GitHub Projects into GitHub pages. Contributors such as Tirth Thakker, Mirza Beg, and Toby Ledder have played crucial roles in these developments.
+
+- **Blog Contributions**:  Often students contribute articles and blogs to this project.  Their names are typically listed in the front matter of their contributing post.
 
 ---
 
@@ -42,21 +47,21 @@ The Apache license has its roots in Fastpages.
 
 The absolutes in setup up...
 
-1. **Activate GitHub Pages Actions**: This step involves enabling GitHub Pages Actions for your project. By doing so, your project will be automatically deployed using GitHub Pages Actions, ensuring that your project is always up to date with the latest changes you push to your repository.
+**Activate GitHub Pages Actions**: This step involves enabling GitHub Pages Actions for your project. By doing so, your project will be automatically deployed using GitHub Pages Actions, ensuring that your project is always up to date with the latest changes you push to your repository.
 
 - On the GitHub website for the repository go to the menu: Settings -> Pages ->Build
 - Under the Deployment location on the page, select "GitHub Actions".
 
-2. **Update `_config.yml`**: You need to modify the `_config.yml` file to reflect your repository's name. This configuration is crucial because it ensures that your project's styling is correctly applied, making your deployed site look as intended rather than unstyled or broken.
+**Update `_config.yml`**: You need to modify the `_config.yml` file to reflect your repository's name. This configuration is crucial because it ensures that your project's styling is correctly applied, making your deployed site look as intended rather than unstyled or broken.
 
-```
+```text
 github_repo: "portfolio_2025" 
 baseurl: "/portfolio_2025"
 ```
 
-3. **Set Repository Name in Makefile**: Adjust the `REPO_NAME` variable in your Makefile to match your GitHub repository's name. This action facilitates the automatic updating of posts and notebooks on your local development server, improving the development process.
+**Set Repository Name in Makefile**: Adjust the `REPO_NAME` variable in your Makefile to match your GitHub repository's name. This action facilitates the automatic updating of posts and notebooks on your local development server, improving the development process.
 
-```
+```make
 # Configuration, override port with usage: make PORT=4200
 PORT ?= 4100
 REPO_NAME ?= portfolio_2025
@@ -106,15 +111,17 @@ To preview the project you will need to "make" the project.
 ### Bundle install
 
 The very first time you clone run project you will need to run this Ruby command as the final part of your setup.
+
 ```bash
 bundle install
 ```
 
-### Start the Server.  
+### Start the Server  
 
 This requires running terminal commands `make`, `make stop`, `make clean`, or `make convert` to manage the running server.  Logging of details will appear in the terminal.   A `Makefile` has been created in the project to support commands and start processes.
 
 Start the server, this is the best choice for initial and iterative development.  Note. after the initial `make`, you should see files automatically refresh in the terminal on VSCode save.
+
   ```bash
   make
   ```
@@ -122,7 +129,7 @@ Start the server, this is the best choice for initial and iterative development.
 ### Load web application into the Browser
 
 Start the preview server in the terminal,
-The terminal output from `make` shows the server address. "Cmd" or "Ctl" click the http location to open the preview server in a browser. Here is an example Server address message, click on Server address to load:...
+The terminal output from `make` shows the server address. "Cmd" or "Ctl" click the http location to open the preview server in a browser. Here is an example Server address message, click on the Server address to load:...
 
   ```text
   http://0.0.0.0:4100/portfolio_2025/
@@ -132,7 +139,7 @@ The terminal output from `make` shows the server address. "Cmd" or "Ctl" click t
 
 Save on ".ipynb" or ".md" file activiates "regeneration". An example terminal message is below.  Refresh the browser to see updates after the message displays.
 
-  ```
+  ```text
   Regenerating: 1 file(s) changed at 2023-07-31 06:54:32
       _notebooks/2024-01-04-cockpit-setup.ipynb
   ```
@@ -153,17 +160,17 @@ Stopping the server ends the web server applications running process.  However, 
 
 This command will top the server and "clean" all previously constructed files (ie .ipynb -> .md). This is the best choice when renaming files has created duplicates that are visible when previewing work.
 
-    ```bash
-    make clean
-    ```
+  ```bash
+  make clean
+  ```
 
 ### Observe build errors
 
 Test Jupyter Notebook conversions (ie .ipynb -> .md), this is the best choice to see if an IPYNB conversion error is occurring.
 
-    ```bash
-    make convert
-    ```
+  ```bash
+  make convert
+  ```
 
 ---
 
@@ -182,7 +189,7 @@ To name a file, use the following structure (If dates are in the future, review 
     - BAD EXAMPLE: first-day.md
     - BAD EXAMPLE: 2069-12-31-First-Day.md
 
-- For jupyter notebooks in _notebooks:
+- For Jupyter notebooks in _notebooks:
   - year-month-day-fileName.ipynb
     - GOOD EXAMPLE: 2021-08-02-First-Day.ipynb
     - BAD EXAMPLE: 2021-8-2-first-day.ipynb
@@ -199,7 +206,7 @@ All pages can be searched for using the built-in search bar. This search bar wil
 
 ### Navigation Bar
 
-To add pages to the top navigation bar use _config.yml to order and determine which menus you want and how to order them.  Review the _config.yml in this project for an example.
+To add pages to the top navigation bar use _config.yml to order and determine which menus you want and how to order them.  Review the_config.yml in this project for an example.
 
 ### Blog Page
 
