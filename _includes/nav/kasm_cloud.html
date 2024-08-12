@@ -1,10 +1,57 @@
 <table>
     <tr>
-        <!-- <td><img src="{{site.baseurl}}/images/kasm/kasmv2.png" height="60" title="GH Pages" alt=""></td> -->
         <td><img src="{{site.baseurl}}/images/kasm/kasmv2.png" height="120" alt=""></td>
         <td><a href="{{site.baseurl}}/kasm/pages/intro">Intro</a></td>
-        <td><a href="{{site.baseurl}}/kasm/pages/intro">Multi-Server</a></td>
         <td><a href="{{site.baseurl}}/kasm/pages/intro">Workspaces</a></td>
         <td><a href="{{site.baseurl}}/kasm/pages/intro">Database</a></td>
+         <!-- Multi-Server Dropdown -->
+         <td class="dropdown">
+            <a href="{{site.baseurl}}/kasm/pages/intro" class="dropbtn">Multi-Server</a>
+            <div class="dropdown-content">
+                <a href="https://nighthawkcoders.github.io/kasmv2-frontend/multi-server/2024/07/12/multiserver-developers-guide.html">Multi-Server Guide</a>
+                <a href="https://nighthawkcoders.github.io/kasmv2-frontend/multi-server/2024/07/30/autoscale-config.html">Kasm Autoscale Configuration</a>
+                <a href="https://nighthawkcoders.github.io/kasmv2-frontend/multi-server/2024/07/31/s3-persistent-storage-config.html">S3 Buckets for Persistent Data</a>
+                <a href="https://nighthawkcoders.github.io/kasmv2-frontend/multi-server/2024/07/15/manual-registry-addition.html">Registry Configuration</a>
+                <a href="#">Zones - TBD from email from LaTroy</a>
+            </div>
+        </td>
     </tr>
 </table>
+
+<!-- idk where to put the style stuff-->
+<style>
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropbtn {
+        text-decoration: none;
+        color: black;
+        line-height: 8;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 220px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+</style>
