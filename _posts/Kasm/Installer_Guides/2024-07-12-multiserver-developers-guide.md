@@ -9,6 +9,7 @@ toc: true
 comments: true
 permalink: /kasm/installer/developer_guide
 author: Rachit Jaiswal
+excerpt: "A detailed explanation of the Kasm multiserver installation program."
 ---
 
 {% raw %}
