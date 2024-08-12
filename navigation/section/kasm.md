@@ -1,11 +1,12 @@
 ---
 layout: post
 title: Kasm Cloud Workspaces
-description: A place to share all documentation for the Kasm Cloud Workspaces Project
-categories: [Documentation]
+description: A place to share user and development documentation for the Kasm Cloud Workspaces Project
+categories: [Kasm]
 permalink: /kasm/pages/intro
 author: Mr. Mortensen, Rachit Jaiswal, Tanisha Patil, Torin Wolff
 menu: nav/kasm_cloud.html
+toc: true
 ---
 
 <style>
@@ -90,6 +91,48 @@ menu: nav/kasm_cloud.html
     }
 </style>
 
+Kasm supports a modern scalable and resilient design to provide a web-based remote desktop environment.  This means xChromebook or an system that provides a brows can perform same development functions as someone with a Window or Mac computer.
+
+## Kasm Cloud Workpaces Requirements
+
+To run Kasm Clooud Workpace you will need a User account with Login credentials.  
+
+### Kasm Signup
+
+You will need an account, signup on [Nighthawk Pages Login](/portfolio_2025/login)
+
+### Kasm Access
+
+To access cloud workspace login at [kasm.nighthawkcodingsociety.com](https://kasm.nighthawkcodingsociety.com/#/login)
+
+### Kasm Resources
+
+To develop on Kasm and following the resources with this Unit you need to be authorized by the Teacher.  If you are interested in the resources the are described below and on the tab of the Notebook.
+
+## MultiServer Development
+
+The development resources are consolidated on [GitHub](https://github.com/nighthawkcoders/kasm-multi-server)
+
+### Registry
+
+There are three key development consideration when developing workspaces for Kasm ...
+
+- Container Building: Github TBD Link
+- Docker Management: [DockerHub](https://hub.docker.com/r/nighthawkcoders/pusd-student-ubuntu/tags)
+- Workspace Publication: [Registry](https://nighthawkcoders.github.io/kasm_registry/1.0/)
+
+### Database
+
+Database management is broken down into frontend and backend management.
+
+- Frontend is in portfolio_2025, feature are login and profile.
+- Backend is in flask_2025, the repo has migration scripts in scripts/db_migrate.py.  Additionally, there are API's to suppor bulk migration.  
+
+
+
+<!---
+I think meta data would be required to pull this off effectively
+
 <div class="installer-container">
     <button class="expand-button" onclick="toggleInstaller()">Installer Docs</button>
     
@@ -142,3 +185,5 @@ menu: nav/kasm_cloud.html
   {% endif %}
 {% endfor %}
 </ul>
+
+-->
