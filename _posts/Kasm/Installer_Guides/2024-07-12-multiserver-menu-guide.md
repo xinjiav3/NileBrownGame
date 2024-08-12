@@ -8,6 +8,7 @@ menu: nav/kasm_cloud.html
 toc: true
 comments: true
 permalink: /kasm/installer/guide
+author: Rachit Jaiswal
 ---
 
 {% raw %}

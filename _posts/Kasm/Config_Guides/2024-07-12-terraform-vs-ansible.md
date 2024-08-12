@@ -8,6 +8,7 @@ menu: nav/kasm_cloud.html
 toc: true
 comments: true
 permalink: /kasm/config/tf_vs_ans
+author: Torin Wolff
 ---
 
 Terraform and Ansible are both powerful tools, each with their own strengths.
