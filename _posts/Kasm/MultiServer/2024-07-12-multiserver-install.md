@@ -1,13 +1,13 @@
 ---
 layout: post
-title: Kasm Multi-Server Installer Guide
+title: Multi-Server Installation Guide
 description: This section below is the installation and menu guide for the Kasm multiserver installer.
 type: ccc
 categories: [Kasm]
 menu: nav/kasm_cloud.html
 toc: true
 comments: true
-permalink: /kasm/installer/guide
+permalink: /kasm/multiserver/install
 author: Rachit Jaiswal
 excerpt: "A Guide to the Kasm Multiserver Installation."
 ---
