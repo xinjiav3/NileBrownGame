@@ -53,7 +53,9 @@ search_exclude: true
         </div>
         <div class="details">
             <p id="profile-url"></p>
+            <p id="issues-count"></p>
             <p id="commits-count"></p>
+            <p id="prs-count"></p>
             <p id="repos-url"></p> <!-- Added for public repos link -->
             <p id="public-repos"></p>
             <p id="public-gists"></p>
@@ -70,6 +72,8 @@ search_exclude: true
     const profileLinksUrl = `${pythonURI}/api/analytics/github/user/profile_links`;
     const userProfileUrl = `${pythonURI}/api/analytics/github/user`;
     const commitsUrl = `${pythonURI}/api/analytics/github/user/commits`;
+    const prsUrl = `${pythonURI}/api/analytics/github/user/prs`;
+    const issuesUrl = `${pythonURI}/api/analytics/github/user/issues`;
 
     async function fetchData() {
         try {
@@ -77,12 +81,16 @@ search_exclude: true
             const profileLinksRequest = fetch(profileLinksUrl, fetchOptions);
             const userProfileRequest = fetch(userProfileUrl, fetchOptions);
             const commitsRequest = fetch(commitsUrl, fetchOptions);
+            const prsRequest = fetch(prsUrl, fetchOptions);
+            const issuesRequest = fetch(issuesUrl, fetchOptions);
 
             // Run all fetch requests concurrently
-            const [profileLinksResponse, userProfileResponse, commitsResponse] = await Promise.all([
+            const [profileLinksResponse, userProfileResponse, commitsResponse, prsResponse, issuesResponse] = await Promise.all([
                 profileLinksRequest,
                 userProfileRequest,
-                commitsRequest
+                commitsRequest,
+                prsRequest,
+                issuesRequest
             ]);
 
             // Check for errors in the responses
@@ -95,14 +103,26 @@ search_exclude: true
             if (!commitsResponse.ok) {
                 throw new Error('Failed to fetch commits: ' + commitsResponse.statusText);
             }
+            if (!prsResponse.ok) {
+                throw new Error('Failed to fetch pull requests: ' + prsResponse.statusText);
+            }
+            if (!issuesResponse.ok) {
+                throw new Error('Failed to fetch issues: ' + issuesResponse.statusText);
+            }
 
             // Parse the JSON data
             const profileLinks = await profileLinksResponse.json();
             const userProfile = await userProfileResponse.json();
             const commitsData = await commitsResponse.json();
+            const prsData = await prsResponse.json();
+            const issuesData = await issuesResponse.json();
 
             // Extract commits count
             const commitsCount = commitsData.total_commit_contributions || 'N/A';
+            const prsArray = prsData.pull_requests || [];
+            const prsCount = prsArray.length || 0;
+            const issuesArray = issuesData.issues || [];
+            const issuesCount = issuesArray.length || 0;
 
             // Extract relevant information from the user profile data
             const username = userProfile.login || 'N/A';
@@ -122,7 +142,9 @@ search_exclude: true
             document.getElementById('public-gists').textContent = `Public Gists: ${publicGists}`;
             document.getElementById('followers').textContent = `Followers: ${followers}`;
             document.getElementById('following').textContent = `Following: ${following}`;
-            document.getElementById('commits-count').textContent = `Tri Commits: ${commitsCount}`;
+            document.getElementById('commits-count').textContent = `Commits: ${commitsCount}`;
+            document.getElementById('prs-count').textContent = `Pull Requests: ${prsCount}`;
+            document.getElementById('issues-count').textContent = `Issues: ${issuesCount}`;
         } catch (error) {
             console.error('Error fetching data:', error);
         }
