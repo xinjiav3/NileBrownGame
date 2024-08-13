@@ -214,22 +214,18 @@ search_exclude: true
             document.getElementById('public-gists').textContent = `Public Gists: ${publicGists}`;
             document.getElementById('followers').textContent = `Followers: ${followers}`;
             document.getElementById('commits-count').textContent = `Commits: ${commitsCount}`;
+
             document.getElementById('prs-count').innerHTML = '<a href="#" class="info-link"><i class="fas fa-info-circle info-icon"></i></a>' + `Pull Requests: ${prsCount}`;
+            document.querySelector('#prs-count .info-link').addEventListener('click', (event) => {
+                event.preventDefault();
+                showModal(prsArray);
+            });
+
             document.getElementById('issues-count').innerHTML = '<a href="#" class="info-link"><i class="fas fa-info-circle info-icon"></i></a>' + `Issues: ${issuesCount}`;
- 
-            attachEventListeners();
-
-            function attachEventListeners() {
-                document.querySelector('#prs-count .info-link').addEventListener('click', (event) => {
-                    event.preventDefault();
-                    showModal(prsArray);
-                });
-
-                document.querySelector('#issues-count .info-link').addEventListener('click', (event) => {
-                    event.preventDefault();
-                    showModal(issuesArray);
-                });
-            }
+            document.querySelector('#issues-count .info-link').addEventListener('click', (event) => {
+                event.preventDefault();
+                showModal(issuesArray);
+            });
 
         } catch (error) {
             console.error('Error fetching data:', error);
