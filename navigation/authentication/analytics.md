@@ -43,8 +43,62 @@ search_exclude: true
     .commits {
         margin-top: 20px;
     }
+    .clickable {
+        cursor: pointer; /* Change cursor to pointer */
+        background-color: #3c3e50; /* Light blue background */
+        border: 1px solid #2c3e50; /* Border to match .profile color */
+        padding: 5px;
+        border-radius: 5px; /* Rounded corners */
+        transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+    }
+    .clickable:hover {
+        background-color: #5c3e50; /* Slightly darker blue on hover */
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on hover */
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4); /* Semi-transparent black background */
+        padding-top: 60px;
+    }
+    .modal-content {
+        background-color: #3c4e60; /* Same background color as .profile */
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); /* Red shadow for alert effect */
+    }
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
 </style>
 
+<!-- Modal Structure -->
+<div id="dataModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <pre id="modalData"></pre>
+    </div>
+</div>
+
+<!-- Analytics Page -->
 <div class="container">
     <div id="profile" class="profile">
         <div class="left-side">
@@ -53,9 +107,9 @@ search_exclude: true
         </div>
         <div class="details">
             <p id="profile-url"></p>
-            <p id="issues-count"></p>
+            <p id="issues-count" class="clickable"></p>
             <p id="commits-count"></p>
-            <p id="prs-count"></p>
+            <p id="prs-count" class="clickable"></p>
             <p id="repos-url"></p> <!-- Added for public repos link -->
             <p id="public-repos"></p>
             <p id="public-gists"></p>
@@ -120,10 +174,8 @@ search_exclude: true
             // Extract commits count
             const commitsCount = commitsData.total_commit_contributions || 'N/A';
             const prsArray = prsData.pull_requests || [];
-            console.log(prsArray);
             const prsCount = prsArray.length || 0;
             const issuesArray = issuesData.issues || [];
-            console.log(issuesArray);
             const issuesCount = issuesArray.length || 0;
 
             // Extract relevant information from the user profile data
@@ -147,8 +199,37 @@ search_exclude: true
             document.getElementById('commits-count').textContent = `Commits: ${commitsCount}`;
             document.getElementById('prs-count').textContent = `Pull Requests: ${prsCount}`;
             document.getElementById('issues-count').textContent = `Issues: ${issuesCount}`;
+
+            // Add click event listeners to log data to console
+            document.getElementById('prs-count').addEventListener('click', () => {
+                showModal(prsArray);
+            });
+
+            document.getElementById('issues-count').addEventListener('click', () => {
+                showModal(issuesArray);
+            });
         } catch (error) {
             console.error('Error fetching data:', error);
+        }
+    }
+
+    // Function to show modal with data
+    function showModal(data) {
+        const modal = document.getElementById('dataModal');
+        const modalData = document.getElementById('modalData');
+        const closeBtn = document.getElementsByClassName('close')[0];
+
+        modalData.textContent = JSON.stringify(data, null, 2);
+        modal.style.display = 'block';
+
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
         }
     }
 
