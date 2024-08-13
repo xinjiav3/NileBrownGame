@@ -36,25 +36,6 @@ search_exclude: true
         height: 100px;
         margin-bottom: 20px;
     }
-    .details {
-        line-height: 1.5;
-        margin-left: 20px; /* Add margin to push details to the right */
-    }
-    .commits {
-        margin-top: 20px;
-    }
-    .clickable {
-        cursor: pointer; /* Change cursor to pointer */
-        background-color: #3c3e50; /* Light blue background */
-        border: 1px solid #2c3e50; /* Border to match .profile color */
-        padding: 5px;
-        border-radius: 5px; /* Rounded corners */
-        transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-    }
-    .clickable:hover {
-        background-color: #5c3e50; /* Slightly darker blue on hover */
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on hover */
-    }
     .modal {
         display: none;
         position: fixed;
@@ -88,22 +69,6 @@ search_exclude: true
         text-decoration: none;
         cursor: pointer;
     }
-    .info-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px; /* Space between items */
-}
-
-.info-item p {
-    margin: 0; /* Remove default margins from paragraphs */
-    margin-right: 8px; /* Space between text and icon */
-}
-
-.info-icon {
-    color: #fff; /* Icon color */
-    font-size: 14px; /* Adjust size as needed */
-    vertical-align: middle; /* Center icon with text */
-}
 
 </style>
 <!-- Modal Structure -->
