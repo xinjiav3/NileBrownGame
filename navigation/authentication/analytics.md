@@ -213,13 +213,20 @@ search_exclude: true
         }
     }
 
+    // Function to convert JSON data to a string with clickable links
+        function jsonToHtml(json) {
+            const jsonString = JSON.stringify(json, null, 2);
+            const urlPattern = /(https?:\/\/[^\s]+)/g;
+            return jsonString.replace(urlPattern, '<a href="$1" target="_blank">$1</a>');
+        }
+
     // Function to show modal with data
     function showModal(data) {
         const modal = document.getElementById('dataModal');
         const modalData = document.getElementById('modalData');
         const closeBtn = document.getElementsByClassName('close')[0];
 
-        modalData.textContent = JSON.stringify(data, null, 2);
+        modalData.innerHTML = jsonToHtml(data);
         modal.style.display = 'block';
 
         closeBtn.onclick = function() {
