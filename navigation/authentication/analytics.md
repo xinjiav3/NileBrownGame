@@ -120,8 +120,10 @@ search_exclude: true
             // Extract commits count
             const commitsCount = commitsData.total_commit_contributions || 'N/A';
             const prsArray = prsData.pull_requests || [];
+            console.log(prsArray);
             const prsCount = prsArray.length || 0;
             const issuesArray = issuesData.issues || [];
+            console.log(issuesArray);
             const issuesCount = issuesArray.length || 0;
 
             // Extract relevant information from the user profile data
