@@ -88,8 +88,24 @@ search_exclude: true
         text-decoration: none;
         cursor: pointer;
     }
-</style>
+    .info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Space between items */
+}
 
+.info-item p {
+    margin: 0; /* Remove default margins from paragraphs */
+    margin-right: 8px; /* Space between text and icon */
+}
+
+.info-icon {
+    color: #fff; /* Icon color */
+    font-size: 14px; /* Adjust size as needed */
+    vertical-align: middle; /* Center icon with text */
+}
+
+</style>
 <!-- Modal Structure -->
 <div id="dataModal" class="modal">
     <div class="modal-content">
@@ -99,6 +115,7 @@ search_exclude: true
 </div>
 
 <!-- Analytics Page -->
+<!-- Analytics Page -->
 <div class="container">
     <div id="profile" class="profile">
         <div class="left-side">
@@ -106,18 +123,28 @@ search_exclude: true
             <p id="username"></p>
         </div>
         <div class="details">
-            <p id="profile-url"></p>
-            <p id="issues-count" class="clickable"></p>
-            <p id="commits-count"></p>
-            <p id="prs-count" class="clickable"></p>
-            <p id="repos-url"></p> <!-- Added for public repos link -->
-            <p id="public-repos"></p>
-            <p id="public-gists"></p>
-            <p id="followers"></p>
-            <p id="following"></p>
+            <p id="profile-url">Profile URL</p>
+            <div class="info-item">
+                <p id="issues-count">Issues Count</p>
+                <i class="fas fa-info-circle info-icon"></i>
+            </div>
+            <div class="info-item">
+                <p id="commits-count">Commits Count</p>
+                <!-- No icon for commits count -->
+            </div>
+            <div class="info-item">
+                <p id="prs-count">Pull Requests</p>
+                <i class="fas fa-info-circle info-icon"></i>
+            </div>
+            <p id="repos-url">Public Repos URL</p>
+            <p id="public-repos">Public Repos</p>
+            <p id="public-gists">Public Gists</p>
+            <p id="followers">Followers</p>
+            <p id="following">Following</p>
         </div>
     </div>
 </div>
+
 
 <script type="module">
     import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
