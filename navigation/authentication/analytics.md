@@ -213,7 +213,7 @@ search_exclude: true
         }
     }
 
-    // Function to convert JSON data to a string with clickable links
+    // Function to convert JSON data to a string with clickable links via Regular Expression (RegEx)
         function jsonToHtml(json) {
             const jsonString = JSON.stringify(json, null, 2);
             const urlPattern = /(https?:\/\/[^\s]+)/g;
