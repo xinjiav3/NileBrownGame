@@ -9,18 +9,24 @@
                 <a href="{{site.baseurl}}/kasm/multiserver/install">Install Servers</a>
                 <a href="{{site.baseurl}}/kasm/multiserver/autoscale">Autoscale Config</a>
                 <a href="{{site.baseurl}}/kasm/multiserver/persistent">S3 Persistence</a>
-                <a href="#">Registry Config</a>
+                <a href="{{site.baseurl}}/kasm/multiserver/registry">Registry Admin</a>
                 <a href="#">Zones</a>
             </div>
         </td>
-
-        
-        <td><a href="{{site.baseurl}}/kasm/pages/intro">Workspaces</a></td>
+        <td class="dropdown">
+            <a class="dropbtn">Workspaces</a>
+            <div class="dropdown-content">
+                <a href="{{site.baseurl}}/kasm/workspaces/development">Development</a>
+                <a href="{{site.baseurl}}/kasm/workspaces/dockerhub">DockerHub Push</a>
+                <a href="{{site.baseurl}}/kasm/workspaces/registry">Registry Site</a>
+            </div>
+        </td>
         <td class="dropdown">
             <a class="dropbtn">Database</a>
             <div class="dropdown-content">
                 <a href="{{site.baseurl}}/kasm/database/rds">RDS Setup</a>
-                <a href="{{site.baseurl}}/kasm/database/migration">Database Migration</a>
+                <a href="{{site.baseurl}}/kasm/database/migration">Migration</a>
+                <a href="{{site.baseurl}}/kasm/database/api">API</a>
                 <a href="{{site.baseurl}}/login">Sign-Up</a>
             </div>
         </td>       

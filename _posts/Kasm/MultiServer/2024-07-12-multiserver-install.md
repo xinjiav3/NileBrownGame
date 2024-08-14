@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Multi-Server Installation Guide
+title: Multi-Server Install Servers
 description: This section below is the installation and menu guide for the Kasm multiserver installer.
 type: ccc
 categories: [Kasm]
