@@ -13,12 +13,22 @@
                 <a href="#">Zones</a>
             </div>
         </td>
+
+        
         <td><a href="{{site.baseurl}}/kasm/pages/intro">Workspaces</a></td>
-        <td><a href="{{site.baseurl}}/kasm/pages/intro">Database</a></td>         
+        <td class="dropdown">
+            <a class="dropbtn">Database</a>
+            <div class="dropdown-content">
+                <a href="{{site.baseurl}}/kasm/database/rds">RDS Setup</a>
+                <a href="{{site.baseurl}}/kasm/database/migration">Database Migration</a>
+                <a href="{{site.baseurl}}/login">Sign-Up</a>
+            </div>
+        </td>       
     </tr>
 </table>
 
-<!-- idk where to put the style stuff-->
+<!-- idk where to put the style stuff
+-->
 <style>
     .dropdown {
         position: relative;
@@ -55,3 +65,4 @@
         display: block;
     }
 </style>
+
