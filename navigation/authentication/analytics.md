@@ -36,25 +36,6 @@ search_exclude: true
         height: 100px;
         margin-bottom: 20px;
     }
-    .details {
-        line-height: 1.5;
-        margin-left: 20px; /* Add margin to push details to the right */
-    }
-    .commits {
-        margin-top: 20px;
-    }
-    .clickable {
-        cursor: pointer; /* Change cursor to pointer */
-        background-color: #3c3e50; /* Light blue background */
-        border: 1px solid #2c3e50; /* Border to match .profile color */
-        padding: 5px;
-        border-radius: 5px; /* Rounded corners */
-        transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-    }
-    .clickable:hover {
-        background-color: #5c3e50; /* Slightly darker blue on hover */
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on hover */
-    }
     .modal {
         display: none;
         position: fixed;
@@ -88,22 +69,6 @@ search_exclude: true
         text-decoration: none;
         cursor: pointer;
     }
-    .info-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px; /* Space between items */
-}
-
-.info-item p {
-    margin: 0; /* Remove default margins from paragraphs */
-    margin-right: 8px; /* Space between text and icon */
-}
-
-.info-icon {
-    color: #fff; /* Icon color */
-    font-size: 14px; /* Adjust size as needed */
-    vertical-align: middle; /* Center icon with text */
-}
 
 </style>
 <!-- Modal Structure -->
@@ -123,24 +88,15 @@ search_exclude: true
             <p id="username"></p>
         </div>
         <div class="details">
-            <p id="profile-url">Profile URL</p>
-            <div class="info-item">
-                <p id="issues-count">Issues Count</p>
-                <i class="fas fa-info-circle info-icon"></i>
-            </div>
-            <div class="info-item">
-                <p id="commits-count">Commits Count</p>
-                <!-- No icon for commits count -->
-            </div>
-            <div class="info-item">
-                <p id="prs-count">Pull Requests</p>
-                <i class="fas fa-info-circle info-icon"></i>
-            </div>
-            <p id="repos-url">Public Repos URL</p>
-            <p id="public-repos">Public Repos</p>
-            <p id="public-gists">Public Gists</p>
-            <p id="followers">Followers</p>
-            <p id="following">Following</p>
+            <p id="profile-url"></p>
+            <p id="prs-count"></p>
+            <p id="commits-count"></p>
+            <p id="issues-count"></p>
+            <p id="repos-url"></p>
+            <p id="public-repos"></p>
+            <p id="public-gists"></p>
+            <p id="followers"></p>
+            <p id="following"></p>
         </div>
     </div>
 </div>
@@ -222,30 +178,31 @@ search_exclude: true
             document.getElementById('public-repos').textContent = `Public Repos: ${publicRepos}`;
             document.getElementById('public-gists').textContent = `Public Gists: ${publicGists}`;
             document.getElementById('followers').textContent = `Followers: ${followers}`;
-            document.getElementById('following').textContent = `Following: ${following}`;
             document.getElementById('commits-count').textContent = `Commits: ${commitsCount}`;
-            document.getElementById('prs-count').textContent = `Pull Requests: ${prsCount}`;
-            document.getElementById('issues-count').textContent = `Issues: ${issuesCount}`;
 
-            // Add click event listeners to log data to console
-            document.getElementById('prs-count').addEventListener('click', () => {
+            document.getElementById('prs-count').innerHTML = '<a href="#" class="info-link"><i class="fas fa-info-circle info-icon"></i></a>' + `Pull Requests: ${prsCount}`;
+            document.querySelector('#prs-count .info-link').addEventListener('click', (event) => {
+                event.preventDefault();
                 showModal(prsArray);
             });
 
-            document.getElementById('issues-count').addEventListener('click', () => {
+            document.getElementById('issues-count').innerHTML = '<a href="#" class="info-link"><i class="fas fa-info-circle info-icon"></i></a>' + `Issues: ${issuesCount}`;
+            document.querySelector('#issues-count .info-link').addEventListener('click', (event) => {
+                event.preventDefault();
                 showModal(issuesArray);
             });
+
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     }
 
     // Function to convert JSON data to a string with clickable links via Regular Expression (RegEx)
-        function jsonToHtml(json) {
-            const jsonString = JSON.stringify(json, null, 2);
-            const urlPattern = /(https?:\/\/[^\s]+)/g;
-            return jsonString.replace(urlPattern, '<a href="$1" target="_blank">$1</a>');
-        }
+    function jsonToHtml(json) {
+        const jsonString = JSON.stringify(json, null, 2);
+        const urlPattern = /(https?:\/\/[^\s]+)/g;
+        return jsonString.replace(urlPattern, '<a href="$1" target="_blank">$1</a>');
+    }
 
     // Function to show modal with data
     function showModal(data) {
@@ -266,6 +223,7 @@ search_exclude: true
             }
         }
     }
+
 
     // Call the fetchData function to initiate the requests
     fetchData();
