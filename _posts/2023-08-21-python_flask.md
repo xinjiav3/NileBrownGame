@@ -4,8 +4,6 @@ comments: true
 layout: post
 title: Start a Python/Flask Web Application
 description: Setting up a Flask/Python project.  Flask is a Web Application framework written in Python.
-type: ccc
-courses: { csp: {week: 6} }
 categories: [Python Flask]
 ---
 
