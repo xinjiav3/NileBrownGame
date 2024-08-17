@@ -1,189 +1,108 @@
 ---
 layout: post
 title: Kasm Cloud Workspaces
-description: A place to share user and development documentation for the Kasm Cloud Workspaces Project
+description: A central hub for user and development documentation for the Kasm Cloud Workspaces Project
 categories: [Kasm]
 permalink: /kasm/pages/intro
 author: Mr. Mortensen, Rachit Jaiswal, Tanisha Patil, Torin Wolff
 menu: nav/kasm_cloud.html
-toc: true
+toc: false
 ---
 
+Our Cloud Workspaces project aims to provide all students with equitable access to powerful computing resources, regardless of the device they own, by utilizing cloud-based desktop environments.
+
+
 <style>
-    /* Container for the whole component */
-    .installer-container {
-        position: fixed;
-        top: 50%;
-        right: 0;
-        transform: translateY(-50%);
-    }
-
-    /* Button to toggle the installer */
-    .expand-button {
-        padding: 15px 25px;
-        background-color: #007BFF;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 8px 0 0 8px;
-        font-size: 16px;
-        font-weight: bold;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        display: flex;
-        align-items: center;
-    }
-
-    .expand-button:hover {
-        background-color: #0056b3;
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
-        transform: translateX(-5px);
-    }
-
-    /* Add an arrow icon */
-    .expand-button::before {
-        content: '➔';
-        margin-right: 10px; /* Space between arrow and text */
-        font-size: 18px;
-        transition: transform 0.3s ease;
-        transform: rotate(180deg);
-    }
-
-    /* Rotate the arrow when expanded */
-    .expanded .expand-button::before {
-        transform: rotate(90deg);
-    }
-
-    /* Hidden buttons initially */
-    .button-container {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin-top: 20px;
-        transform: translateX(100%); /* Initially hide off-screen */
-        transition: transform 0.5s ease;
-        opacity: 0; /* Initially hidden */
-    }
-
-    /* Buttons styling */
-    .guide-button {
-        padding: 15px 30px;
-        font-size: 18px;
-        color: black;
-        background-color: #007BFF;
-        border: none;
+    .system-diagram {
+        display: block;
+        max-width: 100%;
+        margin: 20px auto;
         border-radius: 8px;
+        transition: transform 0.3s ease;
         cursor: pointer;
-        text-decoration: none;
-        text-align: center;
-        transition: background-color 0.3s ease;
-        width: 250px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-    .guide-button:hover {
-        background-color: #0056b3;
+    .system-diagram:hover {
+        transform: scale(1.05);
     }
 
-    /* Class to reveal the buttons */
-    .expanded .button-container {
-        transform: translateX(0); /* Bring buttons into view */
-        opacity: 1; /* Show buttons */
+    .diagram-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0.3s, opacity 0.3s ease;
+    }
+
+    .diagram-overlay img {
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .diagram-overlay.visible {
+        visibility: visible;
+        opacity: 1;
     }
 </style>
 
-Kasm supports a modern scalable and resilient design to provide a web-based remote desktop environment.  This means xChromebook or an system that provides a brows can perform same development functions as someone with a Window or Mac computer.
+<img src="https://github.com/user-attachments/assets/fbaaf499-b7c9-48d8-9005-df2b96e3a456" alt="System Diagram" class="system-diagram" onclick="toggleDiagram()">
 
-## Kasm Cloud Workpaces Requirements
-
-To run Kasm Clooud Workpace you will need a User account with Login credentials.  
-
-### Kasm Signup
-
-You will need an account, signup on [Nighthawk Pages Login](/portfolio_2025/login)
-
-### Kasm Access
-
-To access cloud workspace login at [kasm.nighthawkcodingsociety.com](https://kasm.nighthawkcodingsociety.com/#/login)
-
-### Kasm Resources
-
-To develop on Kasm and following the resources with this Unit you need to be authorized by the Teacher.  If you are interested in the resources the are described below and on the tab of the Notebook.
-
-## MultiServer Development
-
-The development resources are consolidated on [GitHub](https://github.com/nighthawkcoders/kasm-multi-server)
-
-### Registry
-
-There are three key development consideration when developing workspaces for Kasm ...
-
-- Container Building: Github TBD Link
-- Docker Management: [DockerHub](https://hub.docker.com/r/nighthawkcoders/pusd-student-ubuntu/tags)
-- Workspace Publication: [Registry](https://nighthawkcoders.github.io/kasm_registry/1.0/)
-
-### Database
-
-Database management is broken down into frontend and backend management.
-
-- Frontend is in portfolio_2025, feature are login and profile.
-- Backend is in flask_2025, the repo has migration scripts in scripts/db_migrate.py.  Additionally, there are API's to suppor bulk migration.  
-
-
-
-<!---
-I think meta data would be required to pull this off effectively
-
-<div class="installer-container">
-    <button class="expand-button" onclick="toggleInstaller()">Installer Docs</button>
-    
-    <div class="button-container">
-        <a href="https://github.com/nighthawkcoders/kasm-multi-server" class="guide-button">Installer</a>
-        <a href="{{site.baseurl}}/kasm/installer/guide" class="guide-button">User Guide</a>
-        <a href="{{site.baseurl}}/kasm/installer/developer_guide" class="guide-button">Developers Guide</a>
-    </div>
+<div class="diagram-overlay" id="diagram-overlay" onclick="toggleDiagram()">
+    <img src="https://github.com/user-attachments/assets/fbaaf499-b7c9-48d8-9005-df2b96e3a456" alt="Enlarged System Diagram">
 </div>
 
 <script>
-    function toggleInstaller() {
-        const container = document.querySelector('.installer-container');
-        container.classList.toggle('expanded');
+    function toggleDiagram() {
+        const overlay = document.getElementById('diagram-overlay');
+        overlay.classList.toggle('visible');
     }
 </script>
 
-## Multiserver Docs
+### 1. Frontend: Student Registration & Backend: Business Logic
 
-<ul>
-{% for post in site.posts %}
-  {% if post.path contains "/Kasm/Config_Guides/" %}
-    <li>
-      <a href="{{ site.baseurl }}{{ post.permalink | default: post.url }}">{{ post.title }}</a>
-    </li>
-  {% endif %}
-{% endfor %}
-</ul>
+**Frontend (portfolio_2025.ncs.com):**  
+The user-facing interface where students register and interact with the application. It communicates with the backend to send and receive data from the RDS database via an API.
 
-## Relational Database Service (RDS)
+**Backend (flask2.ncs.com):**  
+Handles the business logic, data management, and the Admin UI. The backend exposes an API used by the frontend for CRUD operations on the RDS Database.
 
-<ul>
-{% for post in site.posts %}
-  {% if post.path contains "/Kasm/RDS/" %}
-    <li>
-      <a href="{{ site.baseurl }}{{ post.permalink | default: post.url }}">{{ post.title }}</a>
-    </li>
-  {% endif %}
-{% endfor %}
-</ul>
+### 2. KASM MultiServer & RDS Database
 
-## Installer Guides (All Versions)
+**KASM MultiServer:**  
+Manages multiple scalable agents responsible for tasks such as user sessions and resource allocation. It interacts with the RDS Database via an API and utilizes Terraform and Ansible for infrastructure management and automation.
 
-<ul>
-{% for post in site.posts %}
-  {% if post.path contains "/Kasm/Installer_Guides/" %}
-    <li>
-      <a href="{{ site.baseurl }}{{ post.permalink | default: post.url }}">{{ post.title }}</a>
-    </li>
-  {% endif %}
-{% endfor %}
-</ul>
+- **Terraform:** Manages infrastructure as code, including RDS Database resources.
+- **Ansible:** Automates configuration management, application deployment, and task automation.
 
--->
+### 3. KASM User UI & Admin UI
+
+**KASM User UI & Admin UI (kasm.ncs.com):**  
+Provides interfaces for users and admins. The Admin UI offers controls over the MultiServer, enabling management of users, sessions, and configurations, all interacting with the KASM MultiServer to send and receive user data.
+
+## Getting Started with Kasm Cloud Workspaces
+
+To run Kasm Cloud Workspaces, you'll need a user account with login credentials. Sign up at [Nighthawk Pages Login](/portfolio_2025/login) and access the workspace at [kasm.nighthawkcodingsociety.com](https://kasm.nighthawkcodingsociety.com/#/login).
+
+For development resources, visit our [GitHub](https://github.com/nighthawkcoders/kasm-multi-server) repository.
+
+### Key Development Considerations
+
+- **Container Building:** GitHub link (TBD)
+- **Docker Management:** [DockerHub](https://hub.docker.com/r/nighthawkcoders/pusd-student-ubuntu/tags)
+- **Workspace Publication:** [Registry](https://nighthawkcoders.github.io/kasm_registry/1.0/)
+
+### Database Management
+
+- **Frontend:** Features include login and profile management within portfolio_2025.
+- **Backend:** Contains migration scripts in `scripts/db_migrate.py` and APIs supporting bulk migration.
+
