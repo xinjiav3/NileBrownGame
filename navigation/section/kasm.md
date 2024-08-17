@@ -55,6 +55,20 @@ Our Cloud Workspaces project aims to provide all students with equitable access 
     }
 </style>
 
+## KasmV2 Users
+
+To run Kasm Cloud Workspaces, you'll need a user account with login credentials with the Nighthawk Coding Society (NCS).
+
+1. Sign up for Kasm Workspaces using [NCS Login](https://nighthawkcoders.github.io/portfolio_2025/login)
+
+2. Access Kasm [NCS KasmV2](https://kasm.nighthawkcodingsociety.com/#/login).
+
+---
+
+## KasmV2 Overview
+
+To get insights into how the Nighthawk Coding Society (NCS) made KasmV2 continue reading this overview.
+
 <img src="https://github.com/user-attachments/assets/fbaaf499-b7c9-48d8-9005-df2b96e3a456" alt="System Diagram" class="system-diagram" onclick="toggleDiagram()">
 
 <div class="diagram-overlay" id="diagram-overlay" onclick="toggleDiagram()">
@@ -70,10 +84,10 @@ Our Cloud Workspaces project aims to provide all students with equitable access 
 
 ### 1. Frontend: Student Registration & Backend: Business Logic
 
-**Frontend (portfolio_2025.ncs.com):**  
+**Frontend: [ncs.github.io](https://nighthawkcoders.github.io/portfolio_2025/login)**  
 The user-facing interface where students register and interact with the application. It communicates with the backend to send and receive data from the RDS database via an API.
 
-**Backend (flask2.ncs.com):**  
+**Backend: [flask2025.ncs.com](https://flask2025.nighthawkcodingsociety.com/login?next=/users/table2)**  
 Handles the business logic, data management, and the Admin UI. The backend exposes an API used by the frontend for CRUD operations on the RDS Database.
 
 ### 2. KASM MultiServer & RDS Database
@@ -86,23 +100,5 @@ Manages multiple scalable agents responsible for tasks such as user sessions and
 
 ### 3. KASM User UI & Admin UI
 
-**KASM User UI & Admin UI (kasm.ncs.com):**  
+**KASM User UI & Admin UI [kasm.ncs.com](https://kasm.nighthawkcodingsociety.com/):**  
 Provides interfaces for users and admins. The Admin UI offers controls over the MultiServer, enabling management of users, sessions, and configurations, all interacting with the KASM MultiServer to send and receive user data.
-
-## Getting Started with Kasm Cloud Workspaces
-
-To run Kasm Cloud Workspaces, you'll need a user account with login credentials. Sign up at [Nighthawk Pages Login](/portfolio_2025/login) and access the workspace at [kasm.nighthawkcodingsociety.com](https://kasm.nighthawkcodingsociety.com/#/login).
-
-For development resources, visit our [GitHub](https://github.com/nighthawkcoders/kasm-multi-server) repository.
-
-### Key Development Considerations
-
-- **Container Building:** GitHub link (TBD)
-- **Docker Management:** [DockerHub](https://hub.docker.com/r/nighthawkcoders/pusd-student-ubuntu/tags)
-- **Workspace Publication:** [Registry](https://nighthawkcoders.github.io/kasm_registry/1.0/)
-
-### Database Management
-
-- **Frontend:** Features include login and profile management within portfolio_2025.
-- **Backend:** Contains migration scripts in `scripts/db_migrate.py` and APIs supporting bulk migration.
-
