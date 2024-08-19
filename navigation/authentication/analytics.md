@@ -89,9 +89,9 @@ search_exclude: true
         </div>
         <div class="details">
             <p id="profile-url"></p>
+            <p id="issues-count"></p>
             <p id="prs-count"></p>
             <p id="commits-count"></p>
-            <p id="issues-count"></p>
             <p id="repos-url"></p>
             <p id="public-repos"></p>
             <p id="public-gists"></p>
