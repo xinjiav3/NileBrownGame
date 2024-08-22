@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Verify the installation and check the Python version
-python3 --version
+python --version
 
 # Create a virtual environment if it doesn't exist
 if [ ! -d "venv" ]; then
-    python3 -m venv venv
+    python -m venv venv
 fi
 
 # Activate the virtual environment
