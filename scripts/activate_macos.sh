@@ -24,6 +24,8 @@ head -34 ~/vscode/portfolio_2025/scripts/activate_ubuntu.sh
 #    the "original" terminal shows commands ...
 #    type commands in "new" terminal
 cd ~/vscode/portfolio_2025
+python3 -m venv --clear venv
+source venv/bin/activate
 pip install -r requirements.txt
 bundle install
 make
@@ -38,5 +40,5 @@ GITHUB_LOCATION=${1:-$(pwd)}
 #### Setup CompSci / GitHub Pages Tool Requirements
 $GITHUB_LOCATION/setup_macos.sh
 #### Show instructions
-head -34 $GITHUB_LOCATION/activate_macos.sh
+head -36 $GITHUB_LOCATION/activate_macos.sh
 echo "=== !!!Start a new Terminal!!! ==="
