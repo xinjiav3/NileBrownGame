@@ -23,7 +23,7 @@ sudo apt install -y ruby-full build-essential zlib1g-dev
 
 # Install Python 3 and pip
 echo "=== Install Python ==="
-sudo apt-get install -y python3 python3-pip python-is-python3
+sudo apt-get install -y python3 python3-pip python-is-python3 python3-venv
 
 # Install Jupyter Notebook
 echo "=== Install Jupyter Notebook ==="
