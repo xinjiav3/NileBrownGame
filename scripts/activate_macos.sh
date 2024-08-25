@@ -24,7 +24,7 @@ head -34 ~/vscode/portfolio_2025/scripts/activate_ubuntu.sh
 #    the "original" terminal shows commands ...
 #    type commands in "new" terminal
 cd ~/vscode/portfolio_2025
-python3 -m venv --clear venv
+python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 bundle install
