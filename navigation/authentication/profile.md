@@ -529,9 +529,7 @@ window.changePassword = async function(password) {
            body: { password },
            message: 'password-message', // Adjust the message area as needed
            callback: () => {
-                alert("You updated your password, so you will automatically be logged out. Be sure to remember your password!");
                console.log('Password updated successfully!');
-               window.updatePasswordField(password);
                window.location.href = '/portfolio_2025/login'
 
 
@@ -540,6 +538,7 @@ window.changePassword = async function(password) {
 
 
        try {
+            alert("You updated your password, so you will automatically be logged out. Be sure to remember your password!");
            await putUpdate(options);
            await logoutUser();
        } catch (error) {
