@@ -81,7 +81,10 @@ code --install-extension vscjava.vscode-java-test --pre-release
 code --install-extension github.vscode-github-actions
 code --install-extension eamodio.gitlens
 
-# Python Extensions
+# Python VSCode Extensions
 code --install-extension ms-python.python
 code --install-extension ms-python.vscode-pylance
 code --install-extension ms-python.python-pack --pre-release
+
+# Jupyter VSCode Extension
+code --install-extension ms-toolsai.jupyter
