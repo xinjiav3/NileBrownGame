@@ -1,11 +1,21 @@
 ---
 layout: page
-title: About Us
+title: About
+description: My name is John, often referred to as "Mr M(ort)" in my CompSci classes.
 permalink: /about/
 ---
 
+## As a conversation Starter 
+Here are some places I have lived.
+
+<comment>
+Flags are made using the Wikipedia site and JavaScript
+</comment>
+
 <style>
-    /* Style looks pretty compact, trace grid-container and grid-item in the code */
+    /* Style looks pretty compact, 
+       - grid-container and grid-item are referenced the code 
+    */
     .grid-container {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Dynamic columns */
@@ -24,7 +34,7 @@ permalink: /about/
     }
 </style>
 
-<!-- This grid_container class is for the CSS styling, the id is for JavaScript connection -->
+<!-- This grid_container class is used by CSS styling and the id is used by JavaScript connection -->
 <div class="grid-container" id="grid_container">
     <!-- content will be added here by JavaScript -->
 </div>
@@ -72,3 +82,13 @@ permalink: /about/
         container.appendChild(gridItem);
     }
 </script>
+
+## Career/Education Recap
+
+Currently a Teacher at Del Norte HS.
+- Lots of Elementary Schools in Tuscson, LA, Honolulu, and Glendale (CA)
+- Middle and High School in Glendale (CA), Hoover High '77
+- Glendale Community College, UCLA Extentention, LA Wilshire Computer Tech School
+- Founder at Ashton-Tate with original PC's working on dBase 2 and 3
+- Undergrade CompSci Degree at Univeristy of Oregon (Go Ducks!) '89
+- Longest Job Qualcomm San Diego 1996 - 2018, Satellite Comm and 1st Mobil OS (BREW)
