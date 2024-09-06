@@ -131,7 +131,7 @@ Gallery of Pics, scroll to the right for more ...
   <img src="{{site.baseurl}}/images/about/lora_fam.jpg" alt="Image 6">
   <img src="{{site.baseurl}}/images/about/lora_fam2.jpg" alt="Image 7">
   <img src="{{site.baseurl}}/images/about/pj_party.jpg" alt="Image 8">
-  <img src="{{site.baseurl}}/images/about/trent.jpg" alt="Image 9">
+  <img src="{{site.baseurl}}/images/about/trent_family.png" alt="Image 9">
   <img src="{{site.baseurl}}/images/about/claire.jpg" alt="Image 10">
   <img src="{{site.baseurl}}/images/about/grandkids.jpg" alt="Image 11">
   <img src="{{site.baseurl}}/images/about/farm.jpg" alt="Image 12">
