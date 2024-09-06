@@ -10,7 +10,7 @@ permalink: /about/
 Here are some places I have lived.
 
 <comment>
-Flags are made using the Wikipedia site and JavaScript
+Flags are made using Wikipedia images
 </comment>
 
 <style>
@@ -111,15 +111,16 @@ Here is what I did at those places
 - 🏢 San Diego CA Qualcomm, Satellite Comm and 1st Mobile OS (BREW) '96 to '19
 - 👨‍🏫 San Diego CA Teacher of Computer Science @ Del Norte High School San Diego '19 to present
 
-### Culture and Family
+### Culture, Family, and Fun
 
-Everything for me, as for many others, revolves around family, culture, and faith.
+Everything for me, as for many others, revolves around family and faith.
 
 - My mother told me that I was Danish, English. and Irish, here is my researched [family tree]({{site.baseurl}}/images/about/familytree.png)
-- My family is pretty big as I have been married twice, my 1st wife passed away.  We have had 5 kids, 4 adopted by me, 1 biological.  Plus, there are three grandkids (my name is Abuilito).
+- My family is pretty big as I have been married twice, my 1st wife passed away.  We have had 5 kids, 4 adopted by me, 1 biological.  Plus, there are three grandkids.  My name to my grandkids is Abuilito.
+- The gallery of pics has some of my family, fun, culture and faith memories.
 
 <comment>
-Gallery of Pics with CSS in style tags above.
+Gallery of Pics, scroll to the right for more ...
 </comment>
 <div class="image-gallery">
   <img src="{{site.baseurl}}/images/about/missionary.jpg" alt="Image 1">
@@ -133,4 +134,5 @@ Gallery of Pics with CSS in style tags above.
   <img src="{{site.baseurl}}/images/about/trent.jpg" alt="Image 9">
   <img src="{{site.baseurl}}/images/about/claire.jpg" alt="Image 10">
   <img src="{{site.baseurl}}/images/about/grandkids.jpg" alt="Image 11">
+  <img src="{{site.baseurl}}/images/about/farm.jpg" alt="Image 12">
 </div>
