@@ -191,20 +191,20 @@ hide: true
 
 </script>
 
+## Investing in Your Technical Future
+
+Computer Science is the Wild Card for all Majors and Careers.
+
+> Explore the Computer Science Pathway at Del Norte High School and invest in your technical skills. All Del Norte CompSci classes are designed to provide a real-world development experience.
+
 <div style="display: flex; align-items: flex-start;">
 
   <div style="flex: 65%;">
-    <h2>Investing in Your Technical Future</h2>
 
-    <blockquote> 
-    Explore the Computer Science Pathway at Del Norte High School and invest in your technical skills. All Del Norte CompSci classes are designed to provide a real-world development experience. 
-    </blockquote>
-
-    <p>Class time includes </p> 
     <ul>
-      <li> Tech talks (lectures) </li> 
-      <li> Peer collaboration </li> 
       <li> Communication with teachers and peers </li> 
+      <li> Teaching throug Tech talks (lectures) </li> 
+      <li> Peer collaboration </li> 
       <li> Critical thinking while coding </li>
       <li> Creativity in projects </li> 
     </ul> 
