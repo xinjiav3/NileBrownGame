@@ -191,29 +191,53 @@ hide: true
 
 </script>
 
-<div style="display: flex; align-items: center;">
-  <img src="{{site.baseurl}}/images/course-brag/qr.png" alt="QR Code" style="width: 300px; height: 300px; margin-left: 10px;">
+<div style="display: flex; align-items: flex-start;">
+
+  <div style="flex: 65%;">
+    <h2>Investing in Your Technical Future</h2>
+
+    <blockquote> 
+    Explore the Computer Science Pathway at Del Norte High School and invest in your technical skills. All Del Norte CompSci classes are designed to provide a real-world development experience. 
+    </blockquote>
+
+    <p>Class time includes </p> 
+    <ul>
+      <li> Tech talks (lectures) </li> 
+      <li> Peer collaboration </li> 
+      <li> Communication with teachers and peers </li> 
+      <li> Critical thinking while coding </li>
+      <li> Creativity in projects </li> 
+    </ul> 
+
+  </div>
+
+  <div style="flex: 35%; text-align: center;">
+    <img src="{{site.baseurl}}/images/course-brag/qr.png" alt="QR Code" style="width: 100%; max-width: 300px; height: auto; margin-left: 10px;">
+  </div>
+
 </div>
 
-## Investing in Your Technical Future
+## Project-based learning
 
-> Explore the Computer Science Pathway at Del Norte High School and invest in your technical skills. All Del Norte CompSci classes are designed to provide a real-world development experience. Class time includes tech talks (lectures), peer collaboration, communication with teachers, critical thinking while coding, and creativity in projects. Grading is focused on time invested, participation with peers, and engagement in learning.
+Teacher created projects, project requirements, technical materials, and support.
 
-- Introduction to concepts and requirements by the teacher
-- Project-based learning with teacher support, performing Agile/Scrum development
+> Grades are based on projects, time invested, engagement, learned concepts, participation with peers, and live reviews between student(s) and teacher.
+
+- Performing Agile/Scrum development
 - Coding, frontend, backend, devops, version control, and algorithmic thinking
 - Creativity, research, design, data structures, and utilizing ChatGPT
 - Performing teamwork, team communication and collaboration, peer reviews/grading
 - Focus on technical communications through project presentations and student-led teaching
-- Grades are based on projects, learned concepts, and live reviews between student(s) and teacher
 
-Classroom work time is 3-4 hours per week. Homework expectations are approximately 2-3 hours per week. Homework is scheduled over a Sprint, approximately 2-4 weeks. Time lost is extremely hard to make up as all materials are cumulative.
+> Classroom work time is 3-4 hours per week. Homework expectations are approximately 2-3 hours per week. Homework is scheduled over a Sprint, approximately 2-4 weeks. Time lost is extremely hard to make up as all materials are cumulative.
 
 ![ccr]({{site.baseurl}}/images/course-brag/ccr.png)
 
 ## Computer Science and Software Engineering (CSSE) 1,2; Grades 9-12
 
-> CSSE 1,2 prepares students for the AP Computer Science pathway. This course focuses on teaching the JavaScript programming language, object-oriented programming and inheritance, and developing algorithmic thinking skills. Through game development projects, students will engage in engineering skills, learn fundamentals of programming, work with data structures, and foster collaboration skills with their peers. Tech talks will be conducted by teachers to introduce concepts, provide guidance on tools, and support ideas to establish development requirements. By performing development and exploration, this course aims to raise students' awareness of the tremendous capabilities of computers and software engineering skills across various fields.
+CSSE 1,2 prepares students for the AP Computer Science pathway. This course focuses on teaching the JavaScript programming language, object-oriented programming and inheritance, and developing algorithmic thinking skills.
+
+> Through game development projects, students will engage in engineering skills, learn fundamentals of programming, work with data structures, and foster collaboration skills with their peers. Tech talks will be conducted by teachers to introduce concepts, provide guidance on tools, and support ideas to establish development requirements. By performing development and exploration, this course aims to raise students' awareness of the tremendous capabilities of computers and software engineering skills across various fields.
 
 - Prerequisites: None
 - Meets UC/CSU G requirements
@@ -223,7 +247,9 @@ Classroom work time is 3-4 hours per week. Homework expectations are approximate
 
 ## Computer Science Principles 1,2 and Data Structures 1; Grades 10-12
 
-> Computer Science Principles is designed as a college-level introduction to computer science. The AP Computer Science Principles curriculum is integrated into this course, covering creative development, data, algorithms and programming, computer systems and networks, and the impact of computing. Students will work on individual and team projects to build computer systems, write algorithms, analyze for correctness, and engage in discussions about solutions. The course will establish fluency in Python, utilize prerequisite knowledge in JavaScript, and develop fluency in Linux.
+Computer Science Principles is designed as a college-level introduction to computer science. The AP Computer Science Principles curriculum is integrated into this course, covering creative development, data, algorithms and programming, computer systems and networks, and the impact of computing.
+
+> Students will work on individual and team projects to build computer systems, write algorithms, analyze for correctness, and engage in discussions about solutions. The course will establish fluency in Python, utilize prerequisite knowledge in JavaScript, and develop fluency in Linux.
 
 - Prerequisites:
   - Rising 10th graders: Computer Science and Software Engineering (CSSE)
@@ -239,7 +265,9 @@ Classroom work time is 3-4 hours per week. Homework expectations are approximate
 
 ## Computer Science "A" 1,2 and Data Structures 2; Grades 11-12
 
-> AP Computer Science A is an in-depth course that focuses on programming, algorithms, and data structures. The AP Computer Science 'A' curriculum is integrated into this course, which covers the Java programming language and topics such as fundamentals of programming, using objects, writing classes, arrays, array lists, 2D arrays, inheritance, and recursion. Students will gain understanding through analysis, coding, and individual and team projects. The course will establish fluency in Java, utilize JavaScript, and work with Linux.
+AP Computer Science A is an in-depth course that focuses on programming, algorithms, and data structures. The AP Computer Science 'A' curriculum is integrated into this course, which covers the Java programming language and topics such as fundamentals of programming, using objects, writing classes, arrays, array lists, 2D arrays, inheritance, and recursion. 
+
+> Students will gain understanding through analysis, coding, and individual and team projects. The course will establish fluency in Java, utilize JavaScript, and work with Linux.
 
 - Prerequisites: a rising 11th or 12th grader
   - AP Computer Science Principles 1,2 and Data Structures 1
@@ -255,4 +283,3 @@ Classroom work time is 3-4 hours per week. Homework expectations are approximate
 ![csa]({{site.baseurl}}/images/course-brag/csa24.png)
 
 ![foundation]({{site.baseurl}}/images/course-brag/foundation.png)
-
