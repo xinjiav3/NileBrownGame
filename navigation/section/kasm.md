@@ -75,18 +75,20 @@ To get insights into how the Nighthawk Coding Society (NCS) made KasmV2 continue
 
 ### 1. Frontend: Student Registration & Backend: Business Logic
 
-**Frontend: [ncs.github.io](https://nighthawkcoders.github.io/portfolio_2025/login)**  
-There is a user-facing signup that enables students register for KASM Workspaces.
+#### Systems
+
+- Frontend [ncs.github.io](https://nighthawkcoders.github.io/portfolio_2025/login)
+- Backend [flask2025.ncs.com](https://flask2025.nighthawkcodingsociety.com/login?next=/users/table2)
+
+#### Overview
 
 - **Frontend/Web Form**: A GitHub Pages web application is used to gather required user information and send user data to the Python/Flask backend.
 - **Backend/Database**: The data sent from the web application is stored in AWS RDS (Amazon Web Services Relational Database Service) using SQL connection services.
 - **Business Logic**: The Python/Flask backend, upon successful save, sends user information via an API to enable access to KASM Workspaces.
 
-This illustration is a sample of Users in KASM Workspaces
-<img src="{{site.baseurl}}/kasm_design/kasm_users.png" alt="Kasm User Illustration">
+#### Users in KASM Workspaces
 
-**Backend: [flask2025.ncs.com](https://flask2025.nighthawkcodingsociety.com/login?next=/users/table2)**  
-Handles the business logic, data management, and the Admin UI. The backend exposes an API used by the frontend for CRUD operations on the RDS Database.
+<img src="{{site.baseurl}}/kasm_design/kasm_users.png" alt="Kasm User Illustration">
 
 ### 2. KASM MultiServer & RDS Database
 
