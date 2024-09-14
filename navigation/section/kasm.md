@@ -98,7 +98,7 @@ KASM presents workspaces to the user. Upon request by the user to launch a works
 
 <img src="{{site.baseurl}}/kasm_design/kasm_desktop.png" alt="Kasm workspace in Browser">
 
-#### Infrasture Management
+#### Infrastructure Management
 
 To provide the KASM MultiServer features, KASM requires servers and agents. The Web Server, Database Server, and Connection Server manage KASM resources. These servers are the heart of KASM and need to be set up to enable MultiServer capabilities.
 
@@ -110,7 +110,42 @@ To configure these servers, Nighthawk developers have created tools and utilitie
 
 <img src="{{site.baseurl}}/kasm_design/kasm_install.png" alt="Kasm install">
 
-### 3. KASM User UI & Admin UI
+### 3. KASM Admin UI
 
-**KASM User UI & Admin UI [kasm.ncs.com](https://kasm.nighthawkcodingsociety.com/):**  
-Provides interfaces for users and admins. The Admin UI offers controls over the MultiServer, enabling management of users, sessions, and configurations, all interacting with the KASM MultiServer to send and receive user data.
+Workspaces and the extensive Workspace Registry are key components of the KASM system. Activating a workspace is where the user's work begins.
+
+Workspaces are developed according to the classroom's needs and then presented to users within the system. The UI allows for limiting usage according to groups.
+
+Essentially, this is like installing all the necessary tools on a single user's laptop and then propagating that configuration and settings to every other user in the room.
+
+#### Workspaces Links
+
+- KASM Admin UI [kasm.ncs.com](https://kasm.nighthawkcodingsociety.com/):
+- Del Norte Registry [ncs.com/registry](https://nighthawkcoders.github.io/kasm_registry/1.0/)
+- DockerHub [docker/ncs/pusd](https://hub.docker.com/repository/docker/nighthawkcoders/pusd-student-ubuntu/general)
+- GitHub CompSci Template [github/kasm-ubuntu](https://github.com/nighthawkcoders/Kasm-Ubuntu22.04-Image-Template)
+
+#### Workspace Registry
+
+KASM provides ready made workspaces that can be used directly or as a template for your spcific customizations.  In Del Norte CompSci, we have customized on top of a KASM provided template.  The customizations were to meet tools and configurations that were not provided directly by KASM.
+
+This illustration shows some of the A's through D's available in the KASM registry.  Also, contained in the registry is one of Del Norte CompSci's customizations.
+
+<img src="{{site.baseurl}}/kasm_design/kasm_registry.png" alt="Kasm registry">
+
+### Costs
+
+As a Teacher or Program Adminstrator, by putting activities into the cloud, data insights are now at our fingertips.  
+
+#### Usage patterns (3 weeks)
+
+It is easy as a Teacher to see if students are making use of available resources.
+
+<img src="{{site.baseurl}}/kasm_design/kasm_usage.png" alt="Kasm usage">
+
+#### AWS Costs (AWS Cloud Compute)
+
+Seeing these costs for the existing Del Norte CompSci two classroom use case can help us evaluate the fixed workstation costs versus cloud workstation costs.  For instance, the Del Norte Photograpy refresh this summer was approximately 80K.
+
+<img src="{{site.baseurl}}/kasm_design/aws_costs.png" alt="AWS costs">
+
