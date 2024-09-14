@@ -1,15 +1,15 @@
 ---
 layout: post
 title: Kasm Cloud Workspaces
-description: A central hub for user and development documentation for the Kasm Cloud Workspaces Project
+description: A central blogging hub for user and development documentation for the Kasm Cloud Workspaces Project
 categories: [Kasm]
 permalink: /kasm/pages/intro
-author: Mr. Mortensen, Rachit Jaiswal, Tanisha Patil, Torin Wolff
+author: Mr. Mortensen, Rachit Jaiswal, Tanisha Patil, Torin Wolff, Isabel Marilla
 menu: nav/kasm_cloud.html
 toc: false
 ---
 
-> Our Cloud Workspaces project aims to provide all students with equitable access to powerful computing resources, regardless of the device they own, by utilizing cloud-based desktop environments.
+> Our Cloud Workspaces project aims to provide all students with equitable access to powerful computing resources, regardless of the device they own or use, by utilizing cloud-based desktop environments.
 
 <style>
     .system-diagram {
@@ -54,14 +54,6 @@ toc: false
     }
 </style>
 
-## KasmV2 Users
-
-To run Kasm Cloud Workspaces, you'll need a user account with login credentials with the Nighthawk Coding Society (NCS).
-
-1. Sign up for Kasm Workspaces using [NCS Login](https://nighthawkcoders.github.io/portfolio_2025/login)
-
-2. Access Kasm [NCS KasmV2](https://kasm.nighthawkcodingsociety.com/#/login).
-
 ---
 
 ## KasmV2 Overview
@@ -84,7 +76,14 @@ To get insights into how the Nighthawk Coding Society (NCS) made KasmV2 continue
 ### 1. Frontend: Student Registration & Backend: Business Logic
 
 **Frontend: [ncs.github.io](https://nighthawkcoders.github.io/portfolio_2025/login)**  
-The user-facing interface where students register and interact with the application. It communicates with the backend to send and receive data from the RDS database via an API.
+There is a user-facing signup that enables students register for KASM Workspaces.
+
+- **Frontend/Web Form**: A GitHub Pages web application is used to gather required user information and send user data to the Python/Flask backend.
+- **Backend/Database**: The data sent from the web application is stored in AWS RDS (Amazon Web Services Relational Database Service) using SQL connection services.
+- **Business Logic**: The Python/Flask backend, upon successful save, sends user information via an API to enable access to KASM Workspaces.
+
+This illustration is a sample of Users in KASM Workspaces
+<img src="{{site.baseurl}}/kasm_design/kasm_users.png" alt="Kasm User Illustration">
 
 **Backend: [flask2025.ncs.com](https://flask2025.nighthawkcodingsociety.com/login?next=/users/table2)**  
 Handles the business logic, data management, and the Admin UI. The backend exposes an API used by the frontend for CRUD operations on the RDS Database.
