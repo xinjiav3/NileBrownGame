@@ -9,8 +9,7 @@ menu: nav/kasm_cloud.html
 toc: false
 ---
 
-Our Cloud Workspaces project aims to provide all students with equitable access to powerful computing resources, regardless of the device they own, by utilizing cloud-based desktop environments.
-
+> Our Cloud Workspaces project aims to provide all students with equitable access to powerful computing resources, regardless of the device they own, by utilizing cloud-based desktop environments.
 
 <style>
     .system-diagram {
