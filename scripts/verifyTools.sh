@@ -2,7 +2,7 @@
 
 ## Script provides functionality to verify all tool versions/installations and outputs to specified markdown file
 
-file_name="<insert your desired output markdown file>"
+file_name="verifyTools.md"
 
 if [ -f "$file_name" ]; then
     rm $file_name
