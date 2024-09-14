@@ -90,13 +90,25 @@ To get insights into how the Nighthawk Coding Society (NCS) made KasmV2 continue
 
 <img src="{{site.baseurl}}/kasm_design/kasm_users.png" alt="Kasm User Illustration">
 
-### 2. KASM MultiServer & RDS Database
+### 2. KASM MultiServer
 
-**KASM MultiServer:**  
-Manages multiple scalable agents responsible for tasks such as user sessions and resource allocation. It interacts with the RDS Database via an API and utilizes Terraform and Ansible for infrastructure management and automation.
+KASM presents workspaces to the user. Upon request by the user to launch a workspace session, KASM supplies an AWS computing resource and streams a session of that workspace to the user's browser. In the Del Norte Computer Science classrooms, the customized workspace contains Visual Studio Code and support for coding languages such as Python, Java, and JavaScript.
 
-- **Terraform:** Manages infrastructure as code, including RDS Database resources.
-- **Ansible:** Automates configuration management, application deployment, and task automation.
+#### KASM User UI
+
+<img src="{{site.baseurl}}/kasm_design/kasm_desktop.png" alt="Kasm workspace in Browser">
+
+#### Infrasture Management
+
+To provide the KASM MultiServer features, KASM requires servers and agents. The Web Server, Database Server, and Connection Server manage KASM resources. These servers are the heart of KASM and need to be set up to enable MultiServer capabilities.
+
+To configure these servers, Nighthawk developers have created tools and utilities to spin up these KASM servers.
+
+- **Shell Programming**: Scripts that simplify and drive the setup process.
+- **Terraform**: A tool that specializes in creating and sizing AWS servers.
+- **Ansible**: A tool that specializes in the configuration management of servers. This is used to make the AWS servers into KASM workers.
+
+<img src="{{site.baseurl}}/kasm_design/kasm_install.png" alt="Kasm install">
 
 ### 3. KASM User UI & Admin UI
 
