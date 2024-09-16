@@ -137,35 +137,40 @@ This illustration shows some of the A's through D's available in the KASM regist
 
 ### Costs
 
+A projected cost comparison of the AWS/KASM solution versus traditional classroom fixed workstation costs. This comparison ignores some risks/changes:
+
+1. Consulting services for KASM sizing and planning.
+2. IT job skills changing from multiple site "Desktop Technicians" to a centralized cloud "DevOps Engineer".
+
 | **Description**                                                                                                      | **Cost/Details**                                                                                          |
 |----------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
-| **Average monthly cost to support users**                                                                            | $900                                                                                                       |
-| **One-time license purchase (Kasm)**                                                                                 | $2,100                                                                                                     |
-| **Normal school year duration**                                                                                      | 9 months                                                                                                   |
-| **Total yearly cost for supporting two classrooms and eight CS classes**                                             | $8,100                                                                                                     |
+| **Projected monthly cost to support 2 classrooms of users**                                               | $600                                                                                                       |
+| **Yearly license purchase (KASM)**                                                                                   | $2,100                                                                                                     |
+| **Normal school year duration**                                                                                      | 10 months                                                                                                  |
+| **Total yearly scaling cost for supporting two classrooms and eight CS classes**                                     | $8,100                                                                                                     |
 | **Cost comparison (iMac)**                                                                                           | One iMac: $1,500                                                                                           |
-| **Total cost of the program (compared to iMacs)**                                                                    | Equivalent to 5 iMacs for the entire year, supporting hundreds of students rather than 20 per iMac          |
+| **Total cost of the program (compared to iMacs)**                                                                    | Equivalent to 5 iMacs for the entire year, supporting hundreds of students rather than 20 per iMac         |
 | **Cost comparison (PC)**                                                                                             | One PC: $1,700                                                                                             |
-| **Benefit of cloud-based system**                                                                                    | No time or cost spent on setting up, delivering, connecting PCs, or managing hardware/software breakdowns   |
-| **Advantage of Kasm over PCs**                                                                                       | Spin up new machines in seconds with minimal cost                                                          |
-| **Hardware management**                                                                                              | AWS dynamically switches hardware without extra cost; always access to the latest hardware                  |
-| **PC lifecycle (4-5 years)**                                                                                         | Kasm: $40,500 over 5 years                                                                                 |
-| **Cost comparison over 5 years**                                                                                     | PCs: $80,000 for one cycle of 40 PCs (approximate, depending on make and configuration)                    |
-| **Overall district savings**                                                                                         | Kasm cuts costs in half for the district every 5 years while providing the latest hardware and software     |
-| **Additional benefit**                                                                                               | Accessible from home, allowing students to use resources after school                                       |
-
-
+| **Benefit of cloud-based system**                                                                                    | No local IT time or costs spent on setting up, delivering, connecting PCs, or managing hardware/software breakdowns |
+| **Advantage of KASM over PCs**                                                                                       | Spin up new machines in seconds with costs similar to image management costs                               |
+| **Hardware management**                                                                                              | AWS dynamically switches hardware without extra cost; always access to the latest hardware                 |
+| **PC lifecycle (4-5 years)**                                                                                         | KASM: $40,500 over 5 years, 2 classrooms                                                                   |
+| **Cost comparison over 5 years**                                                                                     | PCs: $80,000 for one cycle of 40 PCs, 1 classroom (approximate, depending on make and configuration)       |
+| **Overall district savings**                                                                                         | KASM cuts costs to 25% for the district every 5 years while providing the latest hardware and software      |
+| **Additional benefit**                                                                                               | Accessible from home, allowing students to use resources after school without additional connectivity software (e.g., SplashTop) |
 
 #### AWS Costs (AWS Cloud Compute)
 
-Seeing these costs for the existing Del Norte CompSci two classroom use case can help us evaluate the fixed workstation costs versus cloud workstation costs.  For instance, the Del Norte Photograpy refresh this summer was approximately 80K.
+AWS costs using Single User system to current Multi User system.  Summer costs were a result of ongoing Development.
 
 <img src="{{site.baseurl}}/kasm_design/aws_costs.png" alt="AWS costs">
 
-As a Teacher or Program Adminstrator, by putting activities into the cloud, data insights are now at our fingertips.  
+#### Usage Patterns (3 Weeks of Data)
 
-#### Usage patterns (3 weeks)
+It is easy for a teacher or program administrator to see if students are making use of available resources. By putting activities into the cloud, data insights are now at our fingertips.
 
-It is easy as a Teacher to see if students are making use of available resources.
+1. Elementary and middle school labs are now online and utilized when needed, eliminating idle labs.
+2. Concurrent usage allows for scheduling lab days, optimizing the use of cloud-based concurrent licenses.
+3. Homework capability is always available, providing the same experience at home as at school without the need for specialized desktop/laptop software.
 
 <img src="{{site.baseurl}}/kasm_design/kasm_usage.png" alt="Kasm usage">
