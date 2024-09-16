@@ -141,8 +141,8 @@ A projected cost comparison of the AWS/KASM solution versus traditional classroo
 
 1. Consulting services for KASM sizing and planning.
 2. IT job skills changing from multiple site "Desktop Technicians" to a centralized cloud "DevOps Engineer".
-3. Size of moonitor, we are assuming Chromebook as sufficient.
-4. This study is based only 1/5 of the CompSci students using AWS KASM Workspaces, Del Norte HS encourages CompSci students to bring and use their own computuer.
+3. Size of monitor, assuming a Chromebook is sufficient.
+4. This study is based on a 1/5 usage ratio, or approximately 40 out of 200 CompSci students using AWS KASM Workspaces. Del Norte HS CompSci students are encouraged to set up and use their own computers. However, the predominantly 9th/10th grade classroom has 20 to 30 students using AWS KASM Workspaces.
 
 | **Description**                                                                                                      | **Cost/Details**                                                                                          |
 |----------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
