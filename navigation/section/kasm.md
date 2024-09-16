@@ -60,10 +60,10 @@ toc: false
 
 To get insights into how the Nighthawk Coding Society (NCS) made KasmV2 continue reading this overview.
 
-<img src="https://github.com/user-attachments/assets/fbaaf499-b7c9-48d8-9005-df2b96e3a456" alt="System Diagram" class="system-diagram" onclick="toggleDiagram()">
+<img src="{{site.baseurl}}/kasm_design/kasm_diagram.png" alt="System Diagram" class="system-diagram" onclick="toggleDiagram()">
 
 <div class="diagram-overlay" id="diagram-overlay" onclick="toggleDiagram()">
-    <img src="https://github.com/user-attachments/assets/fbaaf499-b7c9-48d8-9005-df2b96e3a456" alt="Enlarged System Diagram">
+    <img src="{{site.baseurl}}/kasm_design/kasm_diagram.png" alt="Enlarged System Diagram">
 </div>
 
 <script>
