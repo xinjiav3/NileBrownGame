@@ -94,10 +94,6 @@ To get insights into how the Nighthawk Coding Society (NCS) made KasmV2 continue
 
 KASM presents workspaces to the user. Upon request by the user to launch a workspace session, KASM supplies an AWS computing resource and streams a session of that workspace to the user's browser. In the Del Norte Computer Science classrooms, the customized workspace contains Visual Studio Code and support for coding languages such as Python, Java, and JavaScript.
 
-#### KASM User UI
-
-<img src="{{site.baseurl}}/kasm_design/kasm_desktop.png" alt="Kasm workspace in Browser">
-
 #### Infrastructure Management
 
 To provide the KASM MultiServer features, KASM requires servers and agents. The Web Server, Database Server, and Connection Server manage KASM resources. These servers are the heart of KASM and need to be set up to enable MultiServer capabilities.
@@ -110,7 +106,13 @@ To configure these servers, Nighthawk developers have created tools and utilitie
 
 <img src="{{site.baseurl}}/kasm_design/kasm_install.png" alt="Kasm install">
 
-### 3. KASM Admin UI
+### 3. KASM UI
+
+#### KASM User UI
+
+<img src="{{site.baseurl}}/kasm_design/kasm_desktop.png" alt="Kasm workspace in Browser">
+
+#### KASM Admin UI
 
 Workspaces and the extensive Workspace Registry are key components of the KASM system. Activating a workspace is where the user's work begins.
 
@@ -135,13 +137,24 @@ This illustration shows some of the A's through D's available in the KASM regist
 
 ### Costs
 
-As a Teacher or Program Adminstrator, by putting activities into the cloud, data insights are now at our fingertips.  
+| **Description**                                                                                                      | **Cost/Details**                                                                                          |
+|----------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| **Average monthly cost to support users**                                                                            | $900                                                                                                       |
+| **One-time license purchase (Kasm)**                                                                                 | $2,100                                                                                                     |
+| **Normal school year duration**                                                                                      | 9 months                                                                                                   |
+| **Total yearly cost for supporting two classrooms and eight CS classes**                                             | $8,100                                                                                                     |
+| **Cost comparison (iMac)**                                                                                           | One iMac: $1,500                                                                                           |
+| **Total cost of the program (compared to iMacs)**                                                                    | Equivalent to 5 iMacs for the entire year, supporting hundreds of students rather than 20 per iMac          |
+| **Cost comparison (PC)**                                                                                             | One PC: $1,700                                                                                             |
+| **Benefit of cloud-based system**                                                                                    | No time or cost spent on setting up, delivering, connecting PCs, or managing hardware/software breakdowns   |
+| **Advantage of Kasm over PCs**                                                                                       | Spin up new machines in seconds with minimal cost                                                          |
+| **Hardware management**                                                                                              | AWS dynamically switches hardware without extra cost; always access to the latest hardware                  |
+| **PC lifecycle (4-5 years)**                                                                                         | Kasm: $40,500 over 5 years                                                                                 |
+| **Cost comparison over 5 years**                                                                                     | PCs: $80,000 for one cycle of 40 PCs (approximate, depending on make and configuration)                    |
+| **Overall district savings**                                                                                         | Kasm cuts costs in half for the district every 5 years while providing the latest hardware and software     |
+| **Additional benefit**                                                                                               | Accessible from home, allowing students to use resources after school                                       |
 
-#### Usage patterns (3 weeks)
 
-It is easy as a Teacher to see if students are making use of available resources.
-
-<img src="{{site.baseurl}}/kasm_design/kasm_usage.png" alt="Kasm usage">
 
 #### AWS Costs (AWS Cloud Compute)
 
@@ -149,3 +162,10 @@ Seeing these costs for the existing Del Norte CompSci two classroom use case can
 
 <img src="{{site.baseurl}}/kasm_design/aws_costs.png" alt="AWS costs">
 
+As a Teacher or Program Adminstrator, by putting activities into the cloud, data insights are now at our fingertips.  
+
+#### Usage patterns (3 weeks)
+
+It is easy as a Teacher to see if students are making use of available resources.
+
+<img src="{{site.baseurl}}/kasm_design/kasm_usage.png" alt="Kasm usage">
