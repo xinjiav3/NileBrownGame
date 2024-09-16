@@ -141,6 +141,8 @@ A projected cost comparison of the AWS/KASM solution versus traditional classroo
 
 1. Consulting services for KASM sizing and planning.
 2. IT job skills changing from multiple site "Desktop Technicians" to a centralized cloud "DevOps Engineer".
+3. Size of moonitor, we are assuming Chromebook as sufficient.
+4. This study is based only 1/5 of the CompSci students using AWS KASM Workspaces, Del Norte HS encourages CompSci students to bring and use their own computuer.
 
 | **Description**                                                                                                      | **Cost/Details**                                                                                          |
 |----------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
@@ -170,7 +172,7 @@ AWS costs using Single User system to current Multi User system.  Summer costs w
 It is easy for a teacher or program administrator to see if students are making use of available resources. By putting activities into the cloud, data insights are now at our fingertips.
 
 1. Elementary and middle school labs are now online and utilized when needed, eliminating idle labs.
-2. Concurrent usage allows for scheduling lab days, optimizing the use of cloud-based concurrent licenses.
+2. Concurrent usage may require scheduling lab days, optimizing the use of cloud-based concurrent licenses.
 3. Homework capability is always available, providing the same experience at home as at school without the need for specialized desktop/laptop software.
 
 <img src="{{site.baseurl}}/kasm_design/kasm_usage.png" alt="Kasm usage">
