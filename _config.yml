@@ -1,9 +1,9 @@
 title: Nighthawk Pages 
 description: "Class of 2025"
-owner_name: Anvay Vahia
-github_username: CyberLord09
-github_repo: "portfolio_2025_Anvay_Pranav_Rayhaan_Kiruthic_Yuva" 
-baseurl: "/portfolio_2025_Anvay_Pranav_Rayhaan_Kiruthic_Yuva"
+owner_name: John Mortensen
+github_username: nighthawkcoders
+github_repo: "portfolio_2025" 
+baseurl: "/portfolio_2025"
 future: true
 remote_theme: jekyll/minima
 minima:
