@@ -1,9 +1,9 @@
-title: Iteration
+title: Nighthawk Pages 
 description: "Class of 2025"
-owner_name: Shawn Ray
-github_username: ShawnRay09
-github_repo: "Iteration_3.8" 
-baseurl: "/iteration"
+owner_name: John Mortensen
+github_username: nighthawkcoders
+github_repo: "portfolio_2025" 
+baseurl: "/portfolio_2025"
 future: true
 remote_theme: jekyll/minima
 minima:
