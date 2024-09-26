@@ -249,7 +249,7 @@ CSSE 1,2 prepares students for the AP Computer Science pathway. This course focu
 - Meets UC/CSU G requirements
 - CSSE 1,2 receives Articulated College Credit to Mira Costa CC CS 111: "Introduction to Computer Science". Mira Costa CC requires and provides free registration to receive UC college credit.
 
-![3.8.1]({{site.baseurl}}/images/course-brag/csse.png)
+![csse]({{site.baseurl}}/images/course-brag/csse.png)
 
 ## Computer Science Principles 1,2 and Data Structures 1; Grades 10-12
 
@@ -267,7 +267,7 @@ Computer Science Principles is designed as a college-level introduction to compu
 - Prerequisites: AP Computer Science Principles 1,2
 - Meets UC/CSU G requirements
 
-![3.8.2]({{site.baseurl}}/images/course-brag/csp24.png)
+![csp]({{site.baseurl}}/images/course-brag/csp24.png)
 
 ## Computer Science "A" 1,2 and Data Structures 2; Grades 11-12
 
@@ -286,6 +286,6 @@ AP Computer Science A is an in-depth course that focuses on programming, algorit
 - Meets UC/CSU G requirements
 - Data Structures 1,2 receives Articulated College Credit to Mira Costa CC for "CS 113: Basic Data Structures and Algorithms". Mira Costa CC requires and provides free registration to receive UC college credit.
 
-![3.8.3]({{site.baseurl}}/images/course-brag/csa24.png)
+![csa]({{site.baseurl}}/images/course-brag/csa24.png)
 
 ![foundation]({{site.baseurl}}/images/course-brag/foundation.png)
