@@ -1,9 +1,9 @@
 title: Nighthawk Pages 
 description: "Class of 2025"
-owner_name: Yash Parikh
-github_username: illuminati1618
-github_repo: "portfolio_2025_Yash-Nikhil-Rohan-Neil" 
-baseurl: "/portfolio_2025_Yash-Nikhil-Rohan-Neil"
+owner_name: John Mortensen
+github_username: nighthawkcoders
+github_repo: "portfolio_2025" 
+baseurl: "/portfolio_2025"
 future: true
 remote_theme: jekyll/minima
 minima:
