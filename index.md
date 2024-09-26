@@ -267,7 +267,7 @@ Computer Science Principles is designed as a college-level introduction to compu
 - Prerequisites: AP Computer Science Principles 1,2
 - Meets UC/CSU G requirements
 
-![csp]({{site.baseurl}}/images/course-brag/csp24.png)
+![3.8.1]({{site.baseurl}}/images/course-brag/csp24.png)
 
 ## Computer Science "A" 1,2 and Data Structures 2; Grades 11-12
 
