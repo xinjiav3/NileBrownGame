@@ -1,7 +1,7 @@
 import GameEnv from './GameEnv.js';
 import Background from './Background.js';
-import Fish from './fish.js';
-import Turtle from './turtle.js';
+import Fish from './PlayerFish.js';
+import Turtle from './PlayerTurtle.js';
 
 /**
  * The GameControl object manages the game.
@@ -14,8 +14,8 @@ import Turtle from './turtle.js';
  * making it easier to manage game states, handle events, and maintain the overall flow of the game.
  * 
  * @type {Object}
- * @property {Player} player - The player object.
- * @property {Player2} player2
+ * @property {Player} turtle - The player object.
+ * @property {Player} fish 
  * @property {function} start - Initialize game assets and start the game loop.
  * @property {function} gameLoop - The game loop.
  * @property {function} resize - Resize the canvas and player object when the window is resized.
