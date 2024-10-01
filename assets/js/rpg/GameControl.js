@@ -1,7 +1,7 @@
 import GameEnv from './GameEnv.js';
 import Background from './Background.js';
-import Player from './Player.js';
-import Player2 from './Player2.js';
+import Fish from './fish.js';
+import Turtle from './turtle.js';
 
 /**
  * The GameControl object manages the game.
@@ -25,23 +25,23 @@ const GameControl = {
     start: function(assets = {}) {
         GameEnv.create(); // Create the Game World, this is pre-requisite for all game objects.
         this.background = new Background(assets.image || null);
-        this.player = new Player(assets.sprite || null);
-        this.player2 = new Player2(assets.sprite2 || null);
+        this.turtle = new Turtle(assets.turtle || null);
+        this.fish = new Fish(assets.fish || null);
         this.gameLoop();
     },
 
     gameLoop: function() {
         GameEnv.clear(); // Clear the canvas
         this.background.draw();
-        this.player.update();
-        this.player2.update();
+        this.turtle.update(); // Change from this.Turtle to this.turtle
+        this.fish.update();   // Change from this.Fish to this.fish
         requestAnimationFrame(this.gameLoop.bind(this));
     },
 
     resize: function() {
-        GameEnv.resize(); // Adapts the canvas to the new window size, ie a new Game World.
-        this.player.resize();
-        this.player2.resize();
+        GameEnv.resize(); // Adapts the canvas to the new window size
+        this.turtle.resize(); // Change from this.Turtle to this.turtle
+        this.fish.resize();   // Change from this.Fish to this.fish
     }
 };
 
