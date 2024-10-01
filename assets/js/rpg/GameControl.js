@@ -1,6 +1,7 @@
 import GameEnv from './GameEnv.js';
 import Background from './Background.js';
 import Player from './Player.js';
+import Player2 from './Player2.js';
 
 /**
  * The GameControl object manages the game.
@@ -14,6 +15,7 @@ import Player from './Player.js';
  * 
  * @type {Object}
  * @property {Player} player - The player object.
+ * @property {Player2} player2
  * @property {function} start - Initialize game assets and start the game loop.
  * @property {function} gameLoop - The game loop.
  * @property {function} resize - Resize the canvas and player object when the window is resized.
@@ -24,6 +26,7 @@ const GameControl = {
         GameEnv.create(); // Create the Game World, this is pre-requisite for all game objects.
         this.background = new Background(assets.image || null);
         this.player = new Player(assets.sprite || null);
+        this.player2 = new Player2(assets.sprite2 || null);
         this.gameLoop();
     },
 
@@ -31,12 +34,14 @@ const GameControl = {
         GameEnv.clear(); // Clear the canvas
         this.background.draw();
         this.player.update();
+        this.player2.update();
         requestAnimationFrame(this.gameLoop.bind(this));
     },
 
     resize: function() {
         GameEnv.resize(); // Adapts the canvas to the new window size, ie a new Game World.
         this.player.resize();
+        this.player2.resize();
     }
 };
 
