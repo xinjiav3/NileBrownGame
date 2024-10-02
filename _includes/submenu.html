@@ -1,3 +1,4 @@
+<!--
 <div style="text-align:center">
     <table>
         <tr>
@@ -7,3 +8,26 @@
         </tr>
     </table>
 </div>
+-->
+
+<!---->
+<div style="text-align:center">
+    <table>
+        <tr id="submenu" class="submenu">
+        </tr>
+    </table>
+</div>
+
+<script type="text/javascript">
+    let submenu = {{ page.submenu | jsonify | default: '[]' }};
+    let submenuLength = submenu.length;
+    for (let i = 0; i < submenuLength; i++ ) {
+        let td = document.createElement("td");
+        if (submenu[i][1]) {
+            td.innerHTML = "<a href='{{site.baseurl}}/" + submenu[i][0] + "'>" + submenu[i][1] + "</a>"
+        } else {
+            td.innerHTML = "<a href='{{site.baseurl}}/" + submenu[i][0] + "'>-- --</a>"
+        }
+        document.getElementById("submenu").append(td)
+    }
+</script>
