@@ -31,11 +31,25 @@ permalink: /rpg/
     };
     const sprite = {src: sprite_src, data: sprite_data};
 
+    const sprite_src_2 = "{{site.baseurl}}/images/rpg/fishies.png";
+    const sprite_data_2 = {
+        SCALE_FACTOR: 16,  // Adjust this based on your scaling needs
+        STEP_FACTOR: 400,
+        ANIMATION_RATE: 50,
+        pixels: {height: 256, width: 384},
+        orientation: {rows: 8, columns: 12 },
+        down: {row: 0, start: 0, columns: 3 },  // 1st row
+        left: {row: 1, start: 0, columns: 3 },  // 2nd row
+        right: {row: 2, start: 0, columns: 3 }, // 3rd row
+        up: {row: 3, start: 0, columns: 3 },    // 4th row
+    };
+
+    const sprite2 = {src: sprite_src_2, data: sprite_data_2};
     // Assets for game
     //const assets = {}
     //const assets = {image: image}
     //const assets = {sprite: sprite}
-    const assets = {image: image, sprite: sprite}
+    const assets = {image: image, sprite: sprite, sprite2: sprite2}
 
     // Start game engine
     GameControl.start(assets);
