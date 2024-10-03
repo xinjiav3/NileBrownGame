@@ -1,0 +1,17 @@
+/* custom.css */
+body {
+    background-color: #5685cb; /* Light blue background */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #ffffff; /* White color for headings */
+}
+
+p {
+    color: #eec8c8; /* Black color for paragraphs */
+}
+
+div.output_area {
+    background-color: #ffffff; /* White background for output area */
+    border: 1px solid #ccc; /* Light grey border */
+}
