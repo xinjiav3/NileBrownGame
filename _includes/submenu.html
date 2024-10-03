@@ -1,12 +1,11 @@
 <div style="text-align:center">
     <table>
-        <tr id="submenu" class="submenu">
+        <tr id="thisisimportantidname">
         </tr>
     </table>
 </div>
 
 <script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", function() {
         let submenu = {{ page.submenu | jsonify | default: '[]' }};
         let submenuLength = submenu.length;
         for (let i = 0; i < submenuLength; i++ ) {
@@ -16,7 +15,6 @@
             } else {
                 td.innerHTML = "<a href='{{site.baseurl}}/" + submenu[i][0] + "'>-- --</a>"
             }
-            document.getElementById("submenu").append(td)
+            document.getElementById("thisisimportantidname").append(td)
         }
-    })
 </script>
