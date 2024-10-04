@@ -1,60 +1,19 @@
-.dropbtn {
-    padding: 8px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .dropdown {
-    position: relative;
-    display: inline-block;
-    z-index: 1;
-  
-    &:hover .dropdown-content {
-      display: block;
-    }
-  
-    .dropdown-content {
-      display: none;
-      position: fixed;
-      background-color: black; // Use Dracula theme code cell background
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  
-      a {
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-  
-        &:hover {
-          background-color: darkblue; // Use a slightly lighter Dracula theme color for hover
-        }
-      }
-    }
-  }
-
-.dropbtnp2 {
-  padding: 8px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-}
-
-.dropdownp2 {
+// Define a mixin for common dropdown styles
+@mixin dropdown-styles($hover-color) {
   position: relative;
   display: inline-block;
   z-index: 1;
 
-  &:hover .dropdown-contentp2 {
+  &:hover .dropdown-content {
     display: block;
   }
 
-  .dropdown-contentp2 {
+  .dropdown-content {
     display: none;
     position: fixed;
-    background-color: rgb(5, 7, 43); // Use Dracula theme code cell background
+    background-color: black; // Use Dracula theme code cell background
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(218, 159, 193, 0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 
     a {
       padding: 12px 16px;
@@ -62,11 +21,30 @@
       display: block;
 
       &:hover {
-        background-color: rgb(209, 27, 11); // Use a slightly lighter Dracula theme color for hover
+        background-color: $hover-color;
       }
     }
   }
 }
+
+// Original dropdown menu styles
+.dropbtn {
+  padding: 8px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+// Pass the hover color to the mixin
+.dropdown {
+  @include dropdown-styles(darkblue); // Original color for hover 
+}
+
+// New color for the second dropdown menu 
+.dropdownp2 {
+  @include dropdown-styles(rgb(51, 17, 17)); // New color for hover
+}
+
 
 .dropbtn4 {
   padding: 8px;
