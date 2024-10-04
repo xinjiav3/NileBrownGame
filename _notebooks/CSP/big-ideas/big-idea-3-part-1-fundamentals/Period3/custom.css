@@ -1,5 +1,6 @@
 /* custom.css */
 body {
+<<<<<<< HEAD
     background-color: #5685cb; /* Light blue background */
 }
 
@@ -14,4 +15,18 @@ p {
 div.output_area {
     background-color: #ffffff; /* White background for output area */
     border: 1px solid #ccc; /* Light grey border */
+=======
+    background-color: #2f7694;  /* Set the background color to blue */
+    color: white;                /* Optional: Change text color to white for better contrast */
+}
+
+/* Optional: Change the background color of the code cells */
+div.cell {
+    background-color: #0056b3;  /* Darker blue for code cells */
+}
+
+/* Optional: Change the background color of the markdown cells */
+div.text_cell_render {
+    background-color: #0056b3;  /* Darker blue for markdown cells */
+>>>>>>> 88831ad3aa2f3fa9b6edb5e71b494c3cd7c97963
 }
