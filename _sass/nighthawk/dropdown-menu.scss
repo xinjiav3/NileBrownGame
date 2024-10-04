@@ -133,11 +133,11 @@
   display: inline-block;
   z-index: 1;
 
-  &:hover .dropdown-contentp1 {
+  &:hover .dropdown-content {
     display: block;
   }
 
-  .dropdown-contentp1 {
+  .dropdown-content {
     display: none;
     position: fixed;
     background-color: rgb(159, 255, 56); // Use Dracula theme code cell background
@@ -155,16 +155,17 @@
     }
   }
 }
+
 .dropdownp1-3_8 {
   position: relative;
   display: inline-block;
   z-index: 1;
 
-  &:hover .dropdown-contentp1-3_8 {
+  &:hover .dropdown-content {
     display: block;
   }
 
-  .dropdown-contentp1-3_8 {
+  .dropdown-content {
     display: none;
     position: fixed;
     background-color: rgb(255, 56, 66); // Use reddish cell background
