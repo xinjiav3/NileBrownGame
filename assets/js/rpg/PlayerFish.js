@@ -1,8 +1,8 @@
 import Player from './Player.js';
 
 class Fish extends Player {
-    constructor(imageSrc = null) {
-        super(imageSrc);
+    constructor(data = null) {
+        super(data);
     }
 
     update() {
