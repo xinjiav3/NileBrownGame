@@ -52,6 +52,10 @@
   @include dropdown-styles(black,#232f2a); // New color for hover
 }
 
+.dropdownp3 {
+  @include dropdown-styles(#3a3f44, #50575e);
+}
+
 .dropdownp4 {
   @include dropdown-styles( rgb(51, 139, 253), #44475a); // New color for hover
 }
@@ -134,6 +138,19 @@
 @keyframes scaleIn {
   0% {
     transform: scale(0.7);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+  @include dropdown-styles( #44475a, rgb(0, 0, 0)); // New color for hover
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0.8);
     opacity: 0;
   }
   100% {
