@@ -22,26 +22,29 @@ import Turtle from './PlayerTurtle.js';
  */
 const GameControl = {
 
-    start: function(assets = {}) {
+    start: function(gameLevel = {}) {
         GameEnv.create(); // Create the Game World, this is pre-requisite for all game objects.
-        this.background = new Background(assets.image || null);
-        this.turtle = new Turtle(assets.turtle || null);
-        this.fish = new Fish(assets.fish || null);
+        for (let object of gameLevel.objects) {
+            // Create and save the game objects
+            GameEnv.gameObjects.push(new object.class(object.data));
+        }
+        // Start the game loop
         this.gameLoop();
     },
 
     gameLoop: function() {
         GameEnv.clear(); // Clear the canvas
-        this.background.draw();
-        this.turtle.update(); // Change from this.Turtle to this.turtle
-        this.fish.update();   // Change from this.Fish to this.fish
+        for (let object of GameEnv.gameObjects) {
+            object.update(); // Update the game objects
+        }
         requestAnimationFrame(this.gameLoop.bind(this));
     },
 
     resize: function() {
         GameEnv.resize(); // Adapts the canvas to the new window size
-        this.turtle.resize(); // Change from this.Turtle to this.turtle
-        this.fish.resize();   // Change from this.Fish to this.fish
+        for (let object of GameEnv.gameObjects) {
+            object.resize(); // Resize the game objects
+        }
     }
 };
 
