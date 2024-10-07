@@ -42,27 +42,27 @@ class Player {
     /**
      * The constructor method is called when a new Player object is created.
      * 
-     * @param {Object|null} sprite - The sprite data for the player. If null, a default red square is used.
+     * @param {Object|null} data - The sprite data for the player. If null, a default red square is used.
      */
-    constructor(sprite = null) {
+    constructor(data = null) {
         // Initialize the player's scale based on the game environment
         this.scale = { width: GameEnv.innerWidth, height: GameEnv.innerHeight };
 
         // Check if sprite data is provided
-        if (sprite) {
-            this.scaleFactor = sprite.data.SCALE_FACTOR || SCALE_FACTOR;
-            this.stepFactor = sprite.data.STEP_FACTOR || STEP_FACTOR;
-            this.animationRate = sprite.data.ANIMATION_RATE || ANIMATION_RATE;
+        if (data) {
+            this.scaleFactor = data.SCALE_FACTOR || SCALE_FACTOR;
+            this.stepFactor = data.STEP_FACTOR || STEP_FACTOR;
+            this.animationRate = data.ANIMATION_RATE || ANIMATION_RATE;
     
             // Load the sprite sheet
             this.spriteSheet = new Image();
-            this.spriteSheet.src = sprite.src;
+            this.spriteSheet.src = data.src;
 
             // Initialize animation properties
             this.frameIndex = 0; // index reference to current frame
             this.frameCounter = 0; // count each frame rate refresh
             this.direction = 'down'; // Initial direction
-            this.spriteData = sprite.data;
+            this.spriteData = data;
         } else {
             // Default to red square
             this.scaleFactor = SCALE_FACTOR;
