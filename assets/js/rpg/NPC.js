@@ -7,23 +7,19 @@ class NPC extends Player {
 
     update() {
         super.update();
+
     }
 
     resize() {
         super.resize();
     }
 
-    handleKeyDown({ keyCode }) {
-        // Handle if player is nearby
-        switch (keyCode) {
-            case 32: // space key
-                console.log("NPC HELLO");
-                break;
-        }
+    handleKeyDown(NULL) {
+        return 0;
     }
 
     handleKeyUp(NULL) {
-        // no action
+        return 0;
     }
 }
 

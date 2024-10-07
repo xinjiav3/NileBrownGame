@@ -68,10 +68,10 @@ class GameLevelWater {
         pixels: {height: 256, width: 384},
         INITPOSITION: { x: (width / 2), y: (height / 2)},
         orientation: {rows: 8, columns: 12 },
-        down: {row: 0, start: 9, columns: 3 },  // 1st row
-        left: {row: 1, start: 9, columns: 3 },  // 2nd row
-        right: {row: 2, start: 9, columns: 3 }, // 3rd row
-        up: {row: 3, start: 9, columns: 3 },    // 4th row
+        down: {row: 0, start: 9, columns: 3 },  // This is the idle animation
+        left: {row: 1, start: 9, columns: 3 },  
+        right: {row: 2, start: 9, columns: 3 }, 
+        up: {row: 3, start: 9, columns: 3 },    
     };
 
     this.objects = [
