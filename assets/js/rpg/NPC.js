@@ -7,7 +7,10 @@ class NPC extends Player {
 
     update() {
         super.update();
+    }
 
+    checkProximityToNPC() {
+        return 0;
     }
 
     resize() {
