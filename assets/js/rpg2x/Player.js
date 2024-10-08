@@ -50,7 +50,7 @@ class Player {
         this.scale = { width: GameEnv.innerWidth, height: GameEnv.innerHeight };
         
         // Check if sprite data is provided
-        if (data) {
+        if (data && data.src) {
             this.scaleFactor = data.SCALE_FACTOR || SCALE_FACTOR;
             this.stepFactor = data.STEP_FACTOR || STEP_FACTOR;
             this.animationRate = data.ANIMATION_RATE || ANIMATION_RATE;
