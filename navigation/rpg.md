@@ -16,3 +16,5 @@ permalink: /rpg/
     // Start game engine
     GameControl.start(gameLevelWater);
 </script>
+
+<div id="prompt" style="display:none; position:absolute; top:50px; left:50px; background-color: white; padding: 10px; border: 1px solid black;">Hello!</div>
