@@ -31,34 +31,6 @@ const GameControl = {
         }
         // Start the game loop
         this.gameLoop();
-
-        // Add key event listener
-        window.addEventListener('keydown', this.handleKeyDown.bind(this));
-    },
-
-    handleKeyDown: function(event) {
-        if (event.code === 'Space') {
-            this.checkProximityToNPC();
-        }
-    },
-
-    checkProximityToNPC: function() {
-        var player = GameEnv.gameObjects.find(obj => obj instanceof Fish); 
-        var npc = GameEnv.gameObjects.find(obj => obj instanceof NPC);
-
-        if (player && npc) {
-            var distance = Math.sqrt(
-                Math.pow(player.position.x - npc.position.x, 2) + Math.pow(player.position.y - npc.position.y, 2)
-            );
-
-            if (distance <= 100) {
-                this.showPrompt("Ribbit Ribbit");
-            }
-        }
-    },
-
-    showPrompt: function(message) {
-        alert(message);
     },
 
     gameLoop: function() {
