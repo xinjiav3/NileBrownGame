@@ -2,12 +2,19 @@
 import Background from './Background.js';
 import PlayerFish from './PlayerFish.js';
 import PlayerTurtle from './PlayerTurtle.js';
+import NPC from './NPC.js';
 //import Goomba from './EnemyGoomba.js';
 //import Coin from './Coin.js';
 
+
+
 class GameLevelWater {
   constructor(path) {
-  
+    const header = document.querySelector('header');
+    const footer = document.querySelector('footer');
+
+    let width = window.innerWidth;
+    let height = window.innerHeight - (header ? header.offsetHeight : 0) - (footer ? footer.offsetHeight : 0);
     // Background data
     const image_src_water = path + "/images/rpg/water.png";
     const image_data_water = {
@@ -24,6 +31,7 @@ class GameLevelWater {
         SCALE_FACTOR: 10,
         STEP_FACTOR: 1000,
         ANIMATION_RATE: 50,
+        INITPOSITION: { x: 0, y: height - (height/10) }, // bottom left, make sure the number that divides height is the same as SCALE_FACTOR
         pixels: {height: 280, width: 256},
         orientation: {rows: 4, columns: 3 },
         down: {row: 0, start: 0, columns: 3 },
@@ -41,6 +49,7 @@ class GameLevelWater {
         STEP_FACTOR: 400,
         ANIMATION_RATE: 50,
         pixels: {height: 256, width: 384},
+        INITPOSITION: { x: 0, y: 0 },
         orientation: {rows: 8, columns: 12 },
         down: {row: 0, start: 0, columns: 3 },  // 1st row
         left: {row: 1, start: 0, columns: 3 },  // 2nd row
@@ -48,10 +57,28 @@ class GameLevelWater {
         up: {row: 3, start: 0, columns: 3 },    // 4th row
     };
 
+    // NPC sprite data
+    const sprite_src_npc = path + "/images/rpg/fishies.png";
+    const sprite_data_npc = {
+        name: 'npc',
+        src: sprite_src_npc,
+        SCALE_FACTOR: 16,  // Adjust this based on your scaling needs
+        STEP_FACTOR: 400,
+        ANIMATION_RATE: 50,
+        pixels: {height: 256, width: 384},
+        INITPOSITION: { x: (width / 2), y: (height / 2)},
+        orientation: {rows: 8, columns: 12 },
+        down: {row: 0, start: 9, columns: 3 },  // This is the idle animation
+        left: {row: 1, start: 9, columns: 3 },  
+        right: {row: 2, start: 9, columns: 3 }, 
+        up: {row: 3, start: 9, columns: 3 },    
+    };
+
     this.objects = [
       { class: Background, data: image_data_water },
       { class: PlayerTurtle, data: sprite_data_turtle },
       { class: PlayerFish, data: sprite_data_fish },
+      { class: NPC, data: sprite_data_npc }
     ];
   }
 

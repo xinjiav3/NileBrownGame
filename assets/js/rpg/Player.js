@@ -76,7 +76,7 @@ class Player {
         this.size = GameEnv.innerHeight / this.scaleFactor;
 
         // Initialize the player's position and velocity
-        this.position = { x: 0, y: GameEnv.innerHeight - this.size };
+        this.position = data.INITPOSITION;
         this.velocity = { x: 0, y: 0 };
 
         // Set the initial size and velocity of the player
