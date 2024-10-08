@@ -57,7 +57,7 @@
 }
 
 .dropdownp4 {
-  @include dropdown-styles( #44475a, rgb(0, 0, 0)); // New color for hover
+  @include dropdown-styles( rgb(51, 139, 253), #44475a); // New color for hover
 }
 
 @keyframes scaleIn {
