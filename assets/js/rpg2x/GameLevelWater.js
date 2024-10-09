@@ -1,8 +1,8 @@
 // To build GameLevels, each contains GameObjects from below imports
 import GameEnv from './GameEnv.js';
 import Background from './Background.js';
-import PlayerFish from './PlayerFish.js';
-import PlayerTurtle from './PlayerTurtle.js';
+import PlayerOne from './PlayerOne.js';
+import PlayerTwo from './PlayerTwo.js';
 import NPC from './NPC.js';
 //import Goomba from './EnemyGoomba.js';
 //import Coin from './Coin.js';
@@ -79,8 +79,8 @@ class GameLevelWater {
 
     this.objects = [
       { class: Background, data: image_data_water },
-      { class: PlayerTurtle, data: sprite_data_turtle },
-      { class: PlayerFish, data: sprite_data_fish },
+      { class: PlayerOne, data: sprite_data_turtle },
+      { class: PlayerTwo, data: sprite_data_fish },
       { class: NPC, data: sprite_data_npc }
     ];
   }

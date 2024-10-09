@@ -1,62 +1,70 @@
-import Player from "./Player.js";
-import GameEnv from "./GameEnv.js";
-import NPC from './NPC.js';
-class Turtle extends Player {
+import Player from './Player.js';
+import GameEnv from "./GameEnv.js"
+import NPC from "./NPC.js"
 
-    constructor(imageSrc = null) {
-        super(imageSrc);
+class PlayerOne extends Player {
+    constructor(data = null) {
+        super(data);
     }
+
     update() {
         super.update();
     }
+
     resize() {
         super.resize();
     }
 
-
     handleKeyDown({ keyCode }) {
         switch (keyCode) {
-            case 73: // 'I' key
+            case 87: // 'W' key
                 this.velocity.y -= this.yVelocity;
                 this.direction = 'up';
                 break;
-            case 74: // 'J' key
+            case 65: // 'A' key
                 this.velocity.x -= this.xVelocity;
                 this.direction = 'left';
                 break;
-            case 75: // 'K' key
+            case 83: // 'S' key
                 this.velocity.y += this.yVelocity;
                 this.direction = 'down';
                 break;
-            case 76: // 'L' key
+            case 68: // 'D' key
                 this.velocity.x += this.xVelocity;
                 this.direction = 'right';
                 break;
-            case 32:
+            case 32: 
                 this.checkProximityToNPC();
                 break;
         }
     }
-    
+
+    /**
+     * Handles key up events to stop the player's velocity.
+     * 
+     * This method stops the player's velocity based on the key released.
+     * 
+     * @param {Object} event - The keyup event object.
+     */
     handleKeyUp({ keyCode }) {
         switch (keyCode) {
-            case 73: // 'I' key
+            case 87: // 'W' key
                 this.velocity.y = 0;
                 break;
-            case 74: // 'J' key
+            case 65: // 'A' key
                 this.velocity.x = 0;
                 break;
-            case 75: // 'K' key
+            case 83: // 'S' key
                 this.velocity.y = 0;
                 break;
-            case 76: // 'L' key
+            case 68: // 'D' key
                 this.velocity.x = 0;
                 break;
         }
     }
 
     checkProximityToNPC() {
-        var player = GameEnv.gameObjects.find(obj => obj instanceof Turtle); 
+        var player = this; 
         var npc = GameEnv.gameObjects.find(obj => obj instanceof NPC);
 
         if (player && npc) {
@@ -65,10 +73,11 @@ class Turtle extends Player {
             );
 
             if (distance <= 100) {
-                super.handleResponse("Hello, Turtle!");
+                super.handleResponse(`Hello, ${this.spriteData.name}`);
             }
         }
     }
+
 }
 
-export default Turtle;
+export default PlayerOne;
