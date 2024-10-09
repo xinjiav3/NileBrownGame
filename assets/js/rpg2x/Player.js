@@ -226,18 +226,6 @@ class Player {
         throw new Error('Method "handleKeyUp()" must be implemented');
     }
 
-    /**
-     * Handles key down events to change the player's velocity.
-     * 
-     * This method updates the player's velocity based on the key pressed.
-     * 
-     * The keydown event object.
-     * @abstract
-     */
-    checkProximityToNPC() {
-        return "Method 'checkProximityToNPC()' must be implemented";
-    }
-
     handleResponse(message) {
         alert(message);
     }

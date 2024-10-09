@@ -1,18 +1,8 @@
 import Player from './Player.js';
-import GameEnv from "./GameEnv.js"
-import NPC from "./NPC.js"
 
 class PlayerOne extends Player {
     constructor(data = null) {
         super(data);
-    }
-
-    update() {
-        super.update();
-    }
-
-    resize() {
-        super.resize();
     }
 
     handleKeyDown({ keyCode }) {
@@ -32,9 +22,6 @@ class PlayerOne extends Player {
             case 68: // 'D' key
                 this.velocity.x += this.xVelocity;
                 this.direction = 'right';
-                break;
-            case 32: 
-                this.checkProximityToNPC();
                 break;
         }
     }
@@ -60,21 +47,6 @@ class PlayerOne extends Player {
             case 68: // 'D' key
                 this.velocity.x = 0;
                 break;
-        }
-    }
-
-    checkProximityToNPC() {
-        var player = this; 
-        var npc = GameEnv.gameObjects.find(obj => obj instanceof NPC);
-
-        if (player && npc) {
-            var distance = Math.sqrt(
-                Math.pow(player.position.x - npc.position.x, 2) + Math.pow(player.position.y - npc.position.y, 2)
-            );
-
-            if (distance <= 100) {
-                super.handleResponse(`Hello, ${this.spriteData.name}`);
-            }
         }
     }
 
