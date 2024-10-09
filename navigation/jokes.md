@@ -23,7 +23,7 @@ tags: [javascript]
 </table>
 
 <script type="module">
-  import { login, javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+  import { javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
 
   // prepare HTML defined "result" container for new output
   const resultContainer = document.getElementById("result");
@@ -35,29 +35,17 @@ tags: [javascript]
   // prepare fetch urls
   // const url = `${pythonURI}/api/jokes`;
   const url = `${javaURI}/api/jokes`;
-  const get_url = url +"/";
-  const like_url = url + "/like/";  // haha reaction
-  const jeer_url = url + "/jeer/";  // boohoo reaction
+  const getURL = url +"/";
+  const likeURL = url + "/like/";  // haha reaction
+  const jeerURL = url + "/jeer/";  // boohoo reaction
 
-  // prepare fetch GET options
-  const options = {
-    method: 'GET', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, same-origin, omit
-    headers: {
-      'Content-Type': 'application/json'
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  };
   // prepare fetch PUT options, clones with JS Spread Operator (...)
-  const post_options = {...options,
+  const postOptions = {...fetchOptions,
     method: 'POST',
-    mode: 'cors', // no-cors, *cors, same-origin
   }; // clones and replaces method
 
   // fetch the API
-  fetch(get_url, options)
+  fetch(getURL,fetchOptions)
     // response is a RESTful "promise" on any successful fetch
     .then(response => {
       // check for response errors
@@ -83,7 +71,7 @@ tags: [javascript]
               haha_but.innerHTML = row.haha;  // add fetched "haha count" to innerHTML
               haha_but.onclick = function () {
                 // onclick function call with "like parameters"
-                reaction(HAHA, like_url+row.id, haha_but.id);  
+                reaction(HAHA, likeURL+row.id, haha_but.id);  
               };
               haha.appendChild(haha_but);  // add "haha button" to haha cell
 
@@ -94,7 +82,7 @@ tags: [javascript]
               boohoo_but.innerHTML = row.boohoo;  // add fetched "boohoo count" to innerHTML
               boohoo_but.onclick = function () {
                 // onclick function call with "jeer parameters"
-                reaction(BOOHOO, jeer_url+row.id, boohoo_but.id);  
+                reaction(BOOHOO, jeerURL+row.id, boohoo_but.id);  
               };
               boohoo.appendChild(boohoo_but);  // add "boohoo button" to boohoo cell
 
@@ -110,14 +98,14 @@ tags: [javascript]
   })
   // catch fetch errors (ie Nginx ACCESS to server blocked)
   .catch(err => {
-    error(err + ": " + get_url);
+    error(err + ": " + getURL);
   });
 
   // Reaction function to likes or jeers user actions
-  function reaction(type, post_url, elemID) {
+  function reaction(type, postURL, elemID) {
 
     // fetch the API
-    fetch(post_url, post_options)
+    fetch(postURL, postOptions)
     // response is a RESTful "promise" on any successful fetch
     .then(response => {
       // check for response errors
@@ -139,7 +127,7 @@ tags: [javascript]
     })
     // catch fetch errors (ie Nginx ACCESS to server blocked)
     .catch(err => {
-      error(err + " " + post_url);
+      error(err + " " + postURL);
     });
   
   }
