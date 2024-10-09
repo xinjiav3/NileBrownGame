@@ -30,15 +30,17 @@ const GameControl = {
         // Prepare game objects for the level
         for (let object of gameLevel.objects) {
             if (!object.data) object.data = {};
-            // Setup the canvas and context for the game object
-            const canvas = document.createElement("canvas");
-            canvas.id = (object.data.name) ? object.data.name : "default";
-            const ctx = canvas.getContext('2d');
-            // Assign canvas and context to the game object data
-            object.data.canvas = canvas;
-            object.data.ctx = ctx;
-            // Append to the games canvas container
-            document.getElementById("gameCanvas").appendChild(canvas);
+            /* Future implementation for canvas and context per object
+                // Setup the canvas and context for the game object
+                const canvas = document.createElement("canvas");
+                canvas.id = (object.data.name) ? object.data.name : "default";
+                const ctx = canvas.getContext('2d');
+                // Assign canvas and context to the game object data
+                object.data.canvas = canvas;
+                object.data.ctx = ctx;
+                // Append to the games canvas container
+                document.getElementById("gameCanvas").appendChild(canvas);
+            */
             // Create and push the game object
             GameEnv.gameObjects.push(new object.class(object.data));
         }
