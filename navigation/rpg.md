@@ -16,9 +16,6 @@ permalink: /rpg/
 
 .custom-alert button {
     background-color: transparent; /* Fully transparent background */
-    border: none; /* Remove button border */
-    color: inherit; /* Inherit text color from parent */
-    cursor: pointer; /* Change cursor to pointer */
     display: flex; /* Use flexbox for layout */
     align-items: center; /* Center items vertically */
     justify-content: center; /* Center items horizontally */
