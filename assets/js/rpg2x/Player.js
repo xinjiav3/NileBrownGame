@@ -226,9 +226,7 @@ class Player {
         throw new Error('Method "handleKeyUp()" must be implemented');
     }
 
-    handleResponse(message) {
-        alert(message);
-    }
+ 
 }
 
 export default Player;

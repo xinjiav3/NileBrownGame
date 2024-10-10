@@ -3,6 +3,7 @@ import Background from './Background.js';
 import PlayerOne from './PlayerOne.js';
 import PlayerTwo from './PlayerTwo.js';
 
+// Minimal Definition
 class GameLevelSquares {
   constructor(path) {
     this.objects = [
@@ -11,8 +12,6 @@ class GameLevelSquares {
       { class: PlayerTwo },
     ];
   }
-
-  // Add any methods to manipulate the game level data here
 }
 
 export default GameLevelSquares;
