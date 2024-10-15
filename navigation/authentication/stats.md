@@ -33,53 +33,59 @@ show_reading_time: false
         </fieldset>
         <button type="submit">Submit Stats</button>
     </form>
-    <script>
-        document.getElementById('statsForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form from refreshing the page 
-            // Get input values
-            const exerciseDate = document.getElementById('exerciseDate').value;
-            const exerciseDuration = document.getElementById('exerciseDuration').value;
-            const exerciseType = document.getElementById('exerciseType').value;
-            const sleepDate = document.getElementById('sleepDate').value;
-            const sleepHours = document.getElementById('sleepHours').value;
-            const sleepQuality = document.getElementById('sleepQuality').value;
-            // Create the stat map object to send to the backend
-            const statMap = {
-                "exercise": {
-                    "date": exerciseDate,
-                    "duration": exerciseDuration,
-                    "type": exerciseType
-                },
-                "sleep": {
-                    "date": sleepDate,
-                    "hours": sleepHours,
-                    "quality": sleepQuality
-                }
-            };
-            // Call the API to send the stats
-            sendPersonStats(statMap);
-        });
-        async function sendPersonStats(statMap) {
-            try {
-                const response = await fetch("http://127.0.0.1:8082/api/person/setStats", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(statMap), // Send the stat_map as JSON
-                });
-                if (response.ok) {
-                    const personData = await response.json(); // Get the updated Person object from the server
-                    console.log("Person stats updated successfully:", personData);
-                    alert("Stats updated successfully!");
-                } else {
-                    console.error("Failed to update stats, status:", response.status);
-                    alert("Failed to update stats.");
-                }
-            } catch (error) {
-                console.error("Error during the API request:", error);
-                alert("Error during API request.");
+ <script type="module">
+    import { fetchOptions, javaURI } from '{{site.baseurl}}/assets/js/api/config.js';
+
+    document.getElementById('statsForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form from refreshing the page 
+        
+        // Get input values
+        const exerciseDate = document.getElementById('exerciseDate').value;
+        const exerciseDuration = document.getElementById('exerciseDuration').value;
+        const exerciseType = document.getElementById('exerciseType').value;
+
+        const sleepDate = document.getElementById('sleepDate').value;
+        const sleepHours = document.getElementById('sleepHours').value;
+        const sleepQuality = document.getElementById('sleepQuality').value;
+
+        // Create the stat map object to send to the backend
+        const statMap = {
+            "exercise": {
+                "date": exerciseDate,
+                "duration": exerciseDuration,
+                "type": exerciseType
+            },
+            "sleep": {
+                "date": sleepDate,
+                "hours": sleepHours,
+                "quality": sleepQuality
             }
+        };
+
+        // Call the API to send the stats
+        sendPersonStats(statMap);
+    });
+
+    async function sendPersonStats(statMap) {
+        try {
+            // Use fetchOptions for the request setup
+            const response = await fetch(`${javaURI}/api/person/setStats`, {
+                ...fetchOptions('POST', statMap)  // Call fetchOptions to set the method, headers, and body
+            });
+
+            if (response.ok) {
+                const personData = await response.json(); // Get the updated Person object from the server
+                console.log("Person stats updated successfully:", personData);
+                alert("Stats updated successfully!");
+            } else {
+                console.error("Failed to update stats, status:", response.status);
+                alert("Failed to update stats.");
+            }
+        } catch (error) {
+            console.error("Error during the API request:", error);
+            alert("Error during API request.");
         }
-    </script>
+    }
 </html>
+
+
