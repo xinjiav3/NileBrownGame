@@ -52,7 +52,8 @@ class GameObject {
         this.canvas.width = data.pixels.width || 0;
         this.canvas.height = data.pixels.height || 0;
         this.ctx = this.canvas.getContext('2d');
-        document.getElementById("gameContainer").appendChild(this.canvas); 
+        document.getElementById("gameContainer").appendChild(this.canvas);
+
         // Set initial object properties 
         this.x = 0;
         this.y = 0;
@@ -95,7 +96,7 @@ class GameObject {
         // Initialize the object's position and velocity
         this.velocity = { x: 0, y: 0 };
 
-        // Add this object to the game
+        // Add this object to the gameLoop
         GameEnv.gameObjects.push(this);
 
         // Set the initial size and velocity of the object
@@ -103,7 +104,6 @@ class GameObject {
 
         // Bind event listeners to allow object movement
         this.bindEventListeners();
-
     }
 
     /**
@@ -162,7 +162,7 @@ class GameObject {
             this.canvas.style.height = `${this.height}px`;
             this.canvas.style.position = 'absolute';
             this.canvas.style.left = `${this.position.x}px`;
-            this.canvas.style.top = `${this.position.y+GameEnv.top}px`;
+            this.canvas.style.top = `${GameEnv.top+this.position.y}px`;
     
             // Clear the canvas before drawing
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -367,9 +367,7 @@ class GameObject {
                 },
             },
         };
-
     }
-
  
 }
 
