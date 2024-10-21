@@ -40,12 +40,26 @@ const INIT_POSITION = { x: 0, y: 0 };
  * @method handleKeyUp - Handles key up events to stop the object's velocity.
  */
 class GameObject {
+    // This object represents the initial state of the player when the game starts.
+    initEnvironmentState = {
+        // environment
+        collision: '',
+        collisions: [],
+        // object 
+        animation: 'idle',
+        direction: 'right',
+        movement: {up: true, down: true, left: true, right: true },
+        isDying: false,
+        isFinishing: false,
+    };
+    
     /**
      * The constructor method is called when a new GameObject object is created.
      * 
      * @param {Object|null} data - The sprite data for the object. If null, a default red square is used.
      */
     constructor(data = null) {
+        this.state = {...this.initEnvironmentState}; // Object control data 
         // Create canvas element
         this.canvas = document.createElement("canvas");
         this.canvas.id = data.name || "default";
@@ -196,6 +210,8 @@ class GameObject {
         // Update begins by drawing the object object
         this.draw();
 
+        this.collisionChecks();
+
         // Update or change position according to velocity events
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
@@ -288,20 +304,13 @@ class GameObject {
         }
     }
     
-    /* Default collision action is no action
-     * override when you extend for custom action
-    */
-    collisionAction(){
-        // no action
-    }
-
     /* Collision checks
      * uses GameObject isCollision to detect hit
      * calls collisionAction on hit
     */
     collisionChecks() {
         for (var gameObj of GameEnv.gameObjects){
-            if (this != gameObj ) {
+            if (gameObj.canvas && this != gameObj) {
                 this.isCollision(gameObj);
                 if (this.collisionData.hit){
                     this.collisionAction();
@@ -356,7 +365,6 @@ class GameObject {
                     bottom: (thisRect.bottom <= otherRect.top) && !(Math.abs(thisRect.bottom - otherRect.bottom) <= GameEnv.gravity),
                     left: thisCenterX > otherCenterX,
                     right: thisCenterX < otherCenterX,
-                    onTopofOther: onTopofOther
                 },
                 other: {
                     id: other.canvas.id,
@@ -367,6 +375,96 @@ class GameObject {
                 },
             },
         };
+    }
+
+
+    /**
+     * gameLoop: Collision action handler for the Player.
+     * This method overrides GameObject.collisionAction. 
+     * @override
+     */
+    collisionAction() {
+        this.handleCollisionStart();
+        this.handleCollisionEnd();
+        this.setActiveCollision();
+        this.handlePlayerReaction();
+    }
+   
+    /**
+     * gameLoop: Watch for Player collision events 
+     */
+    handleCollisionStart() {
+        this.handleCollisionEvent("npc");
+        this.handleCollisionEvent("player");
+    }
+
+    /**
+     * gameLoop helper: Adds the collisionType to the collisions array when player is touching the object
+     * @param {*} collisionType 
+     */
+    handleCollisionEvent(collisionType) {
+        // check if player is touching the "collisionType" object
+        if (this.collisionData.touchPoints.other.id === collisionType) {
+            // check if the collisionType is not already in the collisions array
+            if (!this.state.collisions.includes(collisionType)) {
+                // add the collisionType to the collisions array, making it the current collision
+                this.state.collisions.push(collisionType);
+            }
+        }
+    }
+   
+    /**
+     * gameLoop: Tears down Player collision events
+     */
+    handleCollisionEnd() {
+        if (this.state.collisions.includes(this.state.collision) && this.collisionData.touchPoints.other.id !== this.state.collision ) {
+            // filter out the collision from the array, or in other words, remove the collision
+            this.state.collisions = this.state.collisions.filter(collision => collision !== this.state.collision);
+        }
+    }
+   
+    /**
+     * gameLoop: Sets Player collision state from most recent collision in collisions array
+     */
+    setActiveCollision() {
+        // check array for any remaining collisions
+        if (this.state.collisions.length > 0) {
+            // the array contains collisions, set the the last collision in the array
+            this.state.collision = this.state.collisions[this.state.collisions.length - 1];
+        } else {
+            // the array is empty, set to empty (default state)
+            this.state.collision = "";
+        }
+    }
+   
+    /**
+     * gameloop: Handles Player reaction / state updates to the collision
+     */
+    // Assuming you have some kind of input handling system
+
+    handlePlayerReaction() {
+        // handle player reaction based on collision type
+        switch (this.state.collision) {
+            // 1. Player is on top of npc
+            case "npc":
+            case "player":
+                // Player is on top of npc 
+                if (this.collisionData.touchPoints.this.onTopofOther) {
+                    this.state.movement = { up: true, down: false, left: true, right: true};
+                
+                } else if (this.collisionData.touchPoints.this.bottom) {
+                    this.state.movement = { up: false, down: true, left: true, right: true};
+
+                // Player is touching the npc with right side
+                } else if (this.collisionData.touchPoints.this.right) {
+                    this.state.movement = { up: true, down: true, left: true, right: false };
+                
+                // Player is touching the npc with left side
+                } else if (this.collisionData.touchPoints.this.left) {
+                    this.state.movement = { up: true, down: true, left: false, right: true};
+                }
+                break;
+        }
     }
  
 }
