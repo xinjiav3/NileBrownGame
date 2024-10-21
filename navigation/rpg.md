@@ -1,7 +1,7 @@
 ---
 layout: base
-title: RPG
-permalink: /rpg/
+title: RPG v0.3
+permalink: /rpg/latest
 ---
 
 <style>
@@ -26,13 +26,16 @@ permalink: /rpg/
 
 </style>
 
-<canvas id='gameCanvas'></canvas>
+<div id="gameContainer">
+    <canvas id='gameCanvas'></canvas>
+</div>
+
 <div id="custom-alert" class="custom-alert">
     <button onclick="closeCustomAlert()" id="custom-alert-message"></button>
 </div>
 
 <script type="module">
-    import GameControl from '{{site.baseurl}}/assets/js/rpg2x/GameControl.js';
+    import GameControl from '{{site.baseurl}}/assets/js/rpg/latest/GameControl.js';
 
     const path = "{{site.baseurl}}";
 

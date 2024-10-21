@@ -10,6 +10,7 @@ export class Background {
         } else {
             this.image = null;
         }
+        GameEnv.gameObjects.push(this);
     }
 
     /* This method draws to GameEnv context, primary background
