@@ -1,6 +1,6 @@
-import Player from "./Player.js";
+import GameObject from './GameObject.js';
 
-class PlayerTwo extends Player {
+class PlayerTwo extends GameObject {
     constructor(imageSrc = null) {
         super(imageSrc);
     }
