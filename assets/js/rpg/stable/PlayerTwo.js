@@ -1,18 +1,9 @@
 import Player from "./Player.js";
-import GameEnv from "./GameEnv.js";
-import NPC from './NPC.js';
-class Turtle extends Player {
 
+class PlayerTwo extends Player {
     constructor(imageSrc = null) {
         super(imageSrc);
     }
-    update() {
-        super.update();
-    }
-    resize() {
-        super.resize();
-    }
-
 
     handleKeyDown({ keyCode }) {
         switch (keyCode) {
@@ -31,9 +22,6 @@ class Turtle extends Player {
             case 76: // 'L' key
                 this.velocity.x += this.xVelocity;
                 this.direction = 'right';
-                break;
-            case 32:
-                this.checkProximityToNPC();
                 break;
         }
     }
@@ -55,20 +43,6 @@ class Turtle extends Player {
         }
     }
 
-    checkProximityToNPC() {
-        var player = GameEnv.gameObjects.find(obj => obj instanceof Turtle); 
-        var npc = GameEnv.gameObjects.find(obj => obj instanceof NPC);
-
-        if (player && npc) {
-            var distance = Math.sqrt(
-                Math.pow(player.position.x - npc.position.x, 2) + Math.pow(player.position.y - npc.position.y, 2)
-            );
-
-            if (distance <= 100) {
-                super.handleResponse("Hello, Turtle!");
-            }
-        }
-    }
 }
 
-export default Turtle;
+export default PlayerTwo;

@@ -1,31 +1,8 @@
-import Player from './Player.js';
+import GameObject from './GameObject.js';
 
-class Fish extends Player {
+class PlayerOne extends GameObject {
     constructor(data = null) {
         super(data);
-    }
-
-    update() {
-        super.update();
-    }
-
-    resize() {
-        super.resize();
-    }
-
-    checkProximityToNPC() {
-        var player = GameEnv.gameObjects.find(obj => obj instanceof Fish); 
-        var npc = GameEnv.gameObjects.find(obj => obj instanceof NPC);
-
-        if (player && npc) {
-            var distance = Math.sqrt(
-                Math.pow(player.position.x - npc.position.x, 2) + Math.pow(player.position.y - npc.position.y, 2)
-            );
-
-            if (distance <= 100) {
-                super.handleResponse("Hello, Fish!");
-            }
-        }
     }
 
     handleKeyDown({ keyCode }) {
@@ -45,9 +22,6 @@ class Fish extends Player {
             case 68: // 'D' key
                 this.velocity.x += this.xVelocity;
                 this.direction = 'right';
-                break;
-            case 32: 
-                this.checkProximityToNPC();
                 break;
         }
     }
@@ -75,6 +49,7 @@ class Fish extends Player {
                 break;
         }
     }
+
 }
 
-export default Fish;
+export default PlayerOne;

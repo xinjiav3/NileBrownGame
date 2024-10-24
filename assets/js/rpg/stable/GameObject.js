@@ -1,25 +1,25 @@
 import GameEnv from './GameEnv.js';
-import Socket from './Multiplayer.js';
 
 class GameObject {
     // container for all game objects in game
-    constructor(canvas, image, data) {
-        this.canvas = canvas;
-        this.ctx = canvas.getContext('2d');
+    constructor(data) {
+        // Create canvas element
+        this.canvas = document.createElement("canvas");
+        this.canvas.id = data.name || "default";
+        this.canvas.width = data.pixels.width || 0;
+        this.canvas.height = data.pixels.height || 0;
+        this.ctx = this.canvas.getContext('2d');
+        document.getElementById("gameContainer").appendChild(this.canvas); 
+        // Set initial object properties 
         this.x = 0;
         this.y = 0;
         this.frame = 0;
-        this.image = image;
-        this.width = image.width;  // from Image() width
-        this.height = image.height; // from Image() height
         this.collisionWidth = 0;
         this.collisionHeight = 0;
-        this.aspect_ratio = this.width / this.height;
         this.collisionData = {};
         this.hitbox = data?.hitbox || {};
-        // Add this object to the game object array so collision can be detected
-        // among other things
-        GameEnv.gameObjects.push(this); 
+        // Add this object to the game
+        GameEnv.gameObjects.push(this);
     }
 
     setX(x) {

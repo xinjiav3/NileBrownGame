@@ -25,11 +25,11 @@ const GameControl = {
         // Create the game environment
         GameEnv.create();
         // Load the game level
-        // const gameLevel = new GameLevelSquares(path)
-        const gameLevel = new GameLevelWater(path)
-        // Load the game objects for the level
+        const gameLevel = new GameLevelWater(path);
+        // Prepare game objects for the level
         for (let object of gameLevel.objects) {
-            GameEnv.gameObjects.push(new object.class(object.data));
+            if (!object.data) object.data = {};
+            new object.class(object.data) 
         }
         // Start the game loop
         this.gameLoop();
