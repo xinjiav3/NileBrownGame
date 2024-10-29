@@ -1,0 +1,150 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "layout: post\n",
+    "title: Understanding JavaScript Strings\n",
+    "categories: [Programming]\n",
+    "permalink: /csp/big-idea/p4/3-4-3\n",
+    "comments: true\n",
+    "author: Alex Smith\n",
+    "menu: nav/csp_units/csp_unit3_p4_fundamentals.html\n",
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<style>\n",
+    "    .highlight {\n",
+    "        color: #f0f0f0; /* Text color */\n",
+    "        text-shadow: 0 0 8px #61dafb, 0 0 16px #61dafb, 0 0 24px #61dafb; /* Highlight effect on text */\n",
+    "        transition: all 0.3s ease;\n",
+    "    }\n",
+    "</style>\n",
+    "\n",
+    "<h2><span class = \"highlight\" style=\"font-family: Courier; color:#ffffff\">Working with Strings in JavaScript</span></h2>\n",
+    "\n",
+    "- Strings are a basic data type and are immutable.\n",
+    "    - They are stored directly in variables for easy access.\n",
+    "    - This immutability means their contents cannot be altered.\n",
+    "    - Strings do not inherently possess properties or types.\n",
+    "- They can be formatted similarly to Python using either single or double quotes and are indexed starting at zero."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {
+    "vscode": {
+     "languageId": "javascript"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "application/javascript": "\nconsole.log(\"A simple method to show strings\");\n// console.log outputs to the console\n// In JavaScript, the text within the code is referred to as a string literal, while the output seen in the console is called a string value.\n\n\n\n// Using variables to hold string values\n// This approach allows for spaces without needing to concatenate with plus signs\nconst exampleString = \"another demonstration of string output\";\nconsole.log(exampleString);\n\n// If using single quotes and your string has an apostrophe, escape it with a backslash (same as in Python)\n// Alternatively, switch to double quotes\nconsole.log(\"the cat exclaimed \\\"where's my snack?\\\" before leaving\");\n\n\n\n// String concatenation\nconst creature = \"fire\" + \"fly\";\nconsole.log(creature);\n\n// Concatenate multiple variables into a new string, similar to Python\nconst animal1 = \"goldfish\";\nconst animal2 = \"turtle\";\nconst animal3 = \"whale\";\nconst favoriteAnimals = \"I enjoy\" + animal1 + \", \" + animal2 + \", and\" + animal3 + \".\";\nconsole.log(favoriteAnimals);\n\n\n\n// Using template literals for cleaner syntax\n// This method allows for easier string creation without cumbersome syntax\nconst favoriteAnimalsTemplate = `I enjoy ${animal1}, ${animal2}, and ${animal3}.`;\nconsole.log(favoriteAnimalsTemplate);\n// This also allows for strings that might include conflicting quotes\nconsole.log(`I'm confident this is \"accurate\"`);\n\n\n\n// Creating new lines with \\n\nconst joke = \"my favorite insect\\nresting in the daylight\\non a leaf\";\nconsole.log(joke);\n\n// For template literals, create new lines directly\nconst multilineString = `this is line A\nthis is line B\nthis is line C`;\nconsole.log(multilineString);\n",
+      "text/plain": [
+       "<IPython.core.display.Javascript object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "%%js\n",
+    "\n",
+    "console.log(\"A simple method to show strings\");\n",
+    "// console.log outputs to the console\n",
+    "// In JavaScript, the text within the code is referred to as a string literal, while the output seen in the console is called a string value.\n",
+    "\n",
+    "\n",
+    "\n",
+    "// Using variables to hold string values\n",
+    "// This approach allows for spaces without needing to concatenate with plus signs\n",
+    "const exampleString = \"another demonstration of string output\";\n",
+    "console.log(exampleString);\n",
+    "\n",
+    "// If using single quotes and your string has an apostrophe, escape it with a backslash (same as in Python)\n",
+    "// Alternatively, switch to double quotes\n",
+    "console.log(\"the cat exclaimed \\\"where's my snack?\\\" before leaving\");\n",
+    "\n",
+    "\n",
+    "\n",
+    "// String concatenation\n",
+    "const creature = \"fire\" + \"fly\";\n",
+    "console.log(creature);\n",
+    "\n",
+    "// Concatenate multiple variables into a new string, similar to Python\n",
+    "const animal1 = \"goldfish\";\n",
+    "const animal2 = \"turtle\";\n",
+    "const animal3 = \"whale\";\n",
+    "const favoriteAnimals = \"I enjoy\" + animal1 + \", \" + animal2 + \", and\" + animal3 + \".\";\n",
+    "console.log(favoriteAnimals);\n",
+    "\n",
+    "\n",
+    "// Using template literals for cleaner syntax\n",
+    "// This method allows for easier string creation without cumbersome syntax\n",
+    "const favoriteAnimalsTemplate = `I enjoy ${animal1}, ${animal2}, and ${animal3}.`;\n",
+    "console.log(favoriteAnimalsTemplate);\n",
+    "// This also allows for strings that might include conflicting quotes\n",
+    "console.log(`I'm confident this is \"accurate\"`);\n",
+    "\n",
+    "\n",
+    "\n",
+    "// Creating new lines with \\n\n",
+    "const joke = \"my favorite insect\\nresting in the daylight\\non a leaf\";\n",
+    "console.log(joke);\n",
+    "\n",
+    "// For template literals, create new lines directly\n",
+    "const multilineString = `this is line A\n",
+    "this is line B\n",
+    "this is line C`;\n",
+    "console.log(multilineString);\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<style>\n",
+    "    .highlight {\n",
+    "        color: #f0f0f0; /* Text color */\n",
+    "        text-shadow: 0 0 8px #61dafb, 0 0 16px #61dafb, 0 0 24px #61dafb; /* Highlight effect on text */\n",
+    "        transition: all 0.3s ease;\n",
+    "    }\n",
+    "</style>\n",
+    "\n",
+    "<h4>Since strings can be handled like objects in JavaScript, check out <a href = \"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String\"><span class = \"highlight\">this resource</span></a> for a list of JavaScript methods.</h4>\n",
+    "\n",
+    "<br>\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "venv",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.12"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
