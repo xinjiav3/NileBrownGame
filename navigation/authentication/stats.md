@@ -33,21 +33,17 @@ show_reading_time: false
         </fieldset>
         <button type="submit">Submit Stats</button>
     </form>
- <script type="module">
+<script type="module">
     import { fetchOptions, javaURI } from '{{site.baseurl}}/assets/js/api/config.js';
-
     document.getElementById('statsForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent form from refreshing the page 
-        
+        event.preventDefault(); // Prevent form from refreshing the page   
         // Get input values
         const exerciseDate = document.getElementById('exerciseDate').value;
         const exerciseDuration = document.getElementById('exerciseDuration').value;
         const exerciseType = document.getElementById('exerciseType').value;
-
         const sleepDate = document.getElementById('sleepDate').value;
         const sleepHours = document.getElementById('sleepHours').value;
         const sleepQuality = document.getElementById('sleepQuality').value;
-
         // Create the stat map object to send to the backend
         const statMap = {
             "exercise": {
@@ -61,18 +57,17 @@ show_reading_time: false
                 "quality": sleepQuality
             }
         };
-
         // Call the API to send the stats
         sendPersonStats(statMap);
     });
-
     async function sendPersonStats(statMap) {
         try {
-            // Use fetchOptions for the request setup
+            // Use fetchOptions to configure the request
             const response = await fetch(`${javaURI}/api/person/setStats`, {
-                ...fetchOptions('POST', statMap)  // Call fetchOptions to set the method, headers, and body
+                ...fetchOptions,
+                method: 'POST', // Overriding the method to POST
+                body: JSON.stringify(statMap) // Adding the statMap as the request body
             });
-
             if (response.ok) {
                 const personData = await response.json(); // Get the updated Person object from the server
                 console.log("Person stats updated successfully:", personData);
@@ -86,6 +81,14 @@ show_reading_time: false
             alert("Error during API request.");
         }
     }
-</html>
+
+
+
+
+    
+</script>
+
+
+<html>
 
 
