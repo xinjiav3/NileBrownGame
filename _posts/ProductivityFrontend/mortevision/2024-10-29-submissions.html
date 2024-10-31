@@ -1,0 +1,128 @@
+---
+permalink: /project/mort-translator/submissions
+search_exclude: true
+layout: base
+---
+
+
+<body>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2>Submit here</h2>
+            <select id="task-select">
+                <option value="" disabled selected>Select a task</option>
+            </select>
+            
+        </div>
+            <div>
+                <label for="submissionLink">Submission Link:</label>
+                <input type="url" id="submissionLink" th:field="*{submissionLink}" required/>
+            </div>
+            <button onclick="Submit()">Submit</button>
+        </form>
+        <div class="output-box" id="outputBox"></div>
+    </div>
+
+    <script>
+        let selectedTask = "";
+        let tasks="";
+        let assignmentIds=[];
+        let assignIndex=0;
+
+        // Function to fetch tasks from backend
+        async function fetchTasks() {
+            try {
+                const response = await fetch('http://localhost:8085/api/assignments/getAssignments');
+                tasks = await response.json();
+                populateTaskDropdown(tasks);
+            } catch (error) {
+                console.error('Error fetching tasks:', error);
+            }
+        }
+
+        // Populate dropdown with tasks
+        function populateTaskDropdown(tasks) {
+            const taskSelect = document.getElementById('task-select');
+            tasks.forEach(task => {
+                console.log(task.name);
+                const option = document.createElement('option');
+                option.value = task.name;
+                option.textContent = task.name;
+                taskSelect.appendChild(option);
+                assignmentIds.push(task.assignmentId);
+            });
+        }
+
+        document.getElementById("task-select").addEventListener("change", function() {
+            selectedTask = this.value; // Get the selected value
+            assignIndex=this.selectedIndex;
+            console.log("Selected task:", selectedTask); // Log or use the selected value as needed
+            console.log("Selected Index:", assignIndex); // Log or use the selected value as needed
+        });
+
+        function getAssignments() {
+            fetch('http://localhost:8085/api/assignments/getAssignments')
+                .then(response => response.json()) // Parse response as JSON
+                .then(tasks => {
+                    console.log(tasks); // Log tasks data once parsed
+                })
+                .catch(error => {
+                    console.error('Error fetching tasks:', error);
+                });
+        }
+        
+
+
+        function Submit(){
+                const assignmentName=selectedTask;
+                const assignment_id=assignmentIds[assignIndex-1];
+                const submission_time = (new Date()).toLocaleTimeString();
+
+                const submissionLink = document.getElementById('submissionLink').value;
+                const data = {
+                    userId: null, // Set userId to null or replace with actual user ID if available
+                    submission_link: submissionLink,
+                    submission_time: submission_time,
+                    assignment_name: selectedTask,
+                    assignment_id:assignment_id
+                };
+
+               
+
+                console.log(data);
+                fetch('http://localhost:8085/api/submissions/Submit', {
+                    method: 'POST', // Specify the request method
+                    headers: {
+                        'Content-Type': 'application/json' // Set content type to JSON
+                    },
+                    body: JSON.stringify(data),
+                })
+                .then(response => {
+                    if (response.ok) {
+                        const outputBox = document.getElementById('outputBox');
+                        outputBox.innerText = 'Succesful Submission!';
+                        return response.json(); // Return the response JSON if successful
+                    } else {
+                        const outputBox = document.getElementById('outputBox');
+                        outputBox.innerText = 'Failed Submission!';
+                        throw new Error('Failed to submit data: ' + response.statusText); // Handle error
+                    }
+                })
+                .then(result => {
+                    console.log('Submission successful:', result); // Handle the result
+                })
+                .catch(error => {
+                    console.error('Error:', error); // Handle any error that occurred
+                });
+                
+        }
+
+
+
+
+        fetchTasks();
+    </script>
+
+</body>
+
