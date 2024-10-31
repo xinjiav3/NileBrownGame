@@ -1,0 +1,74 @@
+<head>
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<div class="container">
+    <div class="components">
+        <form id="login-form" class="form">
+            <input id="username" class="form__input" type="text" placeholder="Username" /><br><br>
+            <input id="password" class="form__input" type="password" placeholder="Password" /><br><br>
+
+            <!-- Login Button -->
+            <button id="login-btn" class="btn btn__primary" type="button">
+                <p>Login</p>
+            </button><br>
+
+            <!-- Create Account Button -->
+            <a href="{{site.baseurl}}/createAccount" class="btn btn__secondary" id="create-account-btn">
+                <p>Create Account</p>
+            </a>
+        </form>
+
+        <!-- Error Chip (Hidden Initially) -->
+        <div class="chip" id="error-chip" style="display:none;">
+            <div class="chip__icon">
+                <ion-icon name="warning-outline"></ion-icon>
+            </div>
+            <p>Error logging in.</p> <!-- This message can change dynamically -->
+            <span class="chip__close" onclick="hideChip()"><ion-icon name="close"></ion-icon></span>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('login-btn').addEventListener('click', function () {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        if (username && password) {
+            // Send POST request to backend
+            fetch('http://localhost:8085/authenticate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: username,
+                    password: password,
+                }),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        // Show error message on error codes (401, 403, etc.)
+                        document.getElementById('error-chip').style.display = 'flex';
+                    } else {
+                        // Success: handle login (redirect, etc.)
+                        window.location.href = '/tinkle-time-frontend/dashboard'; // example redirect
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Show error message for network failure or other issues
+                    document.getElementById('error-chip').style.display = 'flex';
+                });
+        }
+    });
+
+    // Function to hide the error chip when the close button is clicked
+    function hideChip() {
+        document.getElementById('error-chip').style.display = 'none';
+    }
+</script>
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
