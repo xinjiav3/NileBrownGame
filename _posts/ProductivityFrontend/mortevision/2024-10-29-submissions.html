@@ -1,0 +1,74 @@
+---
+permalink: /project/mort-translator/submissions
+search_exclude: true
+layout: base
+---
+
+
+<body>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2>Add New Plan</h2>
+            <select id="task-select">
+                <option value="" disabled selected>Select a task</option>
+            </select>
+            <button id="save-plan-btn">Save Plan</button>
+        </div>
+    </div>
+
+    <script>
+        let plans = [];
+
+        // Function to fetch tasks from backend
+        async function fetchTasks() {
+            try {
+                const response = await fetch('http://localhost:8085/api/assignments/getAssignments');
+                const tasks = await response.json();
+                populateTaskDropdown(tasks);
+            } catch (error) {
+                console.error('Error fetching tasks:', error);
+            }
+        }
+
+        // Populate dropdown with tasks
+        function populateTaskDropdown(tasks) {
+            const taskSelect = document.getElementById('task-select');
+            tasks.forEach(task => {
+                console.log(task.name);
+                const option = document.createElement('option');
+                option.value = task.name;
+                option.textContent = task.name;
+                taskSelect.appendChild(option);
+            });
+        }
+
+        // Render plans list
+        function renderPlans() {
+            const planList = document.getElementById('plan-list');
+            planList.innerHTML = '';
+
+            plans.forEach(plan => {
+                const li = document.createElement('li');
+                li.textContent = plan;
+                planList.appendChild(li);
+            });
+        }
+
+
+        // Save selected task to plans
+        document.getElementById('save-plan-btn').addEventListener('click', function() {
+            const selectedTask = document.getElementById('task-select').value;
+            if (selectedTask) {
+                plans.push(selectedTask);
+                renderPlans();
+                document.getElementById('task-select').value = '';
+                document.getElementById('modal').style.display = 'none';
+            }
+        });
+
+        fetchTasks();
+    </script>
+
+</body>
+
