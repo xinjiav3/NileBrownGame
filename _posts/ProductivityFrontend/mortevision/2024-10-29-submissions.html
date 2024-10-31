@@ -13,18 +13,37 @@ layout: base
             <select id="task-select">
                 <option value="" disabled selected>Select a task</option>
             </select>
-            <button id="save-plan-btn">Save Plan</button>
+            
         </div>
+            <div>
+                <label for="user">User:</label>
+                <input type="text" id="user" th:field="*{user}" required/>
+            </div>
+            
+            <div>
+                <label for="submissionLink">Submission Link:</label>
+                <input type="url" id="submissionLink" th:field="*{submissionLink}" required/>
+            </div>
+            
+            <div>
+                <label for="submissionTime">Submission Time:</label>
+                <input type="text" id="submissionTime" th:field="*{submissionTime}" required/>
+            </div>
+            <button onclick="Submit()">Submit</button>
+        </form>
     </div>
 
     <script>
-        let plans = [];
+        let selectedTask = "";
+        let tasks="";
+        let assignmentIds=[];
+        let assignIndex=0;
 
         // Function to fetch tasks from backend
         async function fetchTasks() {
             try {
                 const response = await fetch('http://localhost:8085/api/assignments/getAssignments');
-                const tasks = await response.json();
+                tasks = await response.json();
                 populateTaskDropdown(tasks);
             } catch (error) {
                 console.error('Error fetching tasks:', error);
@@ -40,32 +59,73 @@ layout: base
                 option.value = task.name;
                 option.textContent = task.name;
                 taskSelect.appendChild(option);
+                assignmentIds.push(task.assignmentId);
             });
         }
 
-        // Render plans list
-        function renderPlans() {
-            const planList = document.getElementById('plan-list');
-            planList.innerHTML = '';
-
-            plans.forEach(plan => {
-                const li = document.createElement('li');
-                li.textContent = plan;
-                planList.appendChild(li);
-            });
-        }
-
-
-        // Save selected task to plans
-        document.getElementById('save-plan-btn').addEventListener('click', function() {
-            const selectedTask = document.getElementById('task-select').value;
-            if (selectedTask) {
-                plans.push(selectedTask);
-                renderPlans();
-                document.getElementById('task-select').value = '';
-                document.getElementById('modal').style.display = 'none';
-            }
+        document.getElementById("task-select").addEventListener("change", function() {
+            selectedTask = this.value; // Get the selected value
+            assignIndex=this.selectedIndex;
+            console.log("Selected task:", selectedTask); // Log or use the selected value as needed
+            console.log("Selected Index:", assignIndex); // Log or use the selected value as needed
         });
+
+        function getAssignments() {
+            fetch('http://localhost:8085/api/assignments/getAssignments')
+                .then(response => response.json()) // Parse response as JSON
+                .then(tasks => {
+                    console.log(tasks); // Log tasks data once parsed
+                })
+                .catch(error => {
+                    console.error('Error fetching tasks:', error);
+                });
+        }
+        
+
+
+        function Submit(){
+                const assignmentName=selectedTask;
+                const assignmentId=assignmentIds[assignIndex];
+                const submission_time = new Date();
+                const submissionLink = document.getElementById('submissionLink').value;
+
+                console.log(submission_time.toLocaleTimeString())
+                console.log(getAssignments());
+                console.log(assignmentId);
+                console.log(assignIndex);
+                console.log("ids"+assignmentIds);
+                const data = {
+                    userId: null, // Set userId to null or replace with actual user ID if available
+                    submission_link: submissionLink,
+                    submission_time: submission_time,
+                    assignment_name: selectedTask,
+                    assignment_id: assignmentId, // Set to null or provide the assignment object if available
+                };
+                fetch('http://localhost:8085/api/submissions/Submit', {
+                    method: 'POST', // Specify the request method
+                    headers: {
+                        'Content-Type': 'application/json' // Set content type to JSON
+                    },
+                    body: JSON.stringify(data) // Convert JavaScript object to JSON
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json(); // Return the response JSON if successful
+                    } else {
+                        throw new Error('Failed to submit data: ' + response.statusText); // Handle error
+                    }
+                })
+                .then(result => {
+                    console.log('Submission successful:', result); // Handle the result
+                })
+                .catch(error => {
+                    console.error('Error:', error); // Handle any error that occurred
+                });
+                
+        }
+
+
+
 
         fetchTasks();
     </script>
