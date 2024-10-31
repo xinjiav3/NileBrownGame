@@ -29,6 +29,10 @@ html {
     }
 }
 
+p {
+    font-size: 15px;
+    color: var(--primary-dark); 
+}
 .container {
     min-height: 100vh;
     display: flex;
