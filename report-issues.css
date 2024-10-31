@@ -265,6 +265,20 @@ a {
 }
 
 /*  CHECKBOX  */
+.checkbox div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.checkbox_text {
+    color: var(--primary)!important;
+}
+.checkbox div p {
+    margin: 0;
+    line-height: 1;
+}
 .checkbox {
     grid-row: 1/2;
     display: grid;

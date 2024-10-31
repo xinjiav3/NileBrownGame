@@ -37,7 +37,7 @@
                     <input id="checkbox-1" type="checkbox" value="No Door Lock">
                     <label for="checkbox-1">
                         <i class="material-icons">done</i></label>
-                    <p>No Door Lock</p>
+                    <p class="checkbox_text">No Door Lock</p>
                 </div>
 
                 <div class="checkbox__2">
@@ -45,7 +45,7 @@
                     <label for="checkbox-2">
                         <i class="material-icons">done</i>
                     </label>
-                    <p>No Toilet Paper</p>
+                    <p class="checkbox_text">No Toilet Paper</p>
                 </div>
 
                 <div class="checkbox__3">
@@ -53,7 +53,15 @@
                     <label for="checkbox-3">
                         <i class="material-icons">done</i>
                     </label>
-                    <p>No Stall Doors</p>
+                    <p class="checkbox_text">No Stall Doors</p>
+                </div>
+
+                <div class="checkbox__4">
+                    <input id="checkbox-4" type="checkbox" value="Other">
+                    <label for="checkbox-4">
+                        <i class="material-icons">done</i>
+                    </label>
+                    <p class="checkbox_text">Other</p>
                 </div>
 
             </div>
@@ -140,22 +148,28 @@
         checkboxes.forEach(checkbox => {
             selectedIssues.push(checkbox.value); // Collect the values of selected checkboxes
         });
-    
-        if (selectedIssues.length === 0) {
+        
+        const additionalIssue = document.getElementById("additionalInfo").value;
+        if (selectedIssues.length === 0 && additionalIssue == null) {
             alert("Please select at least one issue.");
             return;
+        }
+        if(selectedIssues[0] == 'Other' && additionalIssue != null)
+        {
+            selectedIssues[0] = additionalIssue;
         }
     
         const reportData = {
             bathroomName: bathroomValue,
-            issue: selectedIssues[0] // Sending all issues instead of just the first one
+            issue: selectedIssues[0], // Sending all issues instead of just the first one
+            count: 1
         };
         console.log(JSON.stringify(reportData));
         
             // Create a unique URL for each issue
             const putOptions = {
                 ...fetchOptions,
-                method: 'PUT',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -163,7 +177,7 @@
             };
     
             // Send individual PUT requests for each issue
-            fetch('http://localhost:8085/api/issue/update', putOptions)
+            fetch('http://localhost:8085/api/issue/add', putOptions)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok: ' + response.statusText);
