@@ -9,28 +9,14 @@ layout: base
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Planning System</title>
     <style>
-        /* body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        } */
-
-        /* #app {
-            width: 350px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        } */
-
         h1 {
             font-size: 24px;
+            color: #ccc;
             text-align: center;
+        }
+
+        * {
+            color: black;
         }
 
         ul {
@@ -39,33 +25,13 @@ layout: base
         }
 
         li {
-            background-color: #e0e0e0;
             margin: 10px 0;
             padding: 10px;
             border-radius: 4px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            color: black;
         }
-
-        /* #add-btn {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 40px;
-            height: 40px;
-            background-color: #28a745;
-            color: white;
-            font-size: 24px;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        #add-btn:hover {
-            background-color: #218838;
-        } */
 
         /* Modal styling */
         .modal {
@@ -98,16 +64,11 @@ layout: base
 
         .modal-content button {
             padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
 
-        .modal-content button:hover {
-            background-color: #218838;
-        }
     </style>
 </head>
 <body>
@@ -121,6 +82,7 @@ layout: base
 
     <button id="add-btn">+</button>
 
+    <!-- Modal for adding a new task -->
     <div id="modal" class="modal">
         <div class="modal-content">
             <h2>Add New Plan</h2>
@@ -131,8 +93,18 @@ layout: base
         </div>
     </div>
 
+    <!-- Modal for editing a task's do-by date -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <h2>Edit Due Date</h2>
+            <input type="date" id="edit-due-date">
+            <button id="save-edit-btn">Save Changes</button>
+        </div>
+    </div>
+
     <script>
         let plans = [];
+        let draggedIndex = null;
 
         // Function to fetch tasks from backend
         async function fetchTasks() {
@@ -149,41 +121,81 @@ layout: base
         function populateTaskDropdown(tasks) {
             const taskSelect = document.getElementById('task-select');
             tasks.forEach(task => {
-                console.log(task.name);
                 const option = document.createElement('option');
-                option.value = task.name;
+                option.value = JSON.stringify(task); // Store entire task object
                 option.textContent = task.name;
                 taskSelect.appendChild(option);
             });
         }
 
-        // Render plans list
+        // Render plans list with draggable tasks
         function renderPlans() {
             const planList = document.getElementById('plan-list');
             planList.innerHTML = '';
 
-            plans.forEach(plan => {
+            plans.forEach((plan, index) => {
                 const li = document.createElement('li');
-                li.textContent = plan;
+                li.textContent = `${plan.name} - Points: ${plan.points} - Do-by: ${plan.due_date}`;
+                li.draggable = true;
+                li.addEventListener('click', () => openEditModal(index));
+                
+                // Drag and drop events
+                li.addEventListener('dragstart', () => draggedIndex = index);
+                li.addEventListener('dragover', (e) => e.preventDefault()); // Necessary for drop event to work
+                li.addEventListener('drop', () => handleDrop(index));
+
                 planList.appendChild(li);
             });
         }
 
-        // Open modal on add button click
+        // Handle drop event to reorder tasks
+        function handleDrop(dropIndex) {
+            const draggedPlan = plans[draggedIndex];
+            plans.splice(draggedIndex, 1); // Remove dragged item
+            plans.splice(dropIndex, 0, draggedPlan); // Insert at new position
+            renderPlans();
+        }
+
+        // Open modal to add new task
         document.getElementById('add-btn').addEventListener('click', function() {
             document.getElementById('modal').style.display = 'flex';
         });
 
         // Save selected task to plans
         document.getElementById('save-plan-btn').addEventListener('click', function() {
-            const selectedTask = document.getElementById('task-select').value;
-            if (selectedTask) {
+            const selectedTaskData = document.getElementById('task-select').value;
+            if (selectedTaskData) {
+                const selectedTask = JSON.parse(selectedTaskData); // Parse selected task data
                 plans.push(selectedTask);
                 renderPlans();
                 document.getElementById('task-select').value = '';
                 document.getElementById('modal').style.display = 'none';
             }
         });
+
+        // Function to open edit modal with selected task's data
+        function openEditModal(index) {
+            const plan = plans[index];
+            document.getElementById('edit-due-date').value = plan.due_date;
+            document.getElementById('edit-modal').style.display = 'flex';
+
+            // Save the changes made to the due date
+            document.getElementById('save-edit-btn').onclick = function() {
+                const newDueDate = document.getElementById('edit-due-date').value;
+                if (newDueDate) {
+                    plans[index].due_date = newDueDate;
+                    renderPlans();
+                    document.getElementById('edit-modal').style.display = 'none';
+                }
+            };
+        }
+
+        // Close modals on clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        };
 
         // Initial render and fetch tasks
         renderPlans();
