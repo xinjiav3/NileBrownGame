@@ -21,6 +21,7 @@ layout: base
             </div>
             <button onclick="Submit()">Submit</button>
         </form>
+        <div class="output-box" id="outputBox"></div>
     </div>
 
     <script>
@@ -99,8 +100,12 @@ layout: base
                 })
                 .then(response => {
                     if (response.ok) {
+                        const outputBox = document.getElementById('outputBox');
+                        outputBox.innerText = 'Succesful Submission!';
                         return response.json(); // Return the response JSON if successful
                     } else {
+                        const outputBox = document.getElementById('outputBox');
+                        outputBox.innerText = 'Failed Submission!';
                         throw new Error('Failed to submit data: ' + response.statusText); // Handle error
                     }
                 })
