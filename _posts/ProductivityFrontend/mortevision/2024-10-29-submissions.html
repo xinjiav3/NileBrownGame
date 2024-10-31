@@ -9,17 +9,12 @@ layout: base
 
     <div id="modal" class="modal">
         <div class="modal-content">
-            <h2>Add New Plan</h2>
+            <h2>Submit here</h2>
             <select id="task-select">
                 <option value="" disabled selected>Select a task</option>
             </select>
             
         </div>
-            <div>
-                <label for="user">Full Name:</label>
-                <input type="text" id="user" th:field="*{user}" required/>
-            </div>
-            
             <div>
                 <label for="submissionLink">Submission Link:</label>
                 <input type="url" id="submissionLink" th:field="*{submissionLink}" required/>
