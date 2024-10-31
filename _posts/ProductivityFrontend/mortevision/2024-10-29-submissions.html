@@ -16,18 +16,13 @@ layout: base
             
         </div>
             <div>
-                <label for="user">User:</label>
+                <label for="user">Full Name:</label>
                 <input type="text" id="user" th:field="*{user}" required/>
             </div>
             
             <div>
                 <label for="submissionLink">Submission Link:</label>
                 <input type="url" id="submissionLink" th:field="*{submissionLink}" required/>
-            </div>
-            
-            <div>
-                <label for="submissionTime">Submission Time:</label>
-                <input type="text" id="submissionTime" th:field="*{submissionTime}" required/>
             </div>
             <button onclick="Submit()">Submit</button>
         </form>
@@ -85,28 +80,27 @@ layout: base
 
         function Submit(){
                 const assignmentName=selectedTask;
-                const assignmentId=assignmentIds[assignIndex];
-                const submission_time = new Date();
-                const submissionLink = document.getElementById('submissionLink').value;
+                const assignment_id=assignmentIds[assignIndex-1];
+                const submission_time = (new Date()).toLocaleTimeString();
 
-                console.log(submission_time.toLocaleTimeString())
-                console.log(getAssignments());
-                console.log(assignmentId);
-                console.log(assignIndex);
-                console.log("ids"+assignmentIds);
+                const submissionLink = document.getElementById('submissionLink').value;
                 const data = {
                     userId: null, // Set userId to null or replace with actual user ID if available
                     submission_link: submissionLink,
                     submission_time: submission_time,
                     assignment_name: selectedTask,
-                    assignment_id: assignmentId, // Set to null or provide the assignment object if available
+                    assignment_id:assignment_id
                 };
+
+               
+
+                console.log(data);
                 fetch('http://localhost:8085/api/submissions/Submit', {
                     method: 'POST', // Specify the request method
                     headers: {
                         'Content-Type': 'application/json' // Set content type to JSON
                     },
-                    body: JSON.stringify(data) // Convert JavaScript object to JSON
+                    body: JSON.stringify(data),
                 })
                 .then(response => {
                     if (response.ok) {
