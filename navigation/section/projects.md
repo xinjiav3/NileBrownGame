@@ -2,7 +2,7 @@
 layout: post
 title: A Joint Period 1 + Period 3 Venture
 search_exclude: false
-course: csa
+permalink: /project/home
 menu: nav/project/home.html
 ---
 

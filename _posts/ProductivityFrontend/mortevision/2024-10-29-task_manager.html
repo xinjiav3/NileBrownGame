@@ -1,0 +1,193 @@
+---
+permalink: /project/mort-translator/personal-planner
+search_exclude: true
+layout: base
+---
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Planning System</title>
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        } */
+
+        /* #app {
+            width: 350px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        } */
+
+        h1 {
+            font-size: 24px;
+            text-align: center;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #e0e0e0;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        /* #add-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background-color: #28a745;
+            color: white;
+            font-size: 24px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        #add-btn:hover {
+            background-color: #218838;
+        } */
+
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .modal-content button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .modal-content button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <h1>My Plans</h1>
+        <ul id="plan-list">
+            <!-- Task content goes here -->
+        </ul>
+    </div>
+
+    <button id="add-btn">+</button>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2>Add New Plan</h2>
+            <select id="task-select">
+                <option value="" disabled selected>Select a task</option>
+            </select>
+            <button id="save-plan-btn">Save Plan</button>
+        </div>
+    </div>
+
+    <script>
+        let plans = [];
+
+        // Function to fetch tasks from backend
+        async function fetchTasks() {
+            try {
+                const response = await fetch('http://localhost:8085/api/assignments/getAssignments');
+                const tasks = await response.json();
+                populateTaskDropdown(tasks);
+            } catch (error) {
+                console.error('Error fetching tasks:', error);
+            }
+        }
+
+        // Populate dropdown with tasks
+        function populateTaskDropdown(tasks) {
+            const taskSelect = document.getElementById('task-select');
+            tasks.forEach(task => {
+                console.log(task.name);
+                const option = document.createElement('option');
+                option.value = task.name;
+                option.textContent = task.name;
+                taskSelect.appendChild(option);
+            });
+        }
+
+        // Render plans list
+        function renderPlans() {
+            const planList = document.getElementById('plan-list');
+            planList.innerHTML = '';
+
+            plans.forEach(plan => {
+                const li = document.createElement('li');
+                li.textContent = plan;
+                planList.appendChild(li);
+            });
+        }
+
+        // Open modal on add button click
+        document.getElementById('add-btn').addEventListener('click', function() {
+            document.getElementById('modal').style.display = 'flex';
+        });
+
+        // Save selected task to plans
+        document.getElementById('save-plan-btn').addEventListener('click', function() {
+            const selectedTask = document.getElementById('task-select').value;
+            if (selectedTask) {
+                plans.push(selectedTask);
+                renderPlans();
+                document.getElementById('task-select').value = '';
+                document.getElementById('modal').style.display = 'none';
+            }
+        });
+
+        // Initial render and fetch tasks
+        renderPlans();
+        fetchTasks();
+    </script>
+
+</body>
