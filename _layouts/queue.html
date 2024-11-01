@@ -23,11 +23,23 @@
         <div class="queue-actions">
             <button type="button" onclick="addToQueue()">Add Me to Queue</button>
             <button type="button" onclick="removeFromQueue()">Remove Me from Queue</button>
+            <button type="button" onclick="goToProfile()">Go to Profile</button>
+            <button type="button" onclick="reportIssue()">Report Issue</button>
         </div>        
     </div>
 </body>
 
 <script>
+    function goToProfile() {
+        // Redirect to profile page
+        window.location.href = "{site.baseurl}/profile";
+    }
+
+    function reportIssue() {
+        // Redirect to issue report page
+        window.location.href = "{site.baseurl}/issue";
+    }
+
     // Global variable to store queue data
     window.studentsInQueue = [];
 
