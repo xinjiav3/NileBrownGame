@@ -50,12 +50,12 @@
         window.studentsInQueue.forEach((student) => {
             const listItem = document.createElement("li");
             listItem.textContent = student;
-            if (student === "YOU") listItem.style.color = "red"; // Highlight user's name in red
+            if (student === studentName) listItem.style.color = "red"; // Highlight user's name in red
             studentList.appendChild(listItem);
         });
 
         // Update position and estimated time
-        const position = window.studentsInQueue.indexOf("YOU") + 1;
+        const position = window.studentsInQueue.indexOf(studentName) + 1;
         document.getElementById("position").textContent = `Your position in line: #${position}`;
         document.getElementById("estimatedTime").textContent = `Estimated time: ~${position * 3} mins`;
     }
