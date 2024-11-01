@@ -1,0 +1,198 @@
+:root {
+    --primary-light: #8abdff;
+    --primary: #6d5dfc;
+    --primary-dark: #5b0eeb;
+    --white: #FFFFFF;
+    --greyLight-1: #E4EBF5;
+    --greyLight-2: #c8d0e7;
+    --greyDark: #9baacf;
+}
+
+/* Reset styles */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+    overflow-y: scroll;
+    background: var(--greyLight-1);
+}
+
+/* Container for profile page */
+.profile-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 60rem; /* Set a max width */
+    padding: 2rem;
+    margin: 0 auto;
+    font-family: "Poppins", sans-serif;
+    background-color: var(--greyLight-1);
+    box-shadow: 0.8rem 0.8rem 1.4rem var(--greyLight-2), -0.2rem -0.2rem 1.8rem var(--white);
+    border-radius: 3rem;
+}
+
+/* Profile picture section */
+.profile-picture {
+    background-color: var(--greyLight-1);
+    box-shadow: 0.8rem 0.8rem 1.4rem var(--greyLight-2), -0.2rem -0.2rem 1.8rem var(--white);
+    justify-self: center;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Name and email sections */
+.name,
+.email-info {
+    background-color: var(--greyLight-1);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+}
+
+/* Visit frequency and duration section */
+.stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.frequency, .duration {
+    background-color: var(--primary);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    color: var(--greyLight-1);
+    box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+    text-align: center;
+}
+
+/* History and comparison sections */
+.history,
+.comparison {
+    background-color: var(--greyLight-1);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+}
+
+/* Button Styles */
+button, .btn {
+    width: 100%;
+    height: auto; /* Adjust height to be flexible like the frequency and duration containers */
+    border-radius: 1rem;
+    padding: 1.5rem; /* Padding matches the containers */
+    background-color: var(--primary); /* Same background color */
+    color: var(--greyLight-1); /* Same text color */
+    box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white); /* Same shadow */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s ease;
+    text-align: center;
+    border: none; /* Ensures no unwanted border */
+}
+
+
+button:hover, .btn:hover {
+    color: var(--white);
+}
+
+button:active, .btn:active {
+    box-shadow: inset 0.2rem 0.2rem 1rem var(--primary-dark), inset -0.2rem -0.2rem 1rem var(--primary-light);
+}
+
+/* Styling for Comparison with Class Data container */
+.comparison {
+    position: relative;
+    height: 20rem; /* Adjust the height as needed */
+}
+
+/* Styling for the embedded graph to fit within the container */
+#comparisonGraph {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100%;
+    object-fit: contain;
+}
+/* Form Input */
+.form__input, .form__textarea {
+    height: 4rem;
+    border: none;
+    border-radius: 1rem;
+    font-size: 1.4rem;
+    padding-left: 1.4rem;
+    box-shadow: inset 0.2rem 0.2rem 0.5rem var(--greyLight-2), inset -0.2rem -0.2rem 0.5rem var(--white);
+    background: none;
+    font-family: inherit;
+    color: var(--greyDark);
+    max-width: 100%;
+}
+
+.form__textarea {
+    height: 8rem;
+    resize: none;
+}
+
+.form__input::placeholder, .form__textarea::placeholder {
+    color: var(--greyLight-2);
+}
+
+.form__input:focus, .form__textarea:focus {
+    outline: none;
+    box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+}
+
+/* Error Chip */
+.chip {
+    justify-self: center;
+    width: 20rem;
+    height: 4rem;
+    border-radius: 1rem;
+    box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: opacity 0.3s ease-in-out;
+    background-color: var(--primary-light);
+    color: var(--greyDark);
+    padding: 0 1rem;
+}
+
+.chip__icon, .chip__close {
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+
+.chip p {
+    font-size: 1.2rem;
+}
+
+.chip.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.chip__icon {
+    color: var(--primary);
+}
+
+.chip__close {
+    color: var(--greyLight-2);
+}
