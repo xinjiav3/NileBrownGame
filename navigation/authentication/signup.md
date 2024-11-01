@@ -69,6 +69,7 @@ show_reading_time: false
     </div>
 </div>
 
+<!--
 <script type="module">
     import { login, pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
@@ -144,4 +145,63 @@ show_reading_time: false
     window.onload = function() {
          pythonDatabase();
     };
+</script>
+-->
+
+
+<script type="module">
+  import { javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+
+
+window.signup = function(){
+    // clones and replaces method
+    const signupOptions = {
+        URL: `${javaURI}/api/person/create`,
+        method: "POST",
+        cache: "no-cache",
+        headers: (new Headers({"Content-Type":"application/json"})),
+        body: JSON.stringify({
+                email: "fred@gmail.com", //later add to signup
+                dob: "11-01-2024",
+                name: document.getElementById("name").value,
+                uid: document.getElementById("signupUid").value,
+                password: document.getElementById("signupPassword").value,
+                kasm_server_needed: document.getElementById("kasmNeeded").value,
+            
+        }),
+    };
+
+    // fetch the API
+    fetch(signupOptions.URL, signupOptions)
+    // response is a RESTful "promise" on any successful fetch
+    .then(response => {
+      // check for response errors
+      if (response.status !== 200) {
+          error("Post API response failure: " + response.status)
+          return;  // api failure
+      }
+      // valid response will have JSON data
+      response.json().then(data => {
+          console.log(data);
+      })
+    })
+    // catch fetch errors (ie Nginx ACCESS to server blocked)
+    .catch(err => {
+      error(err + " " + signupOptions.URL);
+    });
+  
+  }
+
+  // Something went wrong with actions or responses
+  function error(err) {
+    // log as Error in console
+    console.error(err);
+    // append error to resultContainer
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+    td.innerHTML = err;
+    tr.appendChild(td);
+    document.getElementById("login-container").appendChild(tr);
+  }
+
 </script>
