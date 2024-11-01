@@ -1,0 +1,74 @@
+<head>
+    <link rel="stylesheet" href="queue.css">
+</head>
+
+<body>
+
+    <div class="queue-container">
+        <div class="queue-header">
+            <h2 id="teacherName">[Teacher Name]’s Queue</h2>
+        </div>
+        
+        <div class="queue-info">
+            <p id="position">Your position in line: #5</p>
+            <p id="estimatedTime">Estimated time: ~15 mins</p>
+        </div>
+        
+        <div class="queue-list">
+            <p>Students currently in line:</p>
+            <ul id="studentList">
+                <!-- Students will be listed here -->
+            </ul>
+        </div>
+
+        <div class="queue-actions">
+            <button onclick="addToQueue()">Add Me to Queue</button>
+            <button onclick="removeFromQueue()">Remove Me from Queue</button>
+        </div>
+    </div>
+
+    <script>
+        // Sample data for testing
+        const studentsInQueue = ["Matthew", "Tara", "Aashray", "Lilian", "YOU", "Aadit", "Rahul", "Eric", "Shuban"];
+
+        function displayQueue() {
+            const studentList = document.getElementById("studentList");
+            studentList.innerHTML = ""; // Clear the list
+
+            studentsInQueue.forEach((student, index) => {
+                const listItem = document.createElement("li");
+                listItem.textContent = student;
+                if (student === "YOU") listItem.style.color = "red"; // Highlight user's name in red
+                studentList.appendChild(listItem);
+            });
+
+            // Update position and estimated time
+            const position = studentsInQueue.indexOf("YOU") + 1;
+            document.getElementById("position").textContent = `Your position in line: #${position}`;
+            document.getElementById("estimatedTime").textContent = `Estimated time: ~${position * 3} mins`;
+        }
+
+        function addToQueue() {
+            if (!studentsInQueue.includes("YOU")) {
+                studentsInQueue.push("YOU");
+                displayQueue();
+            } else {
+                alert("You are already in the queue.");
+            }
+        }
+
+        function removeFromQueue() {
+            const index = studentsInQueue.indexOf("YOU");
+            if (index !== -1) {
+                studentsInQueue.splice(index, 1);
+                displayQueue();
+            } else {
+                alert("You are not in the queue.");
+            }
+        }
+
+        // Initial display
+        displayQueue();
+    </script>
+</body>
+</html>
