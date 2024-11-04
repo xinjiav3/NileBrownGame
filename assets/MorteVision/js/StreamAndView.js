@@ -11,8 +11,27 @@ async function startStream()
     {
         console.error("can u js be normal man")
     }
-    peerConnection = createPeerConnection()
+    if (!peerConnection) {
+        peerConnection = createPeerConnection();
+    }
     stream.getTracks().forEach((track) => peerConnection.addTrack(track, stream));
+}
+
+async function viewStream()
+{
+    if(!peerConnection)
+    {
+        peerConnection = createPeerConnection()
+    }
+    if(peerConnection.getTransceivers().length === 0)
+    {
+    peerConnection.addTransceiver("video", { direction: "recvonly" })
+    peerConnection.addTransceiver("audio", { direction: "recvonly" })
+    document.getElementById("streamOffline").style.display = "none"
+    document.getElementById("mortStream").style.display = "block"
+    }
+
+    await peerNegotiation()
 }
 
 async function captureScreen() {
@@ -25,6 +44,7 @@ async function captureScreen() {
             audio: true
         });
         document.getElementById("streamOffline").style.display = "none"
+        document.getElementById("mortStream").style.display = "block"
         document.getElementById("mortStream").srcObject = mediaStream
         return mediaStream;
     } catch (ex) {
@@ -36,15 +56,24 @@ async function captureScreen() {
 function createPeerConnection()
 {
     const peer = new RTCPeerConnection(servers)
+
+    peer.addTransceiver('video', {
+        direction: 'recvonly'
+      });
+      peer.addTransceiver('audio', {
+        direction: 'recvonly'
+      });
+
     peer.onnegotiationneeded = () => peerNegotiation()
     peer.onicecandidate = ({ candidate }) => {
-        if (candidate) {
+        if (candidate && signalingServer.readyState === signalingServer.OPEN) {
           signalingServer.send(JSON.stringify({ target: id, type: 'candidate', payload: candidate }));
         }
       };
     peer.ontrack = ({streams}) => {
         console.log("life sucks")
         document.getElementById("mortStream").srcObject = streams[0]
+        document.getElementById("mortStream").style.display = "block"
         document.getElementById("streamOffline").style.display = "none"
     }
     return peer
@@ -53,11 +82,14 @@ function createPeerConnection()
 
 async function peerNegotiation()
 {
-    
+    if(!peerConnection)
+    {
+        peerConnection = createPeerConnection()
+    }
     const offer = await peerConnection.createOffer();
     await peerConnection.setLocalDescription(offer);
     signalingServer.send(JSON.stringify({ target: id, type: 'offer', payload: offer }));
-    
+
 }
 
 let id
@@ -82,10 +114,16 @@ signalingServer.onmessage = async(message) => {
         break;
 
         case "answer":
+            if (!peerConnection) {
+                peerConnection = createPeerConnection();
+            }
             await peerConnection.setRemoteDescription(new RTCSessionDescription(data.payload));
         break;
 
         case "candidate":
+            if (!peerConnection) {
+                peerConnection = createPeerConnection();
+            }
             await peerConnection.addIceCandidate(new RTCIceCandidate(data.payload));
         break;
     }

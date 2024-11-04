@@ -42,4 +42,31 @@
 {
     height:100%;
     width:100%;
+    display: none;
+    pointer-events: none;
 }
+
+#streamControl
+{
+    width: 650px;
+    background-color: #5a5656;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#streamControl button
+{
+    background-color:red;
+    display: flex;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    justify-content: center;
+    align-items: center;
+    width:50px;
+}
+
+#streamControl span
+{
+    font-size: x-large;
+}
+

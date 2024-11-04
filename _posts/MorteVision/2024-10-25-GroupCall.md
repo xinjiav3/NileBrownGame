@@ -14,8 +14,13 @@ comments: True
 <div id="streamOffline">
 <img id="StreamOfflineMort" src="{{ '/assets/MorteVision/image/logo.png?v=' | append: site.github.build_revision | relative_url }}">
 <h1 id="StreamOfflineHead">Stream Offline</h1>
-<span id="StreamOfflineWitty">Why don't you share something?</span>
+<span id="StreamOfflineWitty">Make sure you connect to the stream, or start your own!</span>
 </div>
 <video id="mortStream" autoplay playsinline></video>
 </div>
 
+<div id="streamControl">
+<button alt="Begin Streaming" onclick="startStream()"><span class="material-symbols-outlined">podcasts</span></button>
+<button alt="Connect To Stream" onclick="viewStream()"><span class="material-symbols-outlined">play_circle</span></button>
+<button alt="Fullscreen" onclick="document.getElementById('mortStream').webkitRequestFullScreen()"><span class="material-symbols-outlined">fullscreen</span></button>
+</div>
