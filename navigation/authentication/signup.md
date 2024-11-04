@@ -174,10 +174,10 @@ window.signup = function(){
     fetch(signupOptions.URL, signupOptions)
     // response is a RESTful "promise" on any successful fetch
     .then(response => {
-      // check for response errors
-      if (response.status == 201) {
-          error("Created " + response.status)
-          return;  // api failure
+        
+      if (!response.ok){
+        throw new Error("response error: " + response.status);
+        return; //api failure
       }
       // valid response will have JSON data
       response.json().then(data => {
