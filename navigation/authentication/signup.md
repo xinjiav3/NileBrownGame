@@ -44,7 +44,7 @@ show_reading_time: false
             </p>
             <p>
                 <label>
-                    GitHub ID:
+                    Email:
                     <input type="text" name="signupUid" id="signupUid" required>
                 </label>
             </p>
@@ -161,12 +161,11 @@ window.signup = function(){
         cache: "no-cache",
         headers: (new Headers({"Content-Type":"application/json"})),
         body: JSON.stringify({
-                email: "fred@gmail.com", //later add to signup
+                email:  document.getElementById("signupUid").value,//later add to signup
                 dob: "11-01-2024",
                 name: document.getElementById("name").value,
-                uid: document.getElementById("signupUid").value,
                 password: document.getElementById("signupPassword").value,
-                kasm_server_needed: document.getElementById("kasmNeeded").value,
+                kasmServerNeeded: document.getElementById("kasmNeeded").checked,
             
         }),
     };
@@ -176,7 +175,7 @@ window.signup = function(){
     // response is a RESTful "promise" on any successful fetch
     .then(response => {
       // check for response errors
-      if (response.status !== 200) {
+      if (response.status !== 201) {
           error("Post API response failure: " + response.status)
           return;  // api failure
       }
