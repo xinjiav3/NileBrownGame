@@ -47,12 +47,21 @@
         const studentList = document.getElementById("studentList");
         studentList.innerHTML = ""; // Clear the list
 
+        // Display the queue
         window.studentsInQueue.forEach((student) => {
             const listItem = document.createElement("li");
             listItem.textContent = student;
             if (student === studentName) listItem.style.color = "red"; // Highlight user's name in red
             studentList.appendChild(listItem);
         });
+
+        // Disable "Add Me to Queue" button if student is already in queue
+        const addButton = document.querySelector('button[onclick="addToQueue()"]');
+        if (window.studentsInQueue.includes(studentName)) {
+            addButton.disabled = true;
+        } else {
+            addButton.disabled = false;
+        }
 
         // Update position and estimated time
         const position = window.studentsInQueue.indexOf(studentName) + 1;
