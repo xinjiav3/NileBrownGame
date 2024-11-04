@@ -75,6 +75,10 @@ permalink: /casino/mines
 <div id="winningsDisplay" style="margin-top: 10px;">Winnings: 0.00</div>
 
 <script>
+let clickedCells = new Set();
+let gameEnded = false;
+let betAmount = 0;
+
 // Function to start game by sending POST request with stakes level
 function startGame(stakes) {
   fetch(`http://localhost:8085/api/casino/mines/stakes/${stakes}`, {
@@ -85,6 +89,7 @@ function startGame(stakes) {
       console.log("Game started with stakes:", stakes);
       document.getElementById("popup").style.display = "none";
       document.getElementById("overlay").style.display = "none";
+      betAmount = Number(document.getElementById("betAmount").value); // Store bet amount
     } else {
       console.error("Failed to start game");
     }
@@ -93,30 +98,42 @@ function startGame(stakes) {
 
 // Event listener for Bet button
 document.getElementById("betButton").onclick = function() {
-  const betAmount = document.getElementById("betAmount").value;
+  const bet = document.getElementById("betAmount").value;
   const stakes = document.getElementById("stakes").value;
 
-  if (betAmount && !isNaN(betAmount) && Number(betAmount) > 0 && stakes) {
+  if (bet && !isNaN(bet) && Number(bet) > 0 && stakes) {
     startGame(stakes.toLowerCase()); // Start the game with selected stakes
   } else {
     document.getElementById("error").style.display = "block";
   }
 };
 
+// Function to end game and disable all cells
+function endGame(message) {
+  gameEnded = true;
+  alert(message);
+  document.querySelectorAll("table td a").forEach(cell => cell.classList.add("disabled"));
+}
+
 // Event listeners for board cell clicks
 document.querySelectorAll("table td a").forEach(cell => {
   cell.onclick = function(event) {
     event.preventDefault();
     
-    // Get x and y coordinates from cell text (e.g., "1,2")
-    const [xCoord, yCoord] = this.textContent.split(',').map(Number);
+    if (gameEnded) return; // Stop if the game is already over
+    
+    const cellCoords = this.textContent;
+    if (clickedCells.has(cellCoords)) return; // Ignore if cell is already clicked
+    
+    clickedCells.add(cellCoords); // Mark cell as clicked
+    const [xCoord, yCoord] = cellCoords.split(',').map(Number);
 
     // Send GET request to check for a mine at (xCoord, yCoord)
-    fetch(`http://localhost:8085/api/casino/mines/${xCoord}/${yCoord}`)
+    fetch(`http://localhost:8085/api/casino/mines/${xCoord - 1}/${yCoord - 1}`)
     .then(response => response.json())
     .then(isMine => {
       if (isMine) {
-        alert("Boom! You hit a mine!");
+        endGame("Boom! You hit a mine! Game Over.");
       } else {
         alert("Safe! No mine here.");
         updateWinnings(); // Update winnings if cell is safe
@@ -126,14 +143,22 @@ document.querySelectorAll("table td a").forEach(cell => {
   };
 });
 
-// Function to update winnings display
+// Function to update winnings display by multiplying multiplier with bet amount
 function updateWinnings() {
   fetch("http://localhost:8085/api/casino/mines/winnings")
     .then(response => response.json())
-    .then(winnings => {
+    .then(multiplier => {
+      const winnings = betAmount * multiplier;
       document.getElementById("winningsDisplay").textContent = `Winnings: ${winnings.toFixed(2)}`;
     })
     .catch(error => console.error("Error fetching winnings:", error));
 }
 </script>
 
+<style>
+/* Disabled cell style */
+table td a.disabled {
+  pointer-events: none;
+  color: gray;
+}
+</style>
