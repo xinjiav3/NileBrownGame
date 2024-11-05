@@ -38,17 +38,7 @@ html {
     background: var(--greyLight-1);
 }
 
-.components {
-    width: 75rem;
-    border-radius: 3rem;
-    box-shadow: 0.8rem 0.8rem 1.4rem var(--greyLight-2), -0.2rem -0.2rem 1.8rem var(--white);
-    padding: 4rem;
-    display: grid;
-    grid-template-rows: repeat(autofit, -webkit-min-content);
-    grid-template-rows: repeat(autofit, min-content);
-    grid-row-gap: 2.5rem;
-    align-items: center;
-}
+c
 
 /*  BUTTONS  */
 button {
