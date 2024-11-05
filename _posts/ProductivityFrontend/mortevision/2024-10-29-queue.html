@@ -2,6 +2,7 @@
 permalink: /project/mort-translator/queue
 search_exclude: true
 menu: nav/project/productivity-frontend/menu.html
+layout: base
 ---
 
 <html>
@@ -10,18 +11,6 @@ menu: nav/project/productivity-frontend/menu.html
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Queue Management</title>
     <style>
-        /* Dark background and base styling */
-        body {
-            background-color: #121212;
-            color: #e0e0e0;
-            font-family: Arial, sans-serif;
-            align-items: center;
-        }
-        h1 {
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-        
         /* Queue layout styling */
         .queue-container {
             display: flex;
@@ -86,7 +75,7 @@ menu: nav/project/productivity-frontend/menu.html
         }
 
         .controls button:hover, .dropdown-container button:hover {
-            background-color: #555;
+            background-color: #555 !important;
             transform: scale(1.05); /* Slightly enlarge the button */
             box-shadow: 4px 4px 12px #0f0f0f, -4px -4px 12px #2d2d2d; /* More pronounced shadow */
         }
@@ -106,9 +95,16 @@ menu: nav/project/productivity-frontend/menu.html
             border-radius: 5px;
             font-size: 1em;
         }
+        
+        .disabled-hover:hover {
+            background-color: #222 !important; /* Same as the non-hover color */
+            transform: none; /* No scaling */
+            box-shadow: 3px 3px 10px #0f0f0f, -3px -3px 10px #353535; /* Same shadow */
+        }
+</style>
     </style>
 </head>
-<body>
+
     <h1>Queue Management</h1>
 
     <div class="dropdown-container">
@@ -143,7 +139,7 @@ menu: nav/project/productivity-frontend/menu.html
     </div>
 
     <div class="timer">
-        <span id="timerDisplay">02:00</span>
+        <span id="timerDisplay">00:10</span>
     </div>
 
     <script>
@@ -162,6 +158,7 @@ menu: nav/project/productivity-frontend/menu.html
             if (response.ok) {
                 const data = await response.json();
                 updateQueueDisplay(data);
+                updateBeginTimerButton();
             }
         }
 
@@ -186,7 +183,7 @@ menu: nav/project/productivity-frontend/menu.html
         }
 
         function startTimer() {
-            let time = 120;
+            let time = 10;
             timerInterval = setInterval(() => {
                 const minutes = Math.floor(time / 60);
                 const seconds = time % 60;
@@ -264,8 +261,19 @@ menu: nav/project/productivity-frontend/menu.html
             fetchQueue();
         }
 
+        function updateBeginTimerButton() {
+            const beginTimerButton = document.getElementById('beginTimer');
+            // Check if the current user is at the front of the queue
+            if (currentQueue[0] === currentUser) {
+                beginTimerButton.classList.remove('disabled-hover');
+                beginTimerButton.disabled = false;
+            } else {
+                beginTimerButton.classList.add('disabled-hover');
+                beginTimerButton.disabled = true;
+            }
+        }
+
         fetchAssignments();
         fetchQueue();
     </script>
-</body>
 </html>
