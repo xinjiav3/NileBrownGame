@@ -1,0 +1,59 @@
+<head>
+    <link rel="stylesheet" href="report-issues.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<div class="container">
+    <div class="components">
+        <form id="login-form" class="form">
+            <button id="report-btn" class="btn btn__primary" type="button" onclick="getIssues()">
+                <p>Get Issues</p>
+            </button><br>
+        </form>
+    </div>
+</div>
+<script type="module">
+    import { javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+
+    const getOptions = {
+        ...fetchOptions,
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    };
+    window.getIssues = function()
+    {
+        fetch('http://localhost:8085/api/issue/issues', getOptions)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success for issue:', data);
+            function sortByBathroom(data)
+            {
+                const sortedData = {};
+                for(const entry of data)
+                {
+                    const {bathroom, issue} = entry;
+
+                    if (!sortedData[bathroom])
+                    {
+                        sortedData[bathroom] = [];
+                    }
+                    sortedData[bathroom].push(entry);
+                }
+                return sortedData;
+            }
+            const sortedData = sortByBathroom(data);
+            console.log(sortedData);
+        })
+        .catch(error => {
+            console.error('Error for issue:', error);
+        });
+        alert("Issues reported!");
+    };
+</script>
