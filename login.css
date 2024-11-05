@@ -2,10 +2,10 @@
     --primary-light: #8abdff;
     --primary: #6d5dfc;
     --primary-dark: #5b0eeb;
-    --white: #FFFFFF;
-    --greyLight-1: #E4EBF5;
-    --greyLight-2: #c8d0e7;
-    --greyDark: #9baacf;
+    --white: #222222;
+    --greyLight-1: #111111;
+    --greyLight-2: #000000;
+    --greyDark: #ffffff;
 }
 
 *,
@@ -87,11 +87,11 @@ a.btn {
     grid-row: 2;
     background: var(--primary);
     box-shadow: inset 0.2rem 0.2rem 1rem var(--primary-light), inset -0.2rem -0.2rem 1rem var(--primary-dark), 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
-    color: var(--greyLight-1);
+    color: white
 }
 
 .btn__primary:hover {
-    color: var(--white);
+    color: white;
 }
 
 .btn__primary:active {
@@ -100,11 +100,11 @@ a.btn {
 
 .btn__secondary {
     grid-row: 3;
-    color: var(--greyDark);
+    color: #888;
 }
 
 .btn__secondary:hover {
-    color: var(--primary);
+    color: white;
 }
 
 .btn__secondary:active {
@@ -183,7 +183,7 @@ a {
     margin: 0 0.5rem;
     display: flex;
     font-size: 1.6rem;
-    color: var(--greyLight-3);
+    color: white;
     cursor: pointer;
 }
 
@@ -204,7 +204,7 @@ a {
     box-shadow: inset 0.2rem 0.2rem 0.5rem var(--greyLight-2), inset -0.2rem -0.2rem 0.5rem var(--white);
     background: none;
     font-family: inherit;
-    color: var(--greyDark);
+    color: #888;
 }
 
 .form__input::-moz-placeholder {
