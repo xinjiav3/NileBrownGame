@@ -10,6 +10,3 @@ comments: True
 {% include MorteVision/head.html %}
 {% include MorteVision/navbar.html %}
 
-
-<video autoplay id="remoteVideo"></video>
-<video autoplay id="localVideo"></video>
