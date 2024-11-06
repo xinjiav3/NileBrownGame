@@ -22,38 +22,34 @@
             'Content-Type': 'application/json',
         }
     };
-    window.getIssues = function()
-    {
+    window.getIssues = function () {
         fetch('http://localhost:8085/api/issue/issues', getOptions)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Success for issue:', data);
-            function sortByBathroom(data)
-            {
-                const sortedData = {};
-                for(const entry of data)
-                {
-                    const {bathroom, issue} = entry;
-
-                    if (!sortedData[bathroom])
-                    {
-                        sortedData[bathroom] = [];
-                    }
-                    sortedData[bathroom].push(entry);
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.statusText);
                 }
-                return sortedData;
-            }
-            const sortedData = sortByBathroom(data);
-            console.log(sortedData);
-        })
-        .catch(error => {
-            console.error('Error for issue:', error);
-        });
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success for issue:', data);
+                function sortByBathroom(data) {
+                    const sortedData = {};
+                    for (const entry of data) {
+                        const { bathroom, issue } = entry;
+
+                        if (!sortedData[bathroom]) {
+                            sortedData[bathroom] = [];
+                        }
+                        sortedData[bathroom].push(entry);
+                    }
+                    return sortedData;
+                }
+                const sortedData = sortByBathroom(data);
+                console.log(sortedData);
+            })
+            .catch(error => {
+                console.error('Error for issue:', error);
+            });
         alert("Issues reported!");
     };
 </script>
