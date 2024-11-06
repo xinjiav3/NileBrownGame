@@ -44,7 +44,6 @@ export function postUpdate(options) {
     };
 
     // Clear the message area
-    document.getElementById(options.message).textContent = "";
 
     // Send POST request
     fetch(options.URL, requestOptions)
@@ -53,7 +52,6 @@ export function postUpdate(options) {
             if (!response.ok) {
                 const errorMsg = 'Error: ' + response.status;
                 console.log(errorMsg);
-                document.getElementById(options.message).textContent = errorMsg;
                 return;
             }
             // Success!!!

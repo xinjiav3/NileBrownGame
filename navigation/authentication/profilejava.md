@@ -2,7 +2,7 @@
 layout: post
 title: Profile Settings
 permalink: /profilejava
-menu: nav/home.html
+menu: nav/homejava.html
 search_exclude: true
 show_reading_time: false
 ---
@@ -74,28 +74,14 @@ async function fetchUserProfile() {
         }
         const profileData = await response.json();
         // Extract only the pfp field
-        const profilePicture = profileData.pfp; // Assuming 'pfp' is the key for the profile picture
+        const profilePicture = profileData.pfp;
+        // Assuming 'pfp' is the key for the profile picture
         // Display the profile picture
         displayUserProfile(profilePicture);
     } catch (error) {
         console.error('Error fetching user profile:', error.message);
         // Handle error display or fallback mechanism
     }
-}
-// Function to display user profile data
-function displayUserProfile(profileData) {
-    const profileImageBox = document.getElementById('profileImageBox');
-    if (profileData.pfp) {
-        const img = document.createElement('img');
-        img.src = `data:image/jpeg;base64,${profileData.pfp}`;
-        img.alt = 'Profile Picture';
-        profileImageBox.innerHTML = ''; // Clear existing content
-        profileImageBox.appendChild(img); // Append new image element
-    } else {
-        profileImageBox.innerHTML = '<p>No profile picture available.</p>';
-    }
-    // Display other profile information as needed
-    // Example: Update HTML elements with profileData.username, profileData.email
 }
 // Function to save profile picture
 window.saveProfilePicture = async function () {
@@ -142,7 +128,7 @@ async function sendProfilePicture(base64String) {
        }
    };
    try {
-       await putUpdate(options);
+       await postUpdate(options);
    } catch (error) {
        console.error('Error uploading profile picture:', error.message);
        document.getElementById('profile-message').textContent = 'Error uploading profile picture: ' + error.message;
@@ -176,7 +162,7 @@ window.changeUid = async function(uid) {
            }
        };
        try {
-           await putUpdate(options);
+           await postUpdate(options);
        } catch (error) {
            console.error('Error updating UID:', error.message);
            document.getElementById('uid-message').textContent = 'Error updating UID: ' + error.message;
@@ -197,7 +183,7 @@ window.changePassword = async function(password) {
        };
      try {
             alert("You updated your password, so you will automatically be logged out. Be sure to remember your password!");
-           await putUpdate(options);
+           await postUpdate(options);
        } catch (error) {
            console.error('Error updating password:', error.message);
            document.getElementById('password-message').textContent = 'Error updating password: ' + error.message;
@@ -218,7 +204,7 @@ window.changeName = async function(name) {
            }
        };
        try {
-           await putUpdate(options);
+           await postUpdate(options);
        } catch (error) {
            console.error('Error updating Name:', error.message);
            document.getElementById('name-message').textContent = 'Error updating Name: ' + error.message;
@@ -271,7 +257,7 @@ window.toggleKasmServerNeeded = async function() {
    };
    try {
        alert(options);
-       await putUpdate(options);
+       await postUpdate(options);
    } catch (error) {
        console.error('Error updating kasm_server_needed:', error.message);
        document.getElementById('kasm-server-message').textContent = 'Error updating kasm_server_needed: ' + error.message;
