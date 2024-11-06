@@ -3,22 +3,13 @@ permalink: /project/mort-translator/submissions
 search_exclude: true
 layout: base
 ---
-<body>
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <h2>Submit here</h2>
-            <select id="task-select">
-                <option value="" disabled selected>Select a task</option>
-            </select>
-        </div>
-        <div>
-            <label for="submissionLink">Submission Link:</label>
-            <input type="url" id="submissionLink" th:field="*{submissionLink}" required />
-        </div>
-        <button onclick="Submit()">Submit</button>
-        <div class="output-box" id="outputBox"></div>
-    </div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submission Form</title>
     <style>
+        /* Base styling */
         body {
             font-family: Arial, sans-serif;
             background-color: #F9F9F9;
@@ -28,6 +19,7 @@ layout: base
             height: 100vh;
             margin: 0;
         }
+        /* Modal styling */
         .modal {
             width: 400px;
             max-width: 100%;
@@ -39,11 +31,8 @@ layout: base
             flex-direction: column;
             align-items: center;
         }
-        .modal-content h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        select, input[type="url"], button {
+        /* Form elements */
+        select, input[type="url"], textarea, button {
             width: 100%;
             padding: 12px;
             font-size: 16px;
@@ -52,6 +41,12 @@ layout: base
             border-radius: 4px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+        /* Textarea-specific styling */
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        /* Button styling */
         button {
             background-color: #4CAF50;
             color: white;
@@ -62,22 +57,49 @@ layout: base
         button:hover {
             background-color: #45A049;
         }
+        /* Modal content styling */
+        .modal-content h2 {
+            font-size: 24px;
+            color: white;
+            margin-bottom: 20px;
+        }
         .output-box {
             margin-top: 15px;
             font-size: 18px;
             color: #333;
         }
-        /* Larger font size and box shadow */
-        .modal-content {
-            font-size: 18px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-        }
     </style>
+</head>
+<body>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2>Submit here</h2>
+            <select id="task-select">
+                <option value="" disabled selected>Select a task</option>
+            </select>
+        </div>
+        <div>
+            <label for="submissionLink">Submission Link:</label>
+            <input type="url" id="submissionLink" required />
+        </div>
+        
+        <h2>Leave a Comment</h2>
+        <form action="/submit-comment" method="post">
+            <label for="comment">Your Comment:</label><br>
+            <textarea id="comment" name="comment" rows="5" cols="40" placeholder="Write your comment here..."></textarea><br><br>
+            <input type="submit" value="Submit">
+        </form>
+
+        <button onclick="Submit()">Submit</button>
+        <div class="output-box" id="outputBox"></div>
+    </div>
+
     <script>
         let selectedTask = "";
         let tasks = "";
         let assignmentIds = [];
         let assignIndex = 0;
+        
         async function fetchTasks() {
             try {
                 const response = await fetch('http://localhost:8085/api/assignments/getAssignments');
@@ -87,6 +109,7 @@ layout: base
                 console.error('Error fetching tasks:', error);
             }
         }
+        
         function populateTaskDropdown(tasks) {
             const taskSelect = document.getElementById('task-select');
             tasks.forEach(task => {
@@ -97,17 +120,16 @@ layout: base
                 assignmentIds.push(task.assignmentId);
             });
         }
+        
         document.getElementById("task-select").addEventListener("change", function() {
             selectedTask = this.value;
             assignIndex = this.selectedIndex;
-            console.log("Selected task:", selectedTask);
-            console.log("Selected Index:", assignIndex);
         });
+        
         function Submit() {
-            const assignmentName = selectedTask;
+            const submissionLink = document.getElementById('submissionLink').value;
             const assignment_id = assignmentIds[assignIndex - 1];
             const submission_time = (new Date()).toLocaleTimeString();
-            const submissionLink = document.getElementById('submissionLink').value;
             const data = {
                 userId: null,
                 submission_link: submissionLink,
@@ -115,12 +137,10 @@ layout: base
                 assignment_name: selectedTask,
                 assignment_id: assignment_id
             };
-            console.log(data);
+
             fetch('http://localhost:8085/api/submissions/Submit', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             })
             .then(response => {
@@ -140,27 +160,8 @@ layout: base
                 console.error('Error:', error);
             });
         }
+        
         fetchTasks();
     </script>
 </body>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</html>
