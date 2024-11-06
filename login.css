@@ -197,6 +197,11 @@ a {
     color: #888;
 }
 
+.form__input.has-content {
+    color: #ddd;
+    /* Text color when there is content */
+}
+
 .form__input::-moz-placeholder {
     color: var(--greyLight-3);
 }

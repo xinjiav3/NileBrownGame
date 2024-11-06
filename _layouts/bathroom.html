@@ -1,0 +1,277 @@
+<head>
+    <link rel="stylesheet" href="bathroom.css">
+</head>
+
+
+<div class="container">
+    <div class="components">
+        <!-- queue header and your info like eta -->
+        <div class="div1">
+            <div class="queue-header">
+                <h2 id="teacherName">Mr. Mortensen's Queue</h2>
+            </div>
+
+            <div class="queue-info">
+                <p id="position">Your position in line: #</p>
+                <p id="estimatedTime">Estimated time: ~ mins</p>
+            </div>
+        </div>
+
+        <!-- students in line -->
+        <div class="div2">
+            <div class="queue-list">
+                <p>Students currently in line:</p>
+                <ul id="studentList">
+                    <!-- Students will be listed here -->
+                </ul>
+
+                <div class="queue-buttons queue-actions">
+                    <button type="button" onclick="addToQueue()">Add Me to Queue</button>
+                    <button type="button" onclick="removeFromQueue()">Remove Me from Queue</button>
+                    <button type="button" onclick="goToProfile()">Go to Profile</button>
+                    <button type="button" onclick="reportIssue()">Report Issue</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- frequency charts -->
+        <div class="div3">
+            <!-- graph Data Sections -->
+            <div class="additional-info">
+
+                <div class="comparison">
+                    <h3>Comparison with Class Data</h3>
+                    <canvas id="comparisonGraph"></canvas> <!-- Embedded mini-graph -->
+                </div>
+            </div>
+        </div>
+
+        <!-- personal stats -->
+        <div class="div4">
+            <!-- Visit Frequency and Average Duration -->
+            <div class="info-div">
+                <div class="frequency">
+                    <h3>Visit Frequency</h3>
+                    <p>Frequency per day: <span id="freq-per-day">--</span></p>
+                    <p>Frequency per week: <span id="freq-per-week">--</span></p>
+                </div>
+
+                <div class="duration">
+                    <h3>Average Duration</h3>
+                    <p><span id="avg-duration">--</span> minutes</p>
+                    <p>&nbsp;</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="div5">
+            <!-- History Sections -->
+            <div class="additional-info">
+                <div class="history">
+                    <h3>History of Issues Reported</h3>
+                    <textarea id="issues-history" class="form__textarea" placeholder="Reported issues..."
+                        readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="profile.js"></script>
+<script>
+    // Load the graph within the Comparison with Class Data section
+    function loadMiniGraph() {
+        const ctx = document.getElementById('comparisonGraph').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'bar', // Use 'line', 'pie', etc., for different chart types
+            data: {
+                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                datasets: [{
+                    label: 'Visits per Day',
+                    data: [12, 19, 3, 5, 2], // Sample data, replace with dynamic data as needed
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                maintainAspectRatio: false, // Allows better fit in small containers
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Days of the Week' // Label for x-axis
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Visits' // Label for y-axis
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false // Hide the legend to save space
+                    },
+                    title: {
+                        display: true,
+                        text: 'Weekly Bathroom Visit Frequency' // Title of the graph
+                    }
+                }
+            }
+        });
+    }
+
+    // Initialize the mini-graph when the page loads
+    document.addEventListener("DOMContentLoaded", loadMiniGraph);
+</script>
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+<script>
+    function goToProfile() {
+        // Redirect to profile page
+        window.location.href = "{{site.baseurl}}/profile";
+    }
+
+    function reportIssue() {
+        // Redirect to issue report page
+        window.location.href = "{{site.baseurl}}/issue";
+    }
+
+    // Global variable to store queue data
+    window.studentsInQueue = [];
+
+    function displayQueue() {
+        const studentList = document.getElementById("studentList");
+        studentList.innerHTML = ""; // Clear the list
+
+        // Display the queue
+        window.studentsInQueue.forEach((student) => {
+            const listItem = document.createElement("li");
+            listItem.textContent = student;
+            if (student === studentName) listItem.style.color = "red"; // Highlight user's name in red
+            studentList.appendChild(listItem);
+        });
+
+        // Disable "Add Me to Queue" button if student is already in queue
+        const addButton = document.querySelector('button[onclick="addToQueue()"]');
+        if (window.studentsInQueue.includes(studentName)) {
+            addButton.disabled = true;
+        } else {
+            addButton.disabled = false;
+        }
+
+        // Update position and estimated time
+        const position = window.studentsInQueue.indexOf(studentName) + 1;
+        document.getElementById("position").textContent = `Your position in line: #${position}`;
+        document.getElementById("estimatedTime").textContent = `Estimated time: ~${position * 3} mins`;
+    }
+
+    // Initial display
+    displayQueue();
+</script>
+
+<script>
+    const url = `http://localhost:8085/api/queue`;
+    const getUrl = url + '/all';
+    const addUrl = url + '/add';
+    const removeUrl = url + '/remove';
+
+    const fetchOptions = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+
+    const postOptions = {
+        ...fetchOptions,
+        method: 'POST',
+    };
+    const deleteOptions = {
+        ...fetchOptions,
+        method: 'DELETE',
+    };
+
+    // Get teacher name and student name from local storage or variables
+    const teacherName = "Mortensen"; // Replace with dynamic teacher name if needed
+    const studentName = localStorage.getItem("email"); // Assume stored from login
+
+    // Function to fetch and display Mortensen's queue data
+    function fetchQueueData() {
+        fetch(getUrl, fetchOptions)
+            .then(response => {
+                if (response.status !== 200) {
+                    console.error("Failed to fetch queue data.");
+                    return;
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Queue data:", data);
+                const mortensenQueue = data.find(queue => queue.teacherName === teacherName);
+                if (mortensenQueue) {
+                    window.studentsInQueue = mortensenQueue.peopleQueue.split(','); // Convert the queue string into an array
+                    displayQueue();
+                } else {
+                    console.error("Mortensen's queue not found.");
+                }
+            })
+            .catch(error => console.error("Error fetching data:", error));
+    }
+
+    // Function to add student to the queue
+    function addToQueue() {
+        const queuer = {
+            teacherName: teacherName,
+            studentName: studentName,
+        };
+
+        fetch(addUrl, {
+            ...postOptions,
+            body: JSON.stringify(queuer),
+        })
+            .then(response => {
+                if (response.ok) {
+                    fetchQueueData(); // Refresh the queue after adding
+                } else {
+                    alert("Failed to add to queue.");
+                }
+            })
+            .catch(error => console.error("Error adding to queue:", error));
+        console.log("Added to queue:", queuer);
+    }
+
+    // Function to remove student from the queue
+    function removeFromQueue() {
+        const queuer = {
+            teacherName: teacherName,
+            studentName: studentName,
+        };
+
+        fetch(removeUrl, {
+            ...deleteOptions,
+            body: JSON.stringify(queuer),
+        })
+            .then(response => {
+                if (response.ok) {
+                    fetchQueueData(); // Refresh the queue after removing
+                } else {
+                    alert("Failed to remove from queue.");
+                }
+            })
+            .catch(error => console.error("Error removing from queue:", error));
+        console.log("Removed from queue:", queuer);
+    }
+
+    // Fetch data every 10 seconds
+    setInterval(fetchQueueData, 10000);
+
+    // Initial fetch
+    fetchQueueData();
+</script>
