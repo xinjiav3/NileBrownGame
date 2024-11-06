@@ -1,25 +1,66 @@
 ---
 permalink: /404.html
-layout: base
 search_exclude: true
 ---
+<html lang="en">
 
-<style type="text/css" media="screen">
-  .container {
-    margin: 10px auto;
-    max-width: 600px;
-    text-align: center;
-  }
-  h1 {
-    margin: 30px 0;
-    font-size: 4em;
-    line-height: 1;
-    letter-spacing: -1px;
-  }
-</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Error</title>
+    <style type="text/css" media="screen">
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #121212;
+            overflow: hidden;
+        }
 
-<div class="container">
-  <h1>404</h1>
-  <p><strong>Page not found :(</strong></p>
-  <p>The requested page could not be found.</p>
-</div>
+        .error-container {
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .error-code {
+            font-size: calc(20vw + 50px); /* Ensures it's always large enough */
+            font-weight: bold;
+            line-height: 1;
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px red, 0 0 40px red, 0 0 50px red, 0 0 60px red, 0 0 70px red;
+            color: red;
+        }
+
+        .error-message {
+            font-size: calc(4vw + 10px); /* Responsive text size for message */
+            font-weight: 300;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(30px);
+            color: white;
+        }
+
+        .error-message h1 {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="error-container">
+        <div class="error-code">404</div>
+        <div class="error-message">
+            <h1>Sorry, we couldn't find this page</h1>
+        </div>
+    </div>
+</body>
+
+</html>

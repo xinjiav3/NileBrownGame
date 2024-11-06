@@ -4,22 +4,39 @@
 
 <div class="container">
     <div class="components">
+        <div class="div3">
+            <!-- Create Account Button -->
+            <a href="#" class="btn btn__secondary" id="create-account-btn">
+                <p>Bathroom</p>
+            </a>
+
+            <a href="#" class="btn btn__secondary" id="create-account-btn">
+                <p>Analytics</p>
+            </a>
+
+            <a href="#" class="btn btn__secondary" id="create-account-btn">
+                <p>Games</p>
+            </a>
+        </div>
+
         <div class="div1">
             <!-- Profile Picture Section -->
             <div class="profile-picture">
-                <img src="profile-pic.jpg" alt="Profile Picture" class="profile-img">
+                <img src="https://cdn.discordapp.com/attachments/1295856065212186735/1302871034755809331/image.png?ex=672c53b4&is=672b0234&hm=9ee628091b55a215275d0c19e531e0e58cda30dfce7f48e707c30ef31466ce6c&"
+                    alt="Profile Picture" class="profile-img">
             </div>
         </div>
-    
+
         <div class="div2">
             <!-- Name and Basic Info Section -->
             <div class="info">
                 <div class="name">
                     <input id="name" class="form__input" type="text" placeholder="Name" readonly />
                 </div>
+                <br>
+
                 <div class="email-info">
-                    <input id="email" class="form__input" type="email" placeholder="Email" readonly /><br>
-                    <textarea id="other-info" class="form__textarea" placeholder="Other Info"></textarea>
+                    <input id="email" class="form__input" type="email" placeholder="MyPlan User" readonly /><br>
                 </div>
             </div>
         </div>
@@ -27,58 +44,6 @@
 </div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="profile.js"></script>
-<script>
-    // Load the graph within the Comparison with Class Data section
-    function loadMiniGraph() {
-        const ctx = document.getElementById('comparisonGraph').getContext('2d');
-
-        new Chart(ctx, {
-            type: 'bar', // Use 'line', 'pie', etc., for different chart types
-            data: {
-                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-                datasets: [{
-                    label: 'Visits per Day',
-                    data: [12, 19, 3, 5, 2], // Sample data, replace with dynamic data as needed
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                maintainAspectRatio: false, // Allows better fit in small containers
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Days of the Week' // Label for x-axis
-                        }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Number of Visits' // Label for y-axis
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false // Hide the legend to save space
-                    },
-                    title: {
-                        display: true,
-                        text: 'Weekly Bathroom Visit Frequency' // Title of the graph
-                    }
-                }
-            }
-        });
-    }
-
-    // Initialize the mini-graph when the page loads
-    document.addEventListener("DOMContentLoaded", loadMiniGraph);
-</script>
-
+<!-- <script src="profile.js"></script> -->
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
