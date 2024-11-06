@@ -33,37 +33,41 @@
 
 <script>
     document.getElementById('login-btn').addEventListener('click', function () {
+        // get all the important info
         const username = document.getElementById('username').value;
         const myplan = document.getElementById('myplan').value;
         const password = document.getElementById('password').value;
 
-        if (username && password) {
-            // Send POST request to backend
-            fetch('http://localhost:8085/authenticate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: username,
-                    password: password,
-                }),
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        // Show error message on error codes (401, 403, etc.)
-                        document.getElementById('error-chip').style.display = 'flex';
-                    } else {
-                        // Success: handle login (redirect, etc.)
-                        window.location.href = '/tinkle-time-frontend/dashboard'; // example redirect
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    // Show error message for network failure or other issues
+        // make a form
+        const formData = new FormData();
+        formData.append("email", "NULL");
+        formData.append("dob", "0000-01-01");
+        formData.append("name", username);
+        formData.append("uniqueID", myplan);
+        formData.append("password", password);
+
+        // Send the request
+        fetch("http://localhost:8085/mvc/person/create", {
+            method: "POST", // Set HTTP method to POST
+            body: formData // Directly pass the FormData object
+        })
+            .then(response => {
+                if (!response.ok) {
+                    // Show error message on error codes (401, 403, etc.)
                     document.getElementById('error-chip').style.display = 'flex';
-                });
-        }
+                    throw new Error("Network response was not ok");
+                } 
+                else {
+                    // Success: handle login (redirect, etc.)
+                    window.location.href = '/tinkle-time-frontend/dashboard'; // example redirect
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Show error message for network failure or other issues
+                document.getElementById('error-chip').style.display = 'flex';
+            });
+
     });
 
     // Function to hide the error chip when the close button is clicked
