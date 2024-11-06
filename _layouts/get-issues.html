@@ -3,15 +3,40 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
+<style>
+.issues-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Spacing between bathroom forms */
+}
+
+.bathroom-form {
+    border: 1px solid #ccc;
+    padding: 15px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.issues-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.issues-table th, .issues-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+</style>
 <div class="container">
     <div class="components">
         <form id="login-form" class="form">
-            <button id="report-btn" class="btn btn__primary" type="button" onclick="getIssues()">
-                <p>Get Issues</p>
-            </button><br>
+            <div id="issues-container" class="issues-container"></div>
         </form>
     </div>
 </div>
+
 <script type="module">
     import { javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
 
@@ -22,34 +47,81 @@
             'Content-Type': 'application/json',
         }
     };
-    window.getIssues = function () {
-        fetch('http://localhost:8085/api/issue/issues', getOptions)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok: ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Success for issue:', data);
-                function sortByBathroom(data) {
-                    const sortedData = {};
-                    for (const entry of data) {
-                        const { bathroom, issue } = entry;
 
-                        if (!sortedData[bathroom]) {
-                            sortedData[bathroom] = [];
-                        }
-                        sortedData[bathroom].push(entry);
-                    }
-                    return sortedData;
+    window.getIssues = function() {
+        fetch('http://localhost:8085/api/issue/issues', getOptions)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success for issue:', data);
+            const sortedData = sortByBathroom(data);
+            displayBathroomForms(sortedData);
+        })
+        .catch(error => {
+            console.error('Error for issue:', error);
+        });
+    };
+
+    function sortByBathroom(data) {
+        const sortedData = {};
+        for (const entry of data) {
+            const { bathroom } = entry;
+            if (!sortedData[bathroom]) {
+                sortedData[bathroom] = [];
+            }
+            sortedData[bathroom].push(entry);
+        }
+        return sortedData;
+    }
+
+    function displayBathroomForms(sortedData) {
+        const container = document.getElementById('issues-container');
+        container.innerHTML = ''; 
+
+        Object.entries(sortedData).forEach(([bathroom, issues]) => {
+            const formSection = document.createElement('div');
+            formSection.classList.add('bathroom-form');
+
+            const title = document.createElement('h3');
+            title.textContent = `${bathroom}`;
+            formSection.appendChild(title);
+
+            const table = document.createElement('table');
+            table.classList.add('issues-table');
+
+            const headerRow = document.createElement('tr');
+            const issueHeader = document.createElement('th');
+            issueHeader.textContent = 'Issue';
+            headerRow.appendChild(issueHeader);
+            const countHeader = document.createElement('th');
+            countHeader.textContent = 'Count';
+            headerRow.appendChild(countHeader);
+            table.appendChild(headerRow);
+
+            issues.forEach(issue => {
+                if (issue.count > 0) { 
+                    const row = document.createElement('tr');
+                    const issueCell = document.createElement('td');
+                    issueCell.textContent = issue.issue;
+                    const countCell = document.createElement('td');
+                    countCell.textContent = issue.count;
+                    row.appendChild(issueCell);
+                    row.appendChild(countCell);
+                    table.appendChild(row);
                 }
-                const sortedData = sortByBathroom(data);
-                console.log(sortedData);
-            })
-            .catch(error => {
-                console.error('Error for issue:', error);
             });
-        alert("Issues reported!");
+
+            formSection.appendChild(table);
+
+            container.appendChild(formSection);
+        });
+    }
+
+    window.onload = function() {
+        getIssues();
     };
 </script>
