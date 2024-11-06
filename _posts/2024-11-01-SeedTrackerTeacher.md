@@ -77,8 +77,10 @@ permalink: /seedtrackerteacher
                     event.preventDefault();
                     var row = this.closest('tr');
                     var commentBox = row.querySelector('.comment-box');
-                    var commentText = row.querySelector('.comment-input').value;
+                    var commentInput = row.querySelector('.comment-input');
+                    var commentText = commentInput.value;
                     commentBox.innerText = commentText;
+                    commentInput.value = '';  // Clear the comment box
                 });
             });
 
