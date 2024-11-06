@@ -4,8 +4,7 @@
 </head>
 
 <style>
-    #additionalInfo
-    {
+    #additionalInfo {
         display: none;
     }
 </style>
@@ -13,26 +12,30 @@
     <div class="components">
         <form id="login-form" class="form">
 
-            <!-- choose what bathroom has an issue and report it -->
-            <div class="segmented-control">
-
-                <input type="radio" name="radio2" value="3" id="tab-1" checked />
-                <label for="tab-1" class="segmented-control__1">
-                    <p>BR 1</p>
-                </label>
-
-                <input type="radio" name="radio2" value="4" id="tab-2" />
-                <label for="tab-2" class="segmented-control__2">
-                    <p>BR 2</p>
-                </label>
-
-                <input type="radio" name="radio2" value="5" id="tab-3" />
-                <label for="tab-3" class="segmented-control__3">
-                    <p>BR 3</p>
-                </label>
-
-                <div class="segmented-control__color"></div>
+            <div class="div1">
+                <!-- choose what bathroom has an issue and report it -->
+                <div class="segmented-control">
+                
+                    <input type="radio" name="radio2" value="3" id="tab-1" checked />
+                    <label for="tab-1" class="segmented-control__1">
+                        <p>BR 1</p>
+                    </label>
+                
+                    <input type="radio" name="radio2" value="4" id="tab-2" />
+                    <label for="tab-2" class="segmented-control__2">
+                        <p>BR 2</p>
+                    </label>
+                
+                    <input type="radio" name="radio2" value="5" id="tab-3" />
+                    <label for="tab-3" class="segmented-control__3">
+                        <p>BR 3</p>
+                    </label>
+                
+                    <div class="segmented-control__color"></div>
+                </div>
             </div>
+
+            
 
             <br><br>
 
@@ -99,37 +102,12 @@
     </div>
 </div>
 
-
-
-<!-- <div class="card">
-    <label>Bathroom Number:</label>
-    <input placeholder="Bathroom...">
-
-    <label>
-        <input type="checkbox" value="No Bathroom Lock"> No Bathroom Lock
-    </label>
-    <label>
-        <input type="checkbox" value="No Toilet Paper"> No Toilet Paper
-    </label>
-    <label>
-        <input type="checkbox" value="No Stall Doors"> No Stall Doors
-    </label>
-    <label>
-        <input type="checkbox" value="Bathroom Floors"> Bathroom Floors
-    </label>
-
-    <textarea placeholder="Add additional details..."></textarea> -->
-
-<!-- <button onclick="report_box()">Report Issue</button> -->
-</div>
-
 <script type="module">
     import { javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
 
     const other = document.getElementById("checkbox_4");
-    
-    other.addEventListener('click', function()
-    {
+
+    other.addEventListener('click', function () {
         console.log('other clicked');
         document.getElementById('additionalInfo').style.display = 'block';
     })

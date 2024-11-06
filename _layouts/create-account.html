@@ -6,6 +6,7 @@
     <div class="components">
         <form id="login-form" class="form">
             <input id="username" class="form__input" type="text" placeholder="Full Name" /><br><br>
+            <input id="email" class="form__input" type="text" placeholder="Email" /><br><br>
             <input id="myplan" class="form__input" type="text" placeholder="MyPlan Username" /><br><br>
             <input id="password" class="form__input" type="password" placeholder="Password" /><br><br>
 
@@ -45,12 +46,13 @@
     document.getElementById('login-btn').addEventListener('click', function () {
         // get all the important info
         var username = document.getElementById('username').value; // this is your full name
+        var email = document.getElementById('email').value; // this is your email
         var myplan = document.getElementById('myplan').value; // this is your myplan ID
         var password = document.getElementById('password').value; // this is your password
 
         // make a form
         const formData = new FormData();
-        formData.append("email", myplan);
+        formData.append("email", email);
         formData.append("password", password);
         formData.append("name", username);
         formData.append("dob", "0001-01-01");

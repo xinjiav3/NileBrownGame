@@ -5,7 +5,7 @@
 <div class="container">
     <div class="components">
         <form id="login-form" class="form">
-            <input id="username" class="form__input" type="text" placeholder="Username" /><br><br>
+            <input id="username" class="form__input" type="text" placeholder="Email" /><br><br>
             <input id="password" class="form__input" type="password" placeholder="Password" /><br><br>
 
             <!-- Login Button -->
@@ -64,7 +64,7 @@
                         document.getElementById('error-chip').style.display = 'flex';
                     } else {
                         // Success: handle login (redirect, etc.)
-                        window.location.href = '/portfolio_2025/queue'; // example redirect
+                        window.location.href = '/portfolio_2025/profile'; // example redirect
                     }
                 })
                 .catch(error => {
