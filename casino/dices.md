@@ -59,7 +59,8 @@ permalink: /casino/dices
         <button type="submit">Start Bet</button>
     </form>
 </div>
-<script>
+<script type="module">
+    import { pythonURI, javaURI, fetchOptions, login } from '../assets/js/api/config.js';
     const betForm = document.getElementById('betForm');
     const betProbability = document.getElementById('betProbability');
     const sliderValue = document.getElementById('sliderValue');
@@ -71,11 +72,12 @@ permalink: /casino/dices
         const betAmount = document.getElementById('betAmount').value;
         const probability = betProbability.value;
         const betData = {
-            betAmount: parseFloat(betAmount),
-            probability: parseInt(probability)
+            username: "hanlun",
+            betSize: parseFloat(betAmount),
+            winChance: parseFloat(probability/100)
         };
         try {
-            const response = await fetch('/start-bet', {
+            const response = await fetch(javaURI + '/api/casino/dice/calculate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -83,7 +85,7 @@ permalink: /casino/dices
                 body: JSON.stringify(betData)
             });
             const result = await response.json();
-            alert(`Result: ${result.message}`);
+            alert(`CURRENT BALANCE: ${result.balance}`);
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred. Please try again.');
