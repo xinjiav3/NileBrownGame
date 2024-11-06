@@ -2,6 +2,7 @@
 permalink: /404.html
 search_exclude: true
 ---
+
 <html lang="en">
 
 <head>
@@ -14,7 +15,6 @@ search_exclude: true
             height: 100%;
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
             justify-content: center;
             align-items: center;
             background-color: #121212;
@@ -22,34 +22,35 @@ search_exclude: true
         }
 
         .error-container {
+            position: relative;
             text-align: center;
             width: 100%;
             height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
         }
 
         .error-code {
-            font-size: calc(20vw + 50px); /* Ensures it's always large enough */
+            font-size: calc(65vw);
             font-weight: bold;
-            line-height: 1;
+            line-height: 0.8;
+            position: relative;
             text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px red, 0 0 40px red, 0 0 50px red, 0 0 60px red, 0 0 70px red;
             color: red;
         }
 
         .error-message {
-            font-size: calc(4vw + 10px); /* Responsive text size for message */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2vw;
             font-weight: 300;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(30px);
-            color: white;
         }
 
         .error-message h1 {
             margin: 0;
+            color: white;
         }
     </style>
 </head>
