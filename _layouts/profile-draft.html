@@ -1,0 +1,84 @@
+<head>
+    <link rel="stylesheet" href="profile-draft.css">
+</head>
+
+<div class="container">
+    <div class="components">
+        <div class="div1">
+            <!-- Profile Picture Section -->
+            <div class="profile-picture">
+                <img src="profile-pic.jpg" alt="Profile Picture" class="profile-img">
+            </div>
+        </div>
+    
+        <div class="div2">
+            <!-- Name and Basic Info Section -->
+            <div class="info">
+                <div class="name">
+                    <input id="name" class="form__input" type="text" placeholder="Name" readonly />
+                </div>
+                <div class="email-info">
+                    <input id="email" class="form__input" type="email" placeholder="Email" readonly /><br>
+                    <textarea id="other-info" class="form__textarea" placeholder="Other Info"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="profile.js"></script>
+<script>
+    // Load the graph within the Comparison with Class Data section
+    function loadMiniGraph() {
+        const ctx = document.getElementById('comparisonGraph').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'bar', // Use 'line', 'pie', etc., for different chart types
+            data: {
+                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                datasets: [{
+                    label: 'Visits per Day',
+                    data: [12, 19, 3, 5, 2], // Sample data, replace with dynamic data as needed
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                maintainAspectRatio: false, // Allows better fit in small containers
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Days of the Week' // Label for x-axis
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Visits' // Label for y-axis
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false // Hide the legend to save space
+                    },
+                    title: {
+                        display: true,
+                        text: 'Weekly Bathroom Visit Frequency' // Title of the graph
+                    }
+                }
+            }
+        });
+    }
+
+    // Initialize the mini-graph when the page loads
+    document.addEventListener("DOMContentLoaded", loadMiniGraph);
+</script>
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

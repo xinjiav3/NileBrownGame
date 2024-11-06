@@ -50,7 +50,7 @@
 
         // make a form
         const formData = new FormData();
-        formData.append("email", "NULL@gmail.com");
+        formData.append("email", myplan);
         formData.append("password", password);
         formData.append("name", username);
         formData.append("dob", "0001-01-01");
@@ -77,7 +77,7 @@
                 }
                 else {
                     // Success: handle login (redirect, etc.)
-                    window.location.href = '/tinkle-time-frontend/dashboard'; // example redirect
+                    window.location.href = '/profile'; // example redirect
                 }
             })
             .catch(error => {
