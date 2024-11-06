@@ -59,15 +59,17 @@
     </div>
 </div>
 
+<!-- Chart.js Library -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="profile.js"></script>
+
+<!-- Profile JavaScript to Fetch and Populate Data -->
 <script>
     // Load the graph within the Comparison with Class Data section
     function loadMiniGraph() {
         const ctx = document.getElementById('comparisonGraph').getContext('2d');
 
         new Chart(ctx, {
-            type: 'bar', // Use 'line', 'pie', etc., for different chart types
+            type: 'bar',
             data: {
                 labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
                 datasets: [{
@@ -79,29 +81,29 @@
                 }]
             },
             options: {
-                maintainAspectRatio: false, // Allows better fit in small containers
+                maintainAspectRatio: false,
                 scales: {
                     x: {
                         title: {
                             display: true,
-                            text: 'Days of the Week' // Label for x-axis
+                            text: 'Days of the Week'
                         }
                     },
                     y: {
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Number of Visits' // Label for y-axis
+                            text: 'Number of Visits'
                         }
                     }
                 },
                 plugins: {
                     legend: {
-                        display: false // Hide the legend to save space
+                        display: false
                     },
                     title: {
                         display: true,
-                        text: 'Weekly Bathroom Visit Frequency' // Title of the graph
+                        text: 'Weekly Bathroom Visit Frequency'
                     }
                 }
             }
@@ -110,7 +112,50 @@
 
     // Initialize the mini-graph when the page loads
     document.addEventListener("DOMContentLoaded", loadMiniGraph);
+
+    // Fetch profile data for a specific user
+    async function fetchProfileData(email) {
+        try {
+            const response = await fetch(`http://localhost:8086/profile/toby@gmail.com`); // Replace with your backend URL
+            if (response.ok) {
+                const profileData = await response.json();
+                populateProfileFields(profileData);
+            } else {
+                document.getElementById('error-chip').style.display = 'flex';
+            }
+        } catch (error) {
+            console.error('Error fetching profile data:', error);
+            document.getElementById('error-chip').style.display = 'flex';
+        }
+    }
+
+    // Populate the HTML elements with the profile data
+    function populateProfileFields(data) {
+        document.getElementById('name').value = data.name;
+        document.getElementById('email').value = data.email;
+        document.getElementById('other-info').value = data.otherInfo || ''; // Assuming `otherInfo` exists in your API
+        document.getElementById('freq-per-day').textContent = data.freqPerDay || '--';
+        document.getElementById('freq-per-week').textContent = data.freqPerWeek || '--';
+        document.getElementById('avg-duration').textContent = data.avgDuration || '--';
+        document.getElementById('issues-history').value = data.issuesHistory || ''; // Assuming `issuesHistory` exists in your API
+    }
+
+    // Initialize profile data loading when the page loads
+    document.addEventListener("DOMContentLoaded", () => {
+        const email = localStorage.getItem("email"); // Assuming email is stored in localStorage upon login
+        if (email) {
+            fetchProfileData(email);
+        } else {
+            console.error("User email not found.");
+        }
+    });
+
+    // Function to hide the error chip when the close button is clicked
+    function hideChip() {
+        document.getElementById('error-chip').style.display = 'none';
+    }
 </script>
 
+<!-- Icons -->
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
