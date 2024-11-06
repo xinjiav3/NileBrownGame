@@ -5,7 +5,7 @@
 <div class="container">
     <div class="components">
         <form id="login-form" class="form">
-            <input id="username" class="form__input" type="text" placeholder="Full Name"/><br><br>
+            <input id="username" class="form__input" type="text" placeholder="Full Name" /><br><br>
             <input id="myplan" class="form__input" type="text" placeholder="MyPlan Username" /><br><br>
             <input id="password" class="form__input" type="password" placeholder="Password" /><br><br>
 
@@ -32,38 +32,60 @@
 </div>
 
 <script>
-    document.getElementById('login-btn').addEventListener('click', function () {
-        const username = document.getElementById('username').value;
-        const myplan = document.getElementById('myplan').value;
-        const password = document.getElementById('password').value;
+    document.querySelectorAll('.form__input').forEach(input => {
+        input.addEventListener('input', function () {
+            if (input.value) {
+                input.classList.add('has-content');
+            } else {
+                input.classList.remove('has-content');
+            }
+        });
+    });
 
-        if (username && password) {
-            // Send POST request to backend
-            fetch('http://localhost:8085/authenticate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: username,
-                    password: password,
-                }),
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        // Show error message on error codes (401, 403, etc.)
-                        document.getElementById('error-chip').style.display = 'flex';
-                    } else {
-                        // Success: handle login (redirect, etc.)
-                        window.location.href = '/tinkle-time-frontend/dashboard'; // example redirect
+    document.getElementById('login-btn').addEventListener('click', function () {
+        // get all the important info
+        var username = document.getElementById('username').value; // this is your full name
+        var myplan = document.getElementById('myplan').value; // this is your myplan ID
+        var password = document.getElementById('password').value; // this is your password
+
+        // make a form
+        const formData = new FormData();
+        formData.append("email", myplan);
+        formData.append("password", password);
+        formData.append("name", username);
+        formData.append("dob", "0001-01-01");
+        formData.append("myplan", myplan);
+
+        // Send the request
+        fetch("http://localhost:8085/mvc/person/create", {
+            method: "POST", // Set HTTP method to POST
+            body: formData // Directly pass the FormData object
+        })
+            .then(async response => {
+                if (!response.ok) {
+                    // Check if the error is a 401 Unauthorized with specific error message
+                    const errorData = await response.json();
+                    if (response.status === 401 && errorData.error === "unauthorized" && errorData.path === "/mvc/person/read") {
+                        // Do not display error chip for this specific 401 error
+                        console.log("Unauthorized: Not displaying error chip");
+                        return;
                     }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    // Show error message for network failure or other issues
+
+                    // Show error message for other errors
                     document.getElementById('error-chip').style.display = 'flex';
-                });
-        }
+                    throw new Error("Network response was not ok");
+                }
+                else {
+                    // Success: handle login (redirect, etc.)
+                    window.location.href = '/profile'; // example redirect
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Show error message for network failure or other issues
+                document.getElementById('error-chip').style.display = 'flex';
+            });
+
     });
 
     // Function to hide the error chip when the close button is clicked

@@ -120,8 +120,8 @@
 
     <textarea placeholder="Add additional details..."></textarea> -->
 
-    <!-- <button onclick="report_box()">Report Issue</button> -->
-</div> 
+<!-- <button onclick="report_box()">Report Issue</button> -->
+</div>
 
 <script type="module">
     import { javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
@@ -154,60 +154,59 @@
                 bathroomValue = 'Bathroom 3';
                 break;
         }
-        
+
         const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
         const selectedIssues = [];
-    
+
         checkboxes.forEach(checkbox => {
             selectedIssues.push(checkbox.value); // Collect the values of selected checkboxes
         });
-        
+
         const additionalIssue = document.getElementById("additionalInfo").value;
         if (selectedIssues.length === 0 && additionalIssue == null) {
             alert("Please select at least one issue.");
             return;
         }
-        if(selectedIssues[0] == 'Other' && additionalIssue != null)
-        {
+        if (selectedIssues[0] == 'Other' && additionalIssue != null) {
             selectedIssues[0] = additionalIssue;
         }
-    
+
         const reportData = {
             bathroomName: bathroomValue,
             issue: selectedIssues[0], // Sending all issues instead of just the first one
             count: 1
         };
         console.log(JSON.stringify(reportData));
-        
-            // Create a unique URL for each issue
-            const putOptions = {
-                ...fetchOptions,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(reportData), // Send the current issue in the body
-            };
-    
-            // Send individual PUT requests for each issue
-            fetch('http://localhost:8085/api/issue/add', putOptions)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok: ' + response.statusText);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Success for issue:', data);
-                })
-                .catch(error => {
-                    console.error('Error for issue:', error);
-                });
-        
-    
+
+        // Create a unique URL for each issue
+        const putOptions = {
+            ...fetchOptions,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(reportData), // Send the current issue in the body
+        };
+
+        // Send individual PUT requests for each issue
+        fetch('http://localhost:8085/api/issue/add', putOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success for issue:', data);
+            })
+            .catch(error => {
+                console.error('Error for issue:', error);
+            });
+
+
         alert("Issues reported!");
     };
-    
+
 </script>
 
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

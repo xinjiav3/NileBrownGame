@@ -31,6 +31,16 @@
 </div>
 
 <script>
+    document.querySelectorAll('.form__input').forEach(input => {
+        input.addEventListener('input', function () {
+            if (input.value) {
+                input.classList.add('has-content');
+            } else {
+                input.classList.remove('has-content');
+            }
+        });
+    });
+
     document.getElementById('login-btn').addEventListener('click', function () {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;

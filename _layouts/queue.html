@@ -7,12 +7,12 @@
         <div class="queue-header">
             <h2 id="teacherName">Mr. Mortensen’s Queue</h2>
         </div>
-        
+
         <div class="queue-info">
             <p id="position">Your position in line: #</p>
             <p id="estimatedTime">Estimated time: ~ mins</p>
         </div>
-        
+
         <div class="queue-list">
             <p>Students currently in line:</p>
             <ul id="studentList">
@@ -25,7 +25,7 @@
             <button type="button" onclick="removeFromQueue()">Remove Me from Queue</button>
             <button type="button" onclick="goToProfile()">Go to Profile</button>
             <button type="button" onclick="reportIssue()">Report Issue</button>
-        </div>        
+        </div>
     </div>
 </body>
 
@@ -132,14 +132,14 @@
             ...postOptions,
             body: JSON.stringify(queuer),
         })
-        .then(response => {
-            if (response.ok) {
-                fetchQueueData(); // Refresh the queue after adding
-            } else {
-                alert("Failed to add to queue.");
-            }
-        })
-        .catch(error => console.error("Error adding to queue:", error));
+            .then(response => {
+                if (response.ok) {
+                    fetchQueueData(); // Refresh the queue after adding
+                } else {
+                    alert("Failed to add to queue.");
+                }
+            })
+            .catch(error => console.error("Error adding to queue:", error));
         console.log("Added to queue:", queuer);
     }
 
@@ -154,14 +154,14 @@
             ...deleteOptions,
             body: JSON.stringify(queuer),
         })
-        .then(response => {
-            if (response.ok) {
-                fetchQueueData(); // Refresh the queue after removing
-            } else {
-                alert("Failed to remove from queue.");
-            }
-        })
-        .catch(error => console.error("Error removing from queue:", error));
+            .then(response => {
+                if (response.ok) {
+                    fetchQueueData(); // Refresh the queue after removing
+                } else {
+                    alert("Failed to remove from queue.");
+                }
+            })
+            .catch(error => console.error("Error removing from queue:", error));
         console.log("Removed from queue:", queuer);
     }
 
