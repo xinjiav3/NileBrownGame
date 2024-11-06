@@ -86,6 +86,7 @@
     const getUrl = url + '/all';
     const addUrl = url + '/add';
     const removeUrl = url + '/remove';
+    const approveUrl = url + '/approve';
 
     const fetchOptions = {
         headers: {
@@ -106,7 +107,6 @@
     const teacherName = "Mortensen"; // Replace with dynamic teacher name if needed
     const studentName = localStorage.getItem("email"); // Assume stored from login
 
-    // Function to fetch and display Mortensen's queue data
     function fetchQueueData() {
         fetch(getUrl, fetchOptions)
             .then(response => {
@@ -122,12 +122,18 @@
                 if (mortensenQueue) {
                     window.studentsInQueue = mortensenQueue.peopleQueue.split(','); // Convert the queue string into an array
                     displayQueue();
+
+                    // Run approveStudent if there is at least one student in queue and the first student is the current user
+                    if (window.studentsInQueue.length > 0 && window.studentsInQueue[0] === studentName) {
+                        approveStudent();
+                    }
                 } else {
                     console.error("Mortensen's queue not found.");
                 }
             })
             .catch(error => console.error("Error fetching data:", error));
     }
+
 
     // Function to add student to the queue
     function addToQueue() {
@@ -171,6 +177,27 @@
             })
             .catch(error => console.error("Error removing from queue:", error));
         console.log("Removed from queue:", queuer);
+    }
+    
+    // Function to approve student who is first in line
+    function approveStudent() {
+        const queuer = {
+            teacherName: teacherName,
+            studentName: window.studentsInQueue[0],
+        };
+
+        fetch(approveUrl, {
+            ...postOptions,
+            body: JSON.stringify(queuer),
+        })
+            .then(response => {
+                if (response.ok) {
+                    fetchQueueData(); // Refresh the queue after approving
+                } else {
+                    alert("Failed to approve student.");
+                }
+            })
+            .catch(error => console.error("Error approving student:", error));
     }
 
     // Fetch data every 10 seconds
