@@ -8,6 +8,7 @@
         display: none;
     }
 </style>
+
 <div class="container">
     <div class="components">
         <form id="login-form" class="form">
@@ -15,80 +16,96 @@
             <div class="div1">
                 <!-- choose what bathroom has an issue and report it -->
                 <div class="segmented-control">
-                
+
                     <input type="radio" name="radio2" value="3" id="tab-1" checked />
                     <label for="tab-1" class="segmented-control__1">
                         <p>BR 1</p>
                     </label>
-                
+
                     <input type="radio" name="radio2" value="4" id="tab-2" />
                     <label for="tab-2" class="segmented-control__2">
                         <p>BR 2</p>
                     </label>
-                
+
                     <input type="radio" name="radio2" value="5" id="tab-3" />
                     <label for="tab-3" class="segmented-control__3">
                         <p>BR 3</p>
                     </label>
-                
+
                     <div class="segmented-control__color"></div>
                 </div>
             </div>
 
-            
+
 
             <br><br>
 
             <!-- checkbox for selecting an issue -->
             <!-- checkbox for selecting an issue -->
             <div class="checkbox">
-                <div class="checkbox__1">
-                    <input id="checkbox-1" type="checkbox" value="No Door Lock">
-                    <label for="checkbox-1">
-                        <i class="material-icons">done</i></label>
-                    <p class="checkbox_text">No Door Lock</p>
+                <div class="div2">
+
+                    <div class="checkbox__1">
+                        <input id="checkbox-1" type="checkbox" value="No Door Lock">
+                        <label for="checkbox-1">
+                            <i class="material-icons">done</i></label>
+                        <p class="checkbox_text">No Door Lock</p>
+                    </div>
                 </div>
 
-                <div class="checkbox__2">
-                    <input id="checkbox-2" type="checkbox" value="No Toilet Paper">
-                    <label for="checkbox-2">
-                        <i class="material-icons">done</i>
-                    </label>
-                    <p class="checkbox_text">No Toilet Paper</p>
+                <div class="div3">
+
+                    <div class="checkbox__2">
+                        <input id="checkbox-2" type="checkbox" value="No Toilet Paper">
+                        <label for="checkbox-2">
+                            <i class="material-icons">done</i>
+                        </label>
+                        <p class="checkbox_text">No Toilet Paper</p>
+                    </div>
                 </div>
 
-                <div class="checkbox__3">
-                    <input id="checkbox-3" type="checkbox" value="No Stall Doors">
-                    <label for="checkbox-3">
-                        <i class="material-icons">done</i>
-                    </label>
-                    <p class="checkbox_text">No Stall Doors</p>
+
+                <div class="div4">
+
+                    <div class="checkbox__3">
+                        <input id="checkbox-3" type="checkbox" value="No Stall Doors">
+                        <label for="checkbox-3">
+                            <i class="material-icons">done</i>
+                        </label>
+                        <p class="checkbox_text">No Stall Doors</p>
+                    </div>
                 </div>
 
-                <div id="checkbox_4" class="checkbox__4">
-                    <input id="checkbox-4" type="checkbox" value="Other">
-                    <label for="checkbox-4">
-                        <i class="material-icons">done</i>
-                    </label>
-                    <p class="checkbox_text">Other</p>
+                <div class="div5">
+
+                    <div id="checkbox_4" class="checkbox__4">
+                        <input id="checkbox-4" type="checkbox" value="Other">
+                        <label for="checkbox-4">
+                            <i class="material-icons">done</i>
+                        </label>
+                        <p class="checkbox_text">Other</p>
+                    </div>
                 </div>
 
             </div>
 
             <br><br>
 
-            <!-- any additional info to add -->
-            <input id="additionalInfo" class="form__input" type="text" placeholder="Anything else?" /><br><br>
+            <div class="div6">
 
-            <!-- report an issue Button -->
-            <button id="report-btn" class="btn btn__primary" type="button" onclick="report_box()">
-                <p>Report Issue</p>
-            </button><br>
+                <!-- any additional info to add -->
+                <input id="additionalInfo" class="form__input" type="text" placeholder="Anything else?" /><br><br>
 
-            <!-- cancel Button -->
-            <a href="{{site.baseurl}}/queue" class="btn btn__secondary" id="create-account-btn">
-                <p>Cancel</p>
-            </a>
+                <!-- report an issue Button -->
+                <button id="report-btn" class="btn btn__primary" type="button" onclick="report_box()">
+                    <p>Report Issue</p>
+                </button><br>
+
+                <!-- cancel Button -->
+                <a href="{{site.baseurl}}/profile" class="btn btn__secondary" id="create-account-btn">
+                    <p>Cancel</p>
+                </a>
+            </div>
         </form>
 
         <!-- Error Chip (Hidden Initially) -->
