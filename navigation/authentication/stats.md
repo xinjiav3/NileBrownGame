@@ -2,7 +2,7 @@
 layout: post
 title: Stats
 permalink: /stats
-menu: nav/home.html
+menu: nav/homejava.html
 search_exclude: true
 show_reading_time: false
 ---
