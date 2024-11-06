@@ -18,6 +18,7 @@ show_reading_time: false
             <label for="exerciseType">Type of Exercise:</label>
             <input type="text" id="exerciseType" name="exerciseType" required><br><br>
         </fieldset>
+        <iframe src="{{site.baseurl}}/exercisegraph" width="400" height="100" frameborder="0"></iframe>
         <fieldset>
             <legend>Sleep Stats</legend>
             <label for="sleepDate">Date (YYYY-MM-DD):</label>
@@ -81,7 +82,7 @@ show_reading_time: false
             alert("Error during API request.");
         }
     }
-
+    <iframe src="{{site.baseurl}}/sleepgraph" width="400" height="100" frameborder="0"></iframe>
 
 
 
