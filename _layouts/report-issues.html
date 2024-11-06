@@ -3,6 +3,12 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
+<style>
+    #additionalInfo
+    {
+        display: none;
+    }
+</style>
 <div class="container">
     <div class="components">
         <form id="login-form" class="form">
@@ -56,7 +62,7 @@
                     <p class="checkbox_text">No Stall Doors</p>
                 </div>
 
-                <div class="checkbox__4">
+                <div id="checkbox_4" class="checkbox__4">
                     <input id="checkbox-4" type="checkbox" value="Other">
                     <label for="checkbox-4">
                         <i class="material-icons">done</i>
@@ -120,6 +126,13 @@
 <script type="module">
     import { javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
 
+    const other = document.getElementById("checkbox_4");
+    
+    other.addEventListener('click', function()
+    {
+        console.log('other clicked');
+        document.getElementById('additionalInfo').style.display = 'block';
+    })
     const url = `http://localhost:8085/api/issue/update/`;
 
     window.report_box = function report_box() {

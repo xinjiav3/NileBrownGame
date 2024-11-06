@@ -6,12 +6,12 @@
 <div class="container">
     <div class="components">
         <form id="login-form" class="form">
-            <button id="report-btn" class="btn btn__primary" type="button" onclick="getIssues()">
-                <p>Get Issues</p>
-            </button><br>
+            <!-- Table container for displaying issues -->
+            <div id="issues-container"></div>
         </form>
     </div>
 </div>
+
 <script type="module">
     import { javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
 
@@ -22,8 +22,9 @@
             'Content-Type': 'application/json',
         }
     };
-    window.getIssues = function()
-    {
+
+    // Fetch issues and process them
+    window.getIssues = function() {
         fetch('http://localhost:8085/api/issue/issues', getOptions)
         .then(response => {
             if (!response.ok) {
@@ -33,27 +34,76 @@
         })
         .then(data => {
             console.log('Success for issue:', data);
-            function sortByBathroom(data)
-            {
-                const sortedData = {};
-                for(const entry of data)
-                {
-                    const {bathroom, issue} = entry;
-
-                    if (!sortedData[bathroom])
-                    {
-                        sortedData[bathroom] = [];
-                    }
-                    sortedData[bathroom].push(entry);
-                }
-                return sortedData;
-            }
             const sortedData = sortByBathroom(data);
-            console.log(sortedData);
+            displayIssuesTable(sortedData);
         })
         .catch(error => {
             console.error('Error for issue:', error);
         });
-        alert("Issues reported!");
+    };
+
+    // Function to sort issues by bathroom
+    function sortByBathroom(data) {
+        const sortedData = {};
+        for (const entry of data) {
+            const { bathroom } = entry;
+            if (!sortedData[bathroom]) {
+                sortedData[bathroom] = [];
+            }
+            sortedData[bathroom].push(entry);
+        }
+        return sortedData;
+    }
+
+    // Function to display issues in a table format
+    function displayIssuesTable(sortedData) {
+        const container = document.getElementById('issues-container');
+        container.innerHTML = ''; // Clear existing content
+
+        // Create table and header row
+        const table = document.createElement('table');
+        table.classList.add('issues-table');
+        const headerRow = document.createElement('tr');
+        
+        // Create headers for each bathroom
+        Object.keys(sortedData).forEach(bathroom => {
+            const th = document.createElement('th');
+            th.textContent = bathroom;
+            headerRow.appendChild(th);
+        });
+        
+        table.appendChild(headerRow);
+
+        // Determine the maximum number of issues for any bathroom
+        const maxIssues = Math.max(...Object.values(sortedData).map(issues => issues.length));
+        
+        // Create rows for issues
+        for (let i = 0; i < maxIssues; i++) {
+            const row = document.createElement('tr');
+            
+            // Add each bathroom's issue to the row
+            Object.values(sortedData).forEach(issues => {
+                const cell = document.createElement('td');
+                
+                // Only display issue if it exists and count > 0
+                if (issues[i] && issues[i].count > 0) {
+                    cell.textContent = issues[i].issue;
+                } else {
+                    cell.textContent = ''; // Empty cell if no issue
+                }
+                
+                row.appendChild(cell);
+            });
+            
+            table.appendChild(row);
+        }
+
+        // Append table to the container
+        container.appendChild(table);
+    }
+
+    // Call getIssues on window load
+    window.onload = function() {
+        getIssues();
     };
 </script>
