@@ -5,34 +5,44 @@
 
 <div class="container">
     <div class="components">
-        <!-- queue header and your info like eta -->
-        <div class="div1">
-            <div class="queue-header">
-                <h2 id="teacherName">Mr. Mortensen's Queue</h2>
-            </div>
+        
+        <!-- frequency charts -->
+        <div class="div3">
+            <!-- graph Data Sections -->
+            <div class="additional-info">
 
-            <div class="queue-info">
-                <p id="position">Your position in line: #</p>
-                <p id="estimatedTime">Estimated time: ~ mins</p>
+                <div class="comparison">
+                    <h3>Comparison with Class Data</h3>
+                    <canvas id="comparisonGraph"></canvas> <!-- Embedded mini-graph -->
+                </div>
             </div>
-
-            <hr>
         </div>
 
-        <!-- students in line -->
-        <div class="div2">
-            <div class="queue-list">
-                <p>Students currently in line:</p>
-                <ul id="studentList">
-                    <!-- Students will be listed here -->
-                </ul>
+        <!-- personal stats -->
+        <div class="div4">
+            <!-- Visit Frequency and Average Duration -->
+            <div class="info-div">
+                <div class="frequency">
+                    <h3>Visit Frequency</h3>
+                    <p>Frequency per day: <span id="freq-per-day">--</span></p>
+                    <p>Frequency per week: <span id="freq-per-week">--</span></p>
+                </div>
 
-                <div class="queue-buttons queue-actions">
-                    <button type="button" onclick="addToQueue()">Add Me to Queue</button>
-                    <button type="button" onclick="removeFromQueue()">Remove Me from Queue</button>
-                    <button type="button" onclick="goToProfile()">Go to Profile</button>
-                    <button type="button" onclick="reportIssue()">Report Issue</button>
-                    <button type="button" onclick="viewIssues()">View Issues</button>
+                <div class="duration">
+                    <h3>Average Duration</h3>
+                    <p><span id="avg-duration">--</span> minutes</p>
+                    <p>&nbsp;</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="div5">
+            <!-- History Sections -->
+            <div class="additional-info">
+                <div class="history">
+                    <h3>History of Issues Reported</h3>
+                    <textarea id="issues-history" class="form__textarea" placeholder="Reported issues..."
+                        readonly></textarea>
                 </div>
             </div>
         </div>
@@ -40,6 +50,58 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="profile.js"></script>
+<script>
+    // Load the graph within the Comparison with Class Data section
+    function loadMiniGraph() {
+        const ctx = document.getElementById('comparisonGraph').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'bar', // Use 'line', 'pie', etc., for different chart types
+            data: {
+                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                datasets: [{
+                    label: 'Visits per Day',
+                    data: [12, 19, 3, 5, 2], // Sample data, replace with dynamic data as needed
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                maintainAspectRatio: false, // Allows better fit in small containers
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Days of the Week' // Label for x-axis
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Visits' // Label for y-axis
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false // Hide the legend to save space
+                    },
+                    title: {
+                        display: true,
+                        text: 'Weekly Bathroom Visit Frequency' // Title of the graph
+                    }
+                }
+            }
+        });
+    }
+
+    // Initialize the mini-graph when the page loads
+    document.addEventListener("DOMContentLoaded", loadMiniGraph);
+</script>
+
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
@@ -54,7 +116,8 @@
         window.location.href = "{{site.baseurl}}/issue";
     }
 
-    function viewIssues() {
+    function viewIssues()
+    {
         window.location.href = "{{site.baseurl}}/get-issues"
     }
     // Global variable to store queue data
@@ -187,7 +250,7 @@
             .catch(error => console.error("Error removing from queue:", error));
         console.log("Removed from queue:", queuer);
     }
-
+    
     // Function to approve student who is first in line
     function approveStudent() {
         const queuer = {
@@ -202,7 +265,7 @@
             .then(response => {
                 if (response.ok) {
                     window.location.href = "{{site.baseurl}}/hallpass";
-                }
+                } 
                 else {
                     alert("Failed to approve student.");
                 }
