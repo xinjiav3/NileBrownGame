@@ -59,8 +59,8 @@ search_exclude: true
         <form id="javaForm" onsubmit="javaLogin(); return false;">
             <p>
                 <label>
-                    User ID:
-                    <input type="text" name="uid" id="uid" required>
+                    Email:
+                    <input type="text" name="email" id="email" required>
                 </label>
             </p>
             <p>
@@ -131,6 +131,60 @@ search_exclude: true
     </div>
 </div>
 
+
+<script type="module">
+  import { javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+
+
+window.signup = function(){
+    // clones and replaces method
+    const signupOptions = {
+        URL: `${javaURI}/authenticate`,
+        method: "POST",
+        cache: "no-cache",
+        headers: (new Headers({"Content-Type":"application/json"})),
+        body: JSON.stringify({
+                email:  document.getElementById("email").value,//later add to signup
+                password: document.getElementById("password").value,
+        }),
+    };
+
+    // fetch the API
+    fetch(signupOptions.URL, signupOptions)
+    // response is a RESTful "promise" on any successful fetch
+    .then(response => {
+        
+      if (!response.ok){
+        throw new Error("response error: " + response.status);
+        return; //api failure
+      }
+      // valid response will have JSON data
+      response.json().then(data => {
+          console.log(data);
+      })
+    })
+    // catch fetch errors (ie Nginx ACCESS to server blocked)
+    .catch(err => {
+      error(err + " " + signupOptions.URL);
+    });
+  
+  }
+
+  // Something went wrong with actions or responses
+  function error(err) {
+    // log as Error in console
+    console.error(err);
+    // append error to resultContainer
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+    td.innerHTML = err;
+    tr.appendChild(td);
+    document.getElementById("login-container").appendChild(tr);
+  }
+
+</script>
+
+<!--
 <script type="module">
     import { login, javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
 
@@ -285,3 +339,4 @@ search_exclude: true
         pythonDatabase();
     };
 </script>
+-->
