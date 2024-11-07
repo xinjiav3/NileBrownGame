@@ -1,8 +1,9 @@
 ---
-permalink: /project/mort-translator/submissions-seed
+permalink: /project/seed-tracker/student-tracker
 search_exclude: true
 layout: base
 ---
+
 
 
 <html lang="en">
