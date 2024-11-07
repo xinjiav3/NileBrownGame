@@ -136,7 +136,7 @@ search_exclude: true
   import { javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
 
 
-window.signup = function(){
+window.javaLogin = function(){
     // clones and replaces method
     const signupOptions = {
         URL: `${javaURI}/authenticate`,
@@ -144,7 +144,7 @@ window.signup = function(){
         cache: "no-cache",
         headers: (new Headers({"Content-Type":"application/json"})),
         body: JSON.stringify({
-                email:  document.getElementById("email").value,//later add to signup
+                email:  document.getElementById("email").value,
                 password: document.getElementById("password").value,
         }),
     };
@@ -167,7 +167,6 @@ window.signup = function(){
     .catch(err => {
       error(err + " " + signupOptions.URL);
     });
-  
   }
 
   // Something went wrong with actions or responses
