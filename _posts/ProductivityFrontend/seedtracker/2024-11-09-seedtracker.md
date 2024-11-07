@@ -1,5 +1,5 @@
 ---
-permalink: /project/mort-translator/submissions
+permalink: /project/mort-translator/submissions-seed
 search_exclude: true
 layout: base
 ---
