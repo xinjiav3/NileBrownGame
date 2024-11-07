@@ -293,7 +293,7 @@
         })
             .then(response => {
                 if (response.ok) {
-                    fetchQueueData(); // Refresh the queue after approving
+                    window.location.href = "{{site.baseurl}}/hallpass";
                 } 
                 else {
                     alert("Failed to approve student.");
