@@ -167,6 +167,7 @@ a {
     background: none;
     font-family: inherit;
     color: #888;
+    padding-right: 1.4rem;
 }
 
 .form__input.has-content {

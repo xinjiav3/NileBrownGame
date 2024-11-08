@@ -36,8 +36,13 @@
                 <br>
 
                 <div class="email-info">
-                    <input id="email" class="form__input" type="email" placeholder="MyPlan User" readonly /><br>
+                    <input id="email" class="form__input" type="email" placeholder="Email" readonly /><br>
                 </div>
+                <br>
+<!-- 
+                <div class="myplan-info">
+                    <input id="myplan" class="form__input" type="myplan" placeholder="MyPlan User" readonly /><br>
+                </div> -->
             </div>
         </div>
     </div>
@@ -45,12 +50,20 @@
 
 <script>
     // Fetch profile data for a specific user
-    const name = localStorage.getItem('email')
-    document.getElementById('name').value = name;
+    document.addEventListener("DOMContentLoaded", () => {
+        const email = localStorage.getItem("email"); // Assuming email is stored in localStorage upon login
+        if (email) {
+            // Construct the URL with the email
+            const url = `http://localhost:8085/profile/${encodeURIComponent(email)}`;
+            fetchProfileData(url);
+        } else {
+            console.error("User email not found.");
+        }
+    });
 
-    async function fetchProfileData(email) {
+    async function fetchProfileData(url) {
         try {
-            const response = await fetch(`http://localhost:8086/profile/toby@gmail.com`); // Replace with your backend URL
+            const response = await fetch(url); // Use the constructed URL
             if (response.ok) {
                 const profileData = await response.json();
                 populateProfileFields(profileData);
@@ -65,25 +78,15 @@
 
     // Populate the HTML elements with the profile data
     function populateProfileFields(data) {
-
         document.getElementById('name').value = data.name;
         document.getElementById('email').value = data.email;
+        // document.getElementById('myplan').value = data.myplan;
         document.getElementById('other-info').value = data.otherInfo || ''; // Assuming `otherInfo` exists in your API
         document.getElementById('freq-per-day').textContent = data.freqPerDay || '--';
         document.getElementById('freq-per-week').textContent = data.freqPerWeek || '--';
         document.getElementById('avg-duration').textContent = data.avgDuration || '--';
         document.getElementById('issues-history').value = data.issuesHistory || ''; // Assuming `issuesHistory` exists in your API
     }
-
-    // Initialize profile data loading when the page loads
-    document.addEventListener("DOMContentLoaded", () => {
-        const email = localStorage.getItem("email"); // Assuming email is stored in localStorage upon login
-        if (email) {
-            fetchProfileData(email);
-        } else {
-            console.error("User email not found.");
-        }
-    });
 
     // Function to hide the error chip when the close button is clicked
     function hideChip() {

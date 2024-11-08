@@ -67,7 +67,7 @@
                 if (!response.ok) {
                     // Check if the error is a 401 Unauthorized with specific error message
                     const errorData = await response.json();
-                    if (response.status === 401 && errorData.error === "unauthorized" && errorData.path === "/mvc/person/read") {
+                    if (response.status === 401) {
                         // Do not display error chip for this specific 401 error
                         console.log("Unauthorized: Not displaying error chip");
                         return;
@@ -79,7 +79,7 @@
                 }
                 else {
                     // Success: handle login (redirect, etc.)
-                    window.location.href = '/profile'; // example redirect
+                    window.location.href = '{{site.baseurl}}/login'; // example redirect
                 }
             })
             .catch(error => {

@@ -227,6 +227,7 @@ a {
     background: none;
     font-family: inherit;
     color: var(--greyDark);
+    padding-right: 1.4rem;
 }
 
 .form__input::-moz-placeholder {
