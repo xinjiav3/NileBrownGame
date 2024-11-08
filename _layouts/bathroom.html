@@ -135,6 +135,11 @@
                     if (window.studentsInQueue.length > 0 && window.studentsInQueue[0] === studentName) {
                         approveStudent();
                     }
+
+                    if (mortensenQueue.away === 1 && window.studentsInQueue.length > 0) {
+                        window.studentsInQueue[0] += " (in bathroom)";
+                        displayQueue();
+                    }
                 } else {
                     console.error("Mortensen's queue not found.");
                 }
