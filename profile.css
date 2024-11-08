@@ -50,8 +50,8 @@ html {
     grid-row-gap: 2.5rem; */
     align-items: center;
 
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto, 1fr;
+    grid-template-columns: repeat(2, 1fr); /* should be 3 but games arent up */
+    grid-template-rows: auto;
     gap: 8px;
 }
 

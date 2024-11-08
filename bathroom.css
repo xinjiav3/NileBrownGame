@@ -53,18 +53,17 @@ html {
     align-items: center;
 
 
-    grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, auto);
     grid-column-gap: 20px;
     grid-row-gap: 20px;
 }
 
 .div1 {
-    grid-area: 1 / 1 / 2 / 4;
+    grid-area: 1 / 1 / 2 / 2;
 }
 
 .div2 {
-    grid-area: 2 / 1 / 3 / 4;
+    grid-area: 2 / 1 / 3 / 2;
 }
 
 .queue-buttons {
@@ -149,6 +148,12 @@ button,
     /* Ensures no unwanted border */
     font-weight: bold;
 
+    text-decoration: none;
+
+}
+
+a {
+    text-decoration: none;
 }
 
 
