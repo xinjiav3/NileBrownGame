@@ -44,10 +44,10 @@
     document.getElementById('login-btn').addEventListener('click', function () {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
-        localStorage.setItem("email", username);
 
         if (username && password) {
             // Send POST request to backend
+            localStorage.setItem('email', username);
             fetch('http://localhost:8085/authenticate', {
                 method: 'POST',
                 headers: {

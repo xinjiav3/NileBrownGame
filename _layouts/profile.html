@@ -45,6 +45,9 @@
 
 <script>
     // Fetch profile data for a specific user
+    const name = localStorage.getItem('email')
+    document.getElementById('name').value = name;
+
     async function fetchProfileData(email) {
         try {
             const response = await fetch(`http://localhost:8086/profile/toby@gmail.com`); // Replace with your backend URL
@@ -62,6 +65,7 @@
 
     // Populate the HTML elements with the profile data
     function populateProfileFields(data) {
+
         document.getElementById('name').value = data.name;
         document.getElementById('email').value = data.email;
         document.getElementById('other-info').value = data.otherInfo || ''; // Assuming `otherInfo` exists in your API
