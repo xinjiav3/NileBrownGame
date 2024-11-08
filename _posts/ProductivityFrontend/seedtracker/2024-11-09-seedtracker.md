@@ -117,7 +117,7 @@ layout: base
     </div>
     <div class="form-group">
         <label for="gradeRequest">Requested Grade (Seed)</label>
-        <input type="range" id="gradeRequest" min="0" max="10" step="0.1" value="5" oninput="updateRangeValue(this.value)">
+        <input type="range" id="gradeRequest" min="0" max="1" step="0.1" value="0.5" oninput="updateRangeValue(this.value)">
         <div class="range-value" id="rangeValue">5</div>
     </div>
     <div class="form-group">
