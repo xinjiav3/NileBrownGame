@@ -1,9 +1,10 @@
 ---
+toc: false
+layout: post
+title: Seed Tracker Teacher
+type: ccc
 permalink: /project/mort-translator/student-tracker
-search_exclude: true
-layout: base
 ---
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -141,12 +142,9 @@ layout: base
             return;
         }
 
-        // Generate the student ID locally as in the original code
-        const studentId = Date.now(); // Keep ID generation as in original
-
         // Preparing the data for submission
         const entryData = {
-            studentId: studentId,
+            name: studentName,
             comment: activityLog,
             grade: parseFloat(gradeRequest)
         };
@@ -163,7 +161,7 @@ layout: base
             if (response.ok) {
                 const result = await response.json();
                 const generatedStudentId = result.studentId;  // Fetch the backend-generated student ID
-                messageElement.textContent = `Entry submitted successfully! Your Student ID is: ${generatedStudentId || studentId}`;
+                messageElement.textContent = `Entry submitted successfully! Your Student ID is: ${generatedStudentId}`;
             } else {
                 throw new Error("Failed to submit entry");
             }
@@ -172,6 +170,14 @@ layout: base
             console.error("Submission error:", error);
         }
     }
+
+    // Adding event listener to submit on pressing "Enter"
+    document.getElementById('activityLog').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent the Enter key from creating a new line
+            submitEntry();
+        }
+    });
 </script>
 
 </body>
