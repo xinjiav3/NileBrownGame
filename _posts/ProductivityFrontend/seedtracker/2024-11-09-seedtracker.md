@@ -4,8 +4,6 @@ search_exclude: true
 layout: base
 ---
 
-
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -143,9 +141,12 @@ layout: base
             return;
         }
 
+        // Generate the student ID locally as in the original code
+        const studentId = Date.now(); // Keep ID generation as in original
+
         // Preparing the data for submission
         const entryData = {
-            studentId: Date.now(), // Example unique ID; replace with actual if available
+            studentId: studentId,
             comment: activityLog,
             grade: parseFloat(gradeRequest)
         };
@@ -161,8 +162,8 @@ layout: base
             // Check if the submission was successful
             if (response.ok) {
                 const result = await response.json();
-                messageElement.textContent = "Entry submitted successfully!";
-                console.log("Submission response:", result);
+                const generatedStudentId = result.studentId;  // Fetch the backend-generated student ID
+                messageElement.textContent = `Entry submitted successfully! Your Student ID is: ${generatedStudentId || studentId}`;
             } else {
                 throw new Error("Failed to submit entry");
             }
