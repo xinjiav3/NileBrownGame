@@ -1,5 +1,5 @@
 ---
-permalink: /project/seed-tracker/student-tracker
+permalink: /project/mort-translator/student-tracker
 search_exclude: true
 layout: base
 ---
