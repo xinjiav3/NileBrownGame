@@ -7,143 +7,63 @@ permalink: /project/mort-translator/teacher-tracker
 ---
 
 
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        table {
-            width: 80%;
-            margin: 20px auto;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .button {
-            padding: 5px 10px;
-            margin: 2px;
-            color: white;
-            background-color: #6a5acd;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .button.accept {
-            background-color: #4CAF50;
-        }
-        .button.deny {
-            background-color: #f44336;
-        }
-        .seed-change {
-            display: inline-block;
-            margin: 5px;
-            padding: 5px 10px;
-            color: white;
-            background-color: #6a5acd;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    </style>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll('.seed-change').forEach(function(button) {
-                button.addEventListener('click', function() {
-                    var row = this.closest('tr');
-                    var currentSeedCell = row.querySelector('td:nth-child(2)');
-                    var currentSeed = parseFloat(currentSeedCell.innerText);
-
-                    if (this.innerText === "+") {
-                        currentSeed += 0.05;
-                    } else {
-                        currentSeed -= 0.05;
-                    }
-
-                    currentSeedCell.innerText = currentSeed.toFixed(2);
-                });
-            });
-
-            document.querySelectorAll('.comment-form').forEach(function(form) {
-                form.addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    var row = this.closest('tr');
-                    var commentBox = row.querySelector('.comment-box');
-                    var commentInput = row.querySelector('.comment-input');
-                    var commentText = commentInput.value;
-                    commentBox.innerText = commentText;
-                    commentInput.value = '';  // Clear the comment box
-                });
-            });
-
-            document.querySelectorAll('.reset-button').forEach(function(button) {
-                button.addEventListener('click', function() {
-                    var row = this.closest('tr');
-                    var commentInput = row.querySelector('.comment-input');
-                    commentInput.value = '';
-                    var commentBox = row.querySelector('.comment-box');
-                    commentBox.innerText = '';
-                });
-            });
-        });
-    </script>
+  <title>Student Weekly Project Submissions</title>
+  <style>
+    /* ... eshaan add in style later ... */
+  </style>
 </head>
 <body>
-    <h2>Teacher Page</h2>
 
-    <table>
-        <tr>
-            <th>Username</th>
-            <th>Current Seed</th>
-            <th>Pending Seed Requests</th>
-            <th>Seed Change</th>
-            <th>Comments</th>
-        </tr>
-        <tr>
-            <td>user1</td>
-            <td>0.70</td>
-            <td>
-                +0.03 <a href="#review-link">review link</a><br>
-                <button class="button accept">Accept</button>
-                <button class="button deny">Deny</button>
-            </td>
-            <td>
-                <div class="seed-change">+</div>
-                <div class="seed-change">-</div>
-            </td>
-            <td>
-                <form class="comment-form">
-                    <input type="text" class="comment-input" placeholder="Type your comment here">
-                    <button type="submit" class="button">Submit</button>
-                    <button type="button" class="button reset-button">Reset</button>
-                </form>
-                <div class="comment-box"></div>
-            </td>
-        </tr>
-        <tr>
-            <td>user2</td>
-            <td>0.50</td>
-            <td>none</td>
-            <td>
-                <div class="seed-change">+</div>
-                <div class="seed-change">-</div>
-            </td>
-            <td>
-                <form class="comment-form">
-                    <input type="text" class="comment-input" placeholder="Type your comment here">
-                    <button type="submit" class="button">Submit</button>
-                    <button type="button" class="button reset-button">Reset</button>
-                </form>
-                <div class="comment-box"></div>
-            </td>
-        </tr>
-    </table>
+<h1>Student Weekly Project Submissions</h1>
+<table id="submissionsTable">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Student Name</th>
+      <th>Comment</th>
+      <th>Grade</th>
+    </tr>
+  </thead>
+  <tbody>
+    </tbody>
+</table>
+
+<script>
+  async function fetchSubmissions() {
+    try {
+    const response = await fetch('http://localhost:8085/api/seeds/'); // Replace with your actual backend API endpoint
+    const submissions = await response.json();
+    console.log(submissions);
+    
+    const tableBody = document.getElementById('submissionsTable').querySelector('tbody');
+    tableBody.innerHTML = '';
+
+    if (submissions.length === 0) {
+      tableBody.innerHTML = `<tr><td colspan="4">No submissions found</td></tr>`;
+    } else {
+      submissions.forEach(submission => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${submission.id}</td>
+          <td>${submission.name}</td>
+          <td>${submission.comment}</td>
+          <td>${submission.grade}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    } catch (error) {
+      console.error('Error fetching submissions:', error);
+      const tableBody = document.getElementById('submissionsTable').querySelector('tbody');
+      tableBody.innerHTML = `<tr><td colspan="4">Error loading data: ${error.message}</td></tr>`;
+    }
+  }
+
+  // Fetch data on page load
+  document.addEventListener('DOMContentLoaded', fetchSubmissions);
+</script>
+
 </body>
