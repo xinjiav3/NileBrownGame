@@ -5,6 +5,7 @@ title: Seed Tracker Teacher
 type: ccc
 permalink: /project/mort-translator/student-tracker
 ---
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -103,7 +104,6 @@ permalink: /project/mort-translator/student-tracker
     </style>
 </head>
 <body>
-
 <div class="container">
     <h1>Weekly Project Submission</h1>
     <div class="form-group">
@@ -160,8 +160,8 @@ permalink: /project/mort-translator/student-tracker
             // Check if the submission was successful
             if (response.ok) {
                 const result = await response.json();
-                const generatedStudentId = result.studentId;  // Fetch the backend-generated student ID
-                messageElement.textContent = `Entry submitted successfully! Your Student ID is: ${generatedStudentId}`;
+                const generatedId = result.id;  // Backend-generated ID
+                messageElement.textContent = `Entry submitted successfully! Your Entry ID is: ${generatedId}`;
             } else {
                 throw new Error("Failed to submit entry");
             }
