@@ -98,7 +98,6 @@ permalink: /project/mort-translator/teacher-tracker
 </head>
 <body>
     <h2>Teacher Page</h2>
-    <p>Hello, <span id="username">&lt;username&gt;</span>.</p>
 
     <table>
         <tr>
