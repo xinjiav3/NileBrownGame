@@ -21,7 +21,8 @@ permalink: /project/mort-translator/teacher-tracker
     <tr>
       <th>Student Name</th>
       <th>Comment</th>
-      <th>Grade</th>
+      <th>Request</th>
+      <th>Change</th>
     </tr>
   </thead>
   <tbody>
@@ -29,37 +30,70 @@ permalink: /project/mort-translator/teacher-tracker
 </table>
 
 <script>
+  // Fetch all submissions when the page loads
   async function fetchSubmissions() {
     try {
-      const response = await fetch('http://localhost:8085/api/seeds/'); // Replace with your actual backend API endpoint
+      const response = await fetch('http://localhost:8085/api/seeds/');
       const submissions = await response.json();
-      console.log(submissions);
 
       const tableBody = document.getElementById('submissionsTable').querySelector('tbody');
-      tableBody.innerHTML = '';
+      tableBody.innerHTML = '';  // Clear existing rows
 
       if (submissions.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="3">No submissions found</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="4">No submissions found</td></tr>`;
       } else {
         submissions.forEach(submission => {
           const row = document.createElement('tr');
           row.innerHTML = `
             <td>${submission.name}</td>
             <td>${submission.comment}</td>
-            <td>${submission.grade}</td>
+            <td id="request-${submission.id}">${submission.grade}</td>
+            <td>
+              <button onclick="adjustRequest(${submission.id}, 0.05)">+</button>
+              <button onclick="adjustRequest(${submission.id}, -0.05)">-</button>
+            </td>
           `;
           tableBody.appendChild(row);
         });
       }
-
     } catch (error) {
       console.error('Error fetching submissions:', error);
       const tableBody = document.getElementById('submissionsTable').querySelector('tbody');
-      tableBody.innerHTML = `<tr><td colspan="3">Error loading data: ${error.message}</td></tr>`;
+      tableBody.innerHTML = `<tr><td colspan="4">Error loading data: ${error.message}</td></tr>`;
     }
   }
 
-  // Fetch data on page load
+  // Adjust the grade by +0.05 or -0.05, update the backend as well
+  async function adjustRequest(id, change) {
+  try {
+    const requestElement = document.getElementById(`request-${id}`);
+    let currentRequest = parseFloat(requestElement.textContent);
+    const updatedRequest = currentRequest + change;
+
+    // Update the frontend
+    requestElement.textContent = updatedRequest.toFixed(2);
+
+    // Update the backend
+    const response = await fetch(`http://localhost:8085/api/seeds/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        grade: updatedRequest,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Error updating request in backend');
+    }
+
+    } catch (error) {
+      console.error('Error adjusting request:', error);
+    }
+  }
+
+  // Fetch data when the page is fully loaded
   document.addEventListener('DOMContentLoaded', fetchSubmissions);
 </script>
 
