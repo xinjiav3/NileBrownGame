@@ -10,4 +10,3 @@ comments: True
 {% include MorteVision/head.html %}
 {% include MorteVision/navbar.html %}
 
-

@@ -1,3 +1,4 @@
+/*
 const servers = {
   iceServers:[
     {
@@ -32,13 +33,29 @@ let peerConnection;
         await peerConnection.setRemoteDescription(data.payload);
         const answer = await peerConnection.createAnswer();
         await peerConnection.setLocalDescription(answer);
+        console.log("offer")
         signalingServer.send(JSON.stringify({ target: data.payload.id, type: 'answer', payload: answer }));
       } else if (data.type === 'answer') {
         await peerConnection.setRemoteDescription(data.payload);
+        console.log("answer")
       } else if (data.type === 'candidate') {
         await peerConnection.addIceCandidate(data.payload);
+        console.log("canidate")
       }
     };
+
+/*
+
+    signalingServer.onmessage = async ({data: {description, candidate}}) => {
+      if (description) {
+        await peerConnection.setRemoteDescription(description);
+        if (description.type == "offer") {
+          await peerConnection.setLocalDescription(await peerConnection.createAnswer());
+          signalingServer.send({description: peerConnection.localDescription});
+        }
+      } else if (candidate) await peerConnection.addIceCandidate(candidate);
+    }
+      
 
     async function createPeerConnection() {
       peerConnection = new RTCPeerConnection(servers);
@@ -53,6 +70,20 @@ let peerConnection;
         console.log(event.streams[0])
       };
 
+      peerConnection.onnegotiationneeded = () => {
+        peerConnection.createOffer()
+          .then((offer) => peerConnection.setLocalDescription(offer))
+          .then(() =>
+            signalingServer.send(JSON.stringify({
+              // type: "video-offer",
+              sdp: pc.localDescription,
+            }))
+          )
+          .catch((err) => {
+            // handle error
+          });
+      }
+
       
     }
 
@@ -62,6 +93,15 @@ let peerConnection;
       document.getElementById('localVideo').srcObject = stream;
       console.log(stream)
       stream.getTracks().forEach((track) => peerConnection.addTrack(track, stream));
+
+    }
+
+    async function testa()
+    {
+      const stream = await captureScreen();
+      document.getElementById("streamOffline").style.display = "none"
+      document.getElementById('mortStream').srcObject = stream;
+      document.getElementById('mortStream').style.display = "inline-block"
     }
 
     async function startCall() {
@@ -87,3 +127,4 @@ let peerConnection;
   }
 
     // startCall();
+    */
