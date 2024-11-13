@@ -33,11 +33,11 @@
    ],
    "source": [
     "// Directly printing a string\n",
-    "console.log(\"dog\");\n",
+    "console.log('dog');\n",
     "\n",
     "// Using Variables\n",
-    "const animal = \"cat\";\n",
-    "const favoriteAnimal = \"caribou\";\n",
+    "const animal = 'cat';\n",
+    "const favoriteAnimal = 'caribou';\n",
     "\n",
     "console.log(animal); // Output: cat\n",
     "console.log(favoriteAnimal); // Output: caribou\n"
@@ -125,7 +125,7 @@
    ],
    "source": [
     "// Find the length of a string\n",
-    "console.log(\"earthmovers\".length); // Output: 11\n"
+    "console.log('earthmovers'.length); // Output: 11\n"
    ]
   },
   {
@@ -154,7 +154,7 @@
    ],
    "source": [
     "// Extracting specific parts of a string\n",
-    "const funFact = \"woodchucks do not actually chuck wood, they chuck dirt more often than not\";\n",
+    "const funFact = 'woodchucks do not actually chuck wood, they chuck dirt more often than not';\n",
     "\n",
     "// Specific character:\n",
     "console.log(funFact[10]); // Output: 'c'\n",
@@ -198,8 +198,8 @@
     "    return cleanStr === cleanStr.split('').reverse().join('');\n",
     "}\n",
     "\n",
-    "console.log(palindrome(\"did you know that sahas spelled backwards is sahas\")); // Output: false\n",
-    "console.log(palindrome(\"hi\")); // Output: false\n"
+    "console.log(palindrome('did you know that sahas spelled backwards is sahas')); // Output: false\n",
+    "console.log(palindrome('hi')); // Output: false\n"
    ]
   }
  ],
