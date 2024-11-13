@@ -77,22 +77,14 @@ layout: base
             <input type="url" id="submissionLink" required />
         </div>
         
-        <form action="/submit-comment" method="post">
+        <form id="comment-form">
             <label for="comment">Your Comment:</label><br>
             <textarea id="comment" name="comment" rows="5" cols="40" placeholder="Write your comment here..."></textarea><br><br>
-            <input type="submit" value="Comment">
+            <input type="submit" value="Submit Comment">
         </form>
 
-        <button onclick="Submit()">Submit</button>
+        <button onclick="Submit()">Submit Assignment</button>
         <div class="output-box" id="outputBox"></div>
-
-        
-    </div>
-
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            
-        </div>
     </div>
 
     <script>
@@ -111,18 +103,6 @@ layout: base
             }
         }
 
-        function fetchAssigmentTasks() {
-            var requestOptions = {
-            method: 'GET',
-            redirect: 'follow'
-            };
-
-            fetch("http://127.0.0.1:8085/api/Comment/by-assignment?assignment=Reading Log", requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
-        }
-        
         function populateTaskDropdown(tasks) {
             const taskSelect = document.getElementById('task-select');
             tasks.forEach(task => {
@@ -173,6 +153,34 @@ layout: base
                 console.error('Error:', error);
             });
         }
+
+        document.getElementById("comment-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            const commentText = document.getElementById('comment').value;
+            const taskAssignment = selectedTask; 
+            
+            const commentData = {
+                text: commentText,
+                assignment: taskAssignment,
+                author:"None"
+            };
+
+            fetch('http://localhost:8085/api/Comment/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(commentData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                const outputBox = document.getElementById('outputBox');
+                outputBox.innerText = 'Comment Submitted!';
+                console.log('Comment submitted:', data);
+            })
+            .catch(error => {
+                console.error('Error submitting comment:', error);
+            });
+        });
         
         fetchTasks();
     </script>
