@@ -4,10 +4,15 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Lesson 4.1: Strings\n",
-    "\n",
-    "### Exploring strings in JavaScript\n",
-    "In this lesson, we'll explore how to use and manipulate strings in JavaScript."
+    "---\n",
+    "comments: true\n",
+    "layout: post\n",
+    "title: Strings and functions\n",
+    "description: Strings and functions\n",
+    "author: Logan Brauchla\n",
+    "permalink: /csse/lessons/strings/2024-10-30-strings-lesson-4-1.ipynb/\n",
+    "categories: [Strings and Functions]\n",
+    "---"
    ]
   },
   {
@@ -34,7 +39,6 @@
     }
    ],
    "source": [
-    "%%js\n",
     "// Directly printing a string\n",
     "console.log(\"dog\");\n",
     "\n",
@@ -43,8 +47,7 @@
     "const favoriteAnimal = \"caribou\";\n",
     "\n",
     "console.log(animal); // Output: cat\n",
-    "console.log(favoriteAnimal); // Output: caribou\n",
-    "```\n"
+    "console.log(favoriteAnimal); // Output: caribou\n"
    ]
   },
   {
@@ -70,14 +73,12 @@
     }
    ],
    "source": [
-    "%%js\n",
     "// Escaping apostrophes in strings\n",
     "const food2 = 'I\\'m eating pizza';\n",
     "const food3 = \"I'm eating lasagna\";\n",
     "\n",
     "console.log(food2); // Output: I'm eating pizza\n",
-    "console.log(food3); // Output: I'm eating lasagna\n",
-    "```\n"
+    "console.log(food3); // Output: I'm eating lasagna\n"
    ]
   },
   {
@@ -102,12 +103,10 @@
     }
    ],
    "source": [
-    "%%js\n",
     "// Multi-line string using template literals\n",
     "const riddle = `my favorite animal\nis associated with winter\nand Christmas`;\n",
     "\n",
-    "console.log(riddle);\n",
-    "```\n"
+    "console.log(riddle);\n"
    ]
   },
   {
@@ -132,10 +131,8 @@
     }
    ],
    "source": [
-    "%%js\n",
     "// Find the length of a string\n",
-    "console.log(\"earthmovers\".length); // Output: 11\n",
-    "```\n"
+    "console.log(\"earthmovers\".length); // Output: 11\n"
    ]
   },
   {
@@ -163,7 +160,6 @@
     }
    ],
    "source": [
-    "%%js\n",
     "// Extracting specific parts of a string\n",
     "const funFact = \"woodchucks do not actually chuck wood, they chuck dirt more often than not\";\n",
     "\n",
@@ -175,8 +171,7 @@
     "\n",
     "// Slicing:\n",
     "console.log(funFact.slice(0, 25)); // Output: 'woodchucks do not act'\n",
-    "console.log(funFact.slice(35)); // Output: 'dirt more often than not'\n",
-    "```\n"
+    "console.log(funFact.slice(35)); // Output: 'dirt more often than not'\n"
    ]
   },
   {
@@ -202,7 +197,6 @@
     }
    ],
    "source": [
-    "%%js\n",
     "// Function to check if a string is a palindrome\n",
     "function palindrome(inputStr) {\n",
     "    // Remove spaces and convert the string to lowercase\n",
@@ -212,27 +206,18 @@
     "}\n",
     "\n",
     "console.log(palindrome(\"did you know that sahas spelled backwards is sahas\")); // Output: false\n",
-    "console.log(palindrome(\"hi\")); // Output: false\n",
-    "```\n"
+    "console.log(palindrome(\"hi\")); // Output: false\n"
    ]
   }
  ],
  "metadata": {
   "kernelspec": {
-   "display_name": "ijavascript",
+   "display_name": "JavaScript",
    "language": "javascript",
    "name": "javascript"
   },
   "language_info": {
-   "codemirror_mode": {
-    "name": "javascript",
-    "version": 3
-   },
-   "file_extension": ".js",
-   "mimetype": "application/javascript",
    "name": "javascript",
-   "nbconvert_exporter": "javascript",
-   "pygments_lexer": "javascript",
    "version": "ECMAScript 2020"
   }
  },
