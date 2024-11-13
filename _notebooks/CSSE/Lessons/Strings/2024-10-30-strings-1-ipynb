@@ -1,3 +1,13 @@
+    "---\n",
+    "comments: true\n",
+    "layout: post\n",
+    "title: Strings and functions\n",
+    "description: Strings and functions\n",
+    "author: Logan Brauchla\n",
+    "permalink: /csse/lessons/strings/2024-10-30-strings-lesson-4-1.ipynb/\n",
+    "categories: [Strings and Functions]\n",
+    "---"
+
 {
  "cells": [
   {
