@@ -2,7 +2,6 @@
 layout: post 
 title: Github Analytics
 permalink: /analytics
-menu: nav/home.html
 search_exclude: true
 ---
 <style>

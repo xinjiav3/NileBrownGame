@@ -1,84 +1,33 @@
 <header class="site-header">
+  <div class="wrapper">
+    {%- assign default_paths = site.pages | map: "path" -%}
+    {%- assign page_paths = site.header_pages | default: default_paths -%}
+    {%- assign titles_size = site.pages | map: 'title' | join: '' | size -%}
+    <a class="site-title" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
 
-    <div class="wrapper">
-      {%- assign default_paths = site.pages | map: "path" -%}
-      {%- assign page_paths = site.header_pages | default: default_paths -%}
-      {%- assign titles_size = site.pages | map: 'title' | join: '' | size -%}
-      <a class="site-title" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
-  
-      {%- if titles_size > 0 -%}
-        <nav class="site-nav">
-          <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-          <label for="nav-trigger">
-            <span class="menu-icon">
-              <svg viewBox="0 0 18 15" width="18px" height="15px">
-                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
-              </svg>
-            </span>
-          </label>
-  
-          <div class="trigger">
-            {%- for path in site.header_pages -%}
-              {%- assign my_page = site.pages | where: "path", path | first -%}
-              {%- if my_page.title -%}
-                <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
-              {%- endif -%}
-            {%- endfor -%}
-            <a id="loginArea" href="{{ site.baseurl }}/login">Login</a>
-          </div>
-        </nav>
-      {%- endif -%}
-    </div>
-  </header>
+    {%- if titles_size > 0 -%}
+      <nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
 
-<script type="module">
-    import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+        <div class="trigger" data-baseurl="{{ site.baseurl }}">
+          {%- for path in site.header_pages -%}
+            {%- assign my_page = site.pages | where: "path", path | first -%}
+            {%- if my_page.title -%}
+              <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
+            {%- endif -%}
+          {%- endfor -%}
+          <a id="loginArea" href="{{ site.baseurl }}/login">Login</a>
+        </div>
+      </nav>
+    {%- endif -%}
+  </div>
+</header>
 
-    document.addEventListener('DOMContentLoaded', function() {
-        getCredentials() // Call the function to get credentials
-            .then(data => {
-                const loginArea = document.getElementById('loginArea');
-                if (data) { // Update the login area based on the data
-                    // User is authenticated, replace "Login" with User's name
-                    loginArea.innerHTML = `
-                        <div class="dropdown">
-                            <button class="dropbtn">${data.name}</button>
-                            <div class="dropdown-content">
-                                <a href="{{ site.baseurl }}/logout">Logout</a>
-                                <a href="{{ site.baseurl }}/profile">Profile</a>
-                                <a href="{{ site.baseurl }}/analytics">Analytics</a>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    // User is not authenticated, then "Login" link is shown
-                    loginArea.innerHTML = '<a href="{{ site.baseurl }}/login">Login</a>';
-                }
-            })
-            .catch(err => { // General error handler
-                console.error("Error fetching credentials: ", err);
-                // Handle any errors that occurred during getCredentials
-            });
-    });
-
-    function getCredentials() {
-        const URL = pythonURI + '/api/id';
-        return fetch(URL, fetchOptions)
-            .then(response => { // API response handler 
-                if (response.status !== 200) {
-                    console.error("HTTP status code: " + response.status);
-                    return null; // prepares to stop the chain by returning null.
-                }
-                return response.json(); // plans to continue the chain with the data.
-            })
-            .then(data => { // Data handler from the previous promise  
-                if (data === null) return null; // stops the chain, returns null.
-                console.log(data); // logs data with should contain uid, name, etc.
-                return data; // returns data to caller 
-            })
-            .catch(err => { // General error handler
-                console.error("Fetch error: ", err);
-                return null;
-            });
-    }
-</script>
+<script type="module" src="{{ site.baseurl }}/assets/js/api/login.js"></script>

@@ -1,6 +1,6 @@
 ---
 layout: base
-title: RPG v0.3
+title: RPG
 permalink: /rpg/latest
 ---
 
