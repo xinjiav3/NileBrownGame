@@ -34,7 +34,7 @@ export function putUpdate(options) {
         });
 }
 
-document.getElementById(options.message).textContent = "";
+
 
 // Update User Data with "POST" 
 export function postUpdate(options) {
@@ -47,7 +47,7 @@ export function postUpdate(options) {
     };
 
     // Clear the message area
-
+    document.getElementById(options.message).textContent = "";
     // Send POST request
     fetch(options.URL, requestOptions)
         .then(response => {
