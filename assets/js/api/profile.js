@@ -123,12 +123,3 @@ export async function logoutUser() {
             }
          }
 
-// session
-// asynchronous session response
-//session call api----?
-// then--> javascript promise
-// data loaded
-// screen establishes 5 different sessions
-// talk about play
-// iteration style ----> little pieces
-// Your teacher likes to iterate -->
