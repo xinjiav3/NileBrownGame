@@ -33,6 +33,9 @@ export function putUpdate(options) {
            
         });
 }
+
+document.getElementById(options.message).textContent = "";
+
 // Update User Data with "POST" 
 export function postUpdate(options) {
     // Modify the options to use the POST method and include the request body.
@@ -52,6 +55,7 @@ export function postUpdate(options) {
             if (!response.ok) {
                 const errorMsg = 'Error: ' + response.status;
                 console.log(errorMsg);
+                document.getElementById(options.message).textContent = errorMsg;
                 return;
             }
             // Success!!!
