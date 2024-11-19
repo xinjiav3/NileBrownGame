@@ -49,6 +49,8 @@
 
                 <button type="submit" class="btn btn-primary">Check In</button>
             </form>
+
+            <button type="button" class="btn btn-secondary mt-3" onclick="approveStudent()">I'm done</button>
         </div>
         <!-- Request form, hidden if there is an active pass -->
         <div th:if="${activePass == null}">
@@ -82,3 +84,49 @@
 </th:block>
 </body>
 </html>
+
+<script>
+    const fetchOptions = {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'include', // include, same-origin, omit
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Origin': 'client' // New custom header to identify source
+        },
+    };
+
+    // Get teacher name and student name from local storage or variables
+    const teacherName = "Mortensen"; // Replace with dynamic teacher name if needed
+    const studentName = localStorage.getItem("email"); // Assume stored from login
+    const url = `http://localhost:8085/api/queue`;
+    const approveUrl = url + '/approve';
+    const postOptions = {
+        ...fetchOptions,
+        method: 'POST',
+    };
+
+    // Function to approve student who is first in line
+    function approveStudent() {
+        const queuer = {
+            teacherName: teacherName,
+            studentName: studentName,
+        };
+
+        fetch(approveUrl, {
+            ...postOptions,
+            body: JSON.stringify(queuer),
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = "{{site.baseurl}}/hallpass";
+                }
+                else {
+                    alert("Failed to approve student.");
+                }
+            })
+            .catch(error => console.error("Error approving student:", error));
+        window.location.href = "{{site.baseurl}}/profile";
+}
+</script>
