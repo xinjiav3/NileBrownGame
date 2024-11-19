@@ -163,10 +163,10 @@ layout: base
             .then(response => {
                 const outputBox = document.getElementById('outputBox');
                 if (response.ok) {
-                    outputBox.innerText = 'Successful Submission!';
+                    outputBox.innerText = ' Successful Submission! ';
                     return response.json();
                 } else {
-                    outputBox.innerText = 'Failed Submission!';
+                    outputBox.innerText = ' Failed Submission! ';
                     throw new Error('Failed to submit data: ' + response.statusText);
                 }
             })
