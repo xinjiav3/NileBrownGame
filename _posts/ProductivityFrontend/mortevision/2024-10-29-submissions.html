@@ -15,36 +15,37 @@ layout: base
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            height: 300vh;
+            margin: 20px;
         }
         .modal {
-            width: 400px;
+            width: 600px; /* Increased width */
             max-width: 100%;
-            padding: 20px;
+            padding: 30px; /* Increased padding */
             background-color: #000000;
-            border-radius: 8px;
-            box-shadow: 16px 16px 16px rgba(81, 0, 255, 0.2);
+            border-radius: 12px; /* Slightly rounded corners */
+            box-shadow: 0 10px 20px rgba(81, 0, 255, 0.3); /* Full surround shadow */
             display: flex;
             flex-direction: column;
             align-items: center;
         }
         select, input[type="url"], textarea, button {
             width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            margin: 10px 0;
+            padding: 15px; /* Increased padding */
+            font-size: 18px; /* Increased font size */
+            margin: 12px 0; /* Adjusted margin */
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px; /* Slightly rounded inputs */
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 150px; /* Increased minimum height */
         }
         button {
             background-color: #4CAF50;
             color: white;
+            font-size: 18px; /* Increased font size */
             font-weight: bold;
             cursor: pointer;
             transition: background-color 0.3s;
@@ -53,13 +54,13 @@ layout: base
             background-color: #45A049;
         }
         .modal-content h2 {
-            font-size: 24px;
+            font-size: 28px; /* Larger title */
             color: white;
             margin-bottom: 20px;
         }
         .output-box {
             margin-top: 15px;
-            font-size: 18px;
+            font-size: 20px; /* Increased output font size */
             color: #333;
         }
     </style>
@@ -73,26 +74,18 @@ layout: base
             </select>
         </div>
         <div>
-            <label for="submissionLink">Submission Link:</label>
+            <label for="submissionLink" style="font-size: 18px;">Submission Link:</label>
             <input type="url" id="submissionLink" required />
         </div>
         
         <form action="/submit-comment" method="post">
-            <label for="comment">Your Comment:</label><br>
+            <label for="comment" style="font-size: 18px;">Your Comment:</label><br>
             <textarea id="comment" name="comment" rows="5" cols="40" placeholder="Write your comment here..."></textarea><br><br>
             <input type="submit" value="Comment">
         </form>
 
         <button onclick="Submit()">Submit</button>
         <div class="output-box" id="outputBox"></div>
-
-        
-    </div>
-
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            
-        </div>
     </div>
 
     <script>
