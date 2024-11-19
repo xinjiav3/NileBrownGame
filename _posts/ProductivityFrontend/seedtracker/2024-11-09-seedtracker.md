@@ -1,10 +1,10 @@
 ---
-permalink: /project/seed-tracker/student-tracker
-search_exclude: true
-layout: base
+toc: false
+layout: post
+title: Seed Tracker Teacher
+type: ccc
+permalink: /project/mort-translator/student-tracker
 ---
-
-
 
 <html lang="en">
 <head>
@@ -104,7 +104,6 @@ layout: base
     </style>
 </head>
 <body>
-
 <div class="container">
     <h1>Weekly Project Submission</h1>
     <div class="form-group">
@@ -117,7 +116,7 @@ layout: base
     </div>
     <div class="form-group">
         <label for="gradeRequest">Requested Grade (Seed)</label>
-        <input type="range" id="gradeRequest" min="0" max="10" step="0.1" value="5" oninput="updateRangeValue(this.value)">
+        <input type="range" id="gradeRequest" min="0" max="1" step="0.1" value="0.5" oninput="updateRangeValue(this.value)">
         <div class="range-value" id="rangeValue">5</div>
     </div>
     <div class="form-group">
@@ -145,7 +144,7 @@ layout: base
 
         // Preparing the data for submission
         const entryData = {
-            studentId: Date.now(), // Example unique ID; replace with actual if available
+            name: studentName,
             comment: activityLog,
             grade: parseFloat(gradeRequest)
         };
@@ -161,8 +160,8 @@ layout: base
             // Check if the submission was successful
             if (response.ok) {
                 const result = await response.json();
-                messageElement.textContent = "Entry submitted successfully!";
-                console.log("Submission response:", result);
+                const generatedId = result.id;  // Backend-generated ID
+                messageElement.textContent = `Entry submitted successfully! Your Entry ID is: ${generatedId}`;
             } else {
                 throw new Error("Failed to submit entry");
             }
@@ -171,6 +170,14 @@ layout: base
             console.error("Submission error:", error);
         }
     }
+
+    // Adding event listener to submit on pressing "Enter"
+    document.getElementById('activityLog').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent the Enter key from creating a new line
+            submitEntry();
+        }
+    });
 </script>
 
 </body>
