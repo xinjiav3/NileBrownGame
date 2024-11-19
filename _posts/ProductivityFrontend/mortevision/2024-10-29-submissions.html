@@ -19,33 +19,33 @@ layout: base
             margin: 20px;
         }
         .modal {
-            width: 600px; /* Increased width */
+            width: 600px; 
             max-width: 100%;
-            padding: 30px; /* Increased padding */
+            padding: 30px; 
             background-color: #000000;
-            border-radius: 12px; /* Slightly rounded corners */
-            box-shadow: 0 10px 20px rgba(81, 0, 255, 0.3); /* Full surround shadow */
+            border-radius: 12px;
+            animation: moving-glow 2s infinite;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
         select, input[type="url"], textarea, button {
             width: 100%;
-            padding: 15px; /* Increased padding */
-            font-size: 18px; /* Increased font size */
-            margin: 12px 0; /* Adjusted margin */
+            padding: 15px; 
+            font-size: 18px; 
+            margin: 12px 0; 
             border: 1px solid #ddd;
-            border-radius: 6px; /* Slightly rounded inputs */
+            border-radius: 6px; 
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         textarea {
             resize: vertical;
-            min-height: 150px; /* Increased minimum height */
+            min-height: 150px; 
         }
         button {
             background-color: #4CAF50;
             color: white;
-            font-size: 18px; /* Increased font size */
+            font-size: 18px; 
             font-weight: bold;
             cursor: pointer;
             transition: background-color 0.3s;
@@ -54,14 +54,37 @@ layout: base
             background-color: #45A049;
         }
         .modal-content h2 {
-            font-size: 28px; /* Larger title */
+            font-size: 28px; 
             color: white;
             margin-bottom: 20px;
         }
         .output-box {
             margin-top: 15px;
-            font-size: 20px; /* Increased output font size */
+            font-size: 20px;
             color: #333;
+            animation: moving-glow2 2s infinite;
+        }
+        @keyframes moving-glow {
+            0% {
+                box-shadow: 0 0 10px rgba(81, 0, 255, 0.8);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(81, 0, 255, 0.8);
+            }
+            100% {
+                box-shadow: 0 0 10px rgba(81, 0, 255, 0.8);
+            }
+        }
+        @keyframes moving-glow2 {
+            0% {
+                box-shadow: 0 0 10px rgba(0, 255, 162, 0.8);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(0, 255, 162, 0.8);
+            }
+            100% {
+                box-shadow: 0 0 10px rgba(0, 255, 162, 0.8);
+            }
         }
     </style>
 </head>
