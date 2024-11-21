@@ -10,8 +10,8 @@ show_reading_time: false
  <div class="card">
    <form>
      <div>
-       <label for="newUid">Enter New UID:</label>
-       <input type="text" id="newUid" placeholder="New UID">
+       <label for="newUid">Enter New Email:</label>
+       <input type="text" id="newEmail" placeholder="New Email">
      </div>
      <div>
        <label for="newName">Enter New Name:</label>
@@ -61,9 +61,9 @@ show_reading_time: false
 </div>
 <script type="module">
 // Import fetchOptions from config.js
-import {javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+import {javaURI, fetchOptions} from '{{site.baseurl}}/assets/js/api/config.js';
 // Import functions from config.js
-import { putUpdate, postUpdate, deleteData, logoutUser } from "{{site.baseurl}}/assets/js/api/profile.js";
+import {putUpdate, postUpdate, deleteData, logoutUserJava } from "{{site.baseurl}}/assets/js/api/profile.js";
 // Function to fetch user profile data
 async function fetchUserProfile() {
     const URL = javaURI + "/api/person/get"; // Endpoint to fetch user profile data
@@ -131,14 +131,13 @@ async function sendProfilePicture(base64String) {
        await postUpdate(options);
    } catch (error) {
        console.error('Error uploading profile picture:', error.message);
-       document.getElementById('profile-message').textContent = 'Error uploading profile picture: ' + error.message;
    }
 }
   // Function to update UI with new UID and change placeholder
-window.updateUidField = function(newUid) {
-  const uidInput = document.getElementById('newUid');
-  uidInput.value = newUid;
-  uidInput.placeholder = newUid;
+window.updateEmailField = function(newEmail) {
+  const emailInput = document.getElementById('newEmail');
+  emailInput.value = newEmail;
+  emailInput.placeholder = newEmail;
 }
 // Function to update UI with new Name and change placeholder
 window.updateNameField = function(newName) {
@@ -147,25 +146,24 @@ window.updateNameField = function(newName) {
   nameInput.placeholder = newName;
 }
 // Function to change UID
-window.changeUid = async function(uid) {
-   if (uid) {
+window.changeEmail = async function(email) {
+   if (email) {
        const URL = javaURI + "/api/person/update"; // Adjusted endpoint
        const options = {
            URL,
-           body: { uid },
-           message: 'uid-message', // Adjust the message area as needed
+           body: { email },// Adjust the message area as needed
            callback: () => {
-               alert("You updated your Github ID, so you will automatically be logged out. Be sure to remember your new github id to log in!");
-               console.log('UID updated successfully!');
-               window.updateUidField(uid);
-               window.location.href = '/portfolio_2025/login'
+               alert("You updated your email, so you will automatically be logged out. Be sure to remember your new github id to log in!");
+               console.log('Email updated successfully!');
+               window.updateEmailField(email);
            }
        };
        try {
            await postUpdate(options);
+           await logoutUserJava();
+           window.location.href = '/portfolio_2025/duallogin'
        } catch (error) {
-           console.error('Error updating UID:', error.message);
-           document.getElementById('uid-message').textContent = 'Error updating UID: ' + error.message;
+           console.error('Error updating Email:', error.message);
        }
    }
 }
@@ -174,19 +172,18 @@ window.changePassword = async function(password) {
        const URL = javaURI + "/api/person/update"; // Adjusted endpoint
        const options = {
            URL,
-           body: { password },
-           message: 'password-message', // Adjust the message area as needed
+           body: { password }, // Adjust the message area as needed
            callback: () => {
                console.log('Password updated successfully!');
-               window.location.href = '/portfolio_2025/login'
+               window.location.href = '/portfolio_2025/duallogin'
            }
        };
      try {
             alert("You updated your password, so you will automatically be logged out. Be sure to remember your password!");
            await postUpdate(options);
+           await logoutUserJava();
        } catch (error) {
            console.error('Error updating password:', error.message);
-           document.getElementById('password-message').textContent = 'Error updating password: ' + error.message;
        }
    }
 }
@@ -197,7 +194,6 @@ window.changeName = async function(name) {
        const options = {
            URL,
            body: { name },
-           message: 'name-message',
            callback: () => {
                console.log('Name updated successfully!');
                window.updateNameField(name);
@@ -205,16 +201,15 @@ window.changeName = async function(name) {
        };
        try {
            await postUpdate(options);
-       } catch (error) {
+            await logoutUser();       } catch (error) {
            console.error('Error updating Name:', error.message);
-           document.getElementById('name-message').textContent = 'Error updating Name: ' + error.message;
        }
    }
 }
 // Event listener to trigger updateUid function when UID field is changed
-document.getElementById('newUid').addEventListener('change', function() {
-    const uid = this.value;
-    window.changeUid(uid);
+document.getElementById('newEmail').addEventListener('change', function() {
+    const email = this.value;
+    window.changeEmail(email);
 });
 // Event listener to trigger updateName function when Name field is changed
 document.getElementById('newName').addEventListener('change', function() {
@@ -250,20 +245,17 @@ window.toggleKasmServerNeeded = async function() {
    const options = {
        URL,
        body: { kasmServerNeeded: newKasmServerNeeded },
-       message: 'kasm-server-message', // Adjust the message area as needed
        callback: () => {
            console.log('Kasm Server Needed updated successfully!');
        }
    };
    try {
-       alert(options);
        await postUpdate(options);
    } catch (error) {
        console.error('Error updating kasm_server_needed:', error.message);
-       document.getElementById('kasm-server-message').textContent = 'Error updating kasm_server_needed: ' + error.message;
    }
 }
-   window.fetchUid = async function() {
+   window.fetchEmail = async function() {
     const URL = javaURI + "/api/person/get"; // Adjusted endpoint
     try {
         const response = await fetch(URL, fetchOptions);
@@ -292,15 +284,15 @@ window.fetchName = async function() {
         return null;
     }
 };
-// Function to set placeholders for UID and Name
+// Function to set placeholders for email and Name
 window.setPlaceholders = async function() {
-    const uidInput = document.getElementById('newUid');
+    const emailInput = document.getElementById('newEmail');
     const nameInput = document.getElementById('newName');
     try {
-        const uid = await window.fetchUid();
+        const email = await window.fetchEmail();
         const name = await window.fetchName();
-        if (uid !== null) {
-            uidInput.placeholder = uid;
+        if (email !== null) {
+            emailInput.placeholder = email;
         }
         if (name !== null) {
             nameInput.placeholder = name;
