@@ -1,7 +1,7 @@
 ---
 layout: page 
 title: Sign Up
-permalink: /signup
+permalink: /newsignup
 search_exclude: true
 menu: nav/home.html
 show_reading_time: false 
