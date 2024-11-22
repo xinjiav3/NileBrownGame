@@ -194,6 +194,13 @@
 
     // Function to approve student who is first in line
     function approveStudent() {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes().toString().padStart(2, "0"); // Ensures 2 digits
+        const seconds = now.getSeconds().toString().padStart(2, "0");
+        const timeIn = `${hours}:${minutes}:${seconds}`;
+        localStorage.setItem("timeIn", timeIn);
+
         const queuer = {
             teacherName: teacherName,
             studentName: window.studentsInQueue[0],
