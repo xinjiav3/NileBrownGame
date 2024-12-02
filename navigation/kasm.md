@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Kasm Cloud Workspaces
+title: Kasm Workspaces
 description: A central blogging hub for user and development documentation for the Kasm Cloud Workspaces Project
 categories: [Kasm]
 permalink: /kasm/pages/intro

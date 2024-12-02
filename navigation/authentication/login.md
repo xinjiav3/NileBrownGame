@@ -3,7 +3,6 @@ layout: page
 title: Login
 permalink: /loginyou
 search_exclude: true
-menu: nav/home.html
 show_reading_time: false 
 ---
 

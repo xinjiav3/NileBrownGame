@@ -10,7 +10,11 @@ export var javaURI;
 if (location.hostname === "localhost") {
         javaURI = "http://localhost:8082";
 } else if (location.hostname === "127.0.0.1") {
+<<<<<<< HEAD
         javaURI = "http://127.0.0.1:8082"; //rey
+=======
+        javaURI = "http://127.0.0.1:8085";
+>>>>>>> 3bc039a1ce9c33f5a7dac69ee7fa36f013b5533f
 } else {
         javaURI = "https://spring2025.nighthawkcodingsociety.com";
 }

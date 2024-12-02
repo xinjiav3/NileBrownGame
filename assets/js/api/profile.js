@@ -31,6 +31,9 @@ export function putUpdate(options) {
            
         });
 }
+
+
+
 // Update User Data with "POST" 
 export function postUpdate(options) {
     // Modify the options to use the POST method and include the request body.
@@ -42,7 +45,7 @@ export function postUpdate(options) {
     };
 
     // Clear the message area
-
+    document.getElementById(options.message).textContent = "";
     // Send POST request
     fetch(options.URL, requestOptions)
         .then(response => {
@@ -91,6 +94,7 @@ export async function logoutUser() {
             }
          }
 
+<<<<<<< HEAD
  
 
          
@@ -170,3 +174,5 @@ export async function logoutUserJava() {
 // talk about play
 // iteration style ----> little pieces
 // Your teacher likes to iterate -->
+=======
+>>>>>>> 3bc039a1ce9c33f5a7dac69ee7fa36f013b5533f
