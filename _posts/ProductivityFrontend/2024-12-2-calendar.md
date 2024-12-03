@@ -7,14 +7,13 @@ permalink: /calendar
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
-        background-color: #f3e5f5;
         color: #4a235a;
     }
     button {
         display: block;
         margin: 20px auto;
         padding: 10px 20px;
-        background-color: #ba68c8;
+        background-color: #000000;
         color: #ffffff;
         border: none;
         border-radius: 5px;
@@ -29,7 +28,7 @@ permalink: /calendar
         max-width: 900px;
         margin: 20px auto;
         padding: 0 20px;
-        background-color: #ffffff;
+        background-color: black;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
@@ -50,12 +49,12 @@ permalink: /calendar
     }
     #popup h3 {
         margin: 0 0 10px;
-        color: #6a1b9a;
+        color: black;
     }
     #popup button {
         margin-top: 10px;
         padding: 5px 15px;
-        background-color: #ba68c8;
+        background-color: #7DF9FF;
         color: #ffffff;
         border: none;
         border-radius: 5px;
@@ -72,8 +71,11 @@ permalink: /calendar
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(106, 27, 154, 0.5);
+        background: rgba(0, 0, 0, 0.5);
         z-index: 999;
+    }
+    #popup-description {
+        color: black;
     }
 </style>
 <button onclick="handleRequest()">Reload Events</button>
@@ -90,8 +92,6 @@ permalink: /calendar
 <script>
     const fetchOptions = {
         method: 'GET',
-        mode: 'no-cors',
-        cache: 'default',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -103,7 +103,9 @@ permalink: /calendar
                 console.error("HTTP status code: " + response.status);
                     return null;
             }
-            return response.json();
+            hello = response.json();
+            console.log(hello);
+            return hello;
         })
         .catch(error => {
             console.error("Fetch error: ", error);
@@ -113,11 +115,13 @@ permalink: /calendar
     function handleRequest() {
         request().then(data => {
             if (data !== null) {
+                console.log(data);
                 const events = data.map(event => ({
                     title: event.title,
                     description: event.description,
                     start: event.date
                     }));
+                console.log(events);
                 displayCalendar(events);
             }
         });
