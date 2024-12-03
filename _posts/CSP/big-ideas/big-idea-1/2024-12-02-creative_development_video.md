@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-title: 1.1-1.4 Team Test
+title: BI 1 | Creative Development | Team Test 
 description: Create a video and build a notebook to review all the key questions from Big Idea 1
 courses: { csp: {week: 14} }
 type: collab
