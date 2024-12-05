@@ -110,7 +110,9 @@ menu: _includes/nav/project/productivity-frontend/menu.html
     <div class="output-box" id="outputBox"></div>
 </div>
 
-<script>
+
+<script type="module">
+    import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
     let selectedTask = "";
     let tasks = "";
     let assignmentIds = [];
@@ -118,7 +120,8 @@ menu: _includes/nav/project/productivity-frontend/menu.html
     
     async function fetchTasks() {
         try {
-            const response = await fetch('http://localhost:8085/api/assignments/getAssignments');
+            const urllink=pythonURI+"/api/assignments/getAssignments";
+            const response = await fetch(urllink);
             tasks = await response.json();
             populateTaskDropdown(tasks);
         } catch (error) {
@@ -143,6 +146,8 @@ menu: _includes/nav/project/productivity-frontend/menu.html
     });
     
     function Submit() {
+        const urllink_submit=pythonURI+"/api/submissions/Submit";
+        const urllink_comment=pythonURI+"/api/Comment/create";
         const submissionLink = document.getElementById('submissionLink').value;
         const assignment_id = assignmentIds[assignIndex - 1];
         const submission_time = (new Date()).toLocaleTimeString();
@@ -152,9 +157,10 @@ menu: _includes/nav/project/productivity-frontend/menu.html
             submission_time: submission_time,
             assignment_name: selectedTask,
             assignment_id: assignment_id
+            
         };
 
-        fetch('http://localhost:8085/api/submissions/Submit', {
+        fetch(urllink_submit, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
