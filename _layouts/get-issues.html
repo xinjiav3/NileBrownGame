@@ -4,33 +4,38 @@
 </head>
 
 <style>
-h3, th, td{
-    color: white;
-}
-.issues-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px; /* Spacing between bathroom forms */
-}
+    h3,
+    th,
+    td {
+        color: white;
+    }
 
-.bathroom-form {
-    border: 1px solid #ccc;
-    padding: 15px;
-    width: 300px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+    .issues-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        /* Spacing between bathroom forms */
+    }
 
-.issues-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
+    .bathroom-form {
+        border: 1px solid #ccc;
+        padding: 15px;
+        width: 300px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-.issues-table th, .issues-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
+    .issues-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .issues-table th,
+    .issues-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
 </style>
 <div class="container">
     <div class="components">
@@ -51,22 +56,22 @@ h3, th, td{
         }
     };
 
-    window.getIssues = function() {
+    window.getIssues = function () {
         fetch(javaURI + '/api/issue/issues', getOptions)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Success for issue:', data);
-            const sortedData = sortByBathroom(data);
-            displayBathroomForms(sortedData);
-        })
-        .catch(error => {
-            console.error('Error for issue:', error);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success for issue:', data);
+                const sortedData = sortByBathroom(data);
+                displayBathroomForms(sortedData);
+            })
+            .catch(error => {
+                console.error('Error for issue:', error);
+            });
     };
 
     function sortByBathroom(data) {
@@ -83,7 +88,7 @@ h3, th, td{
 
     function displayBathroomForms(sortedData) {
         const container = document.getElementById('issues-container');
-        container.innerHTML = ''; 
+        container.innerHTML = '';
 
         Object.entries(sortedData).forEach(([bathroom, issues]) => {
             const formSection = document.createElement('div');
@@ -106,7 +111,7 @@ h3, th, td{
             table.appendChild(headerRow);
 
             issues.forEach(issue => {
-                if (issue.count > 0) { 
+                if (issue.count > 0) {
                     const row = document.createElement('tr');
                     const issueCell = document.createElement('td');
                     issueCell.textContent = issue.issue;
@@ -124,7 +129,7 @@ h3, th, td{
         });
     }
 
-    window.onload = function() {
+    window.onload = function () {
         getIssues();
     };
 </script>

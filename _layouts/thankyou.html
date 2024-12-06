@@ -2,7 +2,7 @@
 <!DOCTYPE HTML>
 <!-- Signals to the Layout Dialect which layout should be used to decorate this View -->
 <html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
-      layout:decorate="~{layouts/base}" lang="en">
+    layout:decorate="~{layouts/base}" lang="en">
 
 <head>
     <title>Tinkle Time</title>
@@ -11,22 +11,27 @@
         .container {
             max-width: 600px;
         }
+
         #additionalInput {
-            display: none; /* Initially hidden */
+            display: none;
+            /* Initially hidden */
         }
+
         body {
-            color: black; 
+            color: black;
         }
     </style>
 </head>
 
 <body>
     <th:block layout:fragment="body" th:remove="tag">
-<div class="container py-5 text-center">
-    <h1 class="display-4">Thank You!</h1>
-    <p class="lead">Your hall pass request has been successfully processed.</p>
-    <p class="mt-4">We hope you find your time helpful. If you need further assistance, please reach out to your teacher.</p>
-</div>
-</th:block>
+        <div class="container py-5 text-center">
+            <h1 class="display-4">Thank You!</h1>
+            <p class="lead">Your hall pass request has been successfully processed.</p>
+            <p class="mt-4">We hope you find your time helpful. If you need further assistance, please reach out to your
+                teacher.</p>
+        </div>
+    </th:block>
 </body>
+
 </html>
