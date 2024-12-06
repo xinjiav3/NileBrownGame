@@ -1,9 +1,8 @@
 ---
 layout: page 
 title: Login
-permalink: /login
+permalink: /loginyou
 search_exclude: true
-menu: nav/home.html
 show_reading_time: false 
 ---
 
@@ -195,4 +194,5 @@ show_reading_time: false
     window.onload = function() {
          pythonDatabase();
     };
+    //hello
 </script>

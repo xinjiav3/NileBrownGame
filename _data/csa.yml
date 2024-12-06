@@ -202,8 +202,8 @@ Sprint3:
   start: 8
   end: 12
 Sprint4:
-  title: Warm-up Data Analysis and Sort Project
-  description: Trimester 2 will begin with a Mini-project on Sorting and Analysis. Focusing on frontend JavaScript Visualization; Backend Java Sorting, Inheritance, and Polymorphic behavior.
+  title: Integration, Fontend, MVC Layers, and FRQs
+  description: Trimester 2 begins with four weeks of Integration and FRQs.  At the center of work is the College Board FRQs and Frontend/Backend and MVC layers.  Consider a Mini-project that Integrates Trimister 1 work with another team, adds an FRQ, and performs Unit 10 Sorting and Analysis. For each peace, provide JavaScript Visualization; ThymeLeaf administration, Backend Java Sorting, Inheritance, and Polymorphic behavior.  Also, teach the College Board FRQ topic to the class.  Ideas spans at least two teams or eight students.
   start: 13
   end: 16
 Sprint5:

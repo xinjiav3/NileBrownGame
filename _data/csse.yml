@@ -53,13 +53,13 @@ Sprint2:
   start: 4
   end: 7
 Sprint3:
-  title: Building a Web Application with GitHub Pages for N@tM
-  description: Part of the process of becoming technically proficient is taking on challenges while coding. These challenges will often make a student feel uncomfortable. But with some vision, questions, and AI research, it is amazing what can be done. Our goal is to participate in N@tM with the other CS classes and other classes from the Electives Department.
+  title: Building a blog with GitHub Pages for N@tM
+  description: Part of the process of becoming technically proficient is working on fundamentals and then taking on challenges while coding. These challenges with some vision, questions, and AI research, it will be amazing what can be done. Our goal is to participate in N@tM with the other CS classes and other classes from the Electives Department.  We should have a blog, progress in a game, and a series of lesson hacks to show off.
   start: 8
   end: 12
 Sprint4:
-  title: Planning, Exploration, and OOP Programming Fundamentals
-  description: Students, in trios, will work on converting the Mario game into their blogs and learning OOP. There will be a lot of code and some former Tech Talks provided to support learning and teaching activity.
+  title: Planning, Exploration, and OOP Programming
+  description: Students, in trios, will work on Platformer Game and study OOP. There will be a lot of code, some Tech Talks, and some Teaching assignments provided to learn the code.
   start: 13
   end: 15
 Sprint5:

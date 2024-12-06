@@ -1,6 +1,4 @@
-import {fetchOptions, pythonURI } from './config.js';
-
-
+import {fetchOptions, pythonURI, javaURI } from './config.js';
 
 // Update User Data with "Put"
 export function putUpdate(options) {
@@ -33,6 +31,9 @@ export function putUpdate(options) {
            
         });
 }
+
+
+
 // Update User Data with "POST" 
 export function postUpdate(options) {
     // Modify the options to use the POST method and include the request body.
@@ -45,7 +46,6 @@ export function postUpdate(options) {
 
     // Clear the message area
     document.getElementById(options.message).textContent = "";
-
     // Send POST request
     fetch(options.URL, requestOptions)
         .then(response => {
@@ -67,37 +67,6 @@ export function postUpdate(options) {
         });
 }
 
-export function deleteData(options)  {
-    // Modify the options to use the DELETE method and include the request body.
-    const requestOptions = {
-        ...fetchOptions, // This will copy all properties from options
-        method: 'DELETE', // Override the method property
-        cache: options.cache, // Set the cache property
-        body: JSON.stringify(options.body) // Include the request body
-    };
-
-    // Clear the message area
-
-    // Send DELETE request
-    fetch(options.URL, requestOptions)
-        .then(response => {
-            // Trap error response from Web API
-            if (!response.ok) {
-                const errorMsg = 'Error: ' + response.status;
-                console.log(errorMsg);
-                return;
-            }
-            // Success!!!
-            // Call the callback function
-            options.callback();
-        })
-        .catch(error => {
-            // Handle network errors
-            console.log('Possible CORS or Service Down error: ' + error);
-            
-        });
-
-    }
 export async function logoutUser() {
         const URL = pythonURI + '/api/authenticate'; // Adjusted endpoint for logout
         
@@ -125,6 +94,77 @@ export async function logoutUser() {
             }
          }
 
+<<<<<<< HEAD
+ 
+
+         
+         
+         
+export function deleteData(options)  {
+             // Modify the options to use the DELETE method and include the request body.
+             const requestOptions = {
+                 ...fetchOptions, // This will copy all properties from options
+                 method: 'DELETE', // Override the method property
+                 cache: options.cache, // Set the cache property
+                 body: JSON.stringify(options.body) // Include the request body
+             };
+         
+             // Clear the message area
+         
+             // Send DELETE request
+             fetch(options.URL, requestOptions)
+                 .then(response => {
+                     // Trap error response from Web API
+                     if (!response.ok) {
+                         const errorMsg = 'Error: ' + response.status;
+                         console.log(errorMsg);
+                         return;
+                     }
+                     // Success!!!
+                     // Call the callback function
+                     options.callback();
+                 })
+                 .catch(error => {
+                     // Handle network errors
+                     console.log('Possible CORS or Service Down error: ' + error);
+                     
+                 });
+         
+             }
+         
+         // Java User Logout
+export async function logoutUserJava() {
+             const logoutURL = javaURI + '/my/logout'; // Logout API endpoint
+         
+             const options = {
+                 ...fetchOptions, // Include necessary headers from fetchOptions
+                 method: 'POST',
+                 credentials: 'include', // Ensure cookies like JWT are included
+             };
+         
+             console.log('Logout initiated.');
+         
+             try {
+                 const response = await fetch(logoutURL, options);
+         
+                 if (response.redirected) {
+                     // Handle server-side redirection
+                     window.location.href = response.url;
+                 } else if (response.ok) {
+                     // Redirect to a specific logout page if the request is successful
+                     console.log("Yeah") // Replace with the correct relative URL
+                 } else {
+                     // Log failure with detailed information
+                     console.error('Logout failed:', response.status, response.statusText);
+                 }
+             } catch (error) {
+                 // Handle network or unexpected errors
+                 console.error('An error occurred during logout:', error);
+             }
+         }
+         
+         
+
 // session
 // asynchronous session response
 //session call api----?
@@ -134,3 +174,5 @@ export async function logoutUser() {
 // talk about play
 // iteration style ----> little pieces
 // Your teacher likes to iterate -->
+=======
+>>>>>>> 3bc039a1ce9c33f5a7dac69ee7fa36f013b5533f
