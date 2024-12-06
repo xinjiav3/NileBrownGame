@@ -51,12 +51,14 @@
 </div>
 
 <script>
+    import { javaURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js'
+
     // Fetch profile data for a specific user
     document.addEventListener("DOMContentLoaded", () => {
         const email = localStorage.getItem("email"); // Assuming email is stored in localStorage upon login
         if (email) {
             // Construct the URL with the email
-            const url = `http://localhost:8085/profile/${encodeURIComponent(email)}`;
+            const url = javaURI + '/profile/${encodeURIComponent(email)}';
             fetchProfileData(url);
         } else {
             console.error("User email not found.");

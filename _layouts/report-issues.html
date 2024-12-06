@@ -128,7 +128,7 @@
         console.log('other clicked');
         document.getElementById('additionalInfo').style.display = 'block';
     })
-    const url = `http://localhost:8085/api/issue/update/`;
+    const url = javaURI + '/api/issue/update/'';
 
     window.report_box = function report_box() {
         // Collect all selected checkboxes
@@ -184,7 +184,7 @@
         };
 
         // Send individual PUT requests for each issue
-        fetch('http://localhost:8085/api/issue/add', putOptions)
+        fetch(javaURI + '/api/issue/add', putOptions)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok: ' + response.statusText);

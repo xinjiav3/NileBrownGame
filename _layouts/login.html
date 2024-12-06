@@ -31,6 +31,8 @@
 </div>
 
 <script>
+    import { javaURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js'
+
     document.querySelectorAll('.form__input').forEach(input => {
         input.addEventListener('input', function () {
             if (input.value) {
@@ -48,7 +50,7 @@
         if (username && password) {
             // Send POST request to backend
             localStorage.setItem('email', username);
-            fetch('http://localhost:8085/authenticate', {
+            fetch(javaURI + '/authenticate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

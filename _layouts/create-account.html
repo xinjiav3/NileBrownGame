@@ -33,6 +33,9 @@
 </div>
 
 <script>
+    import { javaURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js'
+
+
     document.querySelectorAll('.form__input').forEach(input => {
         input.addEventListener('input', function () {
             if (input.value) {
@@ -59,7 +62,7 @@
         formData.append("myplan", myplan);
 
         // Send the request
-        fetch("http://localhost:8085/mvc/person/create", {
+        fetch(javaURI + '/mvc/person/create', {
             method: "POST", // Set HTTP method to POST
             body: formData // Directly pass the FormData object
         })
