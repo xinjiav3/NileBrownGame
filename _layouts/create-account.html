@@ -61,34 +61,30 @@
         formData.append("dob", "0001-01-01");
         formData.append("myplan", myplan);
 
-        // Send the request
-        fetch(javaURI + '/mvc/person/create', {
-            method: "POST", // Set HTTP method to POST
-            body: formData // Directly pass the FormData object
+        // Send a POST request to create the user
+        fetch(`${javaURI}/mvc/person/create`, {
+            method: "POST",
+            body: formData,
         })
             .then(async response => {
                 if (!response.ok) {
-                    // Check if the error is a 401 Unauthorized with specific error message
                     const errorData = await response.json();
                     if (response.status === 401) {
-                        // Do not display error chip for this specific 401 error
-                        console.log("Unauthorized: Not displaying error chip");
+                        console.log("Unauthorized: Not displaying error chip for specific 401 error.");
                         return;
                     }
 
-                    // Show error message for other errors
+                    // Display error chip for other errors
                     document.getElementById('error-chip').style.display = 'flex';
-                    throw new Error("Network response was not ok");
+                    throw new Error(`Request failed with status ${response.status}: ${errorData.message || "Unknown error"}`);
                 }
-                else {
-                    // Success: handle login (redirect, etc.)
-                    window.location.href = '{{site.baseurl}}/login'; // example redirect
-                }
+
+                // On success, redirect to the login page
+                window.location.href = '{{site.baseurl}}/login';
             })
             .catch(error => {
                 console.error('Error:', error);
-                // Show error message for network failure or other issues
-                document.getElementById('error-chip').style.display = 'flex';
+                document.getElementById('error-chip').style.display = 'flex'; // Display error chip for network or other errors
             });
 
     });
