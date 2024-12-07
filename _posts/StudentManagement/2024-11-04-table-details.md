@@ -82,7 +82,7 @@ comments: false
       const tableNumber = urlParams.get('table');
 
       if (tableNumber) {
-        fetch("http://localhost:8181/api/students/find-team", {
+        fetch("http://localhost:8085/api/students/find-team", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
