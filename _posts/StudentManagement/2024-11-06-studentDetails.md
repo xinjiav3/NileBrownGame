@@ -74,7 +74,7 @@ comments: false
 
     try {
       // Fetch student data from your backend
-      const studentResponse = await fetch("http://localhost:8181/api/students/find", {
+      const studentResponse = await fetch("http://localhost:8085/api/students/find", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(criteriaDto)
