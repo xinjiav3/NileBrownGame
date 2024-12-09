@@ -52,7 +52,7 @@ permalink: /casino/dices
     <h2>Dice Game</h2>
     <form id="betForm">
         <label for="betAmount">Bet Amount:</label>
-        <input type="number" id="betAmount" name="betAmount" required min="1">
+        <input type="number" id="betAmount" name="betAmount" required min="1000">
         <label for="betProbability">Bet Probability:</label>
         <input type="range" id="betProbability" name="betProbability" min="0" max="100" value="50" step="10">
         <div class="slider-value" id="sliderValue">50%</div>
@@ -60,10 +60,19 @@ permalink: /casino/dices
     </form>
 </div>
 <script type="module">
-    import { pythonURI, javaURI, fetchOptions, login } from '../assets/js/api/config.js';
+    // localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiaGFubHVuIiwiaWF0IjoxNTE2MjM5MDIyfQ.1_9tu2HAJ0zI9I3eARSr1wJ6EZ8RZfQaFjAVD32TTjg")
+    // import jwt_decode from 'jwt-decode'; 
+    import { javaURI, fetchOptions} from '../assets/js/api/config.js';
+    const token = localStorage.getItem('token');
     const betForm = document.getElementById('betForm');
     const betProbability = document.getElementById('betProbability');
     const sliderValue = document.getElementById('sliderValue');
+    // try {
+    // const decodedToken = jwt_decode(token);
+    // console.log(decodedToken); 
+    // } catch (err) {
+    // console.error('Error decoding token:', err);
+    // }
     betProbability.addEventListener('input', () => {
         sliderValue.textContent = `${betProbability.value}%`;
     });
