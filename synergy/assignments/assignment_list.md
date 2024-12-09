@@ -18,7 +18,6 @@ Submit Assignments using Backend API: /submit/{assignmentId}
     <title>Assignments List</title>
 </head>
 <body>
-    <h1>Assignments List</h1>
     <table id="assignmentsTable">
         <thead>
             <tr>
@@ -36,9 +35,7 @@ Submit Assignments using Backend API: /submit/{assignmentId}
     </table>
     <script type="module">
         console.log("Initialized")
-        import { javaURI } from '{{site.baseurl}}/assets/js/api/config.js'; // Only import necessary parts
-        // Fetch the assignments
-        fetch(`${javaURI}/api/assignments/debug`)  // Correct URL
+        fetch('http://localhost:8082/api/assignments/debug')  // Correct URL
             .then(response => response.json())
             .then(assignments => {
                 const tableBody = document.getElementById('assignmentsTable').getElementsByTagName('tbody')[0];
