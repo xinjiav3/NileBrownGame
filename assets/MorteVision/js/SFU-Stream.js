@@ -28,20 +28,21 @@ async function streamerNegotiation(peer) {
     fetch(rtcServer+"/webrtc/broadcast",
         {
             method:"POST",
-            body:JSON.stringify(payload)
+            body:JSON.stringify(payload),
+            headers: {
+                "Content-Type": "application/json",
+              },
         }).then(response => {
             if(response.ok)
             {
+                console.log(response)
                 return response.json()
             }
+            console.log(response)
             throw new Error("consume endpoint failure");
         }).then(data =>{
-            if(data["error"])
-            {
-                console.error(data["error"])
-                return
-            }
-            const desc = new RTCSessionDescription(data["sdp"]);
+            console.log(data)
+            const desc = new RTCSessionDescription(data);
             peer.setRemoteDescription(desc).catch(e => console.log(e));
         })
 }

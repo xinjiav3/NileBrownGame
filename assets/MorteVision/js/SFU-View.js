@@ -25,6 +25,7 @@ async function consumeNegotiation(peer) {
             if (response.ok) {
                 return response.json()
             }
+            console.log(response)
             throw new Error("consume endpoint failure");
         }).then(data => {
             if (data["error"]) {
