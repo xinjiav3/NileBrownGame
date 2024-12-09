@@ -56,8 +56,8 @@ comments: True
 </div>
 
 <div id="streamControl">
-<button alt="Begin Streaming" onclick="startStream()" id="broadcastButton"><span class="material-symbols-outlined">podcasts</span></button>
-<button alt="Connect To Stream" onclick="viewStream()"><span class="material-symbols-outlined">play_circle</span></button>
+<button alt="Begin Streaming" onclick="streamerInit()" id="broadcastButton"><span class="material-symbols-outlined">podcasts</span></button>
+<button alt="Connect To Stream" onclick="consumerInit()"><span class="material-symbols-outlined">play_circle</span></button>
 <button alt="Fullscreen" onclick="document.getElementById('mortStream').webkitRequestFullScreen()"><span class="material-symbols-outlined">fullscreen</span></button>
 </div>
 
