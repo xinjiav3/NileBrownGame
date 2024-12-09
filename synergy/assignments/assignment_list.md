@@ -34,9 +34,11 @@ Submit Assignments using Backend API: /submit/{assignmentId}
             <!-- Assignments will be populated here -->
         </tbody>
     </table>
-    <script>
-        import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
-        fetch(${javaURI}'/api/assignments/')
+    <script type="module">
+        console.log("Initialized")
+        import { javaURI } from '{{site.baseurl}}/assets/js/api/config.js'; // Only import necessary parts
+        // Fetch the assignments
+        fetch(`${javaURI}/api/assignments/debug`)  // Correct URL
             .then(response => response.json())
             .then(assignments => {
                 const tableBody = document.getElementById('assignmentsTable').getElementsByTagName('tbody')[0];
@@ -51,10 +53,10 @@ Submit Assignments using Backend API: /submit/{assignmentId}
                         <td>${assignment.dueDate}</td>
                     `;
                     tableBody.appendChild(row);
+                    console.log(row);  // Check if rows are being appended
                 });
             })
             .catch(error => console.error('Error fetching assignments:', error));
     </script>
 </body>
 </html>
-
