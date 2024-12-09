@@ -1,7 +1,8 @@
 ---
 layout: post
-title: Crypto Mining Simulator
-permalink: /stocks/mining/
+title: Team Profile Page
+type: issues
+permalink: /crypto/mining
 ---
 
 <html lang="en">
