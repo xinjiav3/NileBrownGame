@@ -27,6 +27,7 @@
  
     <div class="chat-score">ChatGPT Score: <span id="chatScore"></span></div>
     <div class="balance">Balance: <span id="balance"></span></div>
+    <div class="questions-answered">Questions Answered: <span id="questionsAnswered"></span></div>
     <div class="button-container">
        <button onclick="goToShop()">Go to Shop</button>
     </div>
@@ -245,5 +246,85 @@
           </script>
        </div>
     </div>
- 
+    <script type="module">
+      import { javaURI, fetchOptions } from 'http://127.0.0.1:5501/assets/js/gamify_rpg_api/gamify_rpg.js';
+      function getChatScoreBalance() {
+      
+         const playerid = 1
+         const getChatScoreUrl = `${javaURI}/rpg_answer/getChatScore/` + playerid;
+         const getBalanceUrl = `${javaURI}/rpg_answer/getBalance/` + playerid;
+         const getQuestionsAnsweredUrl = `${javaURI}/rpg_answer/getQuestionsAnswered/` + playerid;
+
+         fetch(getQuestionsAnsweredUrl, fetchOptions)
+         .then(response => {
+             // Handle server response
+             if (response.status !== 200) {
+                 const errorMsg = 'Database response error: ' + response.status;
+                 console.log(errorMsg);
+                 document.getElementById("questionsAnswered").innerHTML = 0;
+             }
+      
+             // Response contains valid result
+             response.json().then(data => {
+                 if (data !== null) {
+                     console.log(data)
+                     document.getElementById("questionsAnswered").innerHTML = data;
+                 }
+             });
+         })
+         .catch(error => {
+             // Handle fetch errors
+             console.error('Fetch error:', error);
+         });
+      
+         fetch(getChatScoreUrl, fetchOptions)
+         .then(response => {
+             // Handle server response
+             if (response.status !== 200) {
+                 const errorMsg = 'Database response error: ' + response.status;
+                 console.log(errorMsg);
+                 document.getElementById("chatScore").innerHTML = 0;
+             }
+      
+             // Response contains valid result
+             response.json().then(data => {
+                 if (data !== null) {
+                     console.log(data)
+                     document.getElementById("chatScore").innerHTML = data;
+                 }
+             });
+         })
+         .catch(error => {
+             // Handle fetch errors
+             console.error('Fetch error:', error);
+         });
+      
+      
+      fetch(getBalanceUrl, fetchOptions)
+         .then(response => {
+             // Handle server response
+             if (response.status !== 200) {
+                 const errorMsg = 'Database response error: ' + response.status;
+                 console.log(errorMsg);
+                 document.getElementById("balance").innerHTML = 0;
+             }
+      
+             // Response contains valid result
+             response.json().then(data => {
+                 if (data !== null) {
+                     console.log(data)
+                     document.getElementById("balance").innerHTML = data;
+                 }
+             });
+         })
+         .catch(error => {
+             // Handle fetch errors
+             console.error('Fetch error:', error);
+         });
+      }
+      
+      
+      getChatScoreBalance()
+      
+      </script>
  </body>
