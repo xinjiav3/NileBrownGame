@@ -80,15 +80,16 @@ comments: false
     document.addEventListener("DOMContentLoaded", function() {
       const urlParams = new URLSearchParams(window.location.search);
       const tableNumber = urlParams.get('table');
+      const period = urlParams.get('period');
 
       if (tableNumber) {
-        fetch("http://localhost:8085/api/students/find-team", {
+        fetch("http://127.0.0.1:8085/api/students/find-team", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             course: "CSA",
-            trimester: 1,
-            period: 3,
+            trimester: 2,
+            period: parseInt(period),
             table: parseInt(tableNumber)
           })
         })
@@ -101,9 +102,6 @@ comments: false
           container.innerHTML = "";
 
           // Set the project name in the title using the first student in the list (assuming same project for the table)
-          if (data.length > 0) {
-            document.getElementById("page-title").textContent = `Project: ${data[0].project} - Students in Table ${tableNumber}`;
-          }
 
           data.forEach(student => {
             const card = document.createElement("div");
@@ -116,8 +114,7 @@ comments: false
                 const imageUrl = githubData.avatar_url || "default-image-url.jpg";
                 card.innerHTML = `
                   <img src="${imageUrl}" alt="${student.username}'s Profile Picture" class="student-image">
-                  <h3>${student.name}</h3>
-                  <p>Username: ${student.username}</p>
+                  <h3>Username: ${student.username}</h3>
                   <p>Table Number: ${student.tableNumber}</p>
                   <p>Course: ${student.course}</p>
                   <p>Trimester: ${student.trimester}</p>
