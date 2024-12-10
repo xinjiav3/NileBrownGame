@@ -12,6 +12,7 @@ permalink: /casino/poker
         display: flex;
         flex-direction: column;
         align-items: center;
+        background-color: #f4f4f4;
     }
     .container {
         max-width: 400px;
@@ -20,10 +21,12 @@ permalink: /casino/poker
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        color: #fff;
     }
     label {
         display: block;
         margin: 10px 0 5px;
+        color: #ccc;
     }
     input, button {
         width: 100%;
@@ -41,6 +44,33 @@ permalink: /casino/poker
     button:hover {
         background-color: #0056b3;
     }
+    h2 {
+        text-align: center;
+        color: #fff;
+    }
+    input[type="number"] {
+        font-size: 16px;
+        color: #333;
+    }
+    .cards-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .card {
+        padding: 10px;
+        margin: 5px;
+        border-radius: 4px;
+        background-color: #007bff;
+        color: white;
+        text-align: center;
+    }
+    .win-message {
+        margin-top: 20px;
+        font-size: 18px;
+        color: #fff;
+        text-align: center;
+    }
 </style>
 
 <body>
@@ -51,6 +81,9 @@ permalink: /casino/poker
         <input type="number" id="betAmount" name="betAmount" required min="500">
         <button type="submit">Play Poker</button>
     </form>
+    
+    <div id="cardsDisplay" class="cards-container" style="display: none;"></div>
+    <div id="resultMessage" class="win-message" style="display: none;"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
@@ -114,11 +147,9 @@ permalink: /casino/poker
                 }
 
                 const result = await response.json();
-                if (result && result.playerWin !== undefined && result.updatedBalance !== undefined) {
-                    const message = result.playerWin
-                        ? `You won! 🎉\nUpdated Balance: $${result.updatedBalance}`
-                        : `You lost! 😞\nUpdated Balance: $${result.updatedBalance}`;
-                    alert(message);
+                if (result && result.playerHand && result.dealerHand && result.playerWin !== undefined && result.updatedBalance !== undefined) {
+                    displayCards(result.playerHand, result.dealerHand);
+                    displayResult(result.playerWin, result.updatedBalance);
                 } else {
                     alert('Unexpected response format. Please check the API.');
                 }
@@ -128,5 +159,43 @@ permalink: /casino/poker
             }
         });
     });
+
+    function displayCards(playerHand, dealerHand) {
+        const cardsContainer = document.getElementById('cardsDisplay');
+        cardsContainer.style.display = 'flex';
+
+        // Clear existing cards
+        cardsContainer.innerHTML = '';
+
+        const playerCardElements = playerHand.map(card => {
+            return `<div class="card">${card.rank} ${card.suit}</div>`;
+        }).join('');
+
+        const dealerCardElements = dealerHand.map(card => {
+            return `<div class="card">${card.rank} ${card.suit}</div>`;
+        }).join('');
+
+        cardsContainer.innerHTML = `
+            <div>
+                <h3>Your Hand</h3>
+                ${playerCardElements}
+            </div>
+            <div>
+                <h3>Dealer's Hand</h3>
+                ${dealerCardElements}
+            </div>
+        `;
+    }
+
+    function displayResult(playerWin, updatedBalance) {
+        const resultMessage = document.getElementById('resultMessage');
+        resultMessage.style.display = 'block';
+
+        const message = playerWin
+            ? `You won! 🎉\nUpdated Balance: $${updatedBalance}`
+            : `You lost! 😞\nUpdated Balance: $${updatedBalance}`;
+
+        resultMessage.textContent = message;
+    }
 </script>
 </body>
