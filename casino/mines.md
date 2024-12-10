@@ -126,27 +126,31 @@ function endGame(message) {
 document.querySelectorAll("table td a").forEach(cell => {
   cell.onclick = function(event) {
     event.preventDefault();
-    
+
     if (gameEnded) return; // Stop if the game is already over
-    
+
     const cellCoords = this.textContent;
     if (clickedCells.has(cellCoords)) return; // Ignore if cell is already clicked
-    
+
     clickedCells.add(cellCoords); // Mark cell as clicked
+
+    // Remove the coordinates text
+    this.textContent = ""; // Clear the text content of the clicked cell
+
     const [xCoord, yCoord] = cellCoords.split(',').map(Number);
 
     // Send GET request to check for a mine at (xCoord, yCoord)
     fetch(`http://localhost:8085/api/casino/mines/${xCoord - 1}/${yCoord - 1}`)
-    .then(response => response.json())
-    .then(isMine => {
-      if (isMine) {
-        endGame("Boom! You hit a mine! Game Over.");
-      } else {
-        alert("Safe! No mine here.");
-        updateWinnings(); // Update winnings if cell is safe
-      }
-    })
-    .catch(error => console.error("Error checking mine:", error));
+      .then(response => response.json())
+      .then(isMine => {
+        if (isMine) {
+          endGame("Boom! You hit a mine! Game Over.");
+        } else {
+          alert("Safe! No mine here.");
+          updateWinnings(); // Update winnings if cell is safe
+        }
+      })
+      .catch(error => console.error("Error checking mine:", error));
   };
 });
 
