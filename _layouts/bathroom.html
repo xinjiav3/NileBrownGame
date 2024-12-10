@@ -95,6 +95,7 @@
     const addUrl = url + '/add';
     const removeUrl = url + '/remove';
     const approveUrl = url + '/approve';
+    const namesUrl = `http://localhost:8085/mvc/person/read`;
 
     const fetchOptions = {
         headers: {
@@ -114,6 +115,26 @@
     // Get teacher name and student name from local storage or variables
     const teacherName = "Mortensen"; // Replace with dynamic teacher name if needed
     const studentName = localStorage.getItem("email"); // Assume stored from login
+
+    fetch(namesUrl, fetchOptions)
+        .then(response => {
+            if (response.status !== 200) {
+                console.error("Failed to fetch names.");
+                return;
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Names data:", data);
+            const student = data.find(person => person.email === studentName);
+            if (student) {
+                console.log("Student name:", student.name);
+                localStorage.setItem("name", student.name); // Store student name
+            } else {
+                console.error("Student not found.");
+            }
+        })
+        .catch(error => console.error("Error fetching data:", error));
 
     function fetchQueueData() {
         fetch(getUrl, fetchOptions)

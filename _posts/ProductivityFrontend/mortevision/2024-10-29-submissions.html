@@ -1,5 +1,5 @@
 ---
-permalink: /project/mort-translator/submissions-page
+permalink: /project/mort-translator/submissions
 search_exclude: true
 layout: base
 menu: _includes/nav/project/productivity-frontend/menu.html
@@ -99,65 +99,64 @@ menu: _includes/nav/project/productivity-frontend/menu.html
         <label for="submissionLink" style="font-size: 18px;">Submission Link:</label>
         <input type="url" id="submissionLink" required />
     </div>
-    <br><br>
-    <div id="Naming">
-        <label for="name" style="font-size: 18px;">Name:</label>
-        <input type="text" id="name" name="name" required />
-    </div>    
-
-    <br><br>
-
+    
     <form id="comment-form">
         <label for="comment">Your Comment:</label><br>
         <textarea id="comment" name="comment" rows="5" cols="40" placeholder="Write your comment here..."></textarea><br><br>
         <input type="submit" value="Submit Comment">
     </form>
 
-    <button id="submit-assignment">Submit Assignment</button>
+    <button onclick="Submit()">Submit Assignment</button>
     <div class="output-box" id="outputBox"></div>
-
-
-    <table id="submissions-table" style="width: 100%; margin-top: 20px;">
-        <thead>
-            <tr>
-                <th>Student Name</th>
-                <th>Assignment Name</th>
-                <th>Submission Link</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Submissions will be populated here -->
-        </tbody>
-    </table>
-    
 </div>
 
 
 <script type="module">
-    import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+    import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
     let selectedTask = "";
     let tasks = "";
     let assignmentIds = [];
-    let submissions=[];
     let assignIndex = 0;
+    
+    async function fetchTasks() {
+        try {
+            const urllink=pythonURI+"/api/assignments/getAssignments";
+            const response = await fetch(urllink);
+            tasks = await response.json();
+            populateTaskDropdown(tasks);
+        } catch (error) {
+            console.error('Error fetching tasks:', error);
+        }
+    }
 
-    document.getElementById("submit-assignment").addEventListener("click", Submit);
+    function populateTaskDropdown(tasks) {
+        const taskSelect = document.getElementById('task-select');
+        tasks.forEach(task => {
+            const option = document.createElement('option');
+            option.value = task.name;
+            option.textContent = task.name;
+            taskSelect.appendChild(option);
+            assignmentIds.push(task.assignmentId);
+        });
+    }
+    
+    document.getElementById("task-select").addEventListener("change", function() {
+        selectedTask = this.value;
+        assignIndex = this.selectedIndex;
+    });
+    
     function Submit() {
-        const urllink_submit=javaURI+"/api/submissions/Submit";
-        const urllink_comment=javaURI+"/api/Comment/create";
+        const urllink_submit=pythonURI+"/api/submissions/Submit";
+        const urllink_comment=pythonURI+"/api/Comment/create";
         const submissionLink = document.getElementById('submissionLink').value;
         const assignment_id = assignmentIds[assignIndex - 1];
         const submission_time = (new Date()).toLocaleTimeString();
-        
-        const Name = document.getElementById('name').value;
-        console.log(Name);
         const data = {
             userId: null,
             submission_link: submissionLink,
             submission_time: submission_time,
             assignment_name: selectedTask,
-            assignment_id: assignment_id,
-            name: Name
+            assignment_id: assignment_id
             
         };
 
@@ -184,80 +183,9 @@ menu: _includes/nav/project/productivity-frontend/menu.html
         });
     }
 
-    async function fetchSubmissions(){
-        try {
-            const urllink=javaURI+"/api/submissions/getSubmissions";
-            const response = await fetch(urllink);
-            submissions = await response.json();
-            
-            populateSubmissionsTable(submissions);
-        } catch (error) {
-            console.error('Error fetching submissions:', error);
-        }
-    }
-
-    function populateSubmissionsTable(submissions) {
-        const tableBody = document.getElementById('submissions-table').getElementsByTagName('tbody')[0];
-        tableBody.innerHTML = ''; 
-    
-        submissions.forEach(submission => {
-            const row = document.createElement('tr');
-    
-            const nameCell = document.createElement('td');
-            nameCell.textContent = submission.name || 'N/A'; 
-            row.appendChild(nameCell);
-    
-            const taskCell = document.createElement('td');
-            taskCell.textContent = submission.assignment_name || 'N/A'; 
-            row.appendChild(taskCell);
-    
-            const linkCell = document.createElement('td');
-            const link = document.createElement('a');
-            link.href = submission.submission_link;
-            link.textContent = 'View Submission';
-            link.target = '_blank';
-            linkCell.appendChild(link);
-            row.appendChild(linkCell);
-    
-            tableBody.appendChild(row);
-        });
-    }
-
-
-    async function fetchTasks() {
-        console.log(javaURI);
-        try {
-            const urllink=javaURI+"/api/assignments/getAssignments";
-            const response = await fetch(urllink);
-            tasks = await response.json();
-            populateTaskDropdown(tasks);
-        } catch (error) {
-            console.error('Error fetching tasks:', error);
-        }
-    }
-
-    function populateTaskDropdown(tasks) {
-        const taskSelect = document.getElementById('task-select');
-        tasks.forEach(task => {
-            const option = document.createElement('option');
-            option.value = task.name;
-            option.textContent = task.name;
-            taskSelect.appendChild(option);
-            assignmentIds.push(task.assignmentId);
-        });
-    }
-    
-    document.getElementById("task-select").addEventListener("change", function() {
-        selectedTask = this.value;
-        assignIndex = this.selectedIndex;
-    });
-
-
-
-    
     document.getElementById("comment-form").addEventListener("submit", function(event) {
         event.preventDefault();
-        const Name = document.getElementById('name').value;
+        
         const commentText = document.getElementById('comment').value;
         const taskAssignment = selectedTask; 
         
@@ -284,6 +212,5 @@ menu: _includes/nav/project/productivity-frontend/menu.html
     });
     
     fetchTasks();
-    fetchSubmissions();
 </script>
 </html>
