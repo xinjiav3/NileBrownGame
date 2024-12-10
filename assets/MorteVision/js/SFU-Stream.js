@@ -39,7 +39,7 @@ async function streamerNegotiation(peer) {
                 return response.json()
             }
             console.log(response)
-            throw new Error("consume endpoint failure");
+            throw new Error("broadcast endpoint failure");
         }).then(data =>{
             console.log(data)
             const desc = new RTCSessionDescription(data);
