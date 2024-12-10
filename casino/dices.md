@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Dices 
+title: Dice Game
 permalink: /casino/dices
 ---
 <title>Dice Game</title>
@@ -59,45 +59,76 @@ permalink: /casino/dices
         <button type="submit">Start Bet</button>
     </form>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
 <script type="module">
-    // localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiaGFubHVuIiwiaWF0IjoxNTE2MjM5MDIyfQ.1_9tu2HAJ0zI9I3eARSr1wJ6EZ8RZfQaFjAVD32TTjg")
-    // import jwt_decode from 'jwt-decode'; 
-    import { javaURI, fetchOptions} from '../assets/js/api/config.js';
-    const token = localStorage.getItem('token');
-    const betForm = document.getElementById('betForm');
-    const betProbability = document.getElementById('betProbability');
-    const sliderValue = document.getElementById('sliderValue');
-    // try {
-    // const decodedToken = jwt_decode(token);
-    // console.log(decodedToken); 
-    // } catch (err) {
-    // console.error('Error decoding token:', err);
-    // }
-    betProbability.addEventListener('input', () => {
-        sliderValue.textContent = `${betProbability.value}%`;
-    });
-    betForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const betAmount = document.getElementById('betAmount').value;
-        const probability = betProbability.value;
-        const betData = {
-            username: "hanlun",
-            betSize: parseFloat(betAmount),
-            winChance: parseFloat(probability/100)
-        };
-        try {
-            const response = await fetch(javaURI + '/api/casino/dice/calculate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(betData)
-            });
-            const result = await response.json();
-            alert(`CURRENT BALANCE: ${result.balance}`);
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred. Please try again.');
+    const decodedToken = "";
+    import { javaURI } from '../assets/js/api/config.js';
+    function getCookie(name) {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            const [key, value] = cookie.trim().split('=');
+            if (key === name) {
+                return decodeURIComponent(value);
+            }
         }
+        return null;
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        const token = getCookie('jwt_java_spring');
+        if (!token) {
+            console.error("Token not found in cookies");
+        } else {
+            try {
+                const decodedToken = jwt_decode(token); // Use global jwt_decode
+                console.log("Decoded JWT:", String(decodedToken.sub));
+            } catch (err) {
+                console.error('Error decoding token:', err);
+            }
+        }
+        const betForm = document.getElementById('betForm');
+        const betProbability = document.getElementById('betProbability');
+        const sliderValue = document.getElementById('sliderValue');
+        // Update slider display value
+        betProbability.addEventListener('input', () => {
+            sliderValue.textContent = `${betProbability.value}%`;
+        });
+        // Form submission
+        betForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const betAmount = parseFloat(document.getElementById('betAmount').value);
+            const probability = parseFloat(betProbability.value) / 100;
+            if (!token) {
+                alert('Token is missing. Please log in again.');
+                return;
+            }
+            const betData = {
+                email: "amongus@gmail.com",
+                betSize: betAmount,
+                winChance: probability,
+            };
+            try {
+                const response = await fetch(`${javaURI}/api/casino/dice/calculate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(betData),
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const result = await response.json();
+                if (result && result !== undefined) {
+                    alert(`CURRENT BALANCE: ${result}`);
+                } else {
+                    alert('Unexpected response format.');
+                }
+            } catch (error) {
+                console.error('Error during fetch:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
     });
 </script>
