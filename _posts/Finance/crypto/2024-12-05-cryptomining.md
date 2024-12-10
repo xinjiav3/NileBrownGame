@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Team Profile Page
+title: Crypto Mining Simulator
 type: issues
 permalink: /crypto/mining
 ---
