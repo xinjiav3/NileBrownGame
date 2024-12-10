@@ -12,332 +12,9 @@ permalink: /crypto/mining
     <title>Crypto Mining Simulator</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-        <style>
-        /* More subtle RGB Border Animation for Dark Theme */
-        @keyframes cyber-border-glow {
-            0% { 
-                border-color: rgba(255, 0, 0, 0.5);  /* Softer red */
-                box-shadow: 0 0 10px rgba(255, 0, 0, 0.3),
-                           inset 0 0 15px rgba(255, 0, 0, 0.2);
-            }
-            33% { 
-                border-color: rgba(15, 255, 0, 0.5);  /* Softer green */
-                box-shadow: 0 0 10px rgba(15, 255, 0, 0.3),
-                           inset 0 0 15px rgba(15, 255, 0, 0.2);
-            }
-            66% { 
-                border-color: rgba(0, 255, 255, 0.5);  /* Softer cyan */
-                box-shadow: 0 0 10px rgba(0, 255, 255, 0.3),
-                           inset 0 0 15px rgba(0, 255, 255, 0.2);
-            }
-            100% { 
-                border-color: rgba(255, 0, 0, 0.5);  /* Back to softer red */
-                box-shadow: 0 0 10px rgba(255, 0, 0, 0.3),
-                           inset 0 0 15px rgba(255, 0, 0, 0.2);
-            }
-        }
-        /* Updated Dashboard Card Styling */
-        .dashboard-card {
-            background: rgba(17, 24, 39, 0.95);
-            border: 1.5px solid;
-            border-radius: 0.75rem;
-            padding: 1.25rem;
-            animation: rgb-breathe 6s ease-in-out infinite;
-            position: relative;
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
-        }
-        /* Different animation delays for wave effect */
-        .dashboard-card:nth-child(1) { animation-delay: 0s; }
-        .dashboard-card:nth-child(2) { animation-delay: 0.5s; }
-        .dashboard-card:nth-child(3) { animation-delay: 1s; }
-        .dashboard-card:nth-child(4) { animation-delay: 1.5s; }
-        .dashboard-card:nth-child(5) { animation-delay: 2s; }
-        /* Card title styling */
-        .dashboard-card h2 {
-            color: white;
-            font-size: 0.9rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-        /* Stats styling */
-        .stat-label {
-            color: #9ca3af;
-            font-size: 0.875rem;
-            margin-bottom: 0.25rem;
-        }
-        .stat-value {
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-        /* Hover effect */
-        .dashboard-card:hover {
-            transform: translateY(-2px) scale(1.01);
-            animation-play-state: paused;
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2),
-                        inset 0 0 25px rgba(255, 255, 255, 0.1);
-        }
-        /* Add corner accents */
-        .dashboard-card::before,
-        .dashboard-card::after {
-            content: '';
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            border: 2px solid currentColor;
-            animation: cyber-border-glow 3s linear infinite;
-        }
-        .dashboard-card::before {
-            top: -2px;
-            left: -2px;
-            border-right: 0;
-            border-bottom: 0;
-        }
-        .dashboard-card::after {
-            bottom: -2px;
-            right: -2px;
-            border-left: 0;
-            border-top: 0;
-        }
-        .chart-container {
-            @apply bg-gray-800 rounded-lg p-4 mt-4;
-            height: 300px;
-        }
-        .gpu-shop-modal {
-            position: fixed;
-            inset: 0;  /* Same as top:0, right:0, bottom:0, left:0 */
-            background-color: rgba(0, 0, 0, 0.75);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 50;
-        }
-        .gpu-shop-content {
-            background-color: #1f2937; /* Dark gray background */
-            width: 90%;
-            max-width: 900px;
-            max-height: 80vh;  /* 80% of viewport height */
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            position: relative;
-        }
-        .gpu-list-container {
-            overflow-y: auto;
-            max-height: calc(80vh - 4rem); /* Account for header */
-            padding-right: 1rem;
-            /* Scrollbar styling */
-            scrollbar-width: thin;
-            scrollbar-color: #4b5563 #1f2937;
-        }
-        /* Webkit scrollbar styling */
-        .gpu-list-container::-webkit-scrollbar {
-            width: 8px;
-        }
-        .gpu-list-container::-webkit-scrollbar-track {
-            background: #1f2937;
-        }
-        .gpu-list-container::-webkit-scrollbar-thumb {
-            background-color: #4b5563;
-            border-radius: 4px;
-        }
-        /* Add to your existing styles */
-        .dashboard-card.mt-8 {
-            background-color: rgba(17, 24, 39, 0.95); /* Darker background */
-            border: 2px solid;
-            border-radius: 0.75rem;
-            padding: 1.25rem;
-            animation: cyber-border-glow 3s linear infinite;
-            position: relative;
-            backdrop-filter: blur(5px);
-        }
-        .dashboard-card.mt-8 h2 {
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-        .dashboard-card.mt-8 .guide-step {
-            color: #9ca3af;
-            font-size: 0.875rem;
-            margin-bottom: 0.25rem;
-        }
-        .dashboard-card.mt-8 .guide-step h3 {
-            color: #00ff00;
-            font-size: 1rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-        }
-        .dashboard-card.mt-8 .guide-step p {
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-        .dashboard-card.mt-8 .guide-step ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        .dashboard-card.mt-8 .guide-step ul li {
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-        .dashboard-card.mt-8 .guide-step ul li span {
-            color: #00ff00;
-            font-size: 1rem;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-        }
-        /* RGB Breathing Animation */
-        @keyframes rgb-breathe {
-            0% {
-                border-color: rgba(255, 0, 0, 0.4);
-                box-shadow: 0 0 15px rgba(255, 0, 0, 0.2),
-                           inset 0 0 20px rgba(255, 0, 0, 0.1);
-                transform: scale(1);
-            }
-            25% {
-                border-color: rgba(255, 0, 255, 0.4);
-                box-shadow: 0 0 15px rgba(255, 0, 255, 0.2),
-                           inset 0 0 20px rgba(255, 0, 255, 0.1);
-                transform: scale(1.002);
-            }
-            50% {
-                border-color: rgba(0, 0, 255, 0.4);
-                box-shadow: 0 0 15px rgba(0, 0, 255, 0.2),
-                           inset 0 0 20px rgba(0, 0, 255, 0.1);
-                transform: scale(1);
-            }
-            75% {
-                border-color: rgba(0, 255, 0, 0.4);
-                box-shadow: 0 0 15px rgba(0, 255, 0, 0.2),
-                           inset 0 0 20px rgba(0, 255, 0, 0.1);
-                transform: scale(1.002);
-            }
-            100% {
-                border-color: rgba(255, 0, 0, 0.4);
-                box-shadow: 0 0 15px rgba(255, 0, 0, 0.2),
-                           inset 0 0 20px rgba(255, 0, 0, 0.1);
-                transform: scale(1);
-            }
-        }
-        /* GPU Card Base Style */
-        .gpu-card {
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            background: rgba(17, 24, 39, 0.95);
-        }
-        /* Starter GPU - Green glow */
-        .gpu-card.starter:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
-            border-color: rgba(0, 255, 0, 0.5);
-        }
-        /* Budget GPU - Blue glow */
-        .gpu-card.budget:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 15px rgba(0, 128, 255, 0.3);
-            border-color: rgba(0, 128, 255, 0.5);
-        }
-        /* Mid-Range GPU - Purple glow */
-        .gpu-card.mid-range:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 15px rgba(147, 51, 234, 0.3);
-            border-color: rgba(147, 51, 234, 0.5);
-        }
-        /* High-End GPU - Orange glow */
-        .gpu-card.high-end:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 15px rgba(255, 165, 0, 0.3);
-            border-color: rgba(255, 165, 0, 0.5);
-        }
-        /* Premium GPU - Red glow */
-        .gpu-card.premium:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
-            border-color: rgba(255, 0, 0, 0.5);
-        }
-        /* GPU Card Hover Effects - Updated structure */
-        .gpu-card {
-            background: rgba(26, 31, 46, 0.95);
-            border-radius: 0.5rem;
-            padding: 1rem;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-        /* Free Starter GPU */
-        .gpu-card:has(h3:contains("NVIDIA GeForce GT 1030")):hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3); /* Green glow */
-            border-color: rgba(34, 197, 94, 0.5);
-        }
-        /* Budget GPUs */
-        .gpu-card:has(h3[class*="text-blue-400"]):hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); /* Blue glow */
-            border-color: rgba(59, 130, 246, 0.5);
-        }
-        /* Mid-Range GPUs */
-        .gpu-card:has(h3[class*="text-purple-400"]):hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(147, 51, 234, 0.3); /* Purple glow */
-            border-color: rgba(147, 51, 234, 0.5);
-        }
-        /* High-End GPUs */
-        .gpu-card:has(h3[class*="text-orange-400"]):hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(251, 146, 60, 0.3); /* Orange glow */
-            border-color: rgba(251, 146, 60, 0.5);
-        }
-        /* Premium GPUs */
-        .gpu-card:has(h3[class*="text-red-400"]):hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); /* Red glow */
-            border-color: rgba(239, 68, 68, 0.5);
-        }
-        /* Add glass effect */
-        .gpu-card {
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-        }
-        /* Smooth transitions */
-        .gpu-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        /* Add subtle animation on hover */
-        .gpu-card:hover {
-            transform: translateY(-5px) scale(1.02);
-        }
-        .gpu-inventory-item {
-            transition: all 0.3s ease;
-        }
-        .gpu-inventory-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
-        }
-        .gpu-inventory-item button {
-            transition: all 0.2s ease;
-        }
-        .gpu-inventory-item button:hover {
-            transform: scale(1.05);
-        }
-    </style>
 </head>
 <body class="bg-gray-900 text-white min-h-screen p-6">
-        <div class="container mx-auto">
+    <div class="container mx-auto">
         <!-- Main Dashboard -->
         <div class="grid grid-cols-3 gap-4 mb-4">
             <!-- NiceHash Market -->
@@ -645,7 +322,8 @@ permalink: /crypto/mining
         document.addEventListener('DOMContentLoaded', async () => {
             initializeCharts();
             setupEventListeners();
-            await updateMarketPrices();
+            await updateAllMarketPrices();
+            await updateNiceHashPrice();
             await loadGPUs();
             startPeriodicUpdates();
         });
@@ -717,20 +395,6 @@ permalink: /crypto/mining
             }, 5000);
         }
         // API Calls
-        async function updateMarketPrices() {
-            try {
-                const options = {
-                    ...fetchOptions,
-                    method: 'GET',
-                    cache: 'no-cache'
-                };
-                const response = await fetch(`${javaURI}/api/mining/market`, options);
-                const markets = await response.json();
-                updateMarketDisplay(markets);
-            } catch (error) {
-                console.error('Error fetching market prices:', error);
-            }
-        }
         async function loadGPUs() {
             try {
                 const options = {
@@ -917,16 +581,6 @@ permalink: /crypto/mining
             `;
             return card;
         }
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.className = 'fixed bottom-4 right-4 bg-gray-800 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-500';
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            setTimeout(() => {
-                notification.style.opacity = '0';
-                setTimeout(() => notification.remove(), 500);
-            }, 3000);
-        }
         // Utility functions
         function getCategoryColor(category) {
             const colors = {
@@ -985,6 +639,93 @@ permalink: /crypto/mining
                 }
             }
         }
+        // Function to update all market prices
+        async function updateAllMarketPrices() {
+            const markets = ['btc', 'eth', 'f2p'];
+            // Show loading state
+            markets.forEach(id => {
+                const priceElement = document.getElementById(`${id}-price`);
+                if (priceElement) priceElement.textContent = 'Loading...';
+            });
+            try {
+                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ftx-token&vs_currencies=usd&include_24hr_change=true', {
+                    mode: 'cors',
+                    headers: {
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                });
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                // Update markets except NiceHash
+                updatePriceDisplay('btc', data.bitcoin);
+                updatePriceDisplay('eth', data.ethereum);
+                updatePriceDisplay('f2p', data['ftx-token']);
+                // Update game state with new BTC price
+                if (data.bitcoin && data.bitcoin.usd) {
+                    gameState.btcPrice.current = data.bitcoin.usd;
+                }
+            } catch (error) {
+                console.error('Error fetching market prices:', error);
+                markets.forEach(id => {
+                    const priceElement = document.getElementById(`${id}-price`);
+                    if (priceElement) priceElement.textContent = 'API Error';
+                });
+            }
+        }
+        // Function to update NiceHash price
+        async function updateNiceHashPrice() {
+            const priceElement = document.getElementById('nice-price');
+            const changeElement = document.getElementById('nice-change');
+            try {
+                // Simulate NiceHash price based on Bitcoin price
+                const btcPrice = gameState.btcPrice.current;
+                const nicePrice = btcPrice * 0.00002 * (1 + (Math.random() * 0.1 - 0.05)); // Random variation ±5%
+                const change = (Math.random() * 4 - 2); // Random 24h change between -2% and +2%   
+                // Update display
+                if (priceElement) priceElement.textContent = `$${nicePrice.toFixed(2)}`;
+                if (changeElement) {
+                    changeElement.textContent = `${change.toFixed(2)}%`;
+                    changeElement.style.color = change >= 0 ? '#2ecc71' : '#e74c3c';
+                }
+            } catch (error) {
+                console.error('Error updating NiceHash price:', error);
+                if (priceElement) priceElement.textContent = 'Error';
+                if (changeElement) {
+                    changeElement.textContent = '0.00%';
+                    changeElement.style.color = '#ffffff';
+                }
+            }
+        }
+        // Helper function to update display
+        function updatePriceDisplay(id, data) {
+            console.log(`Updating ${id} with data:`, data);
+            if (!data || !data.usd) return;
+            const priceElement = document.getElementById(`${id}-price`);
+            const changeElement = document.getElementById(`${id}-change`);
+            if (priceElement) {
+                const formattedPrice = data.usd.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                priceElement.textContent = `$${formattedPrice}`;
+            }
+            if (changeElement) {
+                const changeValue = data.usd_24h_change.toFixed(2);
+                changeElement.textContent = `${changeValue}%`;
+                changeElement.style.color = data.usd_24h_change >= 0 ? '#2ecc71' : '#e74c3c';
+            }
+        }
+        // Update all prices every hour
+        setInterval(() => {
+            updateAllMarketPrices();
+            updateNiceHashPrice();
+        }, 3600000);
+        // gameState
+        const gameState = {
+            btcPrice: {
+                current: 0
+            }
+        };
     </script>
 </body>
 </html>
