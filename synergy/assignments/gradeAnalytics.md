@@ -1,97 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
+---
+layout: page 
+title: Grade Analytics 
+permalink: /synergy/analytics
+search_exclude: true
+show_reading_time: false 
+---
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grades Analytics</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <style>
-        /* Dark mode styling */
-        body { 
-            font-family: 'Arial', sans-serif; 
-            background-color: #1c1c1e; 
-            color: #ffffff; 
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container { 
-            width: 90%; 
-            max-width: 800px;
-            margin: 20px;
-            padding: 30px;
-            background-color: #2c2c2e;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-            text-align: center;
-        }
-        h1, h2 {
-            color: #ffa726;
-            font-weight: 600;
-            margin: 10px 0;
-        }
-        label {
-            color: #ffcc80;
-            font-weight: bold;
-            margin-top: 15px;
-            display: inline-block;
-            font-size: 1.1em;
-        }
-        select {
-            background-color: #333;
-            color: #ffffff;
-            border: 1px solid #555;
-            border-radius: 5px;
-            padding: 10px;
-            font-size: 1em;
-            margin-top: 10px;
-            cursor: pointer;
-        }
-        canvas, #boxPlot {
-            margin: 20px auto;
-            width: 100% !important;
-            max-width: 700px;
-            background-color: #2c2c2e;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        /* Animations */
-        .chart-section {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-        .chart-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
 </head>
 <body>
 
 <div class="container">
     <h1>📊 Grades Analytics</h1>
-
     <!-- Assignment Selection Dropdown -->
     <label for="assignmentSelect">Choose an Assignment:</label>
     <select id="assignmentSelect" onchange="fetchGrades()"></select>
-
     <!-- Histogram Section -->
     <div class="chart-section" id="histogramSection">
         <h2>📈 Histogram of Grades</h2>
         <canvas id="histogram"></canvas>
     </div>
-
     <!-- Pie Chart Section -->
     <div class="chart-section" id="pieChartSection">
         <h2>🍰 Pie Chart of Grade Distribution</h2>
         <canvas id="pieChart"></canvas>
     </div>
-
     <!-- Box and Whisker Plot Section -->
     <div class="chart-section" id="boxPlotSection">
         <h2>📦 Box and Whisker Plot</h2>
@@ -99,43 +35,68 @@
     </div>
 </div>
 
-<script>
+<script type="module">
+    // Load assignments for dropdown
+    import { login, javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+
+    // Fetch grades based on selected assignment
     // Load assignments for dropdown
     async function loadAssignments() {
-        const response = await fetch('http://localhost:8085/api/analytics/assignments'); // Update with correct endpoint
-        if (response.ok) {
-            const assignmentIds = await response.json();
-            const assignmentSelect = document.getElementById('assignmentSelect');
-            
-            assignmentSelect.innerHTML = ""; // Clear existing options
+    const options = {
+        URL: `${javaURI}/api/analytics/assignments`, // Correct endpoint
+        method: "GET",
+        cache: "no-cache",
+    };
 
-            // Populate dropdown with assignment IDs
-            assignmentIds.forEach(id => {
-                const option = document.createElement('option');
-                option.value = id;
-                option.text = `Assignment ${id}`;
-                assignmentSelect.add(option);
-            });
-        } else {
-            console.error('Failed to load assignments:', response.status);
+    console.log(options.URL);
+
+    try {
+        const response = await fetch(options.URL, fetchOptions);
+        if (!response.ok) {
+            throw new Error(`Failed to load assignments: ${response.status}`);
         }
+        const assignmentIds = await response.json();
+        const assignmentSelect = document.getElementById('assignmentSelect');
+
+        assignmentSelect.innerHTML = ""; // Clear existing options
+
+        // Populate dropdown with assignment IDs
+        assignmentIds.forEach(id => {
+            const option = document.createElement('option');
+            option.value = id;
+            option.text = `Assignment ${id}`;
+            assignmentSelect.add(option);
+        });
+    } catch (error) {
+        console.error(error.message);
     }
+}
 
     // Fetch grades based on selected assignment
     async function fetchGrades() {
         const assignmentId = document.getElementById('assignmentSelect').value;
-        const response = await fetch(`http://localhost:8085/api/analytics/assignment/${assignmentId}/grades`);
-        if (response.ok) {
+        const options = {
+            URL: `${javaURI}/api/analytics/assignment/${assignmentId}/grades`,
+            method: "GET",
+            cache: "no-cache",
+        };
+
+        try {
+            const response = await fetch(options.URL, fetchOptions);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch grades data: ${response.status}`);
+            }
             const data = await response.json();
             const grades = data.grades;
             createHistogram(grades);
             createPieChart(grades);
             createBoxPlot(grades);
             showCharts();
-        } else {
-            console.error('Failed to fetch grades data:', response.status);
+        } catch (error) {
+            console.error(error.message);
         }
     }
+
 
     let histogram;
 
@@ -247,7 +208,19 @@
     }
 
     window.onload = loadAssignments;
+
+        // Function to get a cookie by name
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null; // Return null if the cookie doesn't exist
+    }
+
+    // Retrieve the `jwt_java_spring` cookie
+    const jwtToken = getCookie('jwt_java_spring');
+    console.log(jwtToken);
+
 </script>
 
 </body>
-</html>
