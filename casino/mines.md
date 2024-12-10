@@ -81,20 +81,46 @@ let betAmount = 0;
 
 // Function to start game by sending POST request with stakes level
 function startGame(stakes) {
+  const jwtToken = getCookie("jwt_java_spring"); // Retrieve the JWT token from the cookie
+
+  if (!jwtToken) {
+    console.error("JWT token not found in cookies.");
+    return;
+  }
+
+  const userData = decodeJwt(jwtToken); // Decode the JWT to extract user data
+  const email = userData.sub; // Extract email (or subject) from the decoded JWT payload
+
+  if (!email) {
+    console.error("Email not found in JWT token.");
+    return;
+  }
+
+  const betSize = Number(document.getElementById("betAmount").value);
+
   fetch(`http://localhost:8085/api/casino/mines/stakes/${stakes}`, {
-    method: 'POST'
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ betSize, email }),
   })
-  .then(response => {
-    if (response.ok) {
-      console.log("Game started with stakes:", stakes);
-      document.getElementById("popup").style.display = "none";
-      document.getElementById("overlay").style.display = "none";
-      betAmount = Number(document.getElementById("betAmount").value); // Store bet amount
-    } else {
-      console.error("Failed to start game");
-    }
-  });
+    .then(response => {
+      if (response.ok) {
+        console.log("Game started with stakes:", stakes);
+        document.getElementById("popup").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+
+        // Fetch and display updated balance
+        fetchAndDisplayBalance();
+      } else {
+        return response.text().then(text => { throw new Error(text); });
+      }
+    })
+    .catch(error => console.error("Error starting game:", error));
 }
+
+
 
 // Event listener for Bet button
 document.getElementById("betButton").onclick = function() {
@@ -154,16 +180,92 @@ document.querySelectorAll("table td a").forEach(cell => {
   };
 });
 
-// Function to update winnings display by multiplying multiplier with bet amount
+// Function to get a specific cookie's value
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+// Function to decode a JWT token
+function decodeJwt(token) {
+  const payload = token.split('.')[1];
+  const decodedPayload = atob(payload);
+  return JSON.parse(decodedPayload);
+}
+
+// Function to update winnings display by sending betSize to the backend
 function updateWinnings() {
-  fetch("http://localhost:8085/api/casino/mines/winnings")
-    .then(response => response.json())
-    .then(multiplier => {
-      const winnings = betAmount * multiplier;
-      document.getElementById("winningsDisplay").textContent = `Winnings: ${winnings.toFixed(2)}`;
+  const jwtToken = getCookie("jwt_java_spring"); // Retrieve the JWT token from the cookie
+
+  if (!jwtToken) {
+    console.error("JWT token not found in cookies.");
+    return;
+  }
+
+  const userData = decodeJwt(jwtToken); // Decode the JWT to extract user data
+  const email = userData.sub; // Extract email (or subject) from the decoded JWT payload
+
+  if (!email) {
+    console.error("Email not found in JWT token.");
+    return;
+  }
+
+  const betSize = document.getElementById("betAmount").value;
+
+  fetch("http://localhost:8085/api/casino/mines/winnings", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ betSize: Number(betSize), email }),
+  })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Failed to update winnings");
+      }
+    })
+    .then(balance => {
+      document.getElementById("winningsDisplay").textContent = `Balance: ${balance.toFixed(2)}`;
     })
     .catch(error => console.error("Error fetching winnings:", error));
 }
+
+// Function to fetch and display player's balance
+function fetchAndDisplayBalance() {
+  const jwtToken = getCookie("jwt_java_spring"); // Retrieve the JWT token from the cookie
+
+  if (!jwtToken) {
+    console.error("JWT token not found in cookies.");
+    return;
+  }
+
+  const userData = decodeJwt(jwtToken); // Decode the JWT to extract user data
+  const email = userData.sub; // Extract email (or subject) from the decoded JWT payload
+
+  if (!email) {
+    console.error("Email not found in JWT token.");
+    return;
+  }
+
+  fetch(`http://localhost:8085/api/casino/mines/balance/${email}`)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Failed to fetch balance");
+      }
+    })
+    .then(balance => {
+      document.getElementById("winningsDisplay").textContent = `Balance: ${balance.toFixed(2)}`;
+    })
+    .catch(error => console.error("Error fetching balance:", error));
+}
+
+
+
 </script>
 
 <style>
