@@ -1,4 +1,3 @@
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +11,6 @@
             margin: 0;
             padding: 0;
         }
-
         .container {
             max-width: 800px;
             margin: 50px auto;
@@ -21,30 +19,25 @@
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
         h1 {
             font-size: 2.5em;
             color: #2c3e50;
             margin-bottom: 20px;
         }
-
         p {
             font-size: 1.2em;
             margin-bottom: 30px;
         }
-
         .game-boxes {
             display: grid;
             grid-template-columns: 1fr;
             gap: 20px;
         }
-
         @media (min-width: 600px) {
             .game-boxes {
                 grid-template-columns: 1fr 1fr;
             }
         }
-
         .game-box {
             display: flex;
             flex-direction: column;
@@ -101,4 +94,3 @@
         <p>Good luck, and may the odds be ever in your favor! 🍀</p>
     </div>
 </body>
-</html>

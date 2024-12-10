@@ -22,7 +22,7 @@ permalink: /casino/poker
             transition: all 0.3s ease;
         }
         .container {
-            max-width: 700px; /* Increased from 500px to 700px */
+            max-width: 700px;
             text-align: center;
             background-color: #2b2b2b;
             padding: 40px;
@@ -39,7 +39,6 @@ permalink: /casino/poker
             margin-bottom: 20px;
             color: #f39c12;
         }
-        /* Label and Input Styling */
         label, .result, .error {
             display: block;
             margin: 15px 0;
@@ -61,7 +60,6 @@ permalink: /casino/poker
             color: #fff;
             border: 1px solid #555;
         }
-        /* Button Styling */
         button {
             background-color: #f39c12;
             color: #1e1e1e;
@@ -72,7 +70,6 @@ permalink: /casino/poker
         button:hover {
             background-color: #e67e22;
         }
-        /* Hand Styling */
         .hand {
             display: flex;
             justify-content: center;
@@ -99,7 +96,6 @@ permalink: /casino/poker
         .card:hover {
             transform: scale(1.05);
         }
-        /* Dropdown Styling */
         .dropdown {
             position: relative;
             display: inline-block;
@@ -138,7 +134,6 @@ permalink: /casino/poker
             margin: 10px 0;
             color: #bdc3c7;
         }
-        /* Result and Error Messages */
         .result, .error {
             margin-top: 15px;
             font-size: 1.2rem;
@@ -154,8 +149,8 @@ permalink: /casino/poker
         <h1>One-Hand Poker Game</h1>
         <label for="betAmount">Enter your bet:</label>
         <input type="number" id="betAmount" min="1" placeholder="Bet Amount" required>
-        <label for="username">Enter your username:</label>
-        <input type="text" id="username" placeholder="Username" required>
+        <label for="email">Enter your email:</label>
+        <input type="email" id="email" placeholder="Email" required>
         <button onclick="playGame()">Play</button>
         <div class="dropdown">
             <button>Show Poker Hands</button>
@@ -185,24 +180,44 @@ permalink: /casino/poker
     </div>
     <script>
         async function playGame() {
-            const bet = document.getElementById("betAmount").value;
-            const username = document.getElementById("username").value;
-            document.getElementById("error").innerText = ""; 
+            const bet = parseFloat(document.getElementById("betAmount").value);
+            const email = document.getElementById("email").value.trim();
+            const resultDiv = document.getElementById("result");
+            const errorDiv = document.getElementById("error");
+            const balanceDiv = document.getElementById("balance");
+            const playerHandDiv = document.getElementById("playerHand");
+            const dealerHandDiv = document.getElementById("dealerHand");
+            errorDiv.innerText = "";
+            resultDiv.innerText = "";
+            balanceDiv.innerText = "";
+            playerHandDiv.innerHTML = "";
+            dealerHandDiv.innerHTML = "";
+            if (isNaN(bet) || bet <= 0) {
+                errorDiv.innerText = "Please enter a valid bet amount.";
+                return;
+            }
+            if (!email) {
+                errorDiv.innerText = "Please enter your email.";
+                return;
+            }
+            resultDiv.innerText = "Processing your game...";
             try {
                 const response = await fetch("http://localhost:8085/api/casino/poker/play", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ bet: parseFloat(bet), username: username })
+                    body: JSON.stringify({ bet, email })
                 });
-                if (!response.ok) throw new Error("Failed to play the game");
+                if (!response.ok) {
+                    throw new Error("Failed to play the game. Check your input or account balance.");
+                }
                 const data = await response.json();
-                document.getElementById("balance").innerText = `Balance: $${data.updatedBalance.toFixed(2)}`;
+                balanceDiv.innerText = `Balance: $${data.updatedBalance.toFixed(2)}`;
                 displayHand("playerHand", data.playerHand);
                 displayHand("dealerHand", data.dealerHand);
                 const resultMessage = data.playerWin ? "You Win!" : "You Lose!";
-                document.getElementById("result").innerText = `Result: ${resultMessage}`;
+                resultDiv.innerText = `Result: ${resultMessage}`;
             } catch (error) {
-                document.getElementById("error").innerText = "Error: " + error.message;
+                errorDiv.innerText = "Error: " + error.message;
             }
         }
         function displayHand(handId, hand) {
