@@ -90,13 +90,13 @@ layout: base
 <div id="modal" class="modal">
     <div class="modal-content">
         <h2>Submit here</h2>
-        <select id="task-select">
-            <option value="" disabled selected>Select a task</option>
+        <select id="assignment-select">
+            <option value="" disabled selected>Select a Assignment</option>
         </select>
     </div>
     <div>
-        <label for="submissionLink" style="font-size: 18px;">Submission Content:</label>
-        <input type="url" id="submissionLink" required />
+        <label for="submissionContent" style="font-size: 18px;">Submission Content:</label>
+        <input type="url" id="submissionContent" required />
     </div>
     <br><br>
     <button id="submit-assignment">Submit Assignment</button>
@@ -126,30 +126,22 @@ layout: base
     let submissions=[];
     let assignIndex = 0;
     let userId=0;
+    let Student;
 
-
+    document.getElementById("submit-assignment").addEventListener("click", Submit);
     function Submit() {
         const urllink_submit=javaURI+"/api/submissions/Submit";
-        const urllink_comment=javaURI+"/api/Comment/create";
-        const submissionLink = document.getElementById('submissionLink').value;
-        const assignment_id = assignmentIds[assignIndex - 1];
-        const submission_time = (new Date()).toLocaleTimeString();
-        
-        const Name = document.getElementById('name').value;
-        console.log(Name);
+        const submissionContent = document.getElementById('submissionContent').value;
         const data = {
-            userId: null,
-            submission_link: submissionLink,
-            submission_time: submission_time,
-            assignment_name: selectedTask,
-            assignment_id: assignment_id,
-            name: Name
-            
+            content: submissionContent,
+            student:Student
+
         };
 
         fetch(urllink_submit, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
             body: JSON.stringify(data),
         })
         .then(response => {
@@ -170,21 +162,42 @@ layout: base
         });
     }
 
-    async function fetchTasks() {
+
+
+    async function fetchAssignments() {
         console.log(javaURI);
         try {
-            const response = await fetch(javaURI+"/api/assignments/", {
+            const response = await fetch(javaURI+"/api/assignments/debug", {
                 method: 'GET',
                 headers: {
                   'Content-Type': 'application/json',
                 }
             });
             const assignments=await response.json();
-            console.log(assignments);
+            console.log(assignments[0].name+"here");
+            populateAssignmentDropdown(assignments);
         } catch (error) {
             console.error('Error fetching tasks:', error);
         }
     }
+
+    function populateAssignmentDropdown(Assignments) {
+        const assignmentSelect = document.getElementById('assignment-select');
+        Assignments.forEach(assignment => {
+            const option = document.createElement('option');
+            option.value = assignment.name;
+            option.textContent = assignment.name;
+            console.log(option);
+            assignmentSelect.appendChild(option);
+            assignmentIds.push(assignment.id);
+        });
+    }
+    
+    document.getElementById("assignment-select").addEventListener("change", function() {
+        selectedTask = this.value;
+        assignIndex = this.selectedIndex;
+    });
+
 
     async function getUserId(){
         const url_persons = `${javaURI}/api/person/get`;
@@ -200,6 +213,7 @@ layout: base
             console.log(response);
             if (response.ok) {
                 const data = await response.json();
+                Student=data;
                 userId=data.id;
                 console.log("User details:", data);
                 return userId;
@@ -264,5 +278,6 @@ layout: base
 
     getUserId();
     fetchSubmissions();
+    fetchAssignments();
 </script>
 </html>
