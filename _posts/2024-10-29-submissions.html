@@ -216,12 +216,14 @@ menu: _includes/nav/project/productivity-frontend/menu.html
             link.href = submission.submission_link;
             link.textContent = 'View Submission';
             link.target = '_blank';
+            console.log(submission.submission_time);
             linkCell.appendChild(link);
             row.appendChild(linkCell);
-    
             tableBody.appendChild(row);
         });
     }
+
+
 
 
     async function fetchTasks() {
