@@ -112,6 +112,7 @@ layout: base
     let assignmentIds = [];
     let submissions=[];
     let assignIndex = 0;
+    let userId=0;
 
 
 
@@ -130,7 +131,9 @@ layout: base
             console.log(response);
             if (response.ok) {
                 const data = await response.json();
+                userId=data.id;
                 console.log("User details:", data);
+                return userId;
             } else {
                 console.error(`Failed: ${response.status} ${response.statusText}`);
             }
@@ -142,10 +145,18 @@ layout: base
     
 
     async function fetchSubmissions(){
+        const urllink=javaURI+"/api/submissions/getSubmissions";
+        console.log(userId);
+        const theUserId=await getUserId();
+        console.log(theUserId+"mooo");
         try {
-            const urllink=javaURI+"/api/submissions/getSubmissions";
-            const response = await fetch(urllink);
-            submissions = await response.json();
+            const submissions = await fetch(`${urllink}/${userId}`, {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                }
+            });
+            console.log(await submissions.json());
             
             populateSubmissionsTable(submissions);
         } catch (error) {
@@ -181,6 +192,6 @@ layout: base
     }
 
     getUserId();
-    //fetchSubmissions();
+    fetchSubmissions();
 </script>
 </html>
