@@ -61,9 +61,37 @@ permalink: /casino/poker
         padding: 10px;
         margin: 5px;
         border-radius: 4px;
-        background-color: #007bff;
+        background: linear-gradient(135deg, #f39c12, #e74c3c);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         color: white;
+        font-size: 1.2em;
+        font-weight: bold;
         text-align: center;
+        width: 80px;
+        height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid #fff;
+        position: relative;
+    }
+    .card:before, .card:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.2);
+        pointer-events: none;
+    }
+    .card:before {
+        top: -2px;
+        left: -2px;
+    }
+    .card:after {
+        bottom: -2px;
+        right: -2px;
     }
     .win-message {
         margin-top: 20px;
