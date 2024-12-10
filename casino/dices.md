@@ -74,7 +74,7 @@ permalink: /casino/dices
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-        const token = getCookie('jwt_java_spring'); // Replace 'token' with the actual cookie name
+        const token = getCookie('jwt_java_spring');
 
         if (!token) {
             console.error("Token not found in cookies");
