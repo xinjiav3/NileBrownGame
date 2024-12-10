@@ -101,9 +101,16 @@ document.getElementById("betButton").onclick = function() {
   const bet = document.getElementById("betAmount").value;
   const stakes = document.getElementById("stakes").value;
 
-  if (bet && !isNaN(bet) && Number(bet) > 0 && stakes) {
+  if (bet && !isNaN(bet) && Number(bet) >= 1000 && stakes) {
     startGame(stakes.toLowerCase()); // Start the game with selected stakes
   } else {
+    let errorMessage = "Please enter a valid amount and select stakes.";
+    if (!bet || isNaN(bet) || Number(bet) < 1000) {
+      errorMessage = "Bet amount must be at least 1000.";
+    } else if (!stakes) {
+      errorMessage = "Please select stakes.";
+    }
+    document.getElementById("error").textContent = errorMessage;
     document.getElementById("error").style.display = "block";
   }
 };
