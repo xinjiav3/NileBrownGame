@@ -150,7 +150,7 @@ comments: false
 function addTask(username) {
       const newTask = prompt("Enter a new task:");
       if (newTask) {
-        fetch("http://localhost:8181/api/students/update-tasks", {
+        fetch("http://localhost:8085/api/students/update-tasks", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -171,45 +171,43 @@ function addTask(username) {
         alert("Task cannot be empty.");
       }
     }
-        function createStudent() {
-      const name = prompt("Enter student name:");
-      const username = prompt("Enter student username:");
-      const tableNumber = prompt("Enter table number:");
-      const course = "CSA";
-      const trimester = 1;
-      const period = 3;
-      const tasks = []; // Initial empty tasks
-
-      if (name && username && tableNumber) {
-        fetch("http://127.0.0.1:8181/api/students/create", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: name,
-            username: username,
-            tableNumber: parseInt(tableNumber),
-            course: course,
-            trimester: trimester,
-            period: period,
-            tasks: tasks
+    function createStudent() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = prompt("Enter student username:");
+        const course = "CSA";
+        const trimester = 2;
+        const period = urlParams.get('period');
+        const table = urlParams.get('table');
+        const tasks = []; // Initial empty tasks
+        if (username && table) {
+          fetch("http://127.0.0.1:8085/api/students/create", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              username: username,
+              tableNumber: parseInt(table),
+              course: course,
+              trimester: trimester,
+              period: parseInt(period),
+              tasks: tasks
+            })
           })
-        })
-        .then(response => {
-          if (!response.ok) throw new Error("Failed to create student");
-          return response.json();
-        })
-        .then(student => {
-          alert("Student created successfully!");
-          location.reload();
-        })
-        .catch(error => console.error("There was a problem with the create operation:", error));
-      } else {
-        alert("Please fill in all fields to create a student.");
-      }
+          .then(response => {
+            if (!response.ok) throw new Error("Failed to create student");
+            return response.json();
+          })
+          .then(student => {
+            alert("Student created successfully!");
+            location.reload();
+          })
+          .catch(error => console.error("There was a problem with the create operation:", error));
+        } else {
+          alert("Please fill in all fields to create a student.");
+        }
     }
 
     function deleteStudent(username) {
-      fetch(`http://127.0.0.1:8181/api/students/delete?username=${encodeURIComponent(username)}`, {
+      fetch(`http://127.0.0.1:8085/api/students/delete?username=${encodeURIComponent(username)}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         mode: "cors"
