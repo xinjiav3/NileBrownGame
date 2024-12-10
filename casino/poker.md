@@ -114,10 +114,13 @@ permalink: /casino/poker
                 }
 
                 const result = await response.json();
-                if (result) {
-                    alert(`Game Result: ${JSON.stringify(result.playerHand)}`);
+                if (result && result.playerWin !== undefined && result.updatedBalance !== undefined) {
+                    const message = result.playerWin
+                        ? `You won! 🎉\nUpdated Balance: $${result.updatedBalance}`
+                        : `You lost! 😞\nUpdated Balance: $${result.updatedBalance}`;
+                    alert(message);
                 } else {
-                    alert('Unexpected response format.');
+                    alert('Unexpected response format. Please check the API.');
                 }
             } catch (error) {
                 console.error('Error during fetch:', error);
