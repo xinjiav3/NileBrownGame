@@ -3,39 +3,38 @@
 </head>
 
 
-    <div class="container">
-        <div class="components">
+<div class="container">
+    <div class="components">
 
-            <div class="queue-header">
-                <h2 id="teacherName">Queue</h2>
-            </div>
-    
-            <div class="queue-info">
-                <p id="position">Your position in line: #</p>
-                <p id="estimatedTime">Estimated time: ~ mins</p>
-            </div>
-    
-            <div class="queue-list">
-                <p>Students currently in line:</p>
-                <ul id="studentList">
-                    <!-- Students will be listed here -->
-                </ul>
-            </div>
-    
-            <div class="queue-actions">
-                <button type="button" onclick="addToQueue()">Add Me to Queue</button>
-                <button type="button" onclick="removeFromQueue()">Remove Me from Queue</button>
-                <button type="button" onclick="goToProfile()">Go to Profile</button>
-                <button type="button" onclick="reportIssue()">Report Issue</button>
+        <div class="queue-header">
+            <h2 id="teacherName">Queue</h2>
+        </div>
+
+        <div class="queue-info">
+            <p id="position">Your position in line: #</p>
+            <p id="estimatedTime">Estimated time: ~ mins</p>
+        </div>
+
+        <div class="queue-list">
+            <p>Students currently in line:</p>
+            <ul id="studentList">
+                <!-- Students will be listed here -->
+            </ul>
+        </div>
+
+        <div class="queue-actions">
+            <button type="button" onclick="addToQueue()">Add Me to Queue</button>
+            <button type="button" onclick="removeFromQueue()">Remove Me from Queue</button>
+            <button type="button" onclick="goToProfile()">Go to Profile</button>
+            <button type="button" onclick="reportIssue()">Report Issue</button>
             <button type="button" onclick="getIssues()">View Issues</button>
-            </div>
         </div>
     </div>
+</div>
 
 
 <script>
-    function getIssues()
-    {
+    function getIssues() {
         window.location.href = "{{site.baseurl}}/get-issues"
     }
     function goToProfile() {
@@ -82,7 +81,9 @@
 </script>
 
 <script>
-    const url = `http://localhost:8085/api/queue`;
+    import { javaURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js'
+
+    const url = javaURI + '/api/queue';
     const getUrl = url + '/all';
     const addUrl = url + '/add';
     const removeUrl = url + '/remove';
@@ -178,7 +179,7 @@
             .catch(error => console.error("Error removing from queue:", error));
         console.log("Removed from queue:", queuer);
     }
-    
+
     // Function to approve student who is first in line
     function approveStudent() {
         const queuer = {

@@ -23,9 +23,8 @@
             <!-- Profile Picture Section -->
             <div class="profile-picture">
                 <!-- or "https://upload.wikimedia.org/wikipedia/en/4/4d/Miles_Dyson_%28T2%29.jpg" -->
-                 <!-- https://github.com/user-attachments/assets/790d1347-3c6e-4ae4-a36b-43857f9b2ff0 -->
-                <img src="#"
-                    alt="Profile Picture" class="profile-img">
+                <!-- https://github.com/user-attachments/assets/790d1347-3c6e-4ae4-a36b-43857f9b2ff0 -->
+                <img src="#" alt="Profile Picture" class="profile-img">
             </div>
         </div>
 
@@ -41,7 +40,7 @@
                     <input id="email" class="form__input" type="email" placeholder="Email" readonly /><br>
                 </div>
                 <br>
-<!-- 
+                <!-- 
                 <div class="myplan-info">
                     <input id="myplan" class="form__input" type="myplan" placeholder="MyPlan User" readonly /><br>
                 </div> -->
@@ -51,12 +50,14 @@
 </div>
 
 <script>
+    import { javaURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js'
+
     // Fetch profile data for a specific user
     document.addEventListener("DOMContentLoaded", () => {
         const email = localStorage.getItem("email"); // Assuming email is stored in localStorage upon login
         if (email) {
             // Construct the URL with the email
-            const url = `http://localhost:8085/profile/${encodeURIComponent(email)}`;
+            const url = javaURI + '/profile/${encodeURIComponent(email)}';
             fetchProfileData(url);
         } else {
             console.error("User email not found.");
