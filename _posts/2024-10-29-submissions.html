@@ -125,24 +125,28 @@ layout: base
     let assignmentIds = [];
     let submissions=[];
     let assignIndex = 0;
+    let assignments;
     let userId=0;
     let Student;
 
     document.getElementById("submit-assignment").addEventListener("click", Submit);
     function Submit() {
-        const urllink_submit=javaURI+"/api/submissions/Submit";
+        let urllink_submit=javaURI+"/api/submissions/submit/";
         const submissionContent = document.getElementById('submissionContent').value;
-        const data = {
-            content: submissionContent,
-            student:Student
-
-        };
+        getUserId();
+        const student_id=userId;
+        const assigmentId=assignments[assignIndex].id;
+        urllink_submit+=assigmentId.toString();
+        console.log(urllink_submit+"here");
+        console.log(student_id);
+        const data = new FormData();
+        data.append("studentId", student_id);
+        data.append("content", submissionContent);
 
         fetch(urllink_submit, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
-            body: JSON.stringify(data),
+            body: data,
         })
         .then(response => {
             const outputBox = document.getElementById('outputBox');
@@ -173,7 +177,7 @@ layout: base
                   'Content-Type': 'application/json',
                 }
             });
-            const assignments=await response.json();
+            assignments=await response.json();
             console.log(assignments[0].name+"here");
             populateAssignmentDropdown(assignments);
         } catch (error) {
@@ -196,6 +200,7 @@ layout: base
     document.getElementById("assignment-select").addEventListener("change", function() {
         selectedTask = this.value;
         assignIndex = this.selectedIndex;
+        console.log(assignments[assignIndex-1].id);
     });
 
 
