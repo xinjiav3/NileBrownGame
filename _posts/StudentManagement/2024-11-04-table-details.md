@@ -153,41 +153,58 @@ comments: false
           data.forEach(student => {
             const card = document.createElement("div");
             card.className = "student-card";
-            
-            // Fetch GitHub profile picture
+
             fetch(`https://api.github.com/users/${student.username}`)
-              .then(response => response.json())
-              .then(githubData => {
-                const imageUrl = githubData.avatar_url || "default-image-url.jpg";
-                card.innerHTML = `
-                  <img src="${imageUrl}" alt="${student.username}'s Profile Picture" class="student-image">
-                  <h3>Username: ${student.username}</h3>
-                  <p>Table Number: ${student.tableNumber}</p>
-                  <p>Course: ${student.course}</p>
-                  <p>Trimester: ${student.trimester}</p>
-                  <p>Period: ${student.period}</p>
-                  <p>Tasks: ${student.tasks.join(", ")}</p>
-                  <button class="add-task-button" onclick="addTask('${student.username}')">Add Task</button>
-                  <button class="delete-button" onclick="deleteStudent('${student.username}')">Delete</button>
-                `;
-              })
-              .catch(error => {
-                console.error("GitHub profile fetch error:", error);
-                card.innerHTML = `
-                  <img src="default-image-url.jpg" alt="Default Profile Picture" class="student-image">
-                  <h3>${student.name}</h3>
-                  <p>Username: ${student.username}</p>
-                  <p>Table Number: ${student.tableNumber}</p>
-                  <p>Course: ${student.course}</p>
-                  <p>Trimester: ${student.trimester}</p>
-                  <p>Period: ${student.period}</p>
-                  <p>Tasks: ${student.tasks.join(", ")}</p>
-                  <button class="add-task-button" onclick="addTask('${student.username}')">Add Task</button>
-                  <button class="delete-button" onclick="deleteStudent('${student.username}')">Delete</button>
-                `;
-              });
+                .then(response => response.json())
+                .then(githubData => {
+                    const imageUrl = githubData.avatar_url || "default-image-url.jpg";
+                    card.innerHTML = `
+                        <img src="${imageUrl}" alt="${student.username}'s Profile Picture" class="student-image">
+                        <h3>Username: ${student.username}</h3>
+                        <p>Table Number: ${student.tableNumber}</p>
+                        <p>Course: ${student.course}</p>
+                        <p>Trimester: ${student.trimester}</p>
+                        <p>Period: ${student.period}</p>
+                        <p>
+                            <strong>Tasks:</strong> 
+                            ${student.tasks.length > 0 
+                                ? student.tasks.map(task => `
+                                    <a href="javascript:void(0);" onclick="completeTask('${student.username}', '${task}')">
+                                        ${task}
+                                    </a>`).join(', ') 
+                                : 'No tasks assigned'}
+                        </p>
+                        <button class="add-task-button" onclick="addTask('${student.username}')">Add Task</button>
+                        <button class="delete-button" onclick="deleteStudent('${student.username}')">Delete</button>
+                    `;
+                })
+                .catch(error => {
+                    console.error("GitHub profile fetch error:", error);
+                    card.innerHTML = `
+                        <img src="default-image-url.jpg" alt="Default Profile Picture" class="student-image">
+                        <h3>Username: ${student.username}</h3>
+                        <p>Table Number: ${student.tableNumber}</p>
+                        <p>Course: ${student.course}</p>
+                        <p>Trimester: ${student.trimester}</p>
+                        <p>Period: ${student.period}</p>
+                        <p>
+                            <strong>Tasks:</strong> 
+                            ${student.tasks.length > 0 
+                                ? student.tasks.map(task => `
+                                    <a href="javascript:void(0);" onclick="completeTask('${student.username}', '${task}')">
+                                        ${task}
+                                    </a>`).join(', ') 
+                                : 'No tasks assigned'}
+                        </p>
+                        <button class="add-task-button" onclick="addTask('${student.username}')">Add Task</button>
+                        <button class="delete-button" onclick="deleteStudent('${student.username}')">Delete</button>
+                    `;
+                });
+
             container.appendChild(card);
-          });
+        });
+
+
         })
         .catch(error => console.error("There was a problem with the fetch operation:", error));
       } else {
@@ -269,6 +286,26 @@ function addTask(username) {
         location.reload();
       })
       .catch(error => console.error("There was a problem with the delete operation:", error));
+    }
+    function completeTask(username, task) {
+        fetch("http://localhost:8085/api/students/complete-task", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                username: username,
+                task: task
+            })
+        })
+        .then(response => {
+            if (!response.ok) throw new Error("Failed to complete task");
+            return response.text();
+        })
+        .then(message => {
+            alert(message);
+            // Update task list dynamically or reload the page
+            location.reload(); // Simplest option
+        })
+        .catch(error => console.error("Error completing task:", error));
     }
   </script>
 </body>
