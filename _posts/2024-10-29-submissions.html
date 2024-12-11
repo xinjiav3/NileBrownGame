@@ -135,7 +135,7 @@ layout: base
         const submissionContent = document.getElementById('submissionContent').value;
         getUserId();
         const student_id=userId;
-        const assigmentId=assignments[assignIndex].id;
+        const assigmentId=assignments[assignIndex-1].id;
         urllink_submit+=assigmentId.toString();
         console.log(urllink_submit+"here");
         console.log(student_id);
