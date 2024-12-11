@@ -14,7 +14,7 @@ type: ccc
     <title>Q&A Page</title>
     <style>
     body {
-        background-color: #1a1a1a;
+        background-color: black;
         color: #e0e0e0;
         font-family: Arial, sans-serif;
         text-align: center;
@@ -24,23 +24,21 @@ type: ccc
     h1, h2 {
         margin-top: 10px;
     }
-    .nav-buttons {
-        margin-top: 20px;
-    }
-    .nav-buttons button {
-        background-color: #333;
-        color: #e0e0e0;
-        border: 2px solid #555;
-        padding: 10px 20px;
-        margin: 0 10px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: background-color 0.3s, transform 0.2s;
-    }
-    .nav-buttons button:hover {
-        background-color: #555;
-        transform: scale(1.05);
-    }
+      .nav-buttons {
+      margin-top: 20px;
+      }
+      .nav-buttons button {
+      background-color: black;
+      color: white;
+      border: 1px solid white;
+      padding: 10px 20px;
+      margin: 0 10px;
+      cursor: pointer;
+      font-size: 16px;
+      }
+      .nav-buttons button:hover {
+      background-color: gray;
+      }
     .signout {
         text-align: right;
         padding: 10px;

@@ -92,47 +92,4 @@ type: ccc
         <a href="{{site.baseurl}}/collaboration/2024/10/21/Grader_QNA.html"><button>QNA</button></a>
         <a href="{{site.baseurl}}/collaboration/2024/10/21/Grader_Assignment.html"><button>Assignments</button></a>
     </div>
-    <div class="login-signup">
-        <!-- Login Form -->
-        <div class="form-box">
-            <h3>Login:</h3>
-            <label for="login-email">Email:</label>
-            <input type="text" id="login-email" placeholder="Email">
-            <label for="login-password">Password:</label>
-            <input type="password" id="login-password" placeholder="Password">
-            <button id="login-button">Login</button>
-        </div>
-        <!-- Signup Form -->
-        <div class="form-box">
-            <h3>Sign up:</h3>
-            <label for="signup-name">Name:</label>
-            <input type="text" id="signup-name" placeholder="Name">
-            <label for="signup-username">Username:</label>
-            <input type="text" id="signup-username" placeholder="Username">
-            <label for="signup-password">Password:</label>
-            <input type="password" id="signup-password" placeholder="Password">
-            <button>Sign up</button>
-        </div>
-    </div>
-        <script>
-        document.getElementById("login-button").addEventListener("click", async () => {
-            const email = document.getElementById("login-email").value;
-            const password = document.getElementById("login-password").value;
-            const response = await fetch("http://localhost:8764/authenticate", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ email, password })
-            });
-            if (response.ok) {
-                // Redirect to the assignment page
-                window.location.href = "{{site.baseurl}}/collaboration/2024/10/21/Grader_Assignment.html";
-            } else {
-                // Handle errors (e.g., show an alert)
-                const errorMessage = await response.text();
-                alert(errorMessage);
-            }
-        });
-    </script>
 </body>
