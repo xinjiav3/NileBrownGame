@@ -137,8 +137,6 @@ layout: base
         const student_id=userId;
         const assigmentId=assignments[assignIndex-1].id;
         urllink_submit+=assigmentId.toString();
-        console.log(urllink_submit+"here");
-        console.log(student_id);
         const data = new FormData();
         data.append("studentId", student_id);
         data.append("content", submissionContent);
@@ -169,7 +167,6 @@ layout: base
 
 
     async function fetchAssignments() {
-        console.log(javaURI);
         try {
             const response = await fetch(javaURI+"/api/assignments/debug", {
                 method: 'GET',
@@ -178,7 +175,6 @@ layout: base
                 }
             });
             assignments=await response.json();
-            console.log(assignments[0].name+"here");
             populateAssignmentDropdown(assignments);
         } catch (error) {
             console.error('Error fetching tasks:', error);
@@ -191,7 +187,6 @@ layout: base
             const option = document.createElement('option');
             option.value = assignment.name;
             option.textContent = assignment.name;
-            console.log(option);
             assignmentSelect.appendChild(option);
             assignmentIds.push(assignment.id);
         });
@@ -200,7 +195,6 @@ layout: base
     document.getElementById("assignment-select").addEventListener("change", function() {
         selectedTask = this.value;
         assignIndex = this.selectedIndex;
-        console.log(assignments[assignIndex-1].id);
     });
 
 
@@ -215,8 +209,6 @@ layout: base
             })
             .then(data => {
                 userId=data.id;
-                console.log(data);
-                console.log(userId);
 
 
             })
@@ -230,9 +222,7 @@ layout: base
 
     async function fetchSubmissions(){
         const urllink=javaURI+"/api/submissions/getSubmissions";
-        console.log(userId);
         const theUserId=await getUserId();
-        console.log(theUserId+"mooo");
         try {
             const response = await fetch(`${urllink}/${userId}`, {
                 method: 'GET',
@@ -241,7 +231,6 @@ layout: base
                 }
             });
             const Submissions=await response.json();
-            console.log(Submissions);
             populateSubmissionsTable(Submissions);
         } catch (error) {
             console.error('Error fetching submissions:', error);
