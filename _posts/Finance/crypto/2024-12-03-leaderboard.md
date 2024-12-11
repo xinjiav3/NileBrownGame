@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Leaderboard Page
+title: Leaderboard
 type: issues
 permalink: /crypto/leaderboard
 ---
@@ -82,10 +82,41 @@ permalink: /crypto/leaderboard
             font-size: 0.9em;
             color: #333333;
         }
+               /* Navbar */
+        .navbar {
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .navbar .links {
+            display: flex;
+            gap: 2rem;
+        }
+        .navbar .links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .navbar .links a:hover {
+            color: #ddd;
+        }
     </style>
 </head>
 <body>
-
+    <div class="navbar">
+        <div class="links">
+            <a href="/portfolio_2025/crypto/portfolio" id="portfolioLink">Investing Portfolio</a>
+            <a href="/portfolio_2025/crypto/mining" id="miningLink">Crypto Mining</a>
+            <a href="/portfolio_2025/crypto/team" id="TeamLink">Team Stats</a>
+            <a href="/portfolio_2025/crypto/leaderboard" id="leaderboardLink">Leaderboard</a>
+        </div>
+    </div>
 <div class="leaderboard-container">
     <div class="header">
         <h1>Leaderboard</h1>
@@ -191,3 +222,4 @@ permalink: /crypto/leaderboard
 
 </body>
 </html>
+
