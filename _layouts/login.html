@@ -30,8 +30,10 @@
     </div>
 </div>
 
+<script type="module" src="{{ site.baseurl }}/assets/js/api/config.js"></script>
 <script>
     import { javaURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js'
+    console.log(javaURI)
 
     document.querySelectorAll('.form__input').forEach(input => {
         input.addEventListener('input', function () {
