@@ -43,7 +43,7 @@ show_reading_time: false
     // Load assignments for dropdown
     async function loadAssignments() {
     const options = {
-        URL: `${javaURI}/api/analytics/assignments`, // Correct endpoint
+        URL: `${javaURI}/api/synergy/grades`, // Correct endpoint
         method: "GET",
         cache: "no-cache",
     };
@@ -55,7 +55,13 @@ show_reading_time: false
         if (!response.ok) {
             throw new Error(`Failed to load assignments: ${response.status}`);
         }
-        const assignmentIds = await response.json();
+
+        const responseData = await response.json();
+        const assignmentIds = [...new Set(responseData.map(item => item.assignmentId))];
+
+        console.log("API Response Data:", responseData);
+        console.log("assignment IDS:", assignmentIds);
+
         const assignmentSelect = document.getElementById('assignmentSelect');
 
         assignmentSelect.innerHTML = ""; // Clear existing options
@@ -72,30 +78,63 @@ show_reading_time: false
     }
 }
 
-    // Fetch grades based on selected assignment
     async function fetchGrades() {
-        const assignmentId = document.getElementById('assignmentSelect').value;
-        const options = {
-            URL: `${javaURI}/api/analytics/assignment/${assignmentId}/grades`,
-            method: "GET",
-            cache: "no-cache",
-        };
+    const assignmentId = document.getElementById('assignmentSelect').value;
+    const userId = getUserId(); // Implement this function to retrieve the current user ID.
+    const options = {
+        method: "GET",
+        cache: "no-cache",
+    };
 
-        try {
-            const response = await fetch(options.URL, fetchOptions);
-            if (!response.ok) {
-                throw new Error(`Failed to fetch grades data: ${response.status}`);
-            }
-            const data = await response.json();
-            const grades = data.grades;
-            createHistogram(grades);
-            createPieChart(grades);
-            createBoxPlot(grades);
-            showCharts();
-        } catch (error) {
-            console.error(error.message);
+    try {
+        // Fetch grades for the selected assignment
+        const gradesResponse = await fetch(`${javaURI}/api/analytics/assignment/${assignmentId}/grades`, fetchOptions);
+        if (!gradesResponse.ok) {
+            throw new Error(`Failed to fetch grades data: ${gradesResponse.status}`);
         }
+        const gradesData = await gradesResponse.json();
+        const grades = gradesData.grades;
+
+        // Fetch user-specific grades for the assignment
+        const userResponse = await fetch(`${javaURI}/api/analytics/assignment/${assignmentId}/student/${userId}/grade`, fetchOptions);
+        if (!userResponse.ok) {
+            throw new Error(`Failed to fetch user-specific grades: ${userResponse.status}`);
+        }
+        const userData = await userResponse.json();
+
+        console.log("Grades Data:", grades);
+        console.log("User Data:", userData);
+
+        // Update charts with grades data
+        createHistogram(grades);
+        createPieChart(grades);
+        createBoxPlot(grades);
+        showCharts();
+
+        // Optionally, display user-specific data on the page
+        displayUserData(userData);
+    } catch (error) {
+        console.error(error.message);
     }
+}
+
+// Function to display user-specific data
+function displayUserData(userData) {
+    const container = document.querySelector('.container');
+    let userInfo = document.getElementById('userInfo');
+    if (!userInfo) {
+        userInfo = document.createElement('div');
+        userInfo.id = 'userInfo';
+        container.appendChild(userInfo);
+    }
+
+    userInfo.innerHTML = `
+        <h3>👤 User Information</h3>
+        <p><strong>Name:</strong> ${userData.name}</p>
+        <p><strong>Grade:</strong> ${userData.grade}</p>
+        <p><strong>Status:</strong> ${userData.status}</p>
+    `;
+}
 
 
     let histogram;
