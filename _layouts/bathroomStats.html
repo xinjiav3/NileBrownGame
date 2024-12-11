@@ -1,0 +1,69 @@
+---
+layout: base 
+---
+<style>
+    table {
+        width: 50%;
+        margin: 20px auto;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+    }
+    th {
+        background-color: #f4f4f4;
+    }
+</style>
+
+<button id ="fetch_person">sdfds</button>
+<h1 style="text-align: center;">Bathroom Statistics</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Statistic</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Average Duration (minutes)</td>
+            <td>5.2</td>
+        </tr>
+        <tr>
+            <td>Number of Times Gone</td>
+            <td>12</td>
+        </tr>
+    </tbody>
+</table>
+
+<script type="module">
+    import { pythonURI,javaURI,  fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+
+    const personButton = document.getElementById("fetch_person")
+    window.onclick = function(event) {
+        const URL = javaURI + '/api/person/get';
+        if (event.target === personButton){
+            fetch(URL, fetchOptions)
+                .then(response => { // API response handler 
+                    if (response.status !== 200) {
+                        console.error("HTTP status code: " + response.status);
+                        return null; // prepares to stop the chain by returning null.
+                    }
+                    return response.json(); // plans to continue the chain with the data.
+                })
+                .then(data => { // Data handler from the previous promise  
+                    if (data === null) return null; // stops the chain, returns null.
+                    console.log(data); // logs data with should contain uid, name, etc.
+                    return data; // returns data to caller 
+                })
+                .catch(err => { // General error handler
+                    console.error("Fetch error: ", err);
+                    return null;
+                });
+        }
+    }
+
+</script>
+
