@@ -53,23 +53,12 @@
         <img src="{{site.baseurl}}/images/bathroom/map.png" alt="Map">
     </div>
 
-    <script>
-        // import "/portfolio_2025/assets/js/api/config.js";
-
-        const fetchOptions = {
-            method: 'GET',  // Default method is GET
-            mode: 'cors', // Enable CORS (Cross-Origin Resource Sharing)
-            cache: 'default', // Default caching behavior
-            credentials: 'include', // Include credentials (cookies, etc.)
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Origin': 'client' // Custom header to identify source
-            },
-        };
+    <script type="module">
+        import {javaURI, fetchOptions} from "{{site.baseurl}}/assets/js/api/config.js";
 
         async function fetchLocations() {
             try {
-                const response = await fetch('http://localhost:8085/api/issue/issues', fetchOptions);
+                const response = await fetch(javaURI + '/api/issue/issues', fetchOptions);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
