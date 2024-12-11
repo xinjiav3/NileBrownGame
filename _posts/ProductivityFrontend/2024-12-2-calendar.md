@@ -90,26 +90,34 @@ permalink: /calendar
 </div>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
 <script>
-    function getCookie(name) {
-        var dc = document.cookie;
-        var prefix = name + "=";
-        var begin = dc.indexOf("; " + prefix);
-        if (begin == -1) {
-            begin = dc.indexOf(prefix);
-            if (begin != 0) return null;
-        }
-        else
-        {
-            begin += 2;
-            var end = document.cookie.indexOf(";", begin);
-            if (end == -1) {
+function getCookie(name) {
+    var dc = document.cookie;
+    // Save the entire cookie string from the document object
+    var prefix = name + "=";
+    // Construct the prefix with the desired cookie name followed by an equal sign
+    var begin = dc.indexOf("; " + prefix);
+    // Look for the cookie's prefix preceded by "; " (indicates it's not the first cookie)
+    if (begin == -1) {
+        // If the cookie with "; " + prefix is not found
+        begin = dc.indexOf(prefix);
+        // Check if the cookie is the very first one (without "; " before it)
+        if (begin != 0) return null;
+        // If the cookie is not at the start of the string, it does not exist
+    }
+    else {
+        begin += 2;
+        // Adjust the starting position to account for the "; " offset
+        var end = document.cookie.indexOf(";", begin);
+        // Look for the position of the next ";" to determine the end of the cookie value
+        if (end == -1) {
             end = dc.length;
-            }
+            // If there is no ";" after the cookie, set the end to the end of the string
         }
-        // because unescape has been deprecated, replaced with decodeURI
-        //return unescape(dc.substring(begin + prefix.length, end));
-        return decodeURI(dc.substring(begin + prefix.length, end));
-    } 
+    }
+    return decodeURI(dc.substring(begin + prefix.length, end));
+    // Extract and decode the cookie value from the identified start and end positions
+}
+    // Not using the import because it gave my code issues for some reason, but this is the same thing
     const fetchOptions = {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
@@ -121,23 +129,25 @@ permalink: /calendar
         },
     }
     function auth() {
+        // Check if the auth cookie returned after a login exists, and if it does, let the user through
         if (getCookie("jwt_java_spring")) {
             handleRequest();
             return
         }
+        // If it doesn't, redirect them to the login page
         alert("You are not logged in! Redirecting you to the login page...")
         window.location.href = "{{site.baseurl}}/duallogin"; 
         }
     function request() {
+        // Will use javaURI before deployment time
         return fetch("http://localhost:8085/api/calendar/events", fetchOptions)
+        // Get all events from the calendar API
         .then(response => {
             if (response.status !== 200) {
                 console.error("HTTP status code: " + response.status);
                     return null;
             }
-            hello = response.json();
-            console.log(hello);
-            return hello;
+            return response.json();
         })
         .catch(error => {
             console.error("Fetch error: ", error);
@@ -146,23 +156,27 @@ permalink: /calendar
 }
     function handleRequest() {
         request().then(data => {
+            // data = the calendar API returned data
             if (data !== null) {
-                console.log(data);
+                // If data exists
                 const events = data.map(event => ({
+                    // Map the data values accordingly for displaying later
                     title: event.title,
                     description: event.description,
                     start: event.date
                     }));
-                console.log(events);
                 displayCalendar(events);
+                // Display the calendar
             }
         });
     }
     function displayCalendar(events) {
         const calendarEl = document.getElementById('calendar');
+        // Grab calendar element
         const calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
             events: events,
+            // Set calendar settings from imported calendar
             eventClick: function(info) {
                 // Show popup with title and description
                 document.getElementById('popup-title').textContent = info.event.title;
@@ -172,6 +186,7 @@ permalink: /calendar
             }
         });
         calendar.render();
+        // Render function from imported calendar
     }
     // Close popup
     function closePopup() {
