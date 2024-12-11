@@ -165,12 +165,14 @@ title: Stocks Home
         .search-button:hover {
             background-color: #e07b00; /* Darker orange on hover */
         }
+        /* Leaderboard modal styling */
         #leaderboardModal {
             display: none;
             position: fixed;
             top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            left: auto;
+            right: 50%;
+            transform: translateY(-50%, -50%);
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
@@ -180,7 +182,7 @@ title: Stocks Home
             overflow-y: auto;
             z-index: 1000; /* Ensures modal is above other elements */
         }
-        /* Add a semi-transparent background overlay */
+        /* Semi-transparent background overlay */
         #modalOverlay {
             display: none;
             position: fixed;
@@ -190,6 +192,44 @@ title: Stocks Home
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 999; /* Ensures overlay is beneath modal */
+        }
+        /* Table styling */
+        #leaderboardTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        #leaderboardTable th,
+        #leaderboardTable td {
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        #leaderboardTable th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+        }
+        #leaderboardTable tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        #leaderboardTable tr:hover {
+            background-color: #f1f1f1;
+        }
+        /* Center the Close button */
+        #closeLeaderboardButton {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            background-color: #00274d; /* Adjust color as needed */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 16px;
+        }
+        #closeLeaderboardButton:hover {
+            background-color: #004080; /* Hover color */
         }
     </style>
 </head>
