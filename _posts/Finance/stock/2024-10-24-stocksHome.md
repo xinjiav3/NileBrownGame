@@ -640,14 +640,3 @@ document.getElementById("closeLeaderboardButton").addEventListener("click", func
     modal.style.display = "none";
     overlay.style.display = "none";
 });
-const mockData = [
-    { username: "testUser1", portfolioValue: 5000 },
-    { username: "testUser2", portfolioValue: 10000 },
-];
-leaderboardTable.innerHTML = mockData.map((item, index) => `
-    <tr>
-        <td>${index + 1}</td>
-        <td>${item.username}</td>
-        <td>$${item.portfolioValue.toFixed(2)}</td>
-    </tr>
-`).join('');
