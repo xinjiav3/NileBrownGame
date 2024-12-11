@@ -165,13 +165,58 @@ title: Stocks Home
         .search-button:hover {
             background-color: #e07b00; /* Darker orange on hover */
         }
+        #leaderboardModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            z-index: 1000; /* Ensures modal is above other elements */
+        }
+        /* Add a semi-transparent background overlay */
+        #modalOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999; /* Ensures overlay is beneath modal */
+        }
     </style>
 </head>
 <body>
+<div id="leaderboardModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); width: 80%; max-height: 80%; overflow-y: auto;">
+    <h3>Leaderboard</h3>
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>Total Portfolio Value</th>
+            </tr>
+        </thead>
+        <tbody id="leaderboardTable">
+            <tr>
+                <td colspan="3" style="text-align: center;">Loading...</td>
+            </tr>
+        </tbody>
+    </table>
+    <button id="closeLeaderboardButton" style="margin-top: 10px; padding: 10px 20px; background-color: #001f3f; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Close</button>
+</div>
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="logo">NITD</div>
         <div class="nav-buttons">
+            <a href="#" id="leaderboardButton">Leaderboard</a>
             <a href="{{site.baseurl}}/stocks/home">Home</a>
             <a href="{{site.baseurl}}/stocks/viewer">Stocks</a>
             <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
@@ -517,3 +562,41 @@ async function logout() {
             localStorage.setItem('userID', userID)
             return(userID);   
         }
+document.getElementById("leaderboardButton").addEventListener("click", async function () {
+    const modal = document.getElementById("leaderboardModal");
+    const overlay = document.getElementById("modalOverlay");
+    const leaderboardTable = document.getElementById("leaderboardTable");
+    // Display the modal and overlay
+    modal.style.display = "block";
+    overlay.style.display = "block";
+    try {
+        // Fetch leaderboard data
+        const response = await fetch("http://localhost:8085/api/leaderboard"); // Update API endpoint if needed
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        // Populate the leaderboard table
+        leaderboardTable.innerHTML = data.map((item, index) => `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${item.username}</td>
+                <td>$${item.portfolioValue.toFixed(2)}</td>
+            </tr>
+        `).join('');
+    } catch (error) {
+        console.error("Error fetching leaderboard:", error);
+        leaderboardTable.innerHTML = `
+            <tr>
+                <td colspan="3" style="text-align: center; color: red;">Failed to load leaderboard data</td>
+            </tr>
+        `;
+    }
+});
+document.getElementById("closeLeaderboardButton").addEventListener("click", function () {
+    const modal = document.getElementById("leaderboardModal");
+    const overlay = document.getElementById("modalOverlay");
+    // Hide the modal and overlay
+    modal.style.display = "none";
+    overlay.style.display = "none";
+});
