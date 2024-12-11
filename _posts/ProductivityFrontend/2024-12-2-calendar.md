@@ -90,12 +90,44 @@ permalink: /calendar
 </div>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
 <script>
+    function getCookie(name) {
+        var dc = document.cookie;
+        var prefix = name + "=";
+        var begin = dc.indexOf("; " + prefix);
+        if (begin == -1) {
+            begin = dc.indexOf(prefix);
+            if (begin != 0) return null;
+        }
+        else
+        {
+            begin += 2;
+            var end = document.cookie.indexOf(";", begin);
+            if (end == -1) {
+            end = dc.length;
+            }
+        }
+        // because unescape has been deprecated, replaced with decodeURI
+        //return unescape(dc.substring(begin + prefix.length, end));
+        return decodeURI(dc.substring(begin + prefix.length, end));
+    } 
     const fetchOptions = {
-        method: 'GET',
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'include', // include, same-origin, omit
         headers: {
             'Content-Type': 'application/json',
+            'X-Origin': 'client' // New custom header to identify source
         },
     }
+    function auth() {
+        if (getCookie("jwt_java_spring")) {
+            handleRequest();
+            return
+        }
+        alert("You are not logged in! Redirecting you to the login page...")
+        window.location.href = "{{site.baseurl}}/duallogin"; 
+        }
     function request() {
         return fetch("http://localhost:8085/api/calendar/events", fetchOptions)
         .then(response => {
@@ -146,5 +178,5 @@ permalink: /calendar
         document.getElementById('popup').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
     }
-    document.addEventListener("DOMContentLoaded", handleRequest());
+    document.addEventListener("DOMContentLoaded", auth());
 </script>

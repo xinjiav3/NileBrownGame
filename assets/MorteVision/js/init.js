@@ -1,9 +1,9 @@
 let unsetHost = "skibidi"
 const isDebug = true
 if (isDebug) {
-    unsetHost = "ws://localhost:8085"
+    unsetHost = "http://localhost:8085"
 }
-const socketServer = unsetHost
+const rtcServer = unsetHost
 const servers = {
     iceServers:[
       {
@@ -24,4 +24,4 @@ const servers = {
     iceCandidatePoolSize:10,
   }
 
-  const signalingServer = new WebSocket(`${socketServer}/socket`)
+// const signalingServer = new WebSocket(`${socketServer}/socket`)
