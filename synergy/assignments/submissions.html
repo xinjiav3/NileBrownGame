@@ -1,5 +1,5 @@
 ---
-permalink: /project/mort-translator/submissions-page
+permalink: /synergy/assignments/submit
 search_exclude: true
 layout: base
 ---
@@ -125,24 +125,26 @@ layout: base
     let assignmentIds = [];
     let submissions=[];
     let assignIndex = 0;
+    let assignments;
     let userId=0;
     let Student;
 
     document.getElementById("submit-assignment").addEventListener("click", Submit);
     function Submit() {
-        const urllink_submit=javaURI+"/api/submissions/Submit";
+        let urllink_submit=javaURI+"/api/submissions/submit/";
         const submissionContent = document.getElementById('submissionContent').value;
-        const data = {
-            content: submissionContent,
-            student:Student
-
-        };
+        getUserId();
+        const student_id=userId;
+        const assigmentId=assignments[assignIndex-1].id;
+        urllink_submit+=assigmentId.toString();
+        const data = new FormData();
+        data.append("studentId", student_id);
+        data.append("content", submissionContent);
 
         fetch(urllink_submit, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
-            body: JSON.stringify(data),
+            body: data,
         })
         .then(response => {
             const outputBox = document.getElementById('outputBox');
@@ -165,7 +167,6 @@ layout: base
 
 
     async function fetchAssignments() {
-        console.log(javaURI);
         try {
             const response = await fetch(javaURI+"/api/assignments/debug", {
                 method: 'GET',
@@ -173,8 +174,7 @@ layout: base
                   'Content-Type': 'application/json',
                 }
             });
-            const assignments=await response.json();
-            console.log(assignments[0].name+"here");
+            assignments=await response.json();
             populateAssignmentDropdown(assignments);
         } catch (error) {
             console.error('Error fetching tasks:', error);
@@ -187,7 +187,6 @@ layout: base
             const option = document.createElement('option');
             option.value = assignment.name;
             option.textContent = assignment.name;
-            console.log(option);
             assignmentSelect.appendChild(option);
             assignmentIds.push(assignment.id);
         });
@@ -199,39 +198,31 @@ layout: base
     });
 
 
-    async function getUserId(){
+     async function getUserId(){
         const url_persons = `${javaURI}/api/person/get`;
-
-        try {
-            const response = await fetch(url_persons, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include', // Ensure cookies are included
-            });
-            console.log(response);
-            if (response.ok) {
-                const data = await response.json();
-                Student=data;
+        await fetch(url_persons, fetchOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Spring server response: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
                 userId=data.id;
-                console.log("User details:", data);
-                return userId;
-            } else {
-                console.error(`Failed: ${response.status} ${response.statusText}`);
-            }
-        } catch (error) {
-            console.error("Error fetching user details:", error);
-        }
+
+
+            })
+            .catch(error => {
+                console.error("Java Database Error:", error);
+            });
     }
+
 
     
 
     async function fetchSubmissions(){
         const urllink=javaURI+"/api/submissions/getSubmissions";
-        console.log(userId);
         const theUserId=await getUserId();
-        console.log(theUserId+"mooo");
         try {
             const response = await fetch(`${urllink}/${userId}`, {
                 method: 'GET',
@@ -240,7 +231,6 @@ layout: base
                 }
             });
             const Submissions=await response.json();
-            console.log(Submissions);
             populateSubmissionsTable(Submissions);
         } catch (error) {
             console.error('Error fetching submissions:', error);

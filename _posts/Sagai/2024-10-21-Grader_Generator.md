@@ -1,8 +1,10 @@
 ---
 toc: false
 layout: pos
-title: Grader Project
-permalink: /generator
+title: Grader
+description: Grade your work
+categories: [Collaboration]
+type: ccc
 ---
 <head>
    <meta charset="UTF-8">
