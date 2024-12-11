@@ -152,7 +152,7 @@ search_exclude: true
 
     // Function to fetch and display Java data
     function javaDatabase() {
-        const URL = `${javaURI}/api/person`;
+        const URL = `${javaURI}/api/person/get`;
         const loginForm = document.getElementById('javaForm');
         const dataTable = document.getElementById('javaTable');
         const dataButton = document.getElementById('javaButton');
