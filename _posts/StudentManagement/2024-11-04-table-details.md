@@ -70,9 +70,33 @@ comments: false
       font-size: 16px;
       font-weight: bold;
   }
+  /* Progress bar container */
+  #progress-bar-container {
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 25px;
+      margin: 20px 0;
+      height: 25px;
+  }
+
+  /* Actual progress */
+  #progress-bar {
+      height: 100%;
+      background-color: #28a745;
+      border-radius: 25px;
+      text-align: center;
+      line-height: 25px;
+      color: white;
+      font-weight: bold;
+      width: 0; /* Initial value */
+      transition: width 0.5s ease-in-out;
+  }
 </style>
 <body>
   <h2 id="page-title">Students in Table</h2>
+  <div id="progress-bar-container">
+      <div id="progress-bar">0%</div>
+  </div>
   <div id="student-cards-container"></div>
   <button class="create-button" onclick="createStudent()">Create Student</button>
 
@@ -83,6 +107,29 @@ comments: false
       const period = urlParams.get('period');
 
       if (tableNumber) {
+        console.log("Fetching students for table:", tableNumber);
+        console.log("Fetching progress for period:", period);
+        console.log(JSON.stringify({ 
+            table: parseInt(tableNumber),
+            period: parseInt(period)}));
+        fetch("http://127.0.0.1:8085/api/students/progress", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            "table": parseInt(tableNumber),
+            "period": parseInt(period)}),
+        })
+        .then(response => {
+          if (!response.ok) throw new Error("Failed to fetch progress");
+          return response.json();
+        })
+        .then(progress => {
+          const progressBar = document.getElementById("progress-bar");
+          progressBar.style.width = progress + "%";
+          progressBar.textContent = progress + "%";
+        })
+        .catch(error => console.error("Error fetching progress:", error));
+
         fetch("http://127.0.0.1:8085/api/students/find-team", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
