@@ -5,6 +5,7 @@ permalink: /casino/poker
 ---
 <title>Poker Game</title>
 <style>
+    /* Styles the main body of the page, setting font, layout, and background color */
     body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -14,6 +15,7 @@ permalink: /casino/poker
         align-items: center;
         background-color: #f4f4f4;
     }
+    /* Styles the container for the poker game UI */
     .container {
         max-width: 400px;
         width: 100%;
@@ -23,11 +25,13 @@ permalink: /casino/poker
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         color: #fff;
     }
+    /* Styling for labels within the form */
     label {
         display: block;
         margin: 10px 0 5px;
         color: #ccc;
     }
+    /* Styles for input fields and buttons to ensure consistent appearance */
     input, button {
         width: 100%;
         padding: 10px;
@@ -35,28 +39,34 @@ permalink: /casino/poker
         border: 1px solid #ccc;
         border-radius: 4px;
     }
+    /* Styles for the 'Play Poker' button */
     button {
         background-color: #007bff;
         color: #fff;
         border: none;
         cursor: pointer;
     }
+    /* Changes the button's background color when hovered */
     button:hover {
         background-color: #0056b3;
     }
+    /* Styles the header text for the poker game */
     h2 {
         text-align: center;
         color: #fff;
     }
+    /* Additional styling for numeric input fields */
     input[type="number"] {
         font-size: 16px;
         color: #333;
     }
+    /* Styles for the container displaying cards */
     .cards-container {
         margin-top: 20px;
         display: flex;
         justify-content: space-between;
     }
+    /* Styles individual card elements */
     .card {
         padding: 10px;
         margin: 5px;
@@ -76,6 +86,7 @@ permalink: /casino/poker
         border: 2px solid #fff;
         position: relative;
     }
+    /* Adds visual effects to cards for better appearance */
     .card:before, .card:after {
         content: '';
         position: absolute;
@@ -93,6 +104,7 @@ permalink: /casino/poker
         bottom: -2px;
         right: -2px;
     }
+    /* Styles the message displayed after the game ends */
     .win-message {
         margin-top: 20px;
         font-size: 18px;
@@ -105,19 +117,22 @@ permalink: /casino/poker
 <div class="container">
     <h2>Poker Game</h2>
     <form id="pokerForm">
+        <!-- Input field for the player to enter their bet -->
         <label for="betAmount">Bet Amount:</label>
         <input type="number" id="betAmount" name="betAmount" required min="500">
+        <!-- Button to submit the form and play the game -->
         <button type="submit">Play Poker</button>
     </form>
-    
+    <!-- Container for displaying the player's and dealer's cards -->
     <div id="cardsDisplay" class="cards-container" style="display: none;"></div>
+    <!-- Message container to show the result of the game -->
     <div id="resultMessage" class="win-message" style="display: none;"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
 <script type="module">
     import { javaURI } from '../assets/js/api/config.js';
-
+    /* Retrieves a specific cookie by its name */
     function getCookie(name) {
         const cookies = document.cookie.split(';');
         for (let cookie of cookies) {
@@ -128,8 +143,8 @@ permalink: /casino/poker
         }
         return null;
     }
-
     document.addEventListener('DOMContentLoaded', () => {
+        /* Decodes and validates the JWT token */
         const token = getCookie('jwt_java_spring');
         if (!token) {
             console.error("Token not found in cookies");
@@ -141,26 +156,22 @@ permalink: /casino/poker
                 console.error('Error decoding token:', err);
             }
         }
-
         const pokerForm = document.getElementById('pokerForm');
-
-        // Form submission
+        // Adds an event listener for form submission
         pokerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const betAmount = parseFloat(document.getElementById('betAmount').value);
-
             if (!token) {
                 alert('Token is missing. Please log in again.');
                 return;
             }
-
             const email = jwt_decode(token).sub; // Extract user email from token
             const betData = {
                 bet: betAmount,
                 email: email,
             };
-
             try {
+                /* Sends a POST request to the backend with bet data */
                 const response = await fetch(`${javaURI}/api/casino/poker/play`, {
                     method: 'POST',
                     headers: {
@@ -169,11 +180,10 @@ permalink: /casino/poker
                     },
                     body: JSON.stringify(betData),
                 });
-
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-
+                /* Processes the API response and updates the UI */
                 const result = await response.json();
                 if (result && result.playerHand && result.dealerHand && result.playerWin !== undefined && result.updatedBalance !== undefined) {
                     displayCards(result.playerHand, result.dealerHand);
@@ -187,22 +197,18 @@ permalink: /casino/poker
             }
         });
     });
-
+    /* Updates the UI to show the player's and dealer's cards */
     function displayCards(playerHand, dealerHand) {
         const cardsContainer = document.getElementById('cardsDisplay');
         cardsContainer.style.display = 'flex';
-
-        // Clear existing cards
+        // Clears existing cards
         cardsContainer.innerHTML = '';
-
         const playerCardElements = playerHand.map(card => {
             return `<div class="card">${card.rank} ${card.suit}</div>`;
         }).join('');
-
         const dealerCardElements = dealerHand.map(card => {
             return `<div class="card">${card.rank} ${card.suit}</div>`;
         }).join('');
-
         cardsContainer.innerHTML = `
             <div>
                 <h3>Your Hand</h3>
@@ -214,15 +220,13 @@ permalink: /casino/poker
             </div>
         `;
     }
-
+    /* Displays the result message based on game outcome */
     function displayResult(playerWin, updatedBalance) {
         const resultMessage = document.getElementById('resultMessage');
         resultMessage.style.display = 'block';
-
         const message = playerWin
             ? `You won! 🎉\nUpdated Balance: $${updatedBalance}`
             : `You lost! 😞\nUpdated Balance: $${updatedBalance}`;
-
         resultMessage.textContent = message;
     }
 </script>
