@@ -1,9 +1,4 @@
 ---
-layout: base
-title: Investments
-permalink: /finance/home
----
----
 layout: none
 permalink: /investments/home
 title: Investments Home
@@ -64,27 +59,14 @@ title: Investments Home
         }
         .section h2 {
             margin-top: 0;
-        }
-        .section .content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .investment-item {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            border-radius: 8px;
             text-align: center;
-            flex: 1;
-            min-width: 120px;
-        }
-        .investment-item:hover {
-            background-color: #444;
         }
         .chart-container {
             margin-top: 20px;
-            height: 300px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
@@ -105,7 +87,6 @@ title: Investments Home
         <!-- Stocks Section -->
         <div class="section">
             <h2>Stocks Overview</h2>
-            <div class="content" id="stocks-overview"></div>
             <div class="chart-container">
                 <canvas id="stocks-chart"></canvas>
             </div>
@@ -114,7 +95,6 @@ title: Investments Home
         <!-- Crypto Section -->
         <div class="section">
             <h2>Crypto Overview</h2>
-            <div class="content" id="crypto-overview"></div>
             <div class="chart-container">
                 <canvas id="crypto-chart"></canvas>
             </div>
@@ -130,33 +110,27 @@ title: Investments Home
             { name: 'Microsoft', price: 330456 }
         ];
 
-        const cryptos = [
-            { name: 'Bitcoin', price: 50000 },
-            { name: 'Ethereum', price: 4000 },
-            { name: 'Dogecoin', price: 0.25 },
-            { name: 'Cardano', price: 2.15 },
-            { name: 'Polkadot', price: 40 }
-        ];
+        drawChart('stocks-chart', stocks.map(s => s.name), stocks.map(s => s.price), 'Stock Prices');
 
-        // Populate stocks overview
-        const stocksOverview = document.getElementById('stocks-overview');
-        stocks.forEach(stock => {
-            const div = document.createElement('div');
-            div.className = 'investment-item';
-            div.textContent = `${stock.name}: $${stock.price}`;
-            stocksOverview.appendChild(div);
-        });
+        // Fetch and populate crypto data dynamically
+        async function fetchCryptos() {
+            try {
+                const response = await fetch('http://localhost:8085/api/crypto/live');
+                if (!response.ok) throw new Error('Failed to fetch crypto data');
+                const cryptos = await response.json();
+                drawCryptoChart(cryptos);
+            } catch (error) {
+                console.error('Error fetching crypto data:', error);
+            }
+        }
 
-        // Populate crypto overview
-        const cryptoOverview = document.getElementById('crypto-overview');
-        cryptos.forEach(crypto => {
-            const div = document.createElement('div');
-            div.className = 'investment-item';
-            div.textContent = `${crypto.name}: $${crypto.price}`;
-            cryptoOverview.appendChild(div);
-        });
+        function drawCryptoChart(cryptos) {
+            const labels = cryptos.map(c => c.name);
+            const data = cryptos.map(c => c.price);
+            drawChart('crypto-chart', labels, data, 'Crypto Prices');
+        }
 
-        // Draw charts
+        // General chart drawing function
         function drawChart(canvasId, labels, data, label) {
             const ctx = document.getElementById(canvasId).getContext('2d');
             new Chart(ctx, {
@@ -168,21 +142,27 @@ title: Investments Home
                         data: data,
                         borderColor: 'rgba(75, 192, 192, 1)',
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        fill: true
+                        fill: true,
+                        tension: 0.4
                     }]
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
                     scales: {
-                        x: { title: { display: true, text: 'Days Ago' } },
+                        x: { title: { display: true, text: 'Assets' } },
                         y: { title: { display: true, text: 'Price (USD)' } }
                     }
                 }
             });
         }
 
-        drawChart('stocks-chart', stocks.map(s => s.name), stocks.map(s => s.price), 'Stock Prices');
-        drawChart('crypto-chart', cryptos.map(c => c.name), cryptos.map(c => c.price), 'Crypto Prices');
+        fetchCryptos();
     </script>
 </body>
 </html>
