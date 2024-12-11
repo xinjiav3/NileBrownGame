@@ -1,0 +1,131 @@
+<!-- This page is illustrative and contains ideas about HTML formatting -->
+<!DOCTYPE HTML>
+<!-- Signals to the Layout Dialect which layout should be used to decorate this View -->
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+    layout:decorate="~{layouts/base}" lang="en">
+
+<head>
+    <title>Hall Pass</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 600px;
+        }
+
+        #additionalInput {
+            display: none;
+            /* Initially hidden */
+        }
+
+        body {
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <th:block layout:fragment="body" th:remove="tag">
+        <div class="container py-4 bg-primary text-black">
+            <!-- Show Hall Pass form only if teacher is found (no error) -->
+            <div class="bg-light p-4 rounded">
+                <h2 th:text="'Hall Pass for ' + Mortensen + ' ' + ${teacher.lastname}"></h2>
+                <div>
+                    <button type="button" class="btn btn-secondary mt-3" onclick="approveStudent()">I'm done</button>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</body>
+
+</html>
+
+<script>
+    import { javaURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js'
+
+    // Get teacher name and student name from local storage or variables
+    const teacherName = "Mortensen"; // Replace with dynamic teacher name if needed
+    const studentName = localStorage.getItem("email"); // Assume stored from login
+    const approveUrl = javaURI + '/approve';
+    const adminUrl = javaURI + '/api/admin/add';
+
+    const postOptions = {
+        ...fetchOptions,
+        method: 'POST',
+    };
+
+    // Function to approve student who is first in line
+    function approveStudent() {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes().toString().padStart(2, "0"); // Ensures 2 digits
+        const seconds = now.getSeconds().toString().padStart(2, "0");
+        const timeOut = `${hours}:${minutes}:${seconds}`;
+        const timeIn = localStorage.getItem("timeIn");
+        var timeSpentMinutes = 0;
+
+        if (timeIn) {
+            // Convert both timeIn and timeOut from "HH:MM:SS" to total seconds
+            const [inHours, inMinutes, inSeconds] = timeIn.split(":").map(Number);
+            const [outHours, outMinutes, outSeconds] = timeOut.split(":").map(Number);
+
+            // Convert both times to total seconds since midnight
+            const totalSecondsIn = inHours * 3600 + inMinutes * 60 + inSeconds;
+            const totalSecondsOut = outHours * 3600 + outMinutes * 60 + outSeconds;
+
+            // Calculate the difference in seconds
+            const timeSpentSeconds = totalSecondsOut - totalSecondsIn;
+
+            // Convert timeSpent from seconds to minutes (with 2 decimal places)
+            const timeSpentMinutes = (timeSpentSeconds / 60).toFixed(2);
+
+            console.log(`Time spent: ${timeSpentMinutes} minutes`);
+        } else {
+            console.log("No timeIn value stored in localStorage.");
+        }
+
+        const timeInOut = `${timeIn}-${timeOut}`;
+
+
+        const times = {
+            studentEmail: studentName,
+            timeIn: timeInOut,
+            averageDuration: timeSpentMinutes,
+        };
+
+        const queuer = {
+            teacherName: teacherName,
+            studentName: studentName,
+        };
+
+        fetch(adminUrl, {
+            ...postOptions,
+            body: JSON.stringify(times),
+        })
+            .then(response => {
+                console.log(body);
+                if (response.ok) {
+                    console.log("Time added to database");
+                }
+                else {
+                    alert("Failed to add time to database.");
+                }
+            })
+            .catch(error => console.error("Error adding time to database:", error));
+
+
+        fetch(approveUrl, {
+            ...postOptions,
+            body: JSON.stringify(queuer),
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = "{{site.baseurl}}/hallpass";
+                }
+                else {
+                    alert("Failed to approve student.");
+                }
+            })
+            .catch(error => console.error("Error approving student:", error));
+        window.location.href = "{{site.baseurl}}/profile";
+    }
+</script>
