@@ -60,13 +60,13 @@ comments: false
 <script>
   async function fetchStudentDetails() {
     const urlParams = new URLSearchParams(window.location.search);
-    const name = urlParams.get("name");
+    const username = urlParams.get("username");
     const course = urlParams.get("course");
     const trimester = urlParams.get("trimester");
     const period = urlParams.get("period");
 
     const criteriaDto = {
-      name: name,
+      username: username,
       course: course,
       trimester: parseInt(trimester),
       period: parseInt(period)
