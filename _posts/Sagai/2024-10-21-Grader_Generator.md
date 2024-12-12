@@ -1,7 +1,7 @@
 ---
 toc: false
 layout: post
-title: Grader
+title: AI Generator
 categories: [Collaboration]
 type: ccc
 ---
@@ -203,13 +203,6 @@ type: ccc
    </style>
 </head>
 <body>
-   <!-- Sign out link -->
-   <div class="signout">
-      <a href="#" style="color: white; text-decoration: none;">Sign out</a>
-   </div>
-   <!-- SAGAI Header -->
-   <h1>SAGAI</h1>
-   <h2>Super Advanced Grader Artificial Intelligence</h2>
    <!-- Navigation buttons -->
    <div class="nav-buttons">
       <a href="{{site.baseurl}}/collaboration/2024/10/21/Grader_Home.html">
