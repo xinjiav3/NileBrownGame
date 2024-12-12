@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Mines 
+title: OneHandPoker
 permalink: /casino/poker
 ---
 <html lang="en">
