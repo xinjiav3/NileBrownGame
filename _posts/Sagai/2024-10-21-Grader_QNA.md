@@ -1,6 +1,6 @@
 ---
 toc: false
-layout: my own thing
+layout: post
 title: QNA
 description: Post questions and get replies from peers
 categories: [Collaboration]
@@ -192,13 +192,6 @@ type: ccc
 
 </head>
 <body>
-    <!-- Sign out link -->
-    <div class="signout">
-        <a href="#" style="color: white; text-decoration: none;">Sign out</a>
-    </div>
-    <!-- SAGAI Header -->
-    <h1>SAGAI</h1>
-    <h2>Super Advanced Grader Artificial Intelligence</h2>
     <!-- Navigation buttons -->
     <div class="nav-buttons">
         <a href="{{site.baseurl}}/collaboration/2024/10/21/Grader_Home.html"><button>Home</button></a>
