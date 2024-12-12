@@ -5,7 +5,7 @@
         <td><a href="{{site.baseurl}}/navigation/section/csp">CSP</a></td>
         <td><a href="{{site.baseurl}}/navigation/section/csa">CSA</a></td>
         <td><a href="{{site.baseurl}}/kasm/pages/intro">Kasm</a></td>
-        <td id="loginArea"><a href="{{site.baseurl}}/login">Login</a></td>
+        <td id="loginArea"><a href="{{site.baseurl}}/duallogin">Login</a></td>
         
     </tr>
 </table>
@@ -31,7 +31,7 @@
                 `;
             } else {
                 // User is not authenticated, then "Login" link is shown
-                loginArea.innerHTML = '<a href="{{site.baseurl}}/login">Login</a>';
+                loginArea.innerHTML = '<a href="{{site.baseurl}}/duallogin">Login</a>';
             }
         })
         .catch(err => { // General error handler
