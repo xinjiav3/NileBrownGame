@@ -1,6 +1,6 @@
 ---
 toc: false
-layout: my own thing
+layout: post
 title: Grader
 description: Grade your work
 categories: [Collaboration]
