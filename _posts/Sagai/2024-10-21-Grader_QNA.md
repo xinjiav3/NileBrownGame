@@ -1,6 +1,6 @@
 ---
 toc: false
-layout: my own thing
+layout: post
 title: QNA
 description: Post questions and get replies from peers
 categories: [Collaboration]
