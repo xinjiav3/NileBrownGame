@@ -126,7 +126,7 @@ search_exclude: true
                 <!-- javascript generated data -->
             </tbody>
         </table>
-        <a href="{{ site.baseur l}}/profile" id="pythonButton" class="details-button">User Profile</a>
+        <a href="{{ site.baseurl l}}/profile" id="pythonButton" class="details-button">User Profile</a>
     </div>
 </div>
 
