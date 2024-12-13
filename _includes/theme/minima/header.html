@@ -17,6 +17,15 @@
         </label>
 
         <div class="trigger" data-baseurl="{{ site.baseurl }}">
+          <!-- New Toolkits Dropdown -->
+          <div class="dropdown">
+            <button class="dropdown-button">Toolkits</button>
+            <div class="dropdown-content">
+              <a href="{{ site.baseurl }}/student">Student Toolkit</a>
+              <a href="{{ site.baseurl }}/gamify">Gamify</a>
+            </div>
+          </div>
+          
           {%- for path in site.header_pages -%}
             {%- assign my_page = site.pages | where: "path", path | first -%}
             {%- if my_page.title -%}
@@ -31,3 +40,46 @@
 </header>
 
 <script type="module" src="{{ site.baseurl }}/assets/js/api/login.js"></script>
+
+<style>
+  .dropdown {
+    display: inline-block;
+    position: relative;
+  }
+
+  .dropdown-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: inherit;
+    color: inherit;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .dropdown-content a:hover {
+    background-color: #f1f1f1;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .dropdown:hover .dropdown-button {
+    text-decoration: underline;
+  }
+</style>
