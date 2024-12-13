@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
             } else {
                 // User is not authenticated, then "Login" link is shown
-                loginArea.innerHTML = `<a href="${baseurl}/login">Login</a>`;
+                loginArea.innerHTML = `<a href="${baseurl}/duallogin">Login</a>`;
             }
         })
         .catch(err => { // General error handler
