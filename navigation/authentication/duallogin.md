@@ -265,7 +265,7 @@ search_exclude: true
                 tr.appendChild(kasm);
                 tr.appendChild(classes);
                 resultContainer.appendChild(tr);
-                window.location.reload();
+                //window.location.reload();
             })
             .catch(error => {
                 loginForm.style.display = 'block';
