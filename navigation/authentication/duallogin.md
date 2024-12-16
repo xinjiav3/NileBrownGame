@@ -176,6 +176,10 @@ search_exclude: true
                 const id = document.createElement("td");
                 const age = document.createElement("td");
                 const roles = document.createElement("td");
+
+                // stuff for bathroom pass
+                localStorage.setItem("name", data.name);
+
                 name.textContent = data.name;
                 id.textContent = data.email;
                 age.textContent = data.age;

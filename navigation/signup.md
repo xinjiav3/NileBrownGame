@@ -63,7 +63,7 @@ show_reading_time: false
             <p>
                 <button type="submit">Sign Up</button>
             </p>
-            <a style="color: grey !important" href="{{site.baseurl}}/login">login</a>
+            <a style="color: grey !important" href="{{site.baseurl}}/duallogin">login</a>
             <p id="signupMessage" style="color: green;"></p>
         </form>
     </div>

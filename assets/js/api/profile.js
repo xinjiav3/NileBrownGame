@@ -45,7 +45,6 @@ export function postUpdate(options) {
     };
 
     // Clear the message area
-    document.getElementById(options.message).textContent = "";
     // Send POST request
     fetch(options.URL, requestOptions)
         .then(response => {
@@ -53,7 +52,6 @@ export function postUpdate(options) {
             if (!response.ok) {
                 const errorMsg = 'Error: ' + response.status;
                 console.log(errorMsg);
-                document.getElementById(options.message).textContent = errorMsg;
                 return;
             }
             // Success!!!
@@ -82,7 +80,7 @@ export async function logoutUser() {
         try {
                 const response = await fetch(URL, options);
                 if (response.ok) {
-                    window.location.href = "/portfolio_2025/login"; // Redirect to login page
+                    window.location.href = "{{site.baseurl}}/duallogin"; // Redirect to login page
                 } else {
                     const errorMessage = await response.text();
                     console.error('Logout failed:', errorMessage);
