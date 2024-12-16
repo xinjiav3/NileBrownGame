@@ -611,7 +611,7 @@ document.getElementById("leaderboardButton").addEventListener("click", async fun
     overlay.style.display = "block";
     try {
         // Fetch leaderboard data
-        const response = await fetch("http://localhost:8085/api/leaderboard"); // Update API endpoint if needed
+        const response = await fetch("http://localhost:8085/user/leaderboard"); // Update API endpoint if needed
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }

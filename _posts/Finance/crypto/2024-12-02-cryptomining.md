@@ -171,7 +171,8 @@ permalink: /crypto/mining
         </div>
         <!-- GPU Inventory -->
         <div class="dashboard-card mt-4">
-            <div id="gpu-inventory" class="gpu-inventory">
+            <h2 class="text-xl font-bold mb-4">My GPU Inventory</h2>
+            <div id="gpu-inventory" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <!-- GPU inventory will be populated here -->
             </div>
         </div>
@@ -390,9 +391,9 @@ permalink: /crypto/mining
         }
         async function startPeriodicUpdates() {
             updateInterval = setInterval(async () => {
-                await updateMarketPrices();
-                await updateMiningStats();
-            }, 5000);
+                await updateAllMarketPrices();
+                await updateNiceHashPrice();
+            }, 3600000);
         }
         // API Calls
         async function loadGPUs() {
@@ -421,6 +422,26 @@ permalink: /crypto/mining
                 updateMiningButton(result.active);
             } catch (error) {
                 console.error('Error toggling mining:', error);
+            }
+        }
+        async function toggleGPU(gpuId) {
+            try {
+                const options = {
+                    ...fetchOptions,
+                    method: 'POST',
+                    cache: 'no-cache'
+                };
+                const response = await fetch(`${javaURI}/api/mining/gpu/toggle/${gpuId}`, options);
+                const result = await response.json();
+                if (result.success) {
+                    showNotification(result.message);
+                    await updateMiningStats(); // Refresh the display
+                } else {
+                    showNotification(result.message || 'Failed to toggle GPU');
+                }
+            } catch (error) {
+                console.error('Error toggling GPU:', error);
+                showNotification('Error toggling GPU: ' + error.message);
             }
         }
         async function buyGpu(gpuId) {
@@ -485,6 +506,51 @@ permalink: /crypto/mining
             document.getElementById('power-draw').textContent = `${(stats.powerDraw || 0).toFixed(0)}W`;
             document.getElementById('daily-revenue').textContent = `$${(stats.dailyRevenue || 0).toFixed(2)}`;
             document.getElementById('power-cost').textContent = `$${(stats.powerCost || 0).toFixed(2)}`;
+            renderGpuInventory(stats);
+        }
+        function renderGpuInventory(stats) {
+            const inventoryElement = document.getElementById('gpu-inventory');
+            if (!inventoryElement || !stats.gpus) return;
+            inventoryElement.innerHTML = '';
+            if (stats.gpus.length === 0) {
+                inventoryElement.innerHTML = `
+                    <div class="text-gray-400 text-center p-4">
+                        No GPUs in inventory. Visit the shop to buy some!
+                    </div>
+                `;
+                return;
+            }
+            stats.gpus.forEach(gpu => {
+                const gpuCard = document.createElement('div');
+                gpuCard.className = 'bg-gray-800 rounded-lg p-4 shadow-lg';
+                // Calculate efficiency and daily estimates
+                const efficiency = (gpu.hashrate / gpu.power).toFixed(3);
+                const dailyRevenue = gpu.hashrate * 86400 / (1e12);
+                const dailyPowerCost = (gpu.power * 24) / 1000 * 0.12;
+                const dailyProfit = dailyRevenue - dailyPowerCost;
+                gpuCard.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold text-white">${gpu.name}</h3>
+                            <div class="grid grid-cols-2 gap-4 mt-2">
+                                <div class="text-sm">
+                                    <p class="text-gray-400">Performance</p>
+                                    <p class="text-white">⚡ ${gpu.hashrate} MH/s</p>
+                                    <p class="text-white">🔌 ${gpu.power}W</p>
+                                    <p class="text-white">📊 ${efficiency} MH/W</p>
+                                </div>
+                                <div class="text-sm">
+                                    <p class="text-gray-400">Daily Estimates</p>
+                                    <p class="text-green-400">💰 $${dailyRevenue.toFixed(2)}</p>
+                                    <p class="text-red-400">💡 -$${dailyPowerCost.toFixed(2)}</p>
+                                    <p class="text-blue-400">📈 $${dailyProfit.toFixed(2)}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                inventoryElement.appendChild(gpuCard);
+            });
         }
         function updateCharts(stats) {
             const now = new Date().toLocaleTimeString();
@@ -580,6 +646,12 @@ permalink: /crypto/mining
                 </div>
             `;
             return card;
+            const buttonHtml = gpu.owned 
+                ? '<button disabled class="bg-gray-600 px-4 py-2 rounded mt-2 cursor-not-allowed">Owned</button>'
+                : `<button onclick="window.buyGpu(${gpu.id})" 
+                        class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded mt-2">
+                    ${gpu.price === 0 ? 'Get Free' : 'Buy'}
+                </button>`;
         }
         // Utility functions
         function getCategoryColor(category) {
@@ -639,7 +711,6 @@ permalink: /crypto/mining
                 }
             }
         }
-        // Function to update all market prices
         async function updateAllMarketPrices() {
             const markets = ['btc', 'eth', 'f2p'];
             // Show loading state
@@ -647,19 +718,28 @@ permalink: /crypto/mining
                 const priceElement = document.getElementById(`${id}-price`);
                 if (priceElement) priceElement.textContent = 'Loading...';
             });
+            
             try {
-                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ftx-token&vs_currencies=usd&include_24hr_change=true', {
+                const response = await fetch(`${javaURI}/api/crypto/prices`, {
+                    method: 'GET',
                     mode: 'cors',
+                    cache: 'no-cache',
                     headers: {
-                        'Access-Control-Allow-Origin': '*'
+                        'Content-Type': 'application/json'
                     }
                 });
+                
                 if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
+                
+                // Log the data to see its structure
+                console.log('API Response:', data);
+
                 // Update markets except NiceHash
                 updatePriceDisplay('btc', data.bitcoin);
                 updatePriceDisplay('eth', data.ethereum);
                 updatePriceDisplay('f2p', data['ftx-token']);
+                
                 // Update game state with new BTC price
                 if (data.bitcoin && data.bitcoin.usd) {
                     gameState.btcPrice.current = data.bitcoin.usd;
@@ -696,23 +776,32 @@ permalink: /crypto/mining
                 }
             }
         }
-        // Helper function to update display
+        // Helper function to update display with validation
         function updatePriceDisplay(id, data) {
-            console.log(`Updating ${id} with data:`, data);
-            if (!data || !data.usd) return;
             const priceElement = document.getElementById(`${id}-price`);
             const changeElement = document.getElementById(`${id}-change`);
+
+            // Check if data exists and has required properties
+            if (!data || typeof data.usd === 'undefined') {
+                if (priceElement) priceElement.textContent = 'N/A';
+                if (changeElement) changeElement.textContent = '0.00%';
+                return;
+            }
+
+            // Update price
             if (priceElement) {
-                const formattedPrice = data.usd.toLocaleString('en-US', {
+                const formattedPrice = Number(data.usd).toLocaleString('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                 });
                 priceElement.textContent = `$${formattedPrice}`;
             }
+
+            // Update change percentage if it exists
             if (changeElement) {
-                const changeValue = data.usd_24h_change.toFixed(2);
+                const changeValue = data.usd_24h_change ? Number(data.usd_24h_change).toFixed(2) : '0.00';
                 changeElement.textContent = `${changeValue}%`;
-                changeElement.style.color = data.usd_24h_change >= 0 ? '#2ecc71' : '#e74c3c';
+                changeElement.style.color = changeValue >= 0 ? '#2ecc71' : '#e74c3c';
             }
         }
         // Update all prices every hour
