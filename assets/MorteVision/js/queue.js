@@ -8,18 +8,20 @@ document.getElementById('resetQueue').addEventListener('click', resetQueue);
 
 let timerInterval;
 
+const URL = "http://localhost:8082" + "/api/assignments/"
+console.log(URL)
+
 async function fetchQueue() {
-    const response = await fetch(`http://localhost:8085/api/assignments/getQueue/${assignment}`);
+    const response = await fetch(URL + `getQueue/${assignment}`);
     if (response.ok) {
         const data = await response.json();
         updateQueueDisplay(data);
-        updateBeginTimerButton();
     }
 }
 
 async function addToQueue() {
     const person = ["John Mortensen"];
-    await fetch(`http://localhost:8085/api/assignments/addQueue/${assignment}`, {
+    await fetch(URL + `addQueue/${assignment}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(person)
@@ -29,7 +31,7 @@ async function addToQueue() {
 
 async function removeFromQueue() {
     const person = ["John Mortensen"];
-    await fetch(`http://localhost:8085/api/assignments/removeQueue/${assignment}`, {
+    await fetch(URL + `removeQueue/${assignment}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(person)
@@ -38,6 +40,7 @@ async function removeFromQueue() {
 }
 
 function startTimer() {
+    console.log("Timer Started")
     let time = 10;
     timerInterval = setInterval(() => {
         const minutes = Math.floor(time / 60);
@@ -54,7 +57,7 @@ function startTimer() {
 
 async function moveToDoneQueue() {
     const firstPerson = [currentQueue[0]];
-    await fetch(`http://localhost:8085/api/assignments/doneQueue/${assignment}`, {
+    await fetch(URL + `doneQueue/${assignment}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(firstPerson)
@@ -63,7 +66,7 @@ async function moveToDoneQueue() {
 }
 
 async function resetQueue() {
-    await fetch(`http://localhost:8085/api/assignments/resetQueue/${assignment}`, {
+    await fetch(URL + `resetQueue/${assignment}`, {
         method: 'PUT'
     });
     fetchQueue();
@@ -84,16 +87,18 @@ function updateQueueDisplay(queue) {
 document.getElementById('initializeQueue').addEventListener('click', initializeQueue);
 
 async function fetchAssignments() {
-    const response = await fetch('http://localhost:8085/api/assignments/getAssignments');
+    console.log(URL + 'debug')
+    const response = await fetch(URL + 'debug');
     if (response.ok) {
         const assignments = await response.json();
         const dropdown = document.getElementById('assignmentDropdown');
         dropdown.innerHTML = assignments.map(assignment =>
-            `<option value="${assignment.assignmentId}">${assignment.name}</option>`
+            `<option value="${assignment.id}">${assignment.name}</option>`
         ).join('');
     }
 }
 
+// need to wait for function to only fetch from certain period
 async function fetchPeople() {
     const response = await fetch('http://localhost:8085/api/people');
     if (response.ok) {
@@ -105,27 +110,17 @@ async function fetchPeople() {
 
 async function initializeQueue() {
     const assignmentId = document.getElementById('assignmentDropdown').value;
-    const peopleList = await fetchPeople();
+    // const peopleList = await fetchPeople();
 
-    await fetch(`http://localhost:8085/api/assignments/initQueue/${assignmentId}`, {
+    peopleList = ["John Mortensen", "Student 1", "Student 2"]
+
+    await fetch(URL + `initQueue/${assignmentId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(peopleList)
     });
     assignment = assignmentId;
     fetchQueue();
-}
-
-function updateBeginTimerButton() {
-    const beginTimerButton = document.getElementById('beginTimer');
-    // Check if the current user is at the front of the queue
-    if (currentQueue[0] === currentUser) {
-        beginTimerButton.classList.remove('disabled-hover');
-        beginTimerButton.disabled = false;
-    } else {
-        beginTimerButton.classList.add('disabled-hover');
-        beginTimerButton.disabled = true;
-    }
 }
 
 fetchAssignments();
