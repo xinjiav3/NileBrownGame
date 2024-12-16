@@ -79,8 +79,7 @@ permalink: /casino/blackjack
 <script>
     const baseUrl = 'http://localhost:8085/api/casino/blackjack';
     let token = "";
-
-    // Retrieve cookie value by name
+    // retrieve cookie value by name
     function getCookie(name) {
         const cookies = document.cookie.split(';');
         for (let cookie of cookies) {
@@ -89,24 +88,20 @@ permalink: /casino/blackjack
         }
         return null;
     }
-
-    // Update the bet amount display
+    // update bet amount on display
     function updateBetAmount(value) {
         document.getElementById("betAmountDisplay").innerText = `$${value}`;
     }
-
-    // Start a new blackjack game
+    // new blackjack game start
     async function startGame() {
         token = getCookie('jwt_java_spring');
         if (!token) {
             document.getElementById("error").innerText = "Token is missing. Please log in.";
             return;
         }
-
         const decodedToken = jwt_decode(token);
         const email = decodedToken.sub;
         const betAmount = document.getElementById("betAmountSlider").value;
-
         try {
             const response = await fetch(`${baseUrl}/start`, {
                 method: 'POST',
@@ -116,9 +111,7 @@ permalink: /casino/blackjack
                 },
                 body: JSON.stringify({ email, betAmount: parseFloat(betAmount) })
             });
-
             if (!response.ok) throw new Error("Failed to start the game");
-
             const gameData = await response.json();
             updateUI(gameData);
             document.getElementById("hit-btn").disabled = false;
@@ -127,8 +120,7 @@ permalink: /casino/blackjack
             document.getElementById("error").innerText = error.message;
         }
     }
-
-    // Perform the 'Hit' action
+    // 'Hit' action
     async function hit() {
         try {
             const response = await fetch(`${baseUrl}/hit`, {
@@ -138,10 +130,8 @@ permalink: /casino/blackjack
                     'Content-Type': 'application/json'
                 }
             });
-
             const gameData = await response.json();
             updateUI(gameData);
-
             if (gameData.gameStateMap.result === "LOSE") {
                 document.getElementById("result").innerText = "Bust! You lose.";
                 endGame();
@@ -150,8 +140,7 @@ permalink: /casino/blackjack
             document.getElementById("error").innerText = error.message;
         }
     }
-
-    // Perform the 'Stand' action
+    //'Stand' action
     async function stand() {
         try {
             const response = await fetch(`${baseUrl}/stand`, {
@@ -161,10 +150,8 @@ permalink: /casino/blackjack
                     'Content-Type': 'application/json'
                 }
             });
-
             const gameData = await response.json();
             updateUI(gameData);
-
             const resultMessage = gameData.gameStateMap.result === "WIN" ? "You Win!" : "You Lose!";
             document.getElementById("result").innerText = resultMessage;
             endGame();
@@ -172,14 +159,12 @@ permalink: /casino/blackjack
             document.getElementById("error").innerText = error.message;
         }
     }
-
-    // Update the game's user interface
+    // update the game's user interface
     function updateUI(gameData) {
         displayHand("dealer-hand", gameData.gameStateMap.dealerHand);
         displayHand("player-hand", gameData.gameStateMap.playerHand);
     }
-
-    // Display a hand of cards in the UI
+    // display a hand of cards in the UI
     function displayHand(elementId, hand) {
         const container = document.getElementById(elementId);
         container.innerHTML = "";
@@ -190,8 +175,7 @@ permalink: /casino/blackjack
             container.appendChild(div);
         });
     }
-
-    // Reset the game interface
+    // reset game interface
     function exitGame() {
         document.getElementById("dealer-hand").innerHTML = "";
         document.getElementById("player-hand").innerHTML = "";
@@ -200,8 +184,7 @@ permalink: /casino/blackjack
         document.getElementById("hit-btn").disabled = true;
         document.getElementById("stand-btn").disabled = true;
     }
-
-    // Disable further actions at the end of the game
+    // disable further actions at the end of the game, end game
     function endGame() {
         document.getElementById("hit-btn").disabled = true;
         document.getElementById("stand-btn").disabled = true;
