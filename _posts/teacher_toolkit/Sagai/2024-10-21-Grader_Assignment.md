@@ -3,8 +3,6 @@ toc: true
 layout: post
 title: Assignment Management
 description: Assignment management system
-categories: [Collaboration]
-type: ccc
 ---
 
 <!-- Section for Adding Assignments -->

@@ -2,8 +2,6 @@
 toc: false
 layout: post
 title: AI Generator
-categories: [Collaboration]
-type: ccc
 permalink: /project/teacher-toolkit/generator
 ---
 <head>

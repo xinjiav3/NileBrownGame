@@ -3,8 +3,6 @@ toc: false
 layout: post
 title: QNA
 description: Post questions and get replies from peers
-categories: [Collaboration]
-type: ccc
 permalink: /project/teacher-toolkit/QNA
 ---
 
