@@ -3,6 +3,7 @@ layout: post
 title: Blackjack Game
 permalink: /casino/blackjack
 ---
+
 <title>Blackjack Game</title>
 <style>
     body {
@@ -79,6 +80,7 @@ permalink: /casino/blackjack
     const baseUrl = 'http://localhost:8085/api/casino/blackjack';
     let token = "";
 
+    // Retrieve cookie value by name
     function getCookie(name) {
         const cookies = document.cookie.split(';');
         for (let cookie of cookies) {
@@ -88,10 +90,12 @@ permalink: /casino/blackjack
         return null;
     }
 
+    // Update the bet amount display
     function updateBetAmount(value) {
         document.getElementById("betAmountDisplay").innerText = `$${value}`;
     }
 
+    // Start a new blackjack game
     async function startGame() {
         token = getCookie('jwt_java_spring');
         if (!token) {
@@ -124,6 +128,7 @@ permalink: /casino/blackjack
         }
     }
 
+    // Perform the 'Hit' action
     async function hit() {
         try {
             const response = await fetch(`${baseUrl}/hit`, {
@@ -146,6 +151,7 @@ permalink: /casino/blackjack
         }
     }
 
+    // Perform the 'Stand' action
     async function stand() {
         try {
             const response = await fetch(`${baseUrl}/stand`, {
@@ -167,11 +173,13 @@ permalink: /casino/blackjack
         }
     }
 
+    // Update the game's user interface
     function updateUI(gameData) {
         displayHand("dealer-hand", gameData.gameStateMap.dealerHand);
         displayHand("player-hand", gameData.gameStateMap.playerHand);
     }
 
+    // Display a hand of cards in the UI
     function displayHand(elementId, hand) {
         const container = document.getElementById(elementId);
         container.innerHTML = "";
@@ -183,6 +191,7 @@ permalink: /casino/blackjack
         });
     }
 
+    // Reset the game interface
     function exitGame() {
         document.getElementById("dealer-hand").innerHTML = "";
         document.getElementById("player-hand").innerHTML = "";
@@ -192,6 +201,7 @@ permalink: /casino/blackjack
         document.getElementById("stand-btn").disabled = true;
     }
 
+    // Disable further actions at the end of the game
     function endGame() {
         document.getElementById("hit-btn").disabled = true;
         document.getElementById("stand-btn").disabled = true;
