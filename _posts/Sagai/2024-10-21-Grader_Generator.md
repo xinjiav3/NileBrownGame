@@ -1,10 +1,10 @@
 ---
 toc: false
-layout: pos
-title: Grader
-description: Grade your work
+layout: post
+title: AI Generator
 categories: [Collaboration]
 type: ccc
+permalink: /project/teacher-toolkit/generator
 ---
 <head>
    <meta charset="UTF-8">
@@ -203,25 +203,40 @@ type: ccc
       }
    </style>
 </head>
+
+<script>
+  // Function to check for JWT in cookies
+  function getCookie(cookieName) {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.startsWith(cookieName + '=')) {
+              return cookie.substring((cookieName + '=').length);
+          }
+      }
+      return null;
+  }
+
+  // Redirect if JWT is not present
+  function checkAuthentication() {
+      const jwtToken = getCookie('jwt_java_spring');
+      if (!jwtToken) {
+          alert('Please login to use this page. Redirecting to login.');
+          window.location.href = '/portfolio_2025/duallogin';
+      }
+  }
+
+  // Run the check on page load
+  window.onload = checkAuthentication;
+</script>
+
+
 <body>
-   <!-- Sign out link -->
-   <div class="signout">
-      <a href="#" style="color: white; text-decoration: none;">Sign out</a>
-   </div>
-   <!-- SAGAI Header -->
-   <h1>SAGAI</h1>
-   <h2>Super Advanced Grader Artificial Intelligence</h2>
    <!-- Navigation buttons -->
    <div class="nav-buttons">
-      <a href="{{site.baseurl}}/collaboration/2024/10/21/Grader_Home.html">
-      <button>Home</button>
-      </a>
-      <a href="{{site.baseurl}}/collaboration/2024/10/21/Grader_Grader.html">
-      <button>Grader</button>
-      </a>
-      <a href="{{site.baseurl}}/collaboration/2024/10/21/Grader_QNA.html">
-      <button>QNA</button>
-      </a>
+      <a href="{{site.baseurl}}/project/teacher-toolkit"><button>Home</button></a>
+      <a href="{{site.baseurl}}/collaboration/2024/10/21/Grader_Grader.html"><button>Grader</button></a>
+        <a href="{{site.baseurl}}/project/teacher-toolkit/QNA"><button>QNA</button></a>
    </div>
    <!-- Main Generator Section -->
    <div class="container">
