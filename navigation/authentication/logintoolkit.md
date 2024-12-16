@@ -3,8 +3,11 @@ layout: base
 title: Student Toolkit Login
 permalink: /toolkit_login
 search_exclude: true
-menu: nav/project/home.html
+
 ---
+
+{% include nav/project/home.html %}
+
 
 
 <style>
