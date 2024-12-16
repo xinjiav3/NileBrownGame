@@ -3,9 +3,9 @@ layout: base
 title: Student Toolkit Login
 permalink: /toolkit_login
 search_exclude: true
+menu: nav/project/home.html
 ---
 
-{% include nav/home.html %}
 
 <style>
 .login-container {
