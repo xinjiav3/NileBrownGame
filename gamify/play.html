@@ -91,23 +91,25 @@ function setUserId() {
     }
 }
 
-function fetchUserInfo() {
+function fetchUserInfo() { // this function fetches the users data 
     if (!userId) return;
 
     fetch(`http://127.0.0.1:8085/rpg_streak/streak?userId=${userId}`)
         .then((response) => {
-            if (!response.ok) {
-                if (response.status === 403) {
-                    throw new Error('Forbidden: Check backend permissions or CORS settings');
-                }
+            if (response.status === 404) {
+                console.warn("User ID not found. Adding new user...");
+                return addNewUser(userId); // Call function to add user
+            } else if (!response.ok) {
                 throw new Error(`Failed to fetch user information: ${response.statusText}`);
             }
             return response.json();
         })
         .then((data) => {
-            const currentStreak = data.currentStreak ?? 0;
-            document.getElementById('current-streak').textContent = currentStreak;
-            document.getElementById('message').textContent = "";
+            if (data) {
+                const currentStreak = data.currentStreak ?? 0;
+                document.getElementById('current-streak').textContent = currentStreak;
+                document.getElementById('message').textContent = "";
+            }
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -115,7 +117,32 @@ function fetchUserInfo() {
         });
 }
 
-function addStreak() {
+function addNewUser(userId) { // This function allows a new user to be made if an id entereted isn't in the table 
+    fetch("http://127.0.0.1:8085/rpg_streak/streak", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            userId: userId,
+            currentStreak: 0, // Start with 0 streak
+            maxStreak: 0
+        })
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("Failed to create new user");
+        return response.json();
+    })
+    .then(() => {
+        document.getElementById('message').textContent = "New user created successfully!";
+        document.getElementById('current-streak').textContent = 0;
+    })
+    .catch(error => {
+        console.error("Error adding new user:", error);
+        document.getElementById('message').textContent = `Failed to create new user: ${error.message}`;
+    });
+}
+function addStreak() { // this function adds to the specific streak of each user 
     if (!userId) return;
 
     fetch("http://127.0.0.1:8085/rpg_streak/streak", {
@@ -146,7 +173,7 @@ function addStreak() {
         });
 }
 
-function toggleMaxStreak() {
+function toggleMaxStreak() { // this handles the max streak. 
     const maxStreakElement = document.getElementById("max-streak");
     const button = document.getElementById("toggle-max-streak");
     const maxStreakValueElement = document.getElementById("max-streak-value");
