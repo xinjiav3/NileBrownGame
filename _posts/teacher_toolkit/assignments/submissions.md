@@ -1,11 +1,7 @@
 ---
-<<<<<<< HEAD
 permalink: /student-toolkit/submissions
-=======
-permalink: /student/submissions
->>>>>>> main
 search_exclude: true
-layout: base
+layout: base 
 ---
 <html lang="en">
 <meta charset="UTF-8">
