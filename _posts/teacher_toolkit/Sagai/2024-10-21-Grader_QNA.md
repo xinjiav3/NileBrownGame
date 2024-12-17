@@ -3,8 +3,6 @@ toc: false
 layout: post
 title: QNA
 description: Post questions and get replies from peers
-categories: [Collaboration]
-type: ccc
 permalink: /project/teacher-toolkit/QNA
 ---
 
@@ -232,14 +230,14 @@ permalink: /project/teacher-toolkit/QNA
     </script>
   
 <script type="module">
-  import { javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+  import {javaURI} from '{{ site.baseurl }}/assets/js/api/config.js';
 
   // prepare HTML defined "result" container for new outputj
   const resultContainer = document.getElementById("result");
 
   // prepare fetch urls
   // const url = `${pythonURI}/api/jokes`;
-  const url = `http://localhost:8085/api/saigai/messages`;
+  const url = `${javaURI}/api/saigai/messages`;
   const getURL = url +"/";
   const likeURL = url + "/message";  // haha reaction
   const jeerURL = url + "/jeer/";  // boohoo reaction
@@ -339,7 +337,7 @@ permalink: /project/teacher-toolkit/QNA
   // Reaction function to likes or jeers user actions
   function submitMessage() {
     const questionText = document.getElementById('question-input').value;
-    const postURL = `http://localhost:8085/api/saigai/messages/saigai/message`;
+    const postURL = `${javaURI}/api/saigai/messages/saigai/message`;
     const data = {
                 content: questionText
             };
@@ -382,7 +380,7 @@ permalink: /project/teacher-toolkit/QNA
         return;
     }
     const questionText = document.getElementById('question-input').value;
-    const postURL = `http://localhost:8085/api/saigai/comments/${questionId}`;
+    const postURL = `${javaURI}/api/saigai/comments/${questionId}`;
     const data = {
                 content: replyText
             };
@@ -421,7 +419,7 @@ permalink: /project/teacher-toolkit/QNA
 
   // Reaction function to likes or jeers user actions
   function deleteMessageReply(commentId, replyTextArea, replyDiv) {
-    const postURL = `http://localhost:8085/api/saigai/comments/${commentId}`;
+    const postURL = `${javaURI}/api/saigai/comments/${commentId}`;
   // prepare fetch PUT options, clones with JS Spread Operator (...)
   const postOptions = {...fetchOptions,
     method: 'DELETE',

@@ -183,13 +183,13 @@ permalink: /casino/poker
         <div id="result" class="result"></div>
         <div id="error" class="error"></div>
     </div>
-    <script>
+    <script type="module">
         async function playGame() {
             const bet = document.getElementById("betAmount").value;
             const username = document.getElementById("username").value;
             document.getElementById("error").innerText = ""; 
             try {
-                const response = await fetch("http://localhost:8085/api/casino/poker/play", {
+                const response = await fetch(`${javaURI}/api/casino/poker/play`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ bet: parseFloat(bet), username: username })
