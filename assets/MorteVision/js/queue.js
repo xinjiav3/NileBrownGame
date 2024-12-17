@@ -3,8 +3,6 @@ import { javaURI } from '../../js/api/config.js';
 
 let assignment = null;
 let currentQueue = [];
-
-
 window.person = "John Mortensen";
 
 document.getElementById('addQueue').addEventListener('click', addToQueue);
@@ -128,21 +126,6 @@ async function initializeQueue() {
     });
     assignment = assignmentId;
     fetchQueue();
-    startQueueUpdateInterval(30);
-}
-
-// Start the interval to periodically update the queue
-function startQueueUpdateInterval(intervalInSeconds) {
-    if (queueUpdateInterval) clearInterval(queueUpdateInterval); // Clear existing interval if any
-    queueUpdateInterval = setInterval(() => {
-        console.log("Updating queue...");
-        fetchQueue();
-    }, intervalInSeconds * 1000);
-}
-
-// Stop the interval for queue updates if needed
-function stopQueueUpdateInterval() {
-    if (queueUpdateInterval) clearInterval(queueUpdateInterval);
 }
 
 // Start the interval to periodically update the queue
@@ -188,9 +171,6 @@ function showAssignmentModal() {
         }
     });
 }
-
-fetchAssignments();
-fetchQueue();
 
 fetchAssignments();
 fetchQueue();
