@@ -263,7 +263,7 @@ permalink: /project/teacher-toolkit/generator
       </div>
    </div>
    
-   <script type="module">
+   <script>
       import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
 
       const savedQuestions = [];
