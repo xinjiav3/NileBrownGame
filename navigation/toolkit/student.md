@@ -20,7 +20,7 @@ permalink: /student
       <p>Use this sleek presentation system that allows for easier accessibility to screens during live reviews. Queue system is integrated to aid line management.</p>
     </div>
   </a>
-  <a href="{{site.baseurl}}/bathroom/issues" class="toolkit-button" data-description="Explore collaboration resources that facilitate group work and team projects. Access platforms and tools designed to enhance communication, project management, and collective problem-solving." data-authors="Author: Alex Johnson">
+  <a href="{{site.baseurl}}/student/submissions" class="toolkit-button" data-description="Explore collaboration resources that facilitate group work and team projects. Access platforms and tools designed to enhance communication, project management, and collective problem-solving." data-authors="Author: Alex Johnson">
     <img src="{{site.baseurl}}/images/toolkit-nav-buttons/submissions.png" alt="Submissions" />
     <span class="button-name">Assignment Submissions</span>
     <div class="description">
