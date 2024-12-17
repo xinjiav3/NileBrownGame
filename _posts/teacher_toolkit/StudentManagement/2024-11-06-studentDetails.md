@@ -2,7 +2,7 @@
 layout: post
 title: Student Info
 type: issues
-permalink: /student-info
+permalink: /teacher-toolkit/student-info
 comments: false
 ---
 

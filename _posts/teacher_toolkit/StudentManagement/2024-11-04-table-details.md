@@ -2,7 +2,7 @@
 layout: post
 title: Table Details
 type: issues
-permalink: /tabledetails
+permalink: /teacher-toolkit/tabledetails
 comments: false
 ---
 <style>
