@@ -5,8 +5,12 @@ permalink: /gamify/adventureGame
 ---
 
 <head>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"
+        rel="stylesheet"
+    />
     <style>
-        :root {
+                :root {
     --pixel-size: 2px;
     --grid-cell: calc( var(--pixel-size) * 16);
     --bg: #9FA7E4;
@@ -583,36 +587,38 @@ body {
    border-bottom: 1px solid #ddd;
 }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
-
 
 <body>
     <button class="shop-button" onclick="goToShop()">Shop</button>
-    
+
     <div class="instruction-box">
-        How to Play: <br>
-        1. Interact with NPCs.<br>
-        2. Answer questions.<br>
-        3. Earn points.<br>
-        4. Use your points in the shop.<br>
+        How to Play: <br />
+        1. Interact with NPCs.<br />
+        2. Answer questions.<br />
+        3. Earn points.<br />
+        4. Use your points in the shop.<br />
         Enjoy and explore the map!
     </div>
     <div class="chat-score">ChatGPT Score: <span id="chatScore"></span></div>
     <div class="balance">Balance: <span id="balance"></span></div>
-    <div class="questions-answered">Questions Answered: <span id="questionsAnswered"></span></div>
+    <div class="questions-answered">
+        Questions Answered: <span id="questionsAnswered"></span>
+    </div>
 
-    <button class="leaderboard-btn" onclick="openLeaderboard()">Leaderboard</button>
+    <button class="leaderboard-btn" onclick="openLeaderboard()">
+        Leaderboard
+    </button>
 
     <div id="leaderboard-modal" class="leaderboard-modal">
         <div class="leaderboard-modal-content">
-            <span class="leaderboard-close" onclick="closeLeaderboard()">&times;</span>
+            <span class="leaderboard-close" onclick="closeLeaderboard()"
+                >&times;</span
+            >
             <h2>Leaderboard</h2>
-            <div id="leaderboard-entries">
-            </div>
+            <div id="leaderboard-entries"></div>
         </div>
     </div>
-
 
     <div class="frame">
         <div class="corner_topleft"></div>
@@ -634,374 +640,365 @@ body {
                 <div class="npc3"></div>
                 <div class="npc4"></div>
                 <div class="npc5"></div>
-                <button class="leaderboard-button" onclick="toggleLeaderboard()">Leaderboard (Click then go <-)</button>
+                <button
+                    class="leaderboard-button"
+                    onclick="toggleLeaderboard()"
+                >
+                    Leaderboard (Click then go <-)
+                </button>
                 <div class="leaderboard-box" id="leaderboard-box">
                     <div class="leaderboard-entry">| Rank | Name | Score |</div>
                     <div class="leaderboard-entry">================</div>
-                    <div class="leaderboard-entry">| #1 | ShaneLopezz | 920 |</div>
-                    <div class="leaderboard-entry">| #2 | cookieBot34 | 600 |</div>
-                    <div class="leaderboard-entry">| #3 | blackifyy08 | 450 |</div>
+                    <div class="leaderboard-entry">
+                        | #1 | ShaneLopezz | 920 |
+                    </div>
+                    <div class="leaderboard-entry">
+                        | #2 | cookieBot34 | 600 |
+                    </div>
+                    <div class="leaderboard-entry">
+                        | #3 | blackifyy08 | 450 |
+                    </div>
                     <div class="leaderboard-entry">| #4 | Tanav K | 300 |</div>
                 </div>
-                <div class="dialog-box" id="dialog-box">Sup, can you help me real quick? (Click)</div>
-                <div class="dialog-box" id="npc2-dialog-box">Hey there! Can you help me with something? (Click)</div>
-                <div class="dialog-box" id="npc1-dialog-box">Sup! Unit 1 Popcorn Hack (Click)</div>
+                <div class="dialog-box" id="dialog-box">
+                    Sup, can you help me real quick? (Click)
+                </div>
+                <div class="dialog-box" id="npc2-dialog-box">
+                    Hey there! Can you help me with something? (Click)
+                </div>
+                <div class="dialog-box" id="npc1-dialog-box">
+                    Sup! Unit 1 Popcorn Hack (Click)
+                </div>
             </div>
             <script>
 
-            import { javaURI, fetchOptions } from "{{site.baseurl}}/assets/js/api/config.js";
+                import { javaURI, fetchOptions } from "{{site.baseurl}}/assets/js/api/config.js";
 
-                // Open leaderboard modal
-                function openLeaderboard() {
-                    const modal = document.getElementById("leaderboard-modal");
-                    modal.style.display = "block";
-                    fetchLeaderboard(); // Fetch and display leaderboard data
-                }
-            
-                // Close leaderboard modal
-                function closeLeaderboard() {
-                    const modal = document.getElementById("leaderboard-modal");
-                    modal.style.display = "none";
-                }
-            
-                function fetchLeaderboard() {
-                    fetch("${javaURI}/rpg_answer/leaderboard") 
-                        .then((response) => {
-                            if (!response.ok) {
-                                throw new Error("Failed to fetch leaderboard");
-                            }
-                            return response.json();
-                        })
-                        .then((data) => {
-                            const leaderboardEntries = document.getElementById("leaderboard-entries");
-                            leaderboardEntries.innerHTML = "<div>| Rank | Name | Score |</div><hr>";
-                            
-                            // Sort data by totalScore descending for proper ranking
-                            const sortedData = data.sort((a, b) => b.totalScore - a.totalScore);
-                            
-                            sortedData.forEach((entry, index) => {
-                                const rank = index + 1; // Calculate rank based on order
-                                const userName = entry.userName; // Extract username
-                                const totalScore = entry.totalScore; // Extract total score
-                                
-                                // Append each entry to the leaderboard modal content
-                                leaderboardEntries.innerHTML += `<div>| #${rank} | ${userName} | ${totalScore} |</div>`;
+                    // Open leaderboard modal
+                    function openLeaderboard() {
+                        const modal = document.getElementById("leaderboard-modal");
+                        modal.style.display = "block";
+                        fetchLeaderboard(); // Fetch and display leaderboard data
+                    }
+
+                    // Close leaderboard modal
+                    function closeLeaderboard() {
+                        const modal = document.getElementById("leaderboard-modal");
+                        modal.style.display = "none";
+                    }
+
+                    function fetchLeaderboard() {
+                        fetch("${javaURI}/rpg_answer/leaderboard")
+                            .then((response) => {
+                                if (!response.ok) {
+                                    throw new Error("Failed to fetch leaderboard");
+                                }
+                                return response.json();
+                            })
+                            .then((data) => {
+                                const leaderboardEntries = document.getElementById("leaderboard-entries");
+                                leaderboardEntries.innerHTML = "<div>| Rank | Name | Score |</div><hr>";
+
+                                // Sort data by totalScore descending for proper ranking
+                                const sortedData = data.sort((a, b) => b.totalScore - a.totalScore);
+
+                                sortedData.forEach((entry, index) => {
+                                    const rank = index + 1; // Calculate rank based on order
+                                    const userName = entry.userName; // Extract username
+                                    const totalScore = entry.totalScore; // Extract total score
+
+                                    // Append each entry to the leaderboard modal content
+                                    leaderboardEntries.innerHTML += `<div>| #${rank} | ${userName} | ${totalScore} |</div>`;
+                                });
+                            })
+                            .catch((error) => {
+                                console.error("Error fetching leaderboard:", error);
+                                document.getElementById("leaderboard-entries").innerHTML = "Failed to load leaderboard.";
                             });
-                        })
-                        .catch((error) => {
-                            console.error("Error fetching leaderboard:", error);
-                            document.getElementById("leaderboard-entries").innerHTML = "Failed to load leaderboard.";
-                        });
-                }
+                    }
             </script>
             <script>
-                var character = document.querySelector(".character");
-                var map = document.querySelector(".map");
-                var x = 90;
-                var y = 80;
-                var held_directions = [];
-                var speed = 1;
+                                var character = document.querySelector(".character");
+                                var map = document.querySelector(".map");
+                                var x = 90;
+                                var y = 80;
+                                var held_directions = [];
+                                var speed = 1;
 
-                // NPC1 Interaction with Grading
-                var npc1DialogBox = document.getElementById("npc1-dialog-box");
-                var npc1Dialogue = [
-                    "Sup! Unit 1 Popcorn Hack",
-                    "Which is valid for declaring a variable of type int?",
-                    "1. int 123variable;",
-                    "2. int variable123;",
-                    "3. int variable#123;",
-                    "4. int variable 123"
+                                // NPC1 Interaction with Grading
+                                var npc1DialogBox = document.getElementById("npc1-dialog-box");
+                                var npc1Dialogue = [
+                                    "Sup! Unit 1 Popcorn Hack",
+                                    "Which is valid for declaring a variable of type int?",
+                                    "1. int 123variable;",
+                                    "2. int variable123;",
+                                    "3. int variable#123;",
+                                    "4. int variable 123"
+                                ];
+                                var npc1DialogueIndex = 0;
+
+                                npc1DialogBox.addEventListener("click", async function () {
+                                    npc1DialogueIndex++;
+                                    if (npc1DialogueIndex < npc1Dialogue.length) {
+                                        npc1DialogBox.textContent = npc1Dialogue[npc1DialogueIndex];
+                                    } else if (npc1DialogueIndex === npc1Dialogue.length) {
+                                        const userAnswer = prompt("Enter your choice (e.g., 2):");
+                                        if (userAnswer) {
+                                            const questionId = 1;
+                                            const userId = 1;
+
+                                            const result = await submitAnswer(userAnswer, questionId, userId);
+                                            window.location.reload();
+                                            await getChatScoreBalance();
+
+
+
+                                            alert(`Your response scored: ${result}`);
+                                        }
+                                    } else {
+                                        npc1DialogBox.style.display = "none";
+                                        npc1DialogueIndex = 0;
+                                    }
+                                });
+
+
+
+
+
+
+
+                                // NPC2 Interaction
+                                var npc2DialogBox = document.getElementById("npc2-dialog-box");
+                var npc2Dialogue = [
+                    "Hey!",
+                    "I need help with stocks, can you come with me?"
                 ];
-                var npc1DialogueIndex = 0;
+                var npc2DialogueIndex = 0;
 
-                npc1DialogBox.addEventListener("click", async function () {
-                    npc1DialogueIndex++;
-                    if (npc1DialogueIndex < npc1Dialogue.length) {
-                        npc1DialogBox.textContent = npc1Dialogue[npc1DialogueIndex];
-                    } else if (npc1DialogueIndex === npc1Dialogue.length) {
-                        const userAnswer = prompt("Enter your choice (e.g., 2):");
-                        if (userAnswer) {
-                            const questionId = 1;
-                            const userId = 1;
-
-                            const result = await submitAnswer(userAnswer, questionId, userId);
-                            window.location.reload();
-                            await getChatScoreBalance();
-
-                            
-
-                            alert(`Your response scored: ${result}`);
-                        }
-                    } else {
-                        npc1DialogBox.style.display = "none";
-                        npc1DialogueIndex = 0;
-                    }
-                });
-
-               
-                
-        
-            
-                
-
-                // NPC2 Interaction
-                var npc2DialogBox = document.getElementById("npc2-dialog-box");
-var npc2Dialogue = [
-    "Hey!",
-    "I need help with stocks, can you come with me?"
-];
-var npc2DialogueIndex = 0;
-
-npc2DialogBox.addEventListener("click", function () {
-    npc2DialogueIndex++;
-    if (npc2DialogueIndex < npc2Dialogue.length) {
-        npc2DialogBox.textContent = npc2Dialogue[npc2DialogueIndex];
-    } else if (npc2DialogueIndex === npc2Dialogue.length) {
-        npc2DialogBox.style.display = "none";
-        const teleport = confirm("Teleport to stocks?");
-        if (teleport) {
-            window.location.href = "{{site.baseurl}}/stocks/home"; // Replace with your desired link
-        }
-    }
-});
-                const blockedZones = [
-                    { x: 17, y: 49.9 }, // NPC1 pos 
-                    { x: 16, y: 96 },   // tree
-                    { x: 152, y: 96 },  // tree 2
-                    { x: 167, y: 55 },  // computer
-                    { x: 125, y: 30 },  // NPC2
-                    { x: 120, y: 93 },  // NPC3
-                    { x: 38, y: 103 },   // npc4
-                    { x: 137, y: 55 },  // npc5
-                ];
-
-                const isBlocked = (newX, newY) => {
-                    return blockedZones.some(zone => {
-                        return Math.abs(zone.x - newX) < 8 && Math.abs(zone.y - newY) < 8;
-                    });
-                };
-
-                const placeCharacter = () => {
-                    var pixelSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--pixel-size"));
-                    const held_direction = held_directions[0];
-                    let newX = x;
-                    let newY = y;
-                    if (held_direction) {
-                        if (held_direction === directions.right) { newX += speed; }
-                        if (held_direction === directions.left) { newX -= speed; }
-                        if (held_direction === directions.down) { newY += speed; }
-                        if (held_direction === directions.up) { newY -= speed; }
-                        if (!isBlocked(newX, newY)) {
-                            x = newX;
-                            y = newY;
-                            character.setAttribute("facing", held_direction);
-                        }
-                    }
-                    character.setAttribute("walking", held_direction ? "true" : "false");
-
-                    // Boundary limits
-                    var leftLimit = -8;
-                    var rightLimit = (16 * 11) + 8;
-                    var topLimit = -8 + 32;
-                    var bottomLimit = (16 * 7);
-                    if (x < leftLimit) { x = leftLimit; }
-                    if (x > rightLimit) { x = rightLimit; }
-                    if (y < topLimit) { y = topLimit; }
-                    if (y > bottomLimit) { y = bottomLimit; }
-
-                    // Camera position
-                    var camera_left = pixelSize * 66;
-                    var camera_top = pixelSize * 42;
-                    map.style.transform = `translate3d( ${-x * pixelSize + camera_left}px, ${-y * pixelSize + camera_top}px, 0 )`;
-                    character.style.transform = `translate3d( ${x * pixelSize}px, ${y * pixelSize}px, 0 )`;
-
-                    // Check dialog areas
-                    checkDialogArea(x, y);
-                };
-
-                const checkDialogArea = (x, y) => {
-                    const dialogAreaNPC1 = { left: 16, right: 30, top: 40, bottom: 60 };
-                    const dialogAreaNPC2 = { left: 125, right: 145, top: 30, bottom: 50 };
-
-                    // NPC1 dialog
-                    if (x >= dialogAreaNPC1.left && x <= dialogAreaNPC1.right && y >= dialogAreaNPC1.top && y <= dialogAreaNPC1.bottom) {
-                        npc1DialogBox.style.display = "block";
-                    } else {
-                        npc1DialogBox.style.display = "none";
-                        npc1DialogueIndex = 0;
-                    }
-
-                    // NPC2 dialog
-                    if (x >= dialogAreaNPC2.left && x <= dialogAreaNPC2.right && y >= dialogAreaNPC2.top && y <= dialogAreaNPC2.bottom) {
-                        npc2DialogBox.style.display = "block";
-                    } else {
+                npc2DialogBox.addEventListener("click", function () {
+                    npc2DialogueIndex++;
+                    if (npc2DialogueIndex < npc2Dialogue.length) {
+                        npc2DialogBox.textContent = npc2Dialogue[npc2DialogueIndex];
+                    } else if (npc2DialogueIndex === npc2Dialogue.length) {
                         npc2DialogBox.style.display = "none";
-                        npc2DialogueIndex = 0;
-                    }
-                };
-
-                const step = () => {
-                    placeCharacter();
-                    window.requestAnimationFrame(() => {
-                        step();
-                    });
-                };
-
-                step();
-
-                const directions = {
-                    up: "up",
-                    down: "down",
-                    left: "left",
-                    right: "right",
-                };
-
-                const keys = {
-                    38: directions.up,
-                    37: directions.left,
-                    39: directions.right,
-                    40: directions.down,
-                };
-
-                document.addEventListener("keydown", (e) => {
-                    var dir = keys[e.which];
-                    if (dir && held_directions.indexOf(dir) === -1) {
-                        held_directions.unshift(dir);
+                        const teleport = confirm("Teleport to stocks?");
+                        if (teleport) {
+                            window.location.href = "{{site.baseurl}}/stocks/home"; // Replace with your desired link
+                        }
                     }
                 });
+                                const blockedZones = [
+                                    { x: 17, y: 49.9 }, // NPC1 pos
+                                    { x: 16, y: 96 },   // tree
+                                    { x: 152, y: 96 },  // tree 2
+                                    { x: 167, y: 55 },  // computer
+                                    { x: 125, y: 30 },  // NPC2
+                                    { x: 120, y: 93 },  // NPC3
+                                    { x: 38, y: 103 },   // npc4
+                                    { x: 137, y: 55 },  // npc5
+                                ];
 
-                document.addEventListener("keyup", (e) => {
-                    var dir = keys[e.which];
-                    var index = held_directions.indexOf(dir);
-                    if (index > -1) {
-                        held_directions.splice(index, 1);
-                    }
-                });
+                                const isBlocked = (newX, newY) => {
+                                    return blockedZones.some(zone => {
+                                        return Math.abs(zone.x - newX) < 8 && Math.abs(zone.y - newY) < 8;
+                                    });
+                                };
 
-                function toggleLeaderboard() {
-                    var leaderboardBox = document.getElementById("leaderboard-box");
-                    leaderboardBox.style.display = leaderboardBox.style.display === "block" ? "none" : "block";
-                }
+                                const placeCharacter = () => {
+                                    var pixelSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--pixel-size"));
+                                    const held_direction = held_directions[0];
+                                    let newX = x;
+                                    let newY = y;
+                                    if (held_direction) {
+                                        if (held_direction === directions.right) { newX += speed; }
+                                        if (held_direction === directions.left) { newX -= speed; }
+                                        if (held_direction === directions.down) { newY += speed; }
+                                        if (held_direction === directions.up) { newY -= speed; }
+                                        if (!isBlocked(newX, newY)) {
+                                            x = newX;
+                                            y = newY;
+                                            character.setAttribute("facing", held_direction);
+                                        }
+                                    }
+                                    character.setAttribute("walking", held_direction ? "true" : "false");
 
-                function goToShop() {
-                    window.location.href = "{{site.baseurl}}/shop.html";
-                }
+                                    // Boundary limits
+                                    var leftLimit = -8;
+                                    var rightLimit = (16 * 11) + 8;
+                                    var topLimit = -8 + 32;
+                                    var bottomLimit = (16 * 7);
+                                    if (x < leftLimit) { x = leftLimit; }
+                                    if (x > rightLimit) { x = rightLimit; }
+                                    if (y < topLimit) { y = topLimit; }
+                                    if (y > bottomLimit) { y = bottomLimit; }
+
+                                    // Camera position
+                                    var camera_left = pixelSize * 66;
+                                    var camera_top = pixelSize * 42;
+                                    map.style.transform = `translate3d( ${-x * pixelSize + camera_left}px, ${-y * pixelSize + camera_top}px, 0 )`;
+                                    character.style.transform = `translate3d( ${x * pixelSize}px, ${y * pixelSize}px, 0 )`;
+
+                                    // Check dialog areas
+                                    checkDialogArea(x, y);
+                                };
+
+                                const checkDialogArea = (x, y) => {
+                                    const dialogAreaNPC1 = { left: 16, right: 30, top: 40, bottom: 60 };
+                                    const dialogAreaNPC2 = { left: 125, right: 145, top: 30, bottom: 50 };
+
+                                    // NPC1 dialog
+                                    if (x >= dialogAreaNPC1.left && x <= dialogAreaNPC1.right && y >= dialogAreaNPC1.top && y <= dialogAreaNPC1.bottom) {
+                                        npc1DialogBox.style.display = "block";
+                                    } else {
+                                        npc1DialogBox.style.display = "none";
+                                        npc1DialogueIndex = 0;
+                                    }
+
+                                    // NPC2 dialog
+                                    if (x >= dialogAreaNPC2.left && x <= dialogAreaNPC2.right && y >= dialogAreaNPC2.top && y <= dialogAreaNPC2.bottom) {
+                                        npc2DialogBox.style.display = "block";
+                                    } else {
+                                        npc2DialogBox.style.display = "none";
+                                        npc2DialogueIndex = 0;
+                                    }
+                                };
+
+                                const step = () => {
+                                    placeCharacter();
+                                    window.requestAnimationFrame(() => {
+                                        step();
+                                    });
+                                };
+
+                                step();
+
+                                const directions = {
+                                    up: "up",
+                                    down: "down",
+                                    left: "left",
+                                    right: "right",
+                                };
+
+                                const keys = {
+                                    38: directions.up,
+                                    37: directions.left,
+                                    39: directions.right,
+                                    40: directions.down,
+                                };
+
+                                document.addEventListener("keydown", (e) => {
+                                    var dir = keys[e.which];
+                                    if (dir && held_directions.indexOf(dir) === -1) {
+                                        held_directions.unshift(dir);
+                                    }
+                                });
+
+                                document.addEventListener("keyup", (e) => {
+                                    var dir = keys[e.which];
+                                    var index = held_directions.indexOf(dir);
+                                    if (index > -1) {
+                                        held_directions.splice(index, 1);
+                                    }
+                                });
+
+                                function toggleLeaderboard() {
+                                    var leaderboardBox = document.getElementById("leaderboard-box");
+                                    leaderboardBox.style.display = leaderboardBox.style.display === "block" ? "none" : "block";
+                                }
+
+                                function goToShop() {
+                                    window.location.href = "{{site.baseurl}}/shop.html";
+                                }
             </script>
         </div>
     </div>
     <script type="module">
-        import { javaURI, fetchOptions } from "{{site.baseurl}}/assets/js/api/config.js";
-        function getChatScoreBalance() {
-            const personId = getPersonId();
-            const getChatScoreUrl = `${javaURI}/rpg_answer/getChatScore/` + personId;
-            const getBalanceUrl = `${javaURI}/rpg_answer/getBalance/` + personId;
-            const getQuestionsAnsweredUrl = `${javaURI}/rpg_answer/getQuestionsAnswered/` + personId;
+            import { javaURI, fetchOptions } from "{{site.baseurl}}/assets/js/api/config.js";
+            function getChatScoreBalance() {
+                const personId = 1
+                const getChatScoreUrl = `${javaURI}/rpg_answer/getChatScore/` + personId;
+                const getBalanceUrl = `${javaURI}/rpg_answer/getBalance/` + personId;
+                const getQuestionsAnsweredUrl = `${javaURI}/rpg_answer/getQuestionsAnswered/` + personId;
 
-            fetch(getQuestionsAnsweredUrl, fetchOptions)
-                .then(response => {
-                    if (response.status !== 200) {
-                        console.log("Database response error: " + response.status);
-                        document.getElementById("questionsAnswered").innerHTML = 0;
-                    }
-                    response.json().then(data => {
-                        if (data !== null) {
-                            document.getElementById("questionsAnswered").innerHTML = data;
+                fetch(getQuestionsAnsweredUrl, fetchOptions)
+                    .then(response => {
+                        if (response.status !== 200) {
+                            console.log("Database response error: " + response.status);
+                            document.getElementById("questionsAnswered").innerHTML = 0;
                         }
-                    });
-                })
-                .catch(error => {
-                    console.error("Fetch error:", error);
-                });
-
-            fetch(getChatScoreUrl, fetchOptions)
-                .then(response => {
-                    if (response.status !== 200) {
-                        console.log("Database response error: " + response.status);
-                        document.getElementById("chatScore").innerHTML = 0;
-                    }
-                    response.json().then(data => {
-                        if (data !== null) {
-                            document.getElementById("chatScore").innerHTML = data;
-                        }
-                    });
-                })
-                .catch(error => {
-                    console.error("Fetch error:", error);
-                });
-
-            fetch(getBalanceUrl, fetchOptions)
-                .then(response => {
-                    if (response.status !== 200) {
-                        console.log("Database response error: " + response.status);
-                        document.getElementById("balance").innerHTML = 0;
-                    }
-                    response.json().then(data => {
-                        if (data !== null) {
-                            document.getElementById("balance").innerHTML = data;
-                        }
-                    });
-                })
-                .catch(error => {
-                    console.error("Fetch error:", error);
-                });
-        }
-        
-        async function getPersonId(){
-        const url_persons = `${javaURI}/api/person/get`;
-
-        try {
-            const response = await fetch(url_persons, {
-                method: 'GET',
-                callback: getChatScoreBalance,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                callback: getChatScoreBalance,
-                credentials: 'include', // Ensure cookies are included
-            });
-            console.log(response);
-            if (response.ok) {
-                const data = await response.json();
-                personId=data.id;
-                console.log("User details:", data);
-                return personId;
-            } else {
-                console.error(`Failed: ${response.status} ${response.statusText}`);
-            }
-        } catch (error) {
-            console.error("Error fetching user details:", error);
-        }
-    }
-
-
-        async function submitAnswer(content, questionId, personId) {
-                    try {
-                        const response = await fetch("${javaURI}/rpg_answer/submitAnswer", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                                content: content,
-                                questionId: questionId,
-                                personId: personId
-                            })
+                        response.json().then(data => {
+                            if (data !== null) {
+                                document.getElementById("questionsAnswered").innerHTML = data;
+                            }
                         });
+                    })
+                    .catch(error => {
+                        console.error("Fetch error:", error);
+                    });
 
-                        if (!response.ok) throw new Error("Network response was not ok");
+                fetch(getChatScoreUrl, fetchOptions)
+                    .then(response => {
+                        if (response.status !== 200) {
+                            console.log("Database response error: " + response.status);
+                            document.getElementById("chatScore").innerHTML = 0;
+                        }
+                        response.json().then(data => {
+                            if (data !== null) {
+                                document.getElementById("chatScore").innerHTML = data;
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Fetch error:", error);
+                    });
 
-                        const data = await response.json();
+                fetch(getBalanceUrl, fetchOptions)
+                    .then(response => {
+                        if (response.status !== 200) {
+                            console.log("Database response error: " + response.status);
+                            document.getElementById("balance").innerHTML = 0;
+                        }
+                        response.json().then(data => {
+                            if (data !== null) {
+                                document.getElementById("balance").innerHTML = data;
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Fetch error:", error);
+                    });
+            }
 
-                        return data.score || "Error scoring answer"; // Return score
 
-                    } catch (error) {
-                        console.error("Error submitting answer:", error);
-                        return "Error submitting answer";
+
+            async function submitAnswer(content, questionId) {
+                        try {
+                            const response = await fetch("${javaURI}/rpg_answer/submitAnswer", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    content: content,
+                                    questionId: questionId,
+                                    personId: 1
+                                })
+                            });
+
+                            if (!response.ok) throw new Error("Network response was not ok");
+
+                            const data = await response.json();
+
+                            return data.score || "Error scoring answer"; // Return score
+
+                        } catch (error) {
+                            console.error("Error submitting answer:", error);
+                            return "Error submitting answer";
+                        }
                     }
-                }
 
-        window.onload = function() {
-            getPersonId();
-        };
+            window.onload = function() {
+                getChatScoreBalance();
+            };
     </script>
 </body>
