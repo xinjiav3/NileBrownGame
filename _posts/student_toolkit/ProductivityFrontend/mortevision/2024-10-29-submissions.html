@@ -63,6 +63,14 @@ layout: base
         color: #ffffff;
         animation: moving-glow2 2s infinite;
     }
+    .Assignment-Name{
+        font-size: 20px; 
+        color: white;
+    }
+    .Assignment-Content{
+        font-size: 16px; 
+        color: white;
+    }
     @keyframes moving-glow {
         0% {
             box-shadow: 0 0 10px rgba(81, 0, 255, 0.8);
@@ -94,7 +102,6 @@ layout: base
             <option value="" disabled selected>Select a Assignment</option>
         </select>
     </div>
-    <br><br>
     <div class="Assignment-Content" id="Assignment-Content">Assignment-Content</div>
     <br><br>
     <div>
@@ -113,7 +120,7 @@ layout: base
     <br><br>
     
     <h1>Previous Submissions for: </h1>
-    <div class="Assignment-Content" id="Assignment-name">Assignment-Content</div>
+    <div class="Assignment-Name" id="Assignment-name">Assignment-Content</div>
 
     <br><br>
     <table id="submissions-table" style="width: 100%; margin-top: 20px;">
