@@ -1,3 +1,5 @@
+import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
+
 let assignment = null;
 let currentQueue = [];
 
@@ -9,7 +11,7 @@ document.getElementById('resetQueue').addEventListener('click', resetQueue);
 let timerInterval;
 
 async function fetchQueue() {
-    const response = await fetch(`http://localhost:8085/api/assignments/getQueue/${assignment}`);
+    const response = await fetch(`${javaURI}/api/assignments/getQueue/${assignment}`);
     if (response.ok) {
         const data = await response.json();
         updateQueueDisplay(data);
@@ -19,7 +21,7 @@ async function fetchQueue() {
 
 async function addToQueue() {
     const person = ["John Mortensen"];
-    await fetch(`http://localhost:8085/api/assignments/addQueue/${assignment}`, {
+    await fetch(`${javaURI}/api/assignments/addQueue/${assignment}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(person)
@@ -29,7 +31,7 @@ async function addToQueue() {
 
 async function removeFromQueue() {
     const person = ["John Mortensen"];
-    await fetch(`http://localhost:8085/api/assignments/removeQueue/${assignment}`, {
+    await fetch(`${javaURI}/api/assignments/removeQueue/${assignment}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(person)
@@ -54,7 +56,7 @@ function startTimer() {
 
 async function moveToDoneQueue() {
     const firstPerson = [currentQueue[0]];
-    await fetch(`http://localhost:8085/api/assignments/doneQueue/${assignment}`, {
+    await fetch(`${javaURI}/api/assignments/doneQueue/${assignment}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(firstPerson)
@@ -63,7 +65,7 @@ async function moveToDoneQueue() {
 }
 
 async function resetQueue() {
-    await fetch(`http://localhost:8085/api/assignments/resetQueue/${assignment}`, {
+    await fetch(`${javaURI}/api/assignments/resetQueue/${assignment}`, {
         method: 'PUT'
     });
     fetchQueue();
@@ -84,7 +86,7 @@ function updateQueueDisplay(queue) {
 document.getElementById('initializeQueue').addEventListener('click', initializeQueue);
 
 async function fetchAssignments() {
-    const response = await fetch('http://localhost:8085/api/assignments/getAssignments');
+    const response = await fetch(`${javaURI}/api/assignments/getAssignments`);
     if (response.ok) {
         const assignments = await response.json();
         const dropdown = document.getElementById('assignmentDropdown');
@@ -95,7 +97,7 @@ async function fetchAssignments() {
 }
 
 async function fetchPeople() {
-    const response = await fetch('http://localhost:8085/api/people');
+    const response = await fetch(`${javaURI}/api/people`);
     if (response.ok) {
         const people = await response.json();
         return people.map(person => person.name);
@@ -107,7 +109,7 @@ async function initializeQueue() {
     const assignmentId = document.getElementById('assignmentDropdown').value;
     const peopleList = await fetchPeople();
 
-    await fetch(`http://localhost:8085/api/assignments/initQueue/${assignmentId}`, {
+    await fetch(`${javaURI}/api/assignments/initQueue/${assignmentId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(peopleList)

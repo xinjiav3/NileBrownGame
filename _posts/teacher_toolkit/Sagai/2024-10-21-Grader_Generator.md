@@ -263,7 +263,9 @@ permalink: /project/teacher-toolkit/generator
       </div>
    </div>
    
-   <script>
+   <script type="module">
+      import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
+
       const savedQuestions = [];
       
       async function submitRequirements() {
@@ -273,7 +275,7 @@ permalink: /project/teacher-toolkit/generator
           const userRequest = { topic, requirements };
       
           try {
-              const response = await fetch('http://localhost:8085/generate/question', {
+              const response = await fetch(`${javaURI}/generate/question`, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify(userRequest)
@@ -306,7 +308,7 @@ permalink: /project/teacher-toolkit/generator
           if (question) {
               const questionData = { question };
               try {
-                  const response = await fetch('http://localhost:8085/save-question', {
+                  const response = await fetch(`${javaURI}/save-question`, {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify(questionData)
@@ -344,7 +346,7 @@ async function loadSavedQuestions() {
     list.innerHTML = ''; // Clear existing list
 
     try {
-        const response = await fetch('http://localhost:8085/saved-questions');
+        const response = await fetch(`${javaURI}/saved-questions`);
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

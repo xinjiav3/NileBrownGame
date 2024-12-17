@@ -100,7 +100,8 @@ comments: false
   <div id="student-cards-container"></div>
   <button class="create-button" onclick="createStudent()">Create Student</button>
 
-  <script>
+  <script type="module">
+    import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
     document.addEventListener("DOMContentLoaded", function() {
       const urlParams = new URLSearchParams(window.location.search);
       const tableNumber = urlParams.get('table');
@@ -130,7 +131,7 @@ comments: false
         })
         .catch(error => console.error("Error fetching progress:", error));
 
-        fetch("http://127.0.0.1:8085/api/students/find-team", {
+        fetch(`${javaURI}/api/students/find-team`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -214,7 +215,7 @@ comments: false
 function addTask(username) {
       const newTask = prompt("Enter a new task:");
       if (newTask) {
-        fetch("http://localhost:8085/api/students/update-tasks", {
+        fetch(`${javaURI}/api/students/update-tasks`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -288,7 +289,7 @@ function addTask(username) {
       .catch(error => console.error("There was a problem with the delete operation:", error));
     }
     function completeTask(username, task) {
-        fetch("http://localhost:8085/api/students/complete-task", {
+        fetch(`${javaURI}/api/students/complete-task`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
