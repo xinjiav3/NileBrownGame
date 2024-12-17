@@ -11,6 +11,7 @@ document.getElementById('resetQueue').addEventListener('click', resetQueue);
 
 let timerInterval;
 let timerlength;
+let queueUpdateInterval;
 
 const URL = javaURI + "/api/assignments/"
 console.log(URL)
@@ -125,7 +126,25 @@ async function initializeQueue() {
     });
     assignment = assignmentId;
     fetchQueue();
+    startQueueUpdateInterval(30);
 }
+
+// Start the interval to periodically update the queue
+function startQueueUpdateInterval(intervalInSeconds) {
+    if (queueUpdateInterval) clearInterval(queueUpdateInterval); // Clear existing interval if any
+    queueUpdateInterval = setInterval(() => {
+        console.log("Updating queue...");
+        fetchQueue();
+    }, intervalInSeconds * 1000);
+}
+
+// Stop the interval for queue updates if needed
+function stopQueueUpdateInterval() {
+    if (queueUpdateInterval) clearInterval(queueUpdateInterval);
+}
+
+fetchAssignments();
+fetchQueue();
 
 fetchAssignments();
 fetchQueue();
