@@ -85,7 +85,7 @@ function setUserId() {
     const input = document.getElementById("user-id-input").value;
     if (input) {
         userId = parseInt(input);
-        document.getElementById("streak-section").classList.remove("hidden");
+       // document.getElementById("streak-section").classList.remove("hidden");
         fetchUserInfo();
     } else {
         alert("Please enter a valid User ID.");
