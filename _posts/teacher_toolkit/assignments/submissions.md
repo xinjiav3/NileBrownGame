@@ -1,7 +1,7 @@
 ---
 permalink: /student-toolkit/submissions
 search_exclude: true
-layout: base
+layout: base 
 ---
 <html lang="en">
 <meta charset="UTF-8">
