@@ -1,7 +1,7 @@
 ---
 layout: page 
 title: Login
-permalink: /loginyou
+permalink: /login
 search_exclude: true
 show_reading_time: false 
 ---
