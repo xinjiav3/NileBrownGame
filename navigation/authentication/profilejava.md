@@ -83,6 +83,26 @@ async function fetchUserProfile() {
         // Handle error display or fallback mechanism
     }
 }
+
+
+function displayUserProfile(profileData) {
+    const profileImageBox = document.getElementById('profileImageBox');
+    if (profileData.pfp) {
+        const img = document.createElement('img');
+        img.src = `data:image/jpeg;base64,${profileData.pfp}`;
+        img.alt = 'Profile Picture';
+        profileImageBox.innerHTML = ''; // Clear existing content
+        profileImageBox.appendChild(img); // Append new image element
+    } else {
+        profileImageBox.innerHTML = '<p>No profile picture available.</p>';
+    }
+
+
+    // Display other profile information as needed
+    // Example: Update HTML elements with profileData.username, profileData.email
+}
+
+
 // Function to save profile picture
 window.saveProfilePicture = async function () {
     const fileInput = document.getElementById('profilePicture');
