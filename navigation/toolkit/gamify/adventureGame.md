@@ -665,7 +665,7 @@ body {
                 }
             
                 function fetchLeaderboard() {
-                    fetch(""${javaURI}/rpg_answer/leaderboard"") 
+                    fetch("${javaURI}/rpg_answer/leaderboard") 
                         .then((response) => {
                             if (!response.ok) {
                                 throw new Error("Failed to fetch leaderboard");
