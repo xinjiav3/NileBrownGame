@@ -648,6 +648,9 @@ body {
                 <div class="dialog-box" id="npc1-dialog-box">Sup! Unit 1 Popcorn Hack (Click)</div>
             </div>
             <script>
+
+            import { javaURI, fetchOptions } from "{{site.baseurl}}/assets/js/api/config.js";
+
                 // Open leaderboard modal
                 function openLeaderboard() {
                     const modal = document.getElementById("leaderboard-modal");
@@ -662,7 +665,7 @@ body {
                 }
             
                 function fetchLeaderboard() {
-                    fetch("http://localhost:8085/rpg_answer/leaderboard") // Replace with your API endpoint
+                    fetch(""${javaURI}/rpg_answer/leaderboard"") 
                         .then((response) => {
                             if (!response.ok) {
                                 throw new Error("Failed to fetch leaderboard");
