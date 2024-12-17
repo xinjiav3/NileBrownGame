@@ -34,8 +34,8 @@ title: Leaderboard
       <thead>
         <tr>
           <th>Rank</th>
+          <th>Balance</th> <!-- Balance comes first -->
           <th>Name</th>
-          <th>Balance</th>
         </tr>
       </thead>
       <tbody>
@@ -45,6 +45,7 @@ title: Leaderboard
   </section>
 
   <!-- Ranked Teams -->
+  <!-- 
   <section>
     <h2>Teams Ranked by Total Balance</h2>
     <table id="ranked-teams-table">
@@ -60,13 +61,14 @@ title: Leaderboard
       </tbody>
     </table>
   </section>
+  -->
 
   <script>
     // Fetch leaderboard data from the server
-    fetch('/api/rankings/leaderboard')
+    fetch('http://localhost:8085/api/rankings/leaderboard')
       .then(response => response.json())
       .then(data => {
-        const { topUsers, rankedTeams } = data;
+        const topUsers = data; // Directly use the array response
 
         // Populate Top Users table
         const topUsersTable = document.querySelector('#top-users-table tbody');
@@ -74,13 +76,14 @@ title: Leaderboard
           const row = document.createElement('tr');
           row.innerHTML = `
             <td>${index + 1}</td>
+            <td>$${Number(user.balance).toFixed(2)}</td>
             <td>${user.name}</td>
-            <td>$${user.balance.toFixed(2)}</td>
           `;
           topUsersTable.appendChild(row);
         });
 
         // Populate Ranked Teams table
+        /*
         const rankedTeamsTable = document.querySelector('#ranked-teams-table tbody');
         rankedTeams.forEach((team, index) => {
           const row = document.createElement('tr');
@@ -91,6 +94,7 @@ title: Leaderboard
           `;
           rankedTeamsTable.appendChild(row);
         });
+        */
       })
       .catch(error => {
         console.error('Error fetching leaderboard data:', error);
