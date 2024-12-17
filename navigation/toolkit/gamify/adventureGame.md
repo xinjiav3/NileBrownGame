@@ -735,31 +735,11 @@ body {
                     }
                 });
 
-                async function submitAnswer(content, questionId, personId) {
-                    try {
-                        const response = await fetch("http://localhost:8085/rpg_answer/submitAnswer", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                                content: content,
-                                questionId: questionId,
-                                personId: personId
-                            })
-                        });
-
-                        if (!response.ok) throw new Error("Network response was not ok");
-
-                        const data = await response.json();
-
-                        return data.score || "Error scoring answer"; // Return score
-
-                    } catch (error) {
-                        console.error("Error submitting answer:", error);
-                        return "Error submitting answer";
-                    }
-                }
+               
+                
+        
+            
+                
 
                 // NPC2 Interaction
                 var npc2DialogBox = document.getElementById("npc2-dialog-box");
@@ -777,7 +757,7 @@ npc2DialogBox.addEventListener("click", function () {
         npc2DialogBox.style.display = "none";
         const teleport = confirm("Teleport to stocks?");
         if (teleport) {
-            window.location.href = "http://127.0.0.1:4100/student_2025/stocks/signup"; // Replace with your desired link
+            window.location.href = "{{site.baseurl}}/stocks/home"; // Replace with your desired link
         }
     }
 });
@@ -901,7 +881,7 @@ npc2DialogBox.addEventListener("click", function () {
                 }
 
                 function goToShop() {
-                    window.location.href = "http://127.0.0.1:5500/shop.html";
+                    window.location.href = "{{site.baseurl}}/shop.html";
                 }
             </script>
         </div>
@@ -990,6 +970,32 @@ npc2DialogBox.addEventListener("click", function () {
         }
     }
 
+
+        async function submitAnswer(content, questionId, personId) {
+                    try {
+                        const response = await fetch("${javaURI}/rpg_answer/submitAnswer", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                content: content,
+                                questionId: questionId,
+                                personId: personId
+                            })
+                        });
+
+                        if (!response.ok) throw new Error("Network response was not ok");
+
+                        const data = await response.json();
+
+                        return data.score || "Error scoring answer"; // Return score
+
+                    } catch (error) {
+                        console.error("Error submitting answer:", error);
+                        return "Error submitting answer";
+                    }
+                }
 
         window.onload = function() {
             getPersonId();
