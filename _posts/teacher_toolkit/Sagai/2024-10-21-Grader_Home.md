@@ -3,7 +3,7 @@ toc: false
 layout: post
 title: Grader Project
 description: Grade popcorn hacks, generate hacks, or ask questions here
-permalink: /project/sagai
+permalink: /sagai
 ---
 
 {% include nav/home.html %}
