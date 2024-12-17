@@ -89,7 +89,9 @@ permalink: /calendar
     <button onclick="closePopup()">Close</button>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
-<script>
+<script type="module">
+    import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
+
     const fetchOptions = {
         method: 'GET',
         headers: {
@@ -97,7 +99,7 @@ permalink: /calendar
         },
     }
     function request() {
-        return fetch("http://localhost:8085/api/calendar/events", fetchOptions)
+        return fetch(`${javaURI}/api/calendar/events`, fetchOptions)
         .then(response => {
             if (response.status !== 200) {
                 console.error("HTTP status code: " + response.status);

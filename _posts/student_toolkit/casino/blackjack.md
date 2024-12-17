@@ -87,7 +87,8 @@
         <div id="error" class="error"></div>
     </div>
     <script>
-        const apiUrl = 'http://localhost:8085/api/casino/blackjack'; 
+        import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
+        const apiUrl = `${javaURI}/api/casino/blackjack`; 
         async function startGame() {
             const bet = document.getElementById("betAmount").value;
             document.getElementById("error").innerText = "";

@@ -3,9 +3,6 @@ toc: false
 layout: post
 title: Grader Project
 description: Grade popcorn hacks, generate hacks, or ask questions here
-courses: {'csa': {'week': 1}}
-categories: ['AP CSA']
-type: ccc
 permalink: /project/teacher-toolkit
 ---
 
