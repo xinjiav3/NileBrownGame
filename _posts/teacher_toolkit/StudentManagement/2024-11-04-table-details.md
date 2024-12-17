@@ -113,7 +113,7 @@ comments: false
         console.log(JSON.stringify({ 
             table: parseInt(tableNumber),
             period: parseInt(period)}));
-        fetch("http://127.0.0.1:8085/api/students/progress", {
+        fetch(`${javaURI}/api/students/progress`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ 
@@ -212,7 +212,7 @@ comments: false
         document.getElementById("student-cards-container").innerHTML = "<p>No table selected.</p>";
       }
     });
-function addTask(username) {
+  window.addTask = function addTask(username) {
       const newTask = prompt("Enter a new task:");
       if (newTask) {
         fetch(`${javaURI}/api/students/update-tasks`, {
@@ -235,8 +235,9 @@ function addTask(username) {
       } else {
         alert("Task cannot be empty.");
       }
-    }
-    function createStudent() {
+    };
+
+    window.createStudent = function createStudent() {
         const urlParams = new URLSearchParams(window.location.search);
         const username = prompt("Enter student username:");
         const course = "CSA";
@@ -245,7 +246,7 @@ function addTask(username) {
         const table = urlParams.get('table');
         const tasks = []; // Initial empty tasks
         if (username && table) {
-          fetch("http://127.0.0.1:8085/api/students/create", {
+          fetch(`${javaURI}/api/students/create`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -269,10 +270,10 @@ function addTask(username) {
         } else {
           alert("Please fill in all fields to create a student.");
         }
-    }
+    };
 
-    function deleteStudent(username) {
-      fetch(`http://127.0.0.1:8085/api/students/delete?username=${encodeURIComponent(username)}`, {
+    window.deleteStudent = function deleteStudent(username) {
+      fetch(`${javaURI}/api/students/delete?username=${encodeURIComponent(username)}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         mode: "cors"
@@ -288,7 +289,7 @@ function addTask(username) {
       })
       .catch(error => console.error("There was a problem with the delete operation:", error));
     }
-    function completeTask(username, task) {
+    window.completeTask = function completeTask(username, task) {
         fetch(`${javaURI}/api/students/complete-task`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -307,6 +308,6 @@ function addTask(username) {
             location.reload(); // Simplest option
         })
         .catch(error => console.error("Error completing task:", error));
-    }
+    };
   </script>
 </body>
