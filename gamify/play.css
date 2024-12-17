@@ -397,7 +397,7 @@ body {
     background: url('/images/gamify/back.png') no-repeat center center fixed;
     background-size: cover;
 }
-/* .title {
+ .title {
     font-size: 5em;
     font-weight: bold;
     color: #0ccaca;
@@ -407,7 +407,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
-} */
+} 
 
 .shop-button {
     position: absolute;
@@ -577,62 +577,60 @@ body {
    border-bottom: 1px solid #ddd;
 }
 .streak-container {
-   position: absolute; /* Absolute position relative to the parent */
-   top: 200px; /* Adjust this to move it right below "Questions Answered" */
-   right: 10px; /* Align to the right side of the screen */
-   background-color: rgba(0, 0, 0, 0.85); /* Semi-transparent background for better visibility */
-   padding: 20px; /* Inner padding */
-   border-radius: 8px; /* Smooth rounded corners */
-   text-align: center; /* Center-align text inside */
-   color: #fff; /* White text for readability */
-   font-family: 'Orbitron', sans-serif; /* Match theme font */
-   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Add depth with shadow */
-   z-index: 9999; /* Ensure visibility above other elements */
-   width: 220px; /* Consistent width for the streak container */
+   position: fixed;
+   bottom: 20px; 
+   right: 20px; 
+   background-color: rgba(0, 0, 0, 0.85); 
+   padding: 15px 20px; 
+   border-radius: 10px; 
+   text-align: center; 
+   color: #fff; 
+   font-family: 'Orbitron', sans-serif; 
+   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
+   z-index: 9999; 
+   width: 240px; 
 }
+
 
 .streak-container h3 {
-   font-size: 1.5em; /* Slightly larger font for title */
-   font-weight: bold; /* Bold text for emphasis */
-   color: #0ccaca; /* Theme-matching teal color */
-   margin-bottom: 10px; /* Add spacing below title */
-   text-shadow: 0 0 8px #0ccaca, 0 0 15px #0ccaca; /* Glowing text effect */
+   font-size: 1.4em;
+   font-weight: bold;
+   color: #0ccaca; 
+   margin-bottom: 10px;
+   text-shadow: 0 0 8px #0ccaca, 0 0 15px #0ccaca; 
 }
 
+
 .streak-container button {
-   margin-top: 10px; /* Add spacing between buttons */
-   padding: 8px 15px; /* Button padding for comfort */
-   background-color: #007BFF; /* Blue background for buttons */
-   color: white; /* White text for visibility */
-   border: none; /* Remove button borders */
-   border-radius: 5px; /* Rounded button edges */
-   cursor: pointer; /* Pointer cursor on hover */
-   font-size: 0.9em; /* Adjust text size */
-   font-family: 'Orbitron', sans-serif; /* Match theme font */
-   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Button shadow for depth */
-   transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+   background-color: #007BFF; 
+   color: white;
+   border: none; 
+   border-radius: 5px;
+   padding: 8px 12px; 
+   margin-top: 8px; 
+   font-size: 1em;
+   font-weight: bold;
+   cursor: pointer;
+   font-family: 'Orbitron', sans-serif; 
+   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3); 
+   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .streak-container button:hover {
    background-color: #0056b3; /* Darker blue on hover */
-   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
+   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4); /* Enhanced shadow on hover */
 }
+
 
 .streak-container input {
-   width: 80%; /* Adjust input width */
-   padding: 10px; /* Input padding for usability */
-   margin-top: 10px; /* Space above input */
-   margin-bottom: 10px; /* Space below input */
-   border: 1px solid #ccc; /* Light border */
-   border-radius: 5px; /* Smooth rounded edges */
-   font-family: 'Orbitron', sans-serif; /* Match font */
-   font-size: 0.9em; /* Font size for consistency */
-   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1); /* Inset shadow for input field */
+   width: calc(100% - 20px); 
+   padding: 8px; 
+   margin-top: 10px; 
+   border: 1px solid #444; 
+   border-radius: 5px; 
+   background-color: rgba(255, 255, 255, 0.9); 
+   color: #333;
+   font-family: 'Orbitron', sans-serif;
+   font-size: 1em;
+   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1); 
 }
-
-.streak-container .message {
-   font-size: 1em; /* Adjust message font size */
-   color: #e94be8; /* Bright pink for errors or alerts */
-   margin-top: 10px; /* Space above messages */
-}
-

@@ -16,19 +16,20 @@
     <div class="chat-score">ChatGPT Score: <span id="chatScore"></span></div>
     <div class="balance">Balance: <span id="balance"></span></div>
     <div class="questions-answered">Questions Answered: <span id="questionsAnswered"></span></div>
-    <div>
-        <label for="user-id-input" style="background-color: white;"><strong>Enter User ID:</strong></label>
-        <input type="number" id="user-id-input" placeholder="User ID" style="background-color: white;" />
-        <button class="glitch-button" data-text="SUBMIT" onclick="setUserId()" style="background-color: white;">SUBMIT</button>
-    </div>
-    <div id="streak-section" class="hidden" style="background-color: white;">
-        <button class="glitch-button" id="add-streak" data-text="ADD STREAK" onclick="addStreak()" style="background-color: white;">ADD STREAK</button>
-        <button class="glitch-button" id="toggle-max-streak" data-text="SHOW HIGHEST STREAK" onclick="toggleMaxStreak()" style="background-color: white;">SHOW HIGHEST STREAK</button>
-        <div class="user-info" style="background-color: white;">
+    <div class="streak-container">
+        <h3>Streak</h3>
+        <!-- User ID input field -->
+        <input type="number" id="user-id-input" placeholder="Enter User ID" />
+        <button onclick="setUserId()">Submit</button>
+        
+        <!-- Streak Controls -->
+        <button id="add-streak" onclick="addStreak()">Add Streak</button>
+        <button id="toggle-max-streak" onclick="toggleMaxStreak()">Show Highest Streak</button>
+        <div class="user-info">
             <p><strong>Current Streak:</strong> <span id="current-streak">0</span></p>
             <p id="max-streak" class="hidden"><strong>Highest Streak:</strong> <span id="max-streak-value">0</span></p>
         </div>
-        <div class="message" id="message" style="background-color: white;"></div>
+        <div class="message" id="message"></div>
     </div>    
 </div>
     <button class="leaderboard-btn" onclick="openLeaderboard()">Leaderboard</button>
