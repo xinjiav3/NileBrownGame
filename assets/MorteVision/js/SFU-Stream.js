@@ -11,6 +11,7 @@ async function streamerInit() {
         document.getElementById("mortStream").srcObject = stream;
         const peer = streamerCreatePeer();
         stream.getTracks().forEach(track => peer.addTrack(track, stream));
+        signalingServer.send(JSON.stringify({event: 'streamStarted'}));
     } else {
         alert('You are not first in line. Please wait your turn!')
     }
@@ -72,6 +73,7 @@ async function endStream()
     {
         streamPeerCloseOnly.close()
     }
+    signalingServer.send(JSON.stringify({event: 'streamEnded'})); //pls dont exploit this
     document.getElementById("endBroadcastButton").style.display = "none"
     document.getElementById("broadcastButton").style.display = "flex"
     
