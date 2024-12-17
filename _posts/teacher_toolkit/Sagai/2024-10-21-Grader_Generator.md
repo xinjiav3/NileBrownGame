@@ -2,7 +2,7 @@
 toc: false
 layout: post
 title: AI Generator
-permalink: /project/teacher-toolkit/generator
+permalink: /sagai/generator
 ---
 <head>
    <meta charset="UTF-8">
@@ -220,7 +220,7 @@ permalink: /project/teacher-toolkit/generator
       const jwtToken = getCookie('jwt_java_spring');
       if (!jwtToken) {
           alert('Please login to use this page. Redirecting to login.');
-          window.location.href = '/portfolio_2025/duallogin';
+          window.location.href = '/portfolio_2025/toolkit_login';
       }
   }
 
@@ -232,9 +232,9 @@ permalink: /project/teacher-toolkit/generator
 <body>
    <!-- Navigation buttons -->
    <div class="nav-buttons">
-      <a href="{{site.baseurl}}/project/teacher-toolkit"><button>Home</button></a>
-      <a href="{{site.baseurl}}/collaboration/2024/10/21/Grader_Grader.html"><button>Grader</button></a>
-        <a href="{{site.baseurl}}/project/teacher-toolkit/QNA"><button>QNA</button></a>
+      <a href="{{site.baseurl}}/sagai"><button>Home</button></a>
+      <a href="{{site.baseurl}}/sagai/grader"><button>Grader</button></a>
+        <a href="{{site.baseurl}}/sagai/QNA"><button>QNA</button></a>
    </div>
    <!-- Main Generator Section -->
    <div class="container">
@@ -263,7 +263,7 @@ permalink: /project/teacher-toolkit/generator
       </div>
    </div>
    
-   <script type="module">
+   <script>
       import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
 
       const savedQuestions = [];
