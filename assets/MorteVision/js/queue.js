@@ -1,47 +1,23 @@
+import { javaURI } from '../../js/api/config.js';
+
 let assignment = null;
 let currentQueue = [];
 
+window.person = "John Mortensen";
+
 document.getElementById('addQueue').addEventListener('click', addToQueue);
 document.getElementById('removeQueue').addEventListener('click', removeFromQueue);
-document.getElementById('beginTimer').addEventListener('click', startTimer);
 document.getElementById('resetQueue').addEventListener('click', resetQueue);
 
 let timerInterval;
+let timerlength;
 
-const URL = "http://localhost:8082" + "/api/assignments/"
+const URL = javaURI + "/api/assignments/"
 console.log(URL)
-
-async function fetchQueue() {
-    const response = await fetch(URL + `getQueue/${assignment}`);
-    if (response.ok) {
-        const data = await response.json();
-        updateQueueDisplay(data);
-    }
-}
-
-async function addToQueue() {
-    const person = ["John Mortensen"];
-    await fetch(URL + `addQueue/${assignment}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(person)
-    });
-    fetchQueue();
-}
-
-async function removeFromQueue() {
-    const person = ["John Mortensen"];
-    await fetch(URL + `removeQueue/${assignment}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(person)
-    });
-    fetchQueue();
-}
 
 function startTimer() {
     console.log("Timer Started")
-    let time = 10;
+    let time = timerlength;
     timerInterval = setInterval(() => {
         const minutes = Math.floor(time / 60);
         const seconds = time % 60;
@@ -53,6 +29,34 @@ function startTimer() {
             moveToDoneQueue();
         }
     }, 1000);
+}
+
+window.startTimer = startTimer;
+
+async function fetchQueue() {
+    const response = await fetch(URL + `getQueue/${assignment}`);
+    if (response.ok) {
+        const data = await response.json();
+        updateQueueDisplay(data);
+    }
+}
+
+async function addToQueue() {
+    await fetch(URL + `addQueue/${assignment}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify([person])
+    });
+    fetchQueue();
+}
+
+async function removeFromQueue() {
+    await fetch(URL + `removeQueue/${assignment}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify([person])
+    });
+    fetchQueue();
 }
 
 async function moveToDoneQueue() {
@@ -76,11 +80,11 @@ function updateQueueDisplay(queue) {
     currentQueue = queue.queue;
 
     const notGoneList = document.getElementById('notGoneList');
-    const queueList = document.getElementById('queueList');
+    const waitingList = document.getElementById('waitingList');
     const doneList = document.getElementById('doneList');
 
     notGoneList.innerHTML = queue.haventGone.map(person => `<div class="card">${person}</div>`).join('');
-    queueList.innerHTML = queue.queue.map(person => `<div class="card">${person}</div>`).join('');
+    waitingList.innerHTML = queue.queue.map(person => `<div class="card">${person}</div>`).join('');
     doneList.innerHTML = queue.done.map(person => `<div class="card">${person}</div>`).join('');
 }
 
@@ -100,7 +104,7 @@ async function fetchAssignments() {
 
 // need to wait for function to only fetch from certain period
 async function fetchPeople() {
-    const response = await fetch('http://localhost:8085/api/people');
+    const response = await fetch(javaURI + '/api/people');
     if (response.ok) {
         const people = await response.json();
         return people.map(person => person.name);
@@ -109,10 +113,10 @@ async function fetchPeople() {
 }
 
 async function initializeQueue() {
+    timerlength = parseInt(document.getElementById("durationInput").value);
     const assignmentId = document.getElementById('assignmentDropdown').value;
     // const peopleList = await fetchPeople();
-
-    peopleList = ["John Mortensen", "Student 1", "Student 2"]
+    const peopleList = ["John Mortensen", "Person 1", "Person 2"];
 
     await fetch(URL + `initQueue/${assignmentId}`, {
         method: 'PUT',
