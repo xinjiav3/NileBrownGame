@@ -5,6 +5,14 @@ permalink: /analytics
 search_exclude: true
 ---
 
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+</head>
+
+
 <style>
     body {
         font-family: Arial;
@@ -136,7 +144,7 @@ search_exclude: true
 </div>
 
 <div id="Github" class="tabcontent">
-    <h3 style="padding-left: 32px;">Github</h3>
+    <h3 style="padding-left: 32px;" class="animate__animated animate__fadeIn">Github</h3>
     <!-- Modal Structure -->
     <div id="dataModal" class="modal">
         <div class="modal-content">
@@ -147,7 +155,7 @@ search_exclude: true
 
     <!-- Analytics Page -->
     <!-- Analytics Page -->
-    <div class="container">
+    <div class="container animate__animated animate__fadeIn">
         <div id="profile" class="profile">
             <div class="left-side">
                 <img id="avatar" class="avatar" src="" alt="User Avatar">
@@ -169,12 +177,12 @@ search_exclude: true
 </div>
 
 <div id="Bathroom" class="tabcontent">
-    <h3 style="padding-left: 32px;">Bathroom</h3>
+    <h3 style="padding-left: 32px;" class="animate__animated animate__fadeIn">Bathroom</h3>
     <div class="container">
         <div class="components">
 
             <!-- frequency charts -->
-            <div class="div3" style="background-color: #2c3e50; padding: 20px; color: white; border-radius: 15px;">
+            <div class="div3 animate__animated animate__fadeIn" style="background-color: #2c3e50; padding: 20px; color: white; border-radius: 15px;">
                 <!-- graph Data Sections -->
                 <div class="additional-info">
 
@@ -187,7 +195,7 @@ search_exclude: true
             <br>
             <br>
             <!-- personal stats -->
-            <div class="div4" style="background-color: #2c3e50; padding: 20px; color: white; border-radius: 15px;">
+            <div class="div4 animate__animated animate__fadeIn" style="background-color: #2c3e50; padding: 20px; color: white; border-radius: 15px;">
                 <!-- Visit Frequency and Average Duration -->
                 <div class="info-div">
                     <div class="frequency">
