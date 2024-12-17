@@ -43,7 +43,8 @@ permalink: /gamify/adventureGame
     outline: var(--pixel-size) solid #fff;
     z-index:1;
     position:relative;
-    margin-top: calc(var(--grid-cell) * 0.2);
+    margin: calc(var(--grid-cell) * 0.2) auto; 
+    
  }
  .camera {
     width: calc(var(--pixel-size) * 160);
