@@ -3,7 +3,7 @@ toc: false
 layout: post
 title: QNA
 description: Post questions and get replies from peers
-permalink: /project/teacher-toolkit/QNA
+permalink: /project/sagai/QNA
 ---
 
 <html lang="en">

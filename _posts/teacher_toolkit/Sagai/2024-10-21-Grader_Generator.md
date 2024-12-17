@@ -2,7 +2,7 @@
 toc: false
 layout: post
 title: AI Generator
-permalink: /project/teacher-toolkit/generator
+permalink: /project/sagai/generator
 ---
 <head>
    <meta charset="UTF-8">
