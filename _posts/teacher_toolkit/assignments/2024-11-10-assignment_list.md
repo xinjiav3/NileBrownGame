@@ -34,8 +34,9 @@ Submit Assignments using Backend API: /submit/{assignmentId}
         </tbody>
     </table>
     <script type="module">
+        import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
         console.log("Initialized")
-        fetch('http://localhost:8082/api/assignments/debug')  // Correct URL
+        fetch(`${javaURI}/api/assignments/debug`)  // Correct URL
             .then(response => response.json())
             .then(assignments => {
                 const tableBody = document.getElementById('assignmentsTable').getElementsByTagName('tbody')[0];

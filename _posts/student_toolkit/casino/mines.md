@@ -74,14 +74,15 @@ permalink: /casino/mines
 <!-- Winnings Display -->
 <div id="winningsDisplay" style="margin-top: 10px;">Winnings: 0.00</div>
 
-<script>
+<script type="module">
+import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
 let clickedCells = new Set();
 let gameEnded = false;
 let betAmount = 0;
 
 // Function to start game by sending POST request with stakes level
 function startGame(stakes) {
-  fetch(`http://localhost:8085/api/casino/mines/stakes/${stakes}`, {
+  fetch(`${javaURI}/api/casino/mines/stakes/${stakes}`, {
     method: 'POST'
   })
   .then(response => {
@@ -129,7 +130,7 @@ document.querySelectorAll("table td a").forEach(cell => {
     const [xCoord, yCoord] = cellCoords.split(',').map(Number);
 
     // Send GET request to check for a mine at (xCoord, yCoord)
-    fetch(`http://localhost:8085/api/casino/mines/${xCoord - 1}/${yCoord - 1}`)
+    fetch(`${javaURI}/api/casino/mines/${xCoord - 1}/${yCoord - 1}`)
     .then(response => response.json())
     .then(isMine => {
       if (isMine) {
@@ -145,7 +146,7 @@ document.querySelectorAll("table td a").forEach(cell => {
 
 // Function to update winnings display by multiplying multiplier with bet amount
 function updateWinnings() {
-  fetch("http://localhost:8085/api/casino/mines/winnings")
+  fetch(`${javaURI}/api/casino/mines/winnings`)
     .then(response => response.json())
     .then(multiplier => {
       const winnings = betAmount * multiplier;

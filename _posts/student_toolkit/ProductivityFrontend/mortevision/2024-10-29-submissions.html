@@ -112,7 +112,7 @@ menu: _includes/nav/project/productivity-frontend/menu.html
 
 
 <script type="module">
-    import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+    import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
     let selectedTask = "";
     let tasks = "";
     let assignmentIds = [];
@@ -120,7 +120,7 @@ menu: _includes/nav/project/productivity-frontend/menu.html
     
     async function fetchTasks() {
         try {
-            const urllink=pythonURI+"/api/assignments/getAssignments";
+            const urllink=`${javaURI}/api/assignments/getAssignments`;
             const response = await fetch(urllink);
             tasks = await response.json();
             populateTaskDropdown(tasks);
@@ -146,8 +146,8 @@ menu: _includes/nav/project/productivity-frontend/menu.html
     });
     
     function Submit() {
-        const urllink_submit=pythonURI+"/api/submissions/Submit";
-        const urllink_comment=pythonURI+"/api/Comment/create";
+        const urllink_submit=`${javaURI}/api/submissions/Submit`;
+        const urllink_comment=`${javaURI}/api/Comment/create`;
         const submissionLink = document.getElementById('submissionLink').value;
         const assignment_id = assignmentIds[assignIndex - 1];
         const submission_time = (new Date()).toLocaleTimeString();
@@ -195,7 +195,7 @@ menu: _includes/nav/project/productivity-frontend/menu.html
             author:"None"
         };
 
-        fetch('http://localhost:8085/api/Comment/create', {
+        fetch(`${javaURI}/api/Comment/create`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(commentData),
