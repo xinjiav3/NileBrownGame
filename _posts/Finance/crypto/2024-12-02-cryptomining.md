@@ -25,10 +25,6 @@ permalink: /crypto/mining
                         <div class="stat-label">NICE Price</div>
                         <div class="stat-value" id="nice-price">$0.00</div>
                     </div>
-                    <div>
-                        <div class="stat-label">24h Change</div>
-                        <div class="stat-value" id="nice-change">0.00%</div>
-                    </div>
                 </div>
             </div>
             <!-- Ethereum Market -->
@@ -39,10 +35,6 @@ permalink: /crypto/mining
                         <div class="stat-label">ETH Price</div>
                         <div class="stat-value" id="eth-price">$0.00</div>
                     </div>
-                    <div>
-                        <div class="stat-label">24h Change</div>
-                        <div class="stat-value" id="eth-change">0.00%</div>
-                    </div>
                 </div>
             </div>
             <!-- F2Pool Market -->
@@ -52,10 +44,6 @@ permalink: /crypto/mining
                     <div>
                         <div class="stat-label">F2P Price</div>
                         <div class="stat-value" id="f2p-price">$0.00</div>
-                    </div>
-                    <div>
-                        <div class="stat-label">24h Change</div>
-                        <div class="stat-value" id="f2p-change">0.00%</div>
                     </div>
                 </div>
             </div>
@@ -135,10 +123,6 @@ permalink: /crypto/mining
                     <div>
                         <div class="stat-label">BTC Price</div>
                         <div class="stat-value" id="btc-price">$0.00</div>
-                    </div>
-                    <div>
-                        <div class="stat-label">24h Change</div>
-                        <div class="stat-value" id="btc-change">0.00%</div>
                     </div>
                 </div>
             </div>
@@ -361,22 +345,6 @@ permalink: /crypto/mining
                 console.error('Error buying GPU:', error);
             }
         }
-        async function switchPool(event) {
-            try {
-                const options = {
-                    ...fetchOptions,
-                    method: 'POST',
-                    cache: 'no-cache',
-                    body: JSON.stringify({ pool: event.target.value })
-                };
-                const response = await fetch(`${javaURI}/api/mining/pool`, options);
-                const result = await response.json();
-                if (result.success) {
-                    showNotification(`Switched to ${event.target.value}`);
-                }
-            } catch (error) {
-                console.error('Error switching pool:', error);
-            }
         }
         async function updateMiningStats() {
             try {
@@ -647,7 +615,7 @@ permalink: /crypto/mining
                 // Simulate NiceHash price based on Bitcoin price
                 const btcPrice = gameState.btcPrice.current;
                 const nicePrice = btcPrice * 0.00002 * (1 + (Math.random() * 0.1 - 0.05)); // Random variation ±5%
-                const change = (Math.random() * 4 - 2); // Random 24h change between -2% and +2%   
+                const change = (Math.random() * 4 - 2); 
                 // Update display
                 if (priceElement) priceElement.textContent = `$${nicePrice.toFixed(2)}`;
                 if (changeElement) {
