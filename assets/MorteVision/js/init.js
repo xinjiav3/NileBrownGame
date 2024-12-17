@@ -27,4 +27,4 @@ const servers = {
   }
 
 
-// const signalingServer = new WebSocket(`${socketServer}/socket`)
+const signalingServer = new WebSocket(`${rtcServer}/socket`)
