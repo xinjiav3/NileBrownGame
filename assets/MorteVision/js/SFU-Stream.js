@@ -7,6 +7,7 @@ async function streamerInit() {
     if (person == firstInLine) {
         startTimer();
         const stream = await captureScreen();
+        mediaStreamCloseOnly = stream
         document.getElementById("mortStream").srcObject = stream;
         const peer = streamerCreatePeer();
         stream.getTracks().forEach(track => peer.addTrack(track, stream));
@@ -14,6 +15,9 @@ async function streamerInit() {
         alert('You are not first in line. Please wait your turn!')
     }
 }
+
+let streamPeerCloseOnly
+let mediaStreamCloseOnly
 
 function streamerCreatePeer() {
     const peer = new RTCPeerConnection({
@@ -25,6 +29,7 @@ function streamerCreatePeer() {
     });
     peer.onnegotiationneeded = () => streamerNegotiation(peer);
 
+    streamPeerCloseOnly = peer
     return peer;
 }
 
@@ -57,6 +62,21 @@ async function streamerNegotiation(peer) {
         })
 }
 
+async function endStream()
+{
+    if(mediaStreamCloseOnly)
+    {
+    mediaStreamCloseOnly.getTracks().forEach(track => { track.stop()})
+    }
+    if(streamPeerCloseOnly)
+    {
+        streamPeerCloseOnly.close()
+    }
+    document.getElementById("endBroadcastButton").style.display = "none"
+    document.getElementById("broadcastButton").style.display = "flex"
+    
+}
+
 async function captureScreen() {
     let mediaStream = null;
     try {
@@ -69,8 +89,14 @@ async function captureScreen() {
         document.getElementById("streamOffline").style.display = "none"
         document.getElementById("mortStream").style.display = "block"
         document.getElementById("mortStream").srcObject = mediaStream
+        if(document.getElementById("endBroadcastButton").style.display == "none")
+        {
+            document.getElementById("endBroadcastButton").style.display = "flex"
+            document.getElementById("broadcastButton").style.display = "none"
+        }
         return mediaStream;
     } catch (ex) {
         console.log("Error occurred", ex);
+        document.getElementById("endBroadcastButton").style.display = "none"
     }
 }
