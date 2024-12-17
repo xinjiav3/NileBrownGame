@@ -6,28 +6,28 @@ permalink: /student
 ---
 
 <div class="toolkit-buttons">
-  <a href="{{site.baseurl}}/test-page" class="toolkit-button" data-description="This page contains resources for students to enhance their learning experience, including study guides, tutorial videos, and helpful articles to support academic success." data-authors="Author: John Doe">
-    <img src="{{site.baseurl}}/images/testing_for_navbuttons/diddy1.avif" alt="Student Resources" />
-    <span class="button-name">Student Resources</span>
+  <a href="{{site.baseurl}}/bathroom" class="toolkit-button" data-description="Toolset transforms bathroom passes and restroom management with smart digital passes, real-time occupancy tracking, and seamless feedback options. By enhancing hygiene, accessibility, and comfort, it creates a more efficient and user-friendly bathroom experience." data-authors="Author: John Doe">
+    <img src="{{site.baseurl}}/images/testing_for_navbuttons/diddy1.avif" alt="Bathroom" />
+    <span class="button-name">Bathroom</span>
     <div class="description">
-      <p>This page contains resources for students to enhance their learning experience, including study guides, tutorial videos, and helpful articles to support academic success.</p>
-      <p>Author: John Doe</p>
+      <p>Toolset transforms bathroom passes and restroom management with smart digital passes, real-time occupancy tracking, and seamless feedback options. By enhancing hygiene, accessibility, and comfort, it creates a more efficient and user-friendly bathroom experience.</p>
+      <p>Creator: John Doe</p>
     </div>
   </a>
-  <a href="/gamify-tools" class="toolkit-button" data-description="Gamify your learning experience with these tools that make studying more interactive and fun. Discover educational games, quizzes, and activities to boost your knowledge while enjoying the process." data-authors="Author: Jane Smith">
-    <img src="{{site.baseurl}}/images/testing_for_navbuttons/diddy2.jpg" alt="Gamify Tools" />
-    <span class="button-name">Gamify Tools</span>
+  <a href="{{site.baseurl}}/bathrom/statistics" class="toolkit-button" data-description="Gamify your learning experience with these tools that make studying more interactive and fun. Discover educational games, quizzes, and activities to boost your knowledge while enjoying the process." data-authors="Author: Jane Smith">
+    <img src="{{site.baseurl}}/images/testing_for_navbuttons/diddy2.jpg" alt="Bathroom Statistics" />
+    <span class="button-name">Bathroom Statistics</span>
     <div class="description">
       <p>Gamify your learning experience with these tools that make studying more interactive and fun. Discover educational games, quizzes, and activities to boost your knowledge while enjoying the process.</p>
-      <p>Author: Jane Smith</p>
+      <p>Creator: Jane Smith</p>
     </div>
   </a>
-  <a href="/collaboration-tools" class="toolkit-button" data-description="Explore collaboration resources that facilitate group work and team projects. Access platforms and tools designed to enhance communication, project management, and collective problem-solving." data-authors="Author: Alex Johnson">
-    <img src="{{site.baseurl}}/images/testing_for_navbuttons/diddy3.jpg" alt="Collaboration Tools" />
-    <span class="button-name">Collaboration Tools</span>
+  <a href="{{site.baseurl}}/bathroom/issues" class="toolkit-button" data-description="Explore collaboration resources that facilitate group work and team projects. Access platforms and tools designed to enhance communication, project management, and collective problem-solving." data-authors="Author: Alex Johnson">
+    <img src="{{site.baseurl}}/images/testing_for_navbuttons/diddy3.jpg" alt="Bathroom Issues" />
+    <span class="button-name">Bathroom Issues</span>
     <div class="description">
       <p>Explore collaboration resources that facilitate group work and team projects. Access platforms and tools designed to enhance communication, project management, and collective problem-solving.</p>
-      <p>Author: Alex Johnson</p>
+      <p>Creator: Alex Johnson</p>
     </div>
   </a>
 </div>

@@ -23,8 +23,11 @@
             <div class="dropdown-content">
               <a href="{{ site.baseurl }}/student">Student Toolkit</a>
               <a href="{{ site.baseurl }}/gamify">Gamify</a>
+              <a href="{{ site.baseurl }}/toolkit-login">Toolkit Login</a>
             </div>
           </div>
+
+          <div style="display: inline-block; width: 8px;"></div> <!-- Add space between dropdowns -->
           
           {%- for path in site.header_pages -%}
             {%- assign my_page = site.pages | where: "path", path | first -%}
@@ -59,16 +62,21 @@
     display: none;
     position: absolute;
     background-color: #f9f9f9;
-    min-width: 160px;
+    min-width: 140px; /* Adjusted width */
     box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
     z-index: 1;
+    text-align: left; /* Align text to the left */
+    margin-top: -10px;
   }
 
   .dropdown-content a {
     color: black;
-    padding: 12px 16px;
+    padding: 4px 6px; /* Reduced padding */
     text-decoration: none;
     display: block;
+    font-size: 14px; /* Smaller font size */
+    height: 70px;
+    margin-top: -10px;
   }
 
   .dropdown-content a:hover {
