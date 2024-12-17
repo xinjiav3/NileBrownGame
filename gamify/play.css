@@ -31,6 +31,7 @@
     outline: var(--pixel-size) solid #fff;
     z-index:1;
     position:relative;
+    margin-top: calc(var(--grid-cell) * 2);
  }
  .camera {
     width: calc(var(--pixel-size) * 160);

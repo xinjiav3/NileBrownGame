@@ -43,6 +43,7 @@ permalink: /gamify/adventureGame
     outline: var(--pixel-size) solid #fff;
     z-index:1;
     position:relative;
+    margin-top: calc(var(--grid-cell) * 0.2);
  }
  .camera {
     width: calc(var(--pixel-size) * 160);
@@ -59,8 +60,8 @@ permalink: /gamify/adventureGame
           padding: 10px 15px; /* Add padding for better readability */
           border-radius: 8px; /* Rounded corners */
           box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-          position: absolute; /* Keep positioned at the top */
           z-index: 9999; /* Ensure visibility on top */
+          top: calc(10px + var(--grid-cell) * 3)
           right: 10px;
        }
  
@@ -95,7 +96,7 @@ permalink: /gamify/adventureGame
     position: absolute;
     left: calc(var(--grid-cell) * 1.8);
     top: calc(var(--grid-cell) * 3.5);
-    background: url('{{site.baseurl}}/images/gamify/npc1.png') no-repeat no-repeat;
+    background: url('{{site.baseurl}}/images/gamify/nerd.png') no-repeat no-repeat;
     background-size: contain;
     z-index: 0;
  }
@@ -106,7 +107,7 @@ permalink: /gamify/adventureGame
     position: absolute;
     left: calc(var(--grid-cell) * 8);
     top: calc(var(--grid-cell) * 2);
-    background: url('{{site.baseurl}}/images/gamify/npc2.png') no-repeat no-repeat;
+    background: url('{{site.baseurl}}/images/gamify/stockguy.png') no-repeat no-repeat;
     background-size: contain;
     z-index: 0;
  }
@@ -269,15 +270,14 @@ permalink: /gamify/adventureGame
     width: calc(var(--pixel-size) * 75)
  }
  .dialog-box {
-    display: none;
     position: absolute;
     background-color: white;
-    border: 2px solid black;
-    padding: 10px;
+    border: 1px solid black;
+    color: black; /* Text will be black */
+    padding: 5px;
     z-index: 10;
-    cursor: pointer;
- }
-
+    display: none;
+}
  .chat-score, .balance {
     font-size: 1.4em;
     font-weight: bold;
@@ -306,7 +306,7 @@ permalink: /gamify/adventureGame
     padding: 10px 20px;
     font-size: 1em;
     background-color: #4CAF50;
-    color: white;
+    color: blue;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -760,13 +760,6 @@ body {
                                         npc1DialogueIndex = 0;
                                     }
                                 });
-
-
-
-
-
-
-
                                 // NPC2 Interaction
                                 var npc2DialogBox = document.getElementById("npc2-dialog-box");
                 var npc2Dialogue = [
