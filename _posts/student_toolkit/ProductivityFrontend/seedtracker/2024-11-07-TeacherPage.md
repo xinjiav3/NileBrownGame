@@ -29,11 +29,12 @@ permalink: /project/mort-translator/teacher-tracker
   </tbody>
 </table>
 
-<script>
+<script type="module">
+  import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
   // Fetch all submissions when the page loads
   async function fetchSubmissions() {
     try {
-      const response = await fetch('http://localhost:8085/api/seeds/');
+      const response = await fetch(`${javaURI}/api/seeds/`);
       const submissions = await response.json();
 
       const tableBody = document.getElementById('submissionsTable').querySelector('tbody');
@@ -74,7 +75,7 @@ permalink: /project/mort-translator/teacher-tracker
     requestElement.textContent = updatedRequest.toFixed(2);
 
     // Update the backend
-    const response = await fetch(`http://localhost:8085/api/seeds/${id}`, {
+    const response = await fetch(`${javaURI}/api/seeds/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

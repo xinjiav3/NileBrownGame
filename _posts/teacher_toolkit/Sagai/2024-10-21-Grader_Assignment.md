@@ -3,8 +3,6 @@ toc: true
 layout: post
 title: Assignment Management
 description: Assignment management system
-categories: [Collaboration]
-type: ccc
 ---
 
 <!-- Section for Adding Assignments -->
@@ -82,10 +80,12 @@ type: ccc
 </div>
 
 <script type="module">
-  const getAllAssignmentsURL = 'http://localhost:8764/api/assignments/get';
-  const addAssignmentURL = 'http://localhost:8764/api/assignments/add';
-  const getUserAssignmentsURL = 'http://localhost:8764/api/userassignments/get';
-  const addUserAssignmentURL = 'http://localhost:8764/api/userassignments/add';
+  import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
+
+  const getAllAssignmentsURL = `${javaURI}/api/assignments/get`;
+  const addAssignmentURL = `${javaURI}/api/assignments/add`;
+  const getUserAssignmentsURL = `${javaURI}/api/userassignments/get`;
+  const addUserAssignmentURL = `${javaURI}/api/userassignments/add`;
 
   const assignmentTable = document.getElementById("assignmentTable");
   const userAssignmentsTable = document.getElementById("userAssignmentsTable");

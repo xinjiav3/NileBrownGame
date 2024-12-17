@@ -159,7 +159,8 @@ layout: base
     </div>
 
 
-    <script>
+    <script type="module">
+        import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
         let plans = [];
         let draggedIndex = null;
         username = "John";
@@ -167,7 +168,7 @@ layout: base
         // Function to fetch tasks from backend
         async function fetchTasks() {
             try {
-                const response = await fetch('http://localhost:8085/api/assignments/getAssignments');
+                const response = await fetch(`${javaURI}/api/assignments/getAssignments`);
                 const tasks = await response.json();
                 populateTaskDropdown(tasks);
             } catch (error) {
@@ -177,7 +178,7 @@ layout: base
 
         async function fetchUserTasks(username) {
             try {
-                const response = await fetch(`http://localhost:8085/api/tasks/getTasks/${username}`);
+                const response = await fetch(`${javaURI}/api/tasks/getTasks/${username}`);
                 if (response.ok) {
                     plans = await response.json(); // Update plans array with fetched tasks
                     console.log(plans);
@@ -199,7 +200,7 @@ layout: base
             };
 
             try {
-                const response = await fetch(`http://localhost:8085/api/tasks/update/${plan.taskId}`, {
+                const response = await fetch(`${javaURI}/api/tasks/update/${plan.taskId}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
@@ -306,7 +307,7 @@ layout: base
 
                 // Send POST request to create the task
                 try {
-                    const response = await fetch('http://localhost:8085/api/tasks/create', {
+                    const response = await fetch(`${javaURI}/api/tasks/create`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
