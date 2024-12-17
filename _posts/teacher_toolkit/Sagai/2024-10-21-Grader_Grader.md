@@ -3,8 +3,7 @@ toc: false
 layout: post
 title: Grader
 description: Grade your work
-categories: [Collaboration]
-type: ccc
+permalink: /project/teacher-toolkit/grader
 ---
 
 <html lang="en">

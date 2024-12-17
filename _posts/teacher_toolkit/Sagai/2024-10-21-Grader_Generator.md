@@ -2,8 +2,6 @@
 toc: false
 layout: post
 title: AI Generator
-categories: [Collaboration]
-type: ccc
 permalink: /project/teacher-toolkit/generator
 ---
 <head>
@@ -203,6 +201,34 @@ permalink: /project/teacher-toolkit/generator
       }
    </style>
 </head>
+
+<script>
+  // Function to check for JWT in cookies
+  function getCookie(cookieName) {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.startsWith(cookieName + '=')) {
+              return cookie.substring((cookieName + '=').length);
+          }
+      }
+      return null;
+  }
+
+  // Redirect if JWT is not present
+  function checkAuthentication() {
+      const jwtToken = getCookie('jwt_java_spring');
+      if (!jwtToken) {
+          alert('Please login to use this page. Redirecting to login.');
+          window.location.href = '/portfolio_2025/duallogin';
+      }
+  }
+
+  // Run the check on page load
+  window.onload = checkAuthentication;
+</script>
+
+
 <body>
    <!-- Navigation buttons -->
    <div class="nav-buttons">
@@ -237,7 +263,9 @@ permalink: /project/teacher-toolkit/generator
       </div>
    </div>
    
-   <script>
+   <script type="module">
+      import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
+
       const savedQuestions = [];
       
       async function submitRequirements() {
@@ -247,7 +275,7 @@ permalink: /project/teacher-toolkit/generator
           const userRequest = { topic, requirements };
       
           try {
-              const response = await fetch('http://localhost:8085/generate/question', {
+              const response = await fetch(`${javaURI}/generate/question`, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify(userRequest)
@@ -280,7 +308,7 @@ permalink: /project/teacher-toolkit/generator
           if (question) {
               const questionData = { question };
               try {
-                  const response = await fetch('http://localhost:8085/save-question', {
+                  const response = await fetch(`${javaURI}/save-question`, {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify(questionData)
@@ -318,7 +346,7 @@ async function loadSavedQuestions() {
     list.innerHTML = ''; // Clear existing list
 
     try {
-        const response = await fetch('http://localhost:8085/saved-questions');
+        const response = await fetch(`${javaURI}/saved-questions`);
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
