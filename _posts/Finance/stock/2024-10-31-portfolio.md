@@ -118,7 +118,7 @@ title: Stocks Portfolio
     <nav class="navbar">
         <div class="logo">NITD</div>
         <div class="nav-buttons">
-      <a href="{{site.baseurl}}/stocks/home">Home</a>
+      <a href="{{site.baseurl}}/investments/home">Home</a>
       <a href="{{site.baseurl}}/stocks/viewer">Stocks</a>
       <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
       <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>

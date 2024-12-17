@@ -171,111 +171,9 @@ permalink: /crypto/mining
         </div>
         <!-- GPU Inventory -->
         <div class="dashboard-card mt-4">
-            <div id="gpu-inventory" class="gpu-inventory">
+            <h2 class="text-xl font-bold mb-4">My GPU Inventory</h2>
+            <div id="gpu-inventory" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <!-- GPU inventory will be populated here -->
-            </div>
-        </div>
-        <div class="dashboard-card mt-8">
-            <h2 class="text-xl font-bold mb-4">Quick Start Guide</h2>
-            <div class="space-y-4 text-gray-300">
-                <div class="guide-step">
-                    <h3 class="text-green-400 font-bold mb-2">1. Get Your First GPU 🎮</h3>
-                    <p>• Click the "GPU Shop" button to open the store</p>
-                    <p>• Start with the free GT 1030 - perfect for beginners!</p>
-                </div>
-                <div class="guide-step">
-                    <h3 class="text-green-400 font-bold mb-2">2. Choose a Mining Pool 🌐</h3>
-                    <p>• Mining pools combine the power of many miners to find Bitcoin blocks faster</p>
-                    <p>• Available pools:</p>
-                    <ul class="list-disc list-inside ml-4 mt-2 space-y-1">
-                        <li><span class="text-white">NiceHash:</span> 2% fee, 4hr payout - Good for beginners, quick payments</li>
-                        <li><span class="text-white">Ethermine:</span> 1% fee, 24hr payout - Lower fees, longer wait</li>
-                        <li><span class="text-white">F2Pool:</span> 2.5% fee, 12hr payout - Balance of wait time and fees</li>
-                        <li><span class="text-white">Bitcoin Pool:</span> 3% fee, 1hr payout - Fastest payouts, higher fees</li>
-                    </ul>
-                </div>
-                <div class="guide-step">
-                    <h3 class="text-green-400 font-bold mb-2">3. Start Mining ⛏️</h3>
-                    <p>• Click the "Start Mining" button to begin</p>
-                    <p>• Watch your hashrate (mining speed) in the charts</p>
-                    <p>• Mining earns you Bitcoin (BTC) over time</p>
-                    <p>• Shares show successful contributions to your pool</p>
-                </div>
-                <div class="guide-step">
-                    <h3 class="text-green-400 font-bold mb-2">4. Understanding Your Dashboard 📊</h3>
-                    <ul class="list-disc list-inside space-y-2">
-                        <li><span class="text-white">Wallet:</span> Shows your BTC balance and its USD value</li>
-                        <li><span class="text-white">Mining Stats:</span> Your mining speed (hashrate) and successful shares</li>
-                        <li><span class="text-white">Hardware:</span> Your GPU model, temperature, and power usage</li>
-                        <li><span class="text-white">Profitability:</span> Your earnings and power costs</li>
-                        <li><span class="text-white">Bitcoin Market:</span> Current BTC price and market changes</li>
-                    </ul>
-                </div>
-                <div class="guide-step">
-                    <h3 class="text-green-400 font-bold mb-2">5. Upgrade Strategy 📈</h3>
-                    <p>• Save your mining profits to buy better GPUs</p>
-                    <p>• Better GPUs = Higher hashrate = More Bitcoin</p>
-                    <p>• Watch your power costs - efficiency matters!</p>
-                </div>
-                <div class="guide-step mt-4">
-                    <h3 class="text-yellow-400 font-bold mb-2">Pro Tips 💡</h3>
-                    <ul class="list-disc list-inside space-y-2">
-                        <li>Check GPU efficiency (MH/W) when buying new cards</li>
-                        <li>Monitor your daily revenue vs power costs</li>
-                        <li>More expensive GPUs usually have better efficiency</li>
-                        <li>The Bitcoin price affects your USD profits</li>
-                        <li>Different pools have different advantages:</li>
-                        <ul class="list-circle list-inside ml-4 text-sm">
-                            <li>New miners: Start with NiceHash for frequent payouts</li>
-                            <li>Experienced miners: Try Ethermine for lower fees</li>
-                            <li>Consider switching pools as your operation grows</li>
-                        </ul>
-                    </ul>
-                </div>
-                <div class="guide-step mt-4">
-                    <h3 class="text-blue-400 font-bold mb-2">Common Terms 📚</h3>
-                    <ul class="list-disc list-inside space-y-2">
-                        <li><span class="text-white">Hashrate:</span> Your mining speed - higher is better (measured in MH/s)</li>
-                        <li><span class="text-white">Shares:</span> Proof of your mining work submitted to the pool</li>
-                        <li><span class="text-white">Power Draw:</span> Electricity used by your GPU (measured in Watts)</li>
-                        <li><span class="text-white">Efficiency:</span> Hashrate per Watt (MH/W) - higher means more profitable</li>
-                        <li><span class="text-white">Pool Fee:</span> Percentage taken by the mining pool for their service</li>
-                    </ul>
-                </div>
-                <div class="guide-step mt-4">
-                    <h3 class="text-purple-400 font-bold mb-2">Troubleshooting 🔧</h3>
-                    <ul class="list-disc list-inside space-y-2">
-                        <li><span class="text-white">No Profits?</span> Check if mining is actually started and GPU is working</li>
-                        <li><span class="text-white">Low Hashrate?</span> Your GPU might be too basic - consider upgrading</li>
-                        <li><span class="text-white">High Power Costs?</span> Look for more efficient GPUs or lower electricity rates</li>
-                        <li><span class="text-white">No Shares?</span> Make sure your mining pool connection is stable</li>
-                    </ul>
-                </div>
-                <div class="guide-step mt-4">
-                    <h3 class="text-orange-400 font-bold mb-2">FAQ ❓</h3>
-                    <div class="space-y-3">
-                        <div>
-                            <p class="text-white">Q: How long until I make profit?</p>
-                            <p>A: Depends on your GPU, electricity cost, and Bitcoin price. Better GPUs = faster profits!</p>
-                        </div>
-                        <div>
-                            <p class="text-white">Q: Which GPU should I buy first?</p>
-                            <p>A: Start with the free GT 1030, save up for a mid-range GPU like the GTX 1660 SUPER</p>
-                        </div>
-                        <div>
-                            <p class="text-white">Q: Why do pool fees matter?</p>
-                            <p>A: Lower fees mean you keep more of your mining rewards, but might have longer payout times</p>
-                        </div>
-                        <div>
-                            <p class="text-white">Q: Which pool should I choose?</p>
-                            <p>A: For beginners: NiceHash (quick payouts) or Ethermine (low fees). Advanced miners: Bitcoin Pool (fastest payouts) or F2Pool (balanced)</p>
-                        </div>
-                        <div>
-                            <p class="text-white">Q: When should I upgrade my GPU?</p>
-                            <p>A: When your daily profits are enough to afford a better GPU within a reasonable time</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -390,9 +288,9 @@ permalink: /crypto/mining
         }
         async function startPeriodicUpdates() {
             updateInterval = setInterval(async () => {
-                await updateMarketPrices();
-                await updateMiningStats();
-            }, 5000);
+                await updateAllMarketPrices();
+                await updateNiceHashPrice();
+            }, 3600000);
         }
         // API Calls
         async function loadGPUs() {
@@ -404,12 +302,13 @@ permalink: /crypto/mining
                 };
                 const response = await fetch(`${javaURI}/api/mining/shop`, options);
                 const gpus = await response.json();
+                console.log('GPUs:', gpus); // Log the GPUs to check the structure
                 renderGpuShop(gpus);
             } catch (error) {
                 console.error('Error loading GPUs:', error);
             }
         }
-        async function toggleMining() {
+           async function toggleMining() {
             try {
                 const options = {
                     ...fetchOptions,
@@ -418,9 +317,30 @@ permalink: /crypto/mining
                 };
                 const response = await fetch(`${javaURI}/api/mining/toggle`, options);
                 const result = await response.json();
-                updateMiningButton(result.active);
+                updateMiningButton(result.isMining); // Ensure this reflects the correct state
+                await updateMiningStats(); // Refresh stats after toggling
             } catch (error) {
                 console.error('Error toggling mining:', error);
+            }
+        }
+        async function toggleGPU(gpuId) {
+            try {
+                const options = {
+                    ...fetchOptions,
+                    method: 'POST',
+                    cache: 'no-cache'
+                };
+                const response = await fetch(`${javaURI}/api/mining/gpu/toggle/${gpuId}`, options);
+                const result = await response.json();
+                if (result.success) {
+                    showNotification(result.message);
+                    await updateMiningStats(); // Refresh the display
+                } else {
+                    showNotification(result.message || 'Failed to toggle GPU');
+                }
+            } catch (error) {
+                console.error('Error toggling GPU:', error);
+                showNotification('Error toggling GPU: ' + error.message);
             }
         }
         async function buyGpu(gpuId) {
@@ -467,8 +387,8 @@ permalink: /crypto/mining
                 };
                 const response = await fetch(`${javaURI}/api/mining/stats`, options);
                 const stats = await response.json();
-                updateDisplay(stats);
-                updateCharts(stats);
+                updateDisplay(stats); // Ensure this function correctly updates the UI
+                updateCharts(stats); // Ensure this updates the charts as well
             } catch (error) {
                 console.error('Error updating mining stats:', error);
             }
@@ -476,15 +396,59 @@ permalink: /crypto/mining
         // UI Updates
         function updateDisplay(stats) {
             if (!stats) return; // Guard clause for undefined stats
-            document.getElementById('btc-balance').textContent = (stats.btcBalance || 0).toFixed(8);
-            document.getElementById('pending-balance').textContent = (stats.pendingBalance || 0).toFixed(8);
-            document.getElementById('usd-value').textContent = `$${(stats.usdBalance || 0).toFixed(2)}`;
-            document.getElementById('hashrate').textContent = `${(stats.hashrate || 0).toFixed(2)} MH/s`;
+            document.getElementById('btc-balance').textContent = (typeof stats.btcBalance === 'number' ? stats.btcBalance : 0).toFixed(8);
+            document.getElementById('pending-balance').textContent = (typeof stats.pendingBalance === 'number' ? stats.pendingBalance : 0).toFixed(8);
+            document.getElementById('hashrate').textContent = `${(typeof stats.hashrate === 'number' ? stats.hashrate : 0).toFixed(2)} MH/s`;
             document.getElementById('shares').textContent = stats.shares || 0;
-            document.getElementById('gpu-temp').textContent = `${(stats.temperature || 0).toFixed(1)}°C`;
-            document.getElementById('power-draw').textContent = `${(stats.powerDraw || 0).toFixed(0)}W`;
-            document.getElementById('daily-revenue').textContent = `$${(stats.dailyRevenue || 0).toFixed(2)}`;
-            document.getElementById('power-cost').textContent = `$${(stats.powerCost || 0).toFixed(2)}`;
+            document.getElementById('gpu-temp').textContent = `${(typeof stats.averageTemperature === 'number' ? stats.averageTemperature : 0).toFixed(1)}°C`;
+            document.getElementById('power-draw').textContent = `${(typeof stats.powerConsumption === 'number' ? stats.powerConsumption : 0).toFixed(0)}W`;
+            document.getElementById('daily-revenue').textContent = `$${(typeof stats.dailyRevenue === 'number' ? stats.dailyRevenue : 0).toFixed(2)}`;
+            document.getElementById('power-cost').textContent = `$${(typeof stats.powerCost === 'number' ? stats.powerCost : 0).toFixed(2)}`;
+            renderGpuInventory(stats); // Ensure this function is correctly populating the GPU inventory
+        }
+        function renderGpuInventory(stats) {
+            const inventoryElement = document.getElementById('gpu-inventory');
+            if (!inventoryElement || !stats.gpus) return;
+            inventoryElement.innerHTML = '';
+            if (stats.gpus.length === 0) {
+                inventoryElement.innerHTML = `
+                    <div class="text-gray-400 text-center p-4">
+                        No GPUs in inventory. Visit the shop to buy some!
+                    </div>
+                `;
+                return;
+            }
+            stats.gpus.forEach(gpu => {
+                const gpuCard = document.createElement('div');
+                gpuCard.className = 'bg-gray-800 rounded-lg p-4 shadow-lg';
+                // Calculate efficiency and daily estimates
+                const efficiency = (gpu.hashrate / gpu.power).toFixed(3);
+                const dailyRevenue = gpu.hashrate * 86400 / (1e12);
+                const dailyPowerCost = (gpu.power * 24) / 1000 * 0.12;
+                const dailyProfit = dailyRevenue - dailyPowerCost;
+                gpuCard.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold text-white">${gpu.name}</h3>
+                            <div class="grid grid-cols-2 gap-4 mt-2">
+                                <div class="text-sm">
+                                    <p class="text-gray-400">Performance</p>
+                                    <p class="text-white">⚡ ${gpu.hashrate} MH/s</p>
+                                    <p class="text-white">🔌 ${gpu.power}W</p>
+                                    <p class="text-white">📊 ${efficiency} MH/W</p>
+                                </div>
+                                <div class="text-sm">
+                                    <p class="text-gray-400">Daily Estimates</p>
+                                    <p class="text-green-400">💰 $${dailyRevenue.toFixed(2)}</p>
+                                    <p class="text-red-400">💡 -$${dailyPowerCost.toFixed(2)}</p>
+                                    <p class="text-blue-400">📈 $${dailyProfit.toFixed(2)}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                inventoryElement.appendChild(gpuCard);
+            });
         }
         function updateCharts(stats) {
             const now = new Date().toLocaleTimeString();
@@ -541,10 +505,10 @@ permalink: /crypto/mining
             const card = document.createElement('div');
             card.className = `gpu-card mb-4 ${getCategoryClass(category)}`;
             // Calculate daily estimates
-            const dailyRevenue = gpu.hashRate * 86400 / (1e12); // Simplified calculation for demo
-            const dailyPowerCost = (gpu.powerConsumption * 24) / 1000 * 0.12; // Assuming $0.12 per kWh
+            const dailyRevenue = (gpu.hashRate || 0) * 86400 / (1e12); // Ensure hashRate is defined
+            const dailyPowerCost = (gpu.powerConsumption || 0) * 24 / 1000 * 0.12; // Ensure powerConsumption is defined
             const dailyProfit = dailyRevenue - dailyPowerCost;
-            const roi = gpu.price / dailyProfit;
+            const roi = dailyProfit > 0 ? (gpu.price / dailyProfit) : Infinity; // Avoid division by zero
             card.innerHTML = `
                 <div class="flex justify-between items-start">
                     <div class="flex-1">
@@ -552,9 +516,9 @@ permalink: /crypto/mining
                         <div class="grid grid-cols-2 gap-4 mt-2">
                             <div class="text-sm">
                                 <p class="text-gray-400">Performance</p>
-                                <p class="text-white">⚡ ${gpu.hashRate} MH/s</p>
-                                <p class="text-white">🔌 ${gpu.powerConsumption}W</p>
-                                <p class="text-white">🌡️ ${gpu.temperature}°C</p>
+                                <p class="text-white">⚡ ${(gpu.hashRate || 0).toFixed(2)} MH/s</p>
+                                <p class="text-white">🔌 ${(gpu.powerConsumption || 0).toFixed(0)}W</p>
+                                <p class="text-white">🌡️ ${(gpu.temperature || 0).toFixed(1)}°C</p>
                             </div>
                             <div class="text-sm">
                                 <p class="text-gray-400">Daily Estimates</p>
@@ -564,7 +528,7 @@ permalink: /crypto/mining
                             </div>
                         </div>
                         <div class="mt-2 text-sm">
-                            <p class="text-gray-400">Efficiency: ${gpu.efficiency.toFixed(3)} MH/W</p>
+                            <p class="text-gray-400">Efficiency: ${((gpu.hashRate || 0) / (gpu.powerConsumption || 1)).toFixed(3)} MH/W</p>
                             <p class="text-gray-400">ROI: ${roi.toFixed(1)} days</p>
                         </div>
                     </div>
@@ -639,7 +603,6 @@ permalink: /crypto/mining
                 }
             }
         }
-        // Function to update all market prices
         async function updateAllMarketPrices() {
             const markets = ['btc', 'eth', 'f2p'];
             // Show loading state
@@ -648,14 +611,18 @@ permalink: /crypto/mining
                 if (priceElement) priceElement.textContent = 'Loading...';
             });
             try {
-                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ftx-token&vs_currencies=usd&include_24hr_change=true', {
+                const response = await fetch(`${javaURI}/api/crypto/prices`, {
+                    method: 'GET',
                     mode: 'cors',
+                    cache: 'no-cache',
                     headers: {
-                        'Access-Control-Allow-Origin': '*'
+                        'Content-Type': 'application/json'
                     }
                 });
                 if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
+                // Log the data to see its structure
+                console.log('API Response:', data);
                 // Update markets except NiceHash
                 updatePriceDisplay('btc', data.bitcoin);
                 updatePriceDisplay('eth', data.ethereum);
@@ -696,23 +663,29 @@ permalink: /crypto/mining
                 }
             }
         }
-        // Helper function to update display
+        // Helper function to update display with validation
         function updatePriceDisplay(id, data) {
-            console.log(`Updating ${id} with data:`, data);
-            if (!data || !data.usd) return;
             const priceElement = document.getElementById(`${id}-price`);
             const changeElement = document.getElementById(`${id}-change`);
+            // Check if data exists and has required properties
+            if (!data || typeof data.usd === 'undefined') {
+                if (priceElement) priceElement.textContent = 'N/A';
+                if (changeElement) changeElement.textContent = '0.00%';
+                return;
+            }
+            // Update price
             if (priceElement) {
-                const formattedPrice = data.usd.toLocaleString('en-US', {
+                const formattedPrice = Number(data.usd).toLocaleString('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                 });
                 priceElement.textContent = `$${formattedPrice}`;
             }
+            // Update change percentage if it exists
             if (changeElement) {
-                const changeValue = data.usd_24h_change.toFixed(2);
+                const changeValue = data.usd_24h_change ? Number(data.usd_24h_change).toFixed(2) : '0.00';
                 changeElement.textContent = `${changeValue}%`;
-                changeElement.style.color = data.usd_24h_change >= 0 ? '#2ecc71' : '#e74c3c';
+                changeElement.style.color = changeValue >= 0 ? '#2ecc71' : '#e74c3c';
             }
         }
         // Update all prices every hour
