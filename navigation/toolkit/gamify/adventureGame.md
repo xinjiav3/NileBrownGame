@@ -31,7 +31,7 @@ permalink: /gamify/adventureGame
  body {
     background: var(--bg);
     display: flex;
-    align-items: center;
+    
     justify-content: center;
  }
  .pixel-art {
@@ -53,6 +53,7 @@ permalink: /gamify/adventureGame
     position:relative;
  }
  .chat-score, .balance, .questions-answered {
+          font-family: 'Orbitron', sans-serif;
           font-size: 1.4em;
           font-weight: bold;
           color: #333;
@@ -298,7 +299,7 @@ permalink: /gamify/adventureGame
  .balance {
     top: 60px; /* Slightly below .chat-score */
  }
-
+<!-- 
  .shop-button {
     position: absolute;
     top: 10px;
@@ -316,7 +317,7 @@ permalink: /gamify/adventureGame
 
 .shop-button:hover {
     background-color: #45a049;
-}
+} -->
 
 .container {
  width: 90%;
@@ -328,10 +329,10 @@ permalink: /gamify/adventureGame
  text-align: center;
 }
 
-body {
+.main-body {
  font-family: Arial, sans-serif;
  display: flex;
- align-items: center;
+
  justify-content: center;
  background-color: #f2f2f2;
  margin: 0;
@@ -391,15 +392,15 @@ body {
  }
 
  .chat-score {
-    top: 10px; /* Place near the top */
+    top: 100px; /* Place near the top */
  }
 
  .balance {
-    top: 60px; /* Slightly below .chat-score */
+    top: 150px; /* Slightly below .chat-score */
  }
 
  .questions-answered {
-    top: 110px; /* Slightly below .balance */
+    top: 200px; /* Slightly below .balance */
  }
  body {
     font-family: 'Orbitron', sans-serif;
@@ -419,7 +420,7 @@ body {
     transform: translateX(-50%);
     z-index: 1000;
 }
-.shop-button {
+<!-- .shop-button {
     position: absolute;
     top: 150px;
     left: 120px;
@@ -436,8 +437,9 @@ body {
 }
 .shop-button:hover {
     background-color: #099a9a;
-}
+} -->
 .instruction-box {
+    font-family: 'Orbitron', sans-serif;
     position: absolute;
     top: 250px;
     left: 50px;
@@ -479,7 +481,8 @@ body {
     transform: translateX(-50%);
     z-index: 1000;
 }
-.shop-button {
+<!-- .shop-button {
+    font-family: 'Orbitron', sans-serif;
     position: absolute;
     top: 150px;
     left: 120px;
@@ -496,7 +499,7 @@ body {
 }
 .shop-button:hover {
     background-color: #099a9a;
-}
+} -->
 .instruction-box {
     position: absolute;
     top: 250px;
@@ -523,21 +526,25 @@ body {
 }
 
 .leaderboard-btn {
-   position: fixed;
-   bottom: 10px;
-   left: 10px;
-   background-color: #007BFF;
-   color: white;
-   border: none;
-   border-radius: 5px;
-   padding: 10px 20px;
-   font-size: 16px;
-   cursor: pointer;
-   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Orbitron', sans-serif;
+    position: absolute; /* Add positioning */
+    top: 180px;         /* Position it above the instruction box */
+    left: 75px;         /* Align with the instruction box */
+    
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #0ccaca;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 1001;      /* Ensure it stays above the instruction box */
+    font-weight: bold;
 }
 
 .leaderboard-btn:hover {
-   background-color: #0056b3;
+   background-color: #FFFFFF;
 }
 
 .leaderboard-modal {
@@ -589,8 +596,8 @@ body {
     </style>
 </head>
 
-<body>
-    <button class="shop-button" onclick="goToShop()">Shop</button>
+<body class="main-body">
+    <!-- <button class="shop-button" onclick="goToShop()">Shop</button> -->
 
     <div class="instruction-box">
         How to Play: <br />
