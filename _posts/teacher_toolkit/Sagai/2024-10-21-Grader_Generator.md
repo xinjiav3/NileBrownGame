@@ -263,7 +263,7 @@ permalink: /sagai/generator
       </div>
    </div>
    
-   <script>
+   <script type="module">
       import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
 
       const savedQuestions = [];
@@ -303,30 +303,34 @@ permalink: /sagai/generator
           outputElement.innerHTML = formattedQuestion;
       }
       
-      async function saveQuestion() {
-          const question = document.getElementById('output').innerHTML;
-          if (question) {
-              const questionData = { question };
-              try {
-                  const response = await fetch(`${javaURI}/save-question`, {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify(questionData)
-                  });
-      
-                  if (response.ok) {
-                      alert('Question saved to database!');
-                  } else {
-                      alert('Failed to save question. Please try again.');
-                  }
-              } catch (error) {
-                  console.error('Error saving question:', error);
-                  alert('An error occurred while saving the question.');
-              }
-          } else {
-              alert('No question to save!');
-          }
-      }
+async function saveQuestion() {
+    const question = document.getElementById('output').innerHTML;
+    if (question) {
+        const questionData = { question };
+        try {
+            const response = await fetch(`${javaURI}/save-question`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(questionData)
+            });
+
+            if (response.ok) {
+                alert('Question saved to database!');
+            } else {
+                alert('Failed to save question. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error saving question:', error);
+            alert('An error occurred while saving the question.');
+        }
+    } else {
+        alert('No question to save!');
+    }
+}
+
+// Expose to global scope
+window.saveQuestion = saveQuestion;
+
       
 function toggleModal() {
     const modal = document.getElementById('modal');
@@ -369,6 +373,9 @@ async function loadSavedQuestions() {
         alert('Error loading saved questions: ' + error.message);
     }
 }
+
+window.toggleModal = toggleModal;
+window.closeModal = closeModal;
 
       
       document.getElementById('submitButton').addEventListener('click', submitRequirements);
