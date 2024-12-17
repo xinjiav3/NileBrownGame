@@ -7,6 +7,15 @@ layout: base
 
 {% include MorteVision/head.html %}
 
+<div id="assignmentModal" class="modal">
+    <div class="modal-content">
+      <h2>Select an Assignment</h2>
+      <label for="modalAssignmentDropdown">Choose an Assignment:</label>
+      <select id="modalAssignmentDropdown"></select>
+      <button id="confirmAssignment">Confirm</button>
+    </div>
+  </div>
+
 <h1>Queue Management</h1>
 <div class="dropdown-container">
         <label for="assignmentDropdown">Choose an Assignment:</label>

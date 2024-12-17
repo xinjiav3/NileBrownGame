@@ -1,7 +1,9 @@
+// import uri
 import { javaURI } from '../../js/api/config.js';
 
 let assignment = null;
 let currentQueue = [];
+
 
 window.person = "John Mortensen";
 
@@ -15,34 +17,6 @@ let queueUpdateInterval;
 
 const URL = javaURI + "/api/assignments/"
 console.log(URL)
-async function fetchQueue() {
-    const response = await fetch(`${javaURI}/api/assignments/getQueue/${assignment}`);
-    if (response.ok) {
-        const data = await response.json();
-        updateQueueDisplay(data);
-        updateBeginTimerButton();
-    }
-}
-
-async function addToQueue() {
-    const person = ["John Mortensen"];
-    await fetch(`${javaURI}/api/assignments/addQueue/${assignment}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(person)
-    });
-    fetchQueue();
-}
-
-async function removeFromQueue() {
-    const person = ["John Mortensen"];
-    await fetch(`${javaURI}/api/assignments/removeQueue/${assignment}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(person)
-    });
-    fetchQueue();
-}
 
 function startTimer() {
     console.log("Timer Started")
@@ -154,7 +128,6 @@ async function initializeQueue() {
     });
     assignment = assignmentId;
     fetchQueue();
-    startQueueUpdateInterval(30);
 }
 
 // Start the interval to periodically update the queue
@@ -171,8 +144,35 @@ function stopQueueUpdateInterval() {
     if (queueUpdateInterval) clearInterval(queueUpdateInterval);
 }
 
-fetchAssignments();
-fetchQueue();
+window.addEventListener('load', () => {
+    showAssignmentModal();
+});
+
+function showAssignmentModal() {
+    const modal = document.getElementById('assignmentModal');
+    const modalDropdown = document.getElementById('modalAssignmentDropdown');
+    
+    // Fetch assignments and populate the dropdown
+    fetchAssignments().then(() => {
+        const dropdown = document.getElementById('assignmentDropdown');
+        modalDropdown.innerHTML = dropdown.innerHTML; // Use the same data as the main dropdown
+    });
+
+    modal.style.display = 'block';
+
+    // Add event listener for the confirm button
+    document.getElementById('confirmAssignment').addEventListener('click', () => {
+        const selectedAssignment = modalDropdown.value;
+        if (selectedAssignment) {
+            assignment = selectedAssignment; // Set the global assignment variable
+            fetchQueue(); // Fetch the queue for the selected assignment
+            startQueueUpdateInterval(30);
+            modal.style.display = 'none'; // Hide the modal
+        } else {
+            alert('Please select an assignment.');
+        }
+    });
+}
 
 fetchAssignments();
 fetchQueue();
