@@ -1,8 +1,18 @@
 async function streamerInit() {
-    const stream = await captureScreen();
-    document.getElementById("mortStream").srcObject = stream;
-    const peer = streamerCreatePeer();
-    stream.getTracks().forEach(track => peer.addTrack(track, stream));
+    try {
+        firstInLine = document.getElementById("waitingList").firstElementChild.textContent;
+    } catch {
+        alert('You are not first in line. Please wait your turn!')
+    }
+    if (person == firstInLine) {
+        startTimer();
+        const stream = await captureScreen();
+        document.getElementById("mortStream").srcObject = stream;
+        const peer = streamerCreatePeer();
+        stream.getTracks().forEach(track => peer.addTrack(track, stream));
+    } else {
+        alert('You are not first in line. Please wait your turn!')
+    }
 }
 
 function streamerCreatePeer() {

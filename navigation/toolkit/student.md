@@ -11,23 +11,20 @@ permalink: /student
     <span class="button-name">Bathroom</span>
     <div class="description">
       <p>Toolset transforms bathroom passes and restroom management with smart digital passes, real-time occupancy tracking, and seamless feedback options. By enhancing hygiene, accessibility, and comfort, it creates a more efficient and user-friendly bathroom experience.</p>
-      <p>Creator: John Doe</p>
     </div>
   </a>
   <a href="{{site.baseurl}}/bathrom/statistics" class="toolkit-button" data-description="Gamify your learning experience with these tools that make studying more interactive and fun. Discover educational games, quizzes, and activities to boost your knowledge while enjoying the process." data-authors="Author: Jane Smith">
-    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/diddy2.jpg" alt="Bathroom Statistics" />
-    <span class="button-name">Bathroom Statistics</span>
+    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/group-chat.png" alt="ScreenQueue" />
+    <span class="button-name">ScreenQueue</span>
     <div class="description">
-      <p>Gamify your learning experience with these tools that make studying more interactive and fun. Discover educational games, quizzes, and activities to boost your knowledge while enjoying the process.</p>
-      <p>Creator: Jane Smith</p>
+      <p>Use this sleek presentation system that allows for easier accessibility to screens during live reviews. Queue system is integrated to aid line management.</p>
     </div>
   </a>
   <a href="{{site.baseurl}}/bathroom/issues" class="toolkit-button" data-description="Explore collaboration resources that facilitate group work and team projects. Access platforms and tools designed to enhance communication, project management, and collective problem-solving." data-authors="Author: Alex Johnson">
-    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/diddy3.jpg" alt="Bathroom Issues" />
-    <span class="button-name">Bathroom Issues</span>
+    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/submissions.png" alt="Submissions" />
+    <span class="button-name">Assignment Submissions</span>
     <div class="description">
-      <p>Explore collaboration resources that facilitate group work and team projects. Access platforms and tools designed to enhance communication, project management, and collective problem-solving.</p>
-      <p>Creator: Alex Johnson</p>
+      <p>Submit assignments on this simple and easy-to-use user interface that is fed directly to Mr. Mortensen.</p>
     </div>
   </a>
 </div>
