@@ -1,8 +1,8 @@
 let unsetHost = Window.mortJavaURI
-const isDebug = true
+const isDebug = false
 if (isDebug) {
-    unsetHost = "http://localhost:8085"
-    // unsetHost = "https://spring2025.nighthawkcodingsociety.com"
+    // unsetHost = "http://localhost:8085"
+    unsetHost = "https://spring2025.nighthawkcodingsociety.com"
 }
 const rtcServer = unsetHost
 console.log(rtcServer)
