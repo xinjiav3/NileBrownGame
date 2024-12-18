@@ -1,0 +1,131 @@
+---
+layout: base
+title: View Grades
+description: 
+permalink: /student/grades
+search_exclude: true
+---
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        overflow-x: auto;
+        display: block;
+    }
+    th, td {
+        border: 1px solid #ccc;
+        padding: 1em;
+        text-align: center;
+        min-width: 5em; 
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .container {
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+</style>
+
+<div>
+
+</div>
+
+<script type="module">
+    import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+    
+    fetch(`${javaURI}/api/person/get`, fetchOptions).then(response => {
+        if (!response.ok) {
+            // alert("You are not a logged in user.");
+            // window.location.href = '{{site.baseurl}}/toolkit-login';
+            throw new Error(`Spring server response: ${response.status}`);
+        }
+        return response.json();
+    }).then(data => {
+        if (!person.roles.includes('ROLE_STUDENT')) {
+            alert("You are not a student.");
+            window.location.href = '{{site.baseurl}}/toolkit-login';
+        }
+        return true;
+    })
+    // .then(success => {
+    //     loadGrades();
+    // })
+    .catch(error => {
+        alert("Error when checking whether you were logged in.")
+        window.location.href = '{{site.baseurl}}/toolkit-login';
+        console.error(error);
+    });
+
+    async function loadGrades() {
+
+    }
+
+    async function fetchAssignments() {
+        try {
+            const response = await fetch(`${javaURI}/api/assignments/debug`, {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                }
+            });
+            assignments = await response.json();
+            populateAssignmentDropdown(assignments);
+        } catch (error) {
+            console.error('Error fetching assignments:', error);
+        }
+    }
+
+    async function fetchSubmissions(){
+        const urllink=javaURI+"/api/submissions/getSubmissions";
+        const urllink2=javaURI+"/assignment/"+assignIndex.toString();
+        const theUserId=await getUserId();
+        try {
+            const response = await fetch(`${urllink}/${userId}`, {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                }
+            });
+            const Submissions=await response.json();
+            populateSubmissionsTable(Submissions);
+        } catch (error) {
+            console.error('Error fetching submissions:', error);
+        }
+    }
+
+    function populateSubmissionsTable(submissions) {
+        const tableBody = document.getElementById('submissions-table').getElementsByTagName('tbody')[0];
+        tableBody.innerHTML = ''; 
+    
+        submissions.forEach(submission => {
+            const row = document.createElement('tr');
+            //console.log(submission.assignmentid+" "+assignIndex);
+            if(submission.assignmentid==assignIndex){
+                const contentCell = document.createElement('td');
+                contentCell.textContent = submission.content || 'N/A'; 
+                row.appendChild(contentCell);
+    
+                const gradeCell = document.createElement('td');
+                gradeCell.textContent = submission.grade || 'Ungraded'; 
+                row.appendChild(gradeCell);
+    
+                const feedbackCell = document.createElement('td');
+                feedbackCell.textContent = submission.feedback || 'No feedback yet'; 
+                row.appendChild(feedbackCell);
+    
+    
+                
+                tableBody.appendChild(row);
+            }
+    
+           
+        });
+    }
+
+    getUserId();
+    fetchSubmissions();
+    fetchAssignments();
+</script>
+</html>
