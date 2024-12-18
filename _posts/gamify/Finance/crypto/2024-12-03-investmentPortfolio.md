@@ -173,7 +173,7 @@ permalink: /crypto/portfolio
             <a href="/portfolio_2025/crypto/portfolio" id="portfolioLink">Investing Portfolio</a>
             <a href="/portfolio_2025/crypto/mining" id="miningLink">Crypto Mining</a>
             <a href="/portfolio_2025/crypto/team" id="TeamLink">Team Stats</a>
-            <a href="/portfolio_2025/crypto/leaderboard" id="leaderboardLink">Leaderboard</a>
+            <a href="/portfolio_2025/stocks/leaderboard" id="leaderboardLink">Leaderboard</a>
         </div>
     </div>
 
