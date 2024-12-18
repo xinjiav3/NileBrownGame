@@ -7,24 +7,27 @@ permalink: /gamify
 
 <div class="toolkit-buttons">
   <a href="{{site.baseurl}}/gamify/adventureGame" class="toolkit-button" data-description="This page contains all the games developed by CSA. It includes an adventure game where you can explore endless opurtunites. Within this game you can learn how to gamble by playing the gambling game or all about stocks and crypto in our investment game!" data-authors="Author: NITD+People">
-    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/adventure.png" alt="Gamify" />
+    <img src="{{site.baseurl}}/images/testing_for_navbuttons/diddy1.avif" alt="Student Resources" />
     <span class="button-name">Gamify</span>
     <div class="description">
       <p>This page contains all the games developed by CSA. It includes an adventure game where you can explore endless opurtunites. Within this game you can learn how to gamble by playing the gambling game or all about stocks and crypto in our investment game!</p>
+      <p>Creator: NITD + People</p>
     </div>
   </a>
   <a href="{{site.baseurl}}/rpg/latest" class="toolkit-button" data-description="Learn the basics of JS and object oriented programming through hands on learning. Dive deep into the world of game coding in this underwater game where you can interact with different oceanic animals such as turtles, fishes, and more." data-authors="Author: Jane Smith">
-    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/rpg.png" alt="RPG Game" />
+    <img src="{{site.baseurl}}/images/testing_for_navbuttons/diddy2.jpg" alt="Gamify Tools" />
     <span class="button-name">RPG Game</span>
     <div class="description">
       <p>Learn the basics of JS and object oriented programming through hands on learning. Dive deep into the world of game coding in this underwater game where you can interact with different oceanic animals such as turtles, fishes, and more.</p>
+      <p>Creator: Mr. John Mortnensen</p>
     </div>
   </a>
   <a href="{{site.baseurl}}/navigation/game" class="toolkit-button" data-description="Explore collaboration resources that facilitate group work and team projects. Access platforms and tools designed to enhance communication, project management, and collective problem-solving." data-authors="Author: Alex Johnson">
-    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/platformer.png" alt="Platformer Game" />
+    <img src="{{site.baseurl}}/images/testing_for_navbuttons/diddy3.jpg" alt="Collaboration Tools" />
     <span class="button-name">Platformer Game</span>
     <div class="description">
       <p>Explore collaboration resources that facilitate group work and team projects. Access platforms and tools designed to enhance communication, project management, and collective problem-solving.</p>
+      <p>Creator: Mr. John Mortnensen</p>
     </div>
   </a>
 </div>

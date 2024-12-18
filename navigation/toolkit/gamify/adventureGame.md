@@ -5,8 +5,12 @@ permalink: /gamify/adventureGame
 ---
 
 <head>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"
+        rel="stylesheet"
+    />
     <style>
-        :root {
+                :root {
     --pixel-size: 2px;
     --grid-cell: calc( var(--pixel-size) * 16);
     --bg: #9FA7E4;
@@ -27,7 +31,6 @@ permalink: /gamify/adventureGame
  body {
     background: var(--bg);
     display: flex;
-    align-items: center;
     justify-content: center;
  }
  .pixel-art {
@@ -39,6 +42,7 @@ permalink: /gamify/adventureGame
     outline: var(--pixel-size) solid #fff;
     z-index:1;
     position:relative;
+    margin: calc(var(--grid-cell) * 0.2) auto; 
  }
  .camera {
     width: calc(var(--pixel-size) * 160);
@@ -48,6 +52,7 @@ permalink: /gamify/adventureGame
     position:relative;
  }
  .chat-score, .balance, .questions-answered {
+          font-family: 'Orbitron', sans-serif;
           font-size: 1.4em;
           font-weight: bold;
           color: #333;
@@ -55,8 +60,8 @@ permalink: /gamify/adventureGame
           padding: 10px 15px; /* Add padding for better readability */
           border-radius: 8px; /* Rounded corners */
           box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-          position: absolute; /* Keep positioned at the top */
           z-index: 9999; /* Ensure visibility on top */
+          top: calc(10px + var(--grid-cell) * 3)
           right: 10px;
        }
  
@@ -91,7 +96,7 @@ permalink: /gamify/adventureGame
     position: absolute;
     left: calc(var(--grid-cell) * 1.8);
     top: calc(var(--grid-cell) * 3.5);
-    background: url('{{site.baseurl}}/images/gamify/npc1.png') no-repeat no-repeat;
+    background: url('{{site.baseurl}}/images/gamify/nerd.png') no-repeat no-repeat;
     background-size: contain;
     z-index: 0;
  }
@@ -102,7 +107,7 @@ permalink: /gamify/adventureGame
     position: absolute;
     left: calc(var(--grid-cell) * 8);
     top: calc(var(--grid-cell) * 2);
-    background: url('{{site.baseurl}}/images/gamify/npc2.png') no-repeat no-repeat;
+    background: url('{{site.baseurl}}/images/gamify/stockguy.png') no-repeat no-repeat;
     background-size: contain;
     z-index: 0;
  }
@@ -265,16 +270,16 @@ permalink: /gamify/adventureGame
     width: calc(var(--pixel-size) * 75)
  }
  .dialog-box {
-    display: none;
     position: absolute;
     background-color: white;
-    border: 2px solid black;
-    padding: 10px;
+    border: 1px solid black;
+    color: black; /* Text will be black */
+    padding: 5px;
     z-index: 10;
-    cursor: pointer;
- }
+    display: none;
+}
 
- .chat-score, .balance {
+.chat-score, .balance {
     font-size: 1.4em;
     font-weight: bold;
     color: #333;
@@ -294,7 +299,8 @@ permalink: /gamify/adventureGame
  .balance {
     top: 60px; /* Slightly below .chat-score */
  }
-
+<!-- 
+      
  .shop-button {
     position: absolute;
     top: 10px;
@@ -302,7 +308,7 @@ permalink: /gamify/adventureGame
     padding: 10px 20px;
     font-size: 1em;
     background-color: #4CAF50;
-    color: white;
+    color: blue;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -312,7 +318,7 @@ permalink: /gamify/adventureGame
 
 .shop-button:hover {
     background-color: #45a049;
-}
+} -->
 
 .container {
  width: 90%;
@@ -324,10 +330,10 @@ permalink: /gamify/adventureGame
  text-align: center;
 }
 
-body {
+.main-body {
  font-family: Arial, sans-serif;
  display: flex;
- align-items: center;
+
  justify-content: center;
  background-color: #f2f2f2;
  margin: 0;
@@ -387,15 +393,15 @@ body {
  }
 
  .chat-score {
-    top: 10px; /* Place near the top */
+    top: 100px; /* Place near the top */
  }
 
  .balance {
-    top: 60px; /* Slightly below .chat-score */
+    top: 150px; /* Slightly below .chat-score */
  }
 
  .questions-answered {
-    top: 110px; /* Slightly below .balance */
+    top: 200px; /* Slightly below .balance */
  }
  body {
     font-family: 'Orbitron', sans-serif;
@@ -415,7 +421,7 @@ body {
     transform: translateX(-50%);
     z-index: 1000;
 }
-.shop-button {
+<!-- .shop-button {
     position: absolute;
     top: 150px;
     left: 120px;
@@ -432,8 +438,9 @@ body {
 }
 .shop-button:hover {
     background-color: #099a9a;
-}
+} -->
 .instruction-box {
+    font-family: 'Orbitron', sans-serif;
     position: absolute;
     top: 250px;
     left: 50px;
@@ -475,7 +482,8 @@ body {
     transform: translateX(-50%);
     z-index: 1000;
 }
-.shop-button {
+<!-- .shop-button {
+    font-family: 'Orbitron', sans-serif;
     position: absolute;
     top: 150px;
     left: 120px;
@@ -492,7 +500,7 @@ body {
 }
 .shop-button:hover {
     background-color: #099a9a;
-}
+} -->
 .instruction-box {
     position: absolute;
     top: 250px;
@@ -519,21 +527,25 @@ body {
 }
 
 .leaderboard-btn {
-   position: fixed;
-   bottom: 10px;
-   left: 10px;
-   background-color: #007BFF;
-   color: white;
-   border: none;
-   border-radius: 5px;
-   padding: 10px 20px;
-   font-size: 16px;
-   cursor: pointer;
-   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Orbitron', sans-serif;
+    position: absolute; /* Add positioning */
+    top: 180px;         /* Position it above the instruction box */
+    left: 75px;         /* Align with the instruction box */
+    
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #0ccaca;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 1001;      /* Ensure it stays above the instruction box */
+    font-weight: bold;
 }
 
 .leaderboard-btn:hover {
-   background-color: #0056b3;
+   background-color: #FFFFFF;
 }
 
 .leaderboard-modal {
@@ -558,7 +570,9 @@ body {
    border-radius: 10px;
    text-align: center;
    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+   color: black; /* Change text color to black */
 }
+
 
 .leaderboard-close {
    color: #aaa;
@@ -582,37 +596,98 @@ body {
    padding: 5px 0;
    border-bottom: 1px solid #ddd;
 }
+.streak-container {
+   position: fixed;
+   bottom: 20px; 
+   right: 20px; 
+   background-color: rgba(0, 0, 0, 0.85); 
+   padding: 15px 20px; 
+   border-radius: 10px; 
+   text-align: center; 
+   color: #fff; 
+   font-family: 'Orbitron', sans-serif; 
+   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
+   z-index: 9999; 
+   width: 240px; 
+}
+
+
+.streak-container h3 {
+   font-size: 1.4em;
+   font-weight: bold;
+   color: #0ccaca; 
+   margin-bottom: 10px;
+   text-shadow: 0 0 8px #0ccaca, 0 0 15px #0ccaca; 
+}
+
+
+.streak-container button {
+   background-color: #007BFF; 
+   color: white;
+   border: none; 
+   border-radius: 5px;
+   padding: 8px 12px; 
+   margin-top: 8px; 
+   font-size: 1em;
+   font-weight: bold;
+   cursor: pointer;
+   font-family: 'Orbitron', sans-serif; 
+   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3); 
+   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.streak-container button:hover {
+   background-color: #0056b3; /* Darker blue on hover */
+   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4); /* Enhanced shadow on hover */
+}
+
+
+.streak-container input {
+   width: calc(100% - 20px); 
+   padding: 8px; 
+   margin-top: 10px; 
+   border: 1px solid #444; 
+   border-radius: 5px; 
+   background-color: rgba(255, 255, 255, 0.9); 
+   color: #333;
+   font-family: 'Orbitron', sans-serif;
+   font-size: 1em;
+   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1); 
+}
+<script src="yourScript.js" defer></script>
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
+<body class="main-body">
+    <!-- <button class="shop-button" onclick="goToShop()">Shop</button> -->
 
-<body>
-    <button class="shop-button" onclick="goToShop()">Shop</button>
-    
     <div class="instruction-box">
-        How to Play: <br>
-        1. Interact with NPCs.<br>
-        2. Answer questions.<br>
-        3. Earn points.<br>
-        4. Use your points in the shop.<br>
+        How to Play: <br />
+        1. Interact with NPCs.<br />
+        2. Answer questions.<br />
+        3. Earn points.<br />
+        4. Use your points in the shop.<br />
         Enjoy and explore the map!
     </div>
     <div class="chat-score">ChatGPT Score: <span id="chatScore"></span></div>
     <div class="balance">Balance: <span id="balance"></span></div>
-    <div class="questions-answered">Questions Answered: <span id="questionsAnswered"></span></div>
+    <div class="questions-answered">
+        Questions Answered: <span id="questionsAnswered"></span>
+    </div>
 
-    <button class="leaderboard-btn" onclick="openLeaderboard()">Leaderboard</button>
+    <button class="leaderboard-btn" onclick="openLeaderboard()">
+        Leaderboard
+    </button>
 
     <div id="leaderboard-modal" class="leaderboard-modal">
         <div class="leaderboard-modal-content">
-            <span class="leaderboard-close" onclick="closeLeaderboard()">&times;</span>
+            <span class="leaderboard-close" onclick="closeLeaderboard()"
+                >&times;</span
+            >
             <h2>Leaderboard</h2>
-            <div id="leaderboard-entries">
-            </div>
+            <div id="leaderboard-entries"></div>
         </div>
     </div>
-
 
     <div class="frame">
         <div class="corner_topleft"></div>
@@ -634,365 +709,519 @@ body {
                 <div class="npc3"></div>
                 <div class="npc4"></div>
                 <div class="npc5"></div>
-                <button class="leaderboard-button" onclick="toggleLeaderboard()">Leaderboard (Click then go <-)</button>
+                <button
+                    class="leaderboard-button"
+                    onclick="toggleLeaderboard()"
+                >
+                    Leaderboard (Click then go <-)
+                </button>
                 <div class="leaderboard-box" id="leaderboard-box">
                     <div class="leaderboard-entry">| Rank | Name | Score |</div>
                     <div class="leaderboard-entry">================</div>
-                    <div class="leaderboard-entry">| #1 | ShaneLopezz | 920 |</div>
-                    <div class="leaderboard-entry">| #2 | cookieBot34 | 600 |</div>
-                    <div class="leaderboard-entry">| #3 | blackifyy08 | 450 |</div>
+                    <div class="leaderboard-entry">
+                        | #1 | ShaneLopezz | 920 |
+                    </div>
+                    <div class="leaderboard-entry">
+                        | #2 | cookieBot34 | 600 |
+                    </div>
+                    <div class="leaderboard-entry">
+                        | #3 | blackifyy08 | 450 |
+                    </div>
                     <div class="leaderboard-entry">| #4 | Tanav K | 300 |</div>
                 </div>
-                <div class="dialog-box" id="dialog-box">Sup, can you help me real quick? (Click)</div>
-                <div class="dialog-box" id="npc2-dialog-box">Hey there! Can you help me with something? (Click)</div>
-                <div class="dialog-box" id="npc1-dialog-box">Sup! Unit 1 Popcorn Hack (Click)</div>
-            </div>
-            <script>
-                // Open leaderboard modal
-                function openLeaderboard() {
-                    const modal = document.getElementById("leaderboard-modal");
-                    modal.style.display = "block";
-                    fetchLeaderboard(); // Fetch and display leaderboard data
-                }
-            
-                // Close leaderboard modal
-                function closeLeaderboard() {
-                    const modal = document.getElementById("leaderboard-modal");
-                    modal.style.display = "none";
-                }
-            
-                function fetchLeaderboard() {
-                    fetch("http://localhost:8085/rpg_answer/leaderboard") // Replace with your API endpoint
-                        .then((response) => {
-                            if (!response.ok) {
-                                throw new Error("Failed to fetch leaderboard");
-                            }
-                            return response.json();
-                        })
-                        .then((data) => {
-                            const leaderboardEntries = document.getElementById("leaderboard-entries");
-                            leaderboardEntries.innerHTML = "<div>| Rank | Name | Score |</div><hr>";
-                            
-                            // Sort data by totalScore descending for proper ranking
-                            const sortedData = data.sort((a, b) => b.totalScore - a.totalScore);
-                            
-                            sortedData.forEach((entry, index) => {
-                                const rank = index + 1; // Calculate rank based on order
-                                const userName = entry.userName; // Extract username
-                                const totalScore = entry.totalScore; // Extract total score
-                                
-                                // Append each entry to the leaderboard modal content
-                                leaderboardEntries.innerHTML += `<div>| #${rank} | ${userName} | ${totalScore} |</div>`;
+                <div class="dialog-box" id="dialog-box">
+                    Sup, can you help me real quick? (Click)
+                </div>
+                <div class="dialog-box" id="npc2-dialog-box">
+                    Hey there! Can you help me with something? (Click)
+                </div>
+                <div class="dialog-box" id="npc1-dialog-box">
+                    Sup! Unit 1 Popcorn Hack (Click)
+                </div>
+           </div>
+            <div class="streak-container">
+        <h3>Streak</h3>
+        <input type="number" id="user-id-input" placeholder="Enter User ID" />
+        <button onclick="setUserId()">Submit</button>
+        <button id="add-streak" onclick="addStreak()">Add Streak</button>
+        <div class="user-info">
+            <p><strong>Current Streak:</strong> <span id="current-streak">0</span></p>
+            <p id="max-streak" class="hidden"><strong>Highest Streak:</strong> <span id="max-streak-value">0</span></p>
+        </div>
+        <div class="message" id="message"></div>
+    </div>    
+            <script type="module">
+ import { javaURI, fetchOptions } from "{{site.baseurl}}/assets/js/api/config.js";
+                import { javaURI, fetchOptions } from "{{site.baseurl}}/assets/js/api/config.js";
+                 window.javaURI = `${javaURI}` 
+                 </script>
+// Streak Feature Start
+                let userId = null;
+
+                function setUserId() {
+    const input = document.getElementById("user-id-input").value.trim();
+    if (!input || isNaN(input)) {
+        alert("Please enter a valid numeric User ID.");
+        return;
+    }
+
+    userId = parseInt(input);
+    console.log("User ID set to:", userId);
+
+    // Display streak section
+    document.querySelector(".streak-container").classList.remove("hidden");
+    document.getElementById("current-streak").textContent = "Loading...";
+    document.getElementById("max-streak-value").textContent = "Loading...";
+
+    fetch(`http://127.0.0.1:8085/rpg_streak/streak?userId=${userId}`)
+        .then((response) => {
+            if (response.status === 404) {
+                console.warn("User ID not found. Adding new user...");
+                return addNewUser(userId); // Automatically create user if not found
+            }
+            if (!response.ok) {
+                throw new Error(`Failed to fetch user information: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (data) {
+                const currentStreak = data.currentStreak ?? 0;
+                const maxStreak = data.maxStreak ?? 0;
+
+                // Automatically update both streak values
+                document.getElementById("current-streak").textContent = currentStreak;
+                document.getElementById("max-streak-value").textContent = maxStreak;
+                document.getElementById("message").textContent = "Data loaded successfully!";
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching user data:", error);
+            document.getElementById("message").textContent = "Failed to load user data.";
+        });
+}
+
+function fetchUserInfo() { // this function fetches the users data 
+    if (!userId) return;
+
+    fetch(`http://127.0.0.1:8085/rpg_streak/streak?userId=${userId}`)
+        .then((response) => {
+            if (response.status === 404) {
+                console.warn("User ID not found. Adding new user...");
+                return addNewUser(userId); // Call function to add user
+            } else if (!response.ok) {
+                throw new Error(`Failed to fetch user information: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (data) {
+                const currentStreak = data.currentStreak ?? 0;
+                document.getElementById('current-streak').textContent = currentStreak;
+                document.getElementById('message').textContent = "";
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            document.getElementById('message').textContent = 'Failed to load user information.';
+        });
+}
+
+function addNewUser(userId) { // This function allows a new user to be made if an id entereted isn't in the table 
+    fetch("http://127.0.0.1:8085/rpg_streak/streak", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            userId: userId,
+            currentStreak: 0, // Start with 0 streak
+            maxStreak: 0
+        })
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("Failed to create new user");
+        return response.json();
+    })
+    .then(() => {
+        document.getElementById('message').textContent = "New user created successfully!";
+        document.getElementById('current-streak').textContent = 0;
+    })
+    .catch(error => {
+        console.error("Error adding new user:", error);
+        document.getElementById('message').textContent = `Failed to create new user: ${error.message}`;
+    });
+}
+function addStreak() { // this function adds to the specific streak of each user 
+    if (!userId) return;
+
+    fetch("http://127.0.0.1:8085/rpg_streak/streak", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            userId: userId,
+            currentStreak: 1,
+            maxStreak: 5
+        })
+    })
+        .then((response) => {
+            if (!response.ok) {
+                return response.text().then(text => { throw new Error(`Failed to update streak: ${text}`); });
+            }
+            return response.json();
+        })
+        .then((data) => {
+            const currentStreak = data.currentStreak ?? 0;
+            document.getElementById('current-streak').textContent = currentStreak;
+            document.getElementById('message').textContent = "Streak updated successfully!";
+        })
+        .catch((error) => {
+            console.error('Error updating streak:', error);
+            document.getElementById('message').textContent = `Failed to update streak: ${error.message}`;
+        });
+}
+
+function toggleMaxStreak() { // this handles the max streak. 
+    const maxStreakElement = document.getElementById("max-streak");
+    const button = document.getElementById("toggle-max-streak");
+    const maxStreakValueElement = document.getElementById("max-streak-value");
+    if (maxStreakElement.classList.contains("hidden")) {
+        fetch(`http://127.0.0.1:8085/rpg_streak/streak?userId=${userId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                maxStreakValueElement.textContent = data.maxStreak ?? 0;
+                maxStreakElement.classList.remove("hidden");
+                button.textContent = "HIDE HIGHEST STREAK";
+            })
+            .catch((error) => console.error('Error:', error));
+    } else {
+        maxStreakElement.classList.add("hidden");
+        button.textContent = "SHOW HIGHEST STREAK";
+    }
+}
+                 <script>
+                    // Open leaderboard modal
+                    function openLeaderboard() {
+                        const modal = document.getElementById("leaderboard-modal");
+                        modal.style.display = "block";
+                        fetchLeaderboard(); // Fetch and display leaderboard data
+                    }
+                    // window.openLeaderboard = openLeaderboard;
+
+                    // Close leaderboard modal
+                    function closeLeaderboard() {
+                        const modal = document.getElementById("leaderboard-modal");
+                        modal.style.display = "none";
+                    }
+
+                    function fetchLeaderboard() {
+                        // fetch(`${javaURI}/rpg_answer/leaderboard`)
+                        fetch(javaURI + '/rpg_answer/leaderboard')
+                            .then((response) => {
+                                if (!response.ok) {
+                                    throw new Error("Failed to fetch leaderboard");
+                                }
+                                return response.json();
+                            })
+                            .then((data) => {
+                                const leaderboardEntries = document.getElementById("leaderboard-entries");
+                                leaderboardEntries.innerHTML = "<div>| Rank | Name | Score |</div><hr>";
+
+                                // Sort data by totalScore descending for proper ranking
+                                const sortedData = data.sort((a, b) => b.totalScore - a.totalScore);
+
+                                sortedData.forEach((entry, index) => {
+                                    const rank = index + 1; // Calculate rank based on order
+                                    const userName = entry.userName; // Extract username
+                                    const totalScore = entry.totalScore; // Extract total score
+
+                                    // Append each entry to the leaderboard modal content
+                                    leaderboardEntries.innerHTML += `<div>| #${rank} | ${userName} | ${totalScore} |</div>`;
+                                });
+                            })
+                            .catch((error) => {
+                                console.error("Error fetching leaderboard:", error);
+                                document.getElementById("leaderboard-entries").innerHTML = "Failed to load leaderboard.";
                             });
-                        })
-                        .catch((error) => {
-                            console.error("Error fetching leaderboard:", error);
-                            document.getElementById("leaderboard-entries").innerHTML = "Failed to load leaderboard.";
-                        });
-                }
+                    }
             </script>
             <script>
-                var character = document.querySelector(".character");
-                var map = document.querySelector(".map");
-                var x = 90;
-                var y = 80;
-                var held_directions = [];
-                var speed = 1;
+                                var character = document.querySelector(".character");
+                                var map = document.querySelector(".map");
+                                var x = 90;
+                                var y = 80;
+                                var held_directions = [];
+                                var speed = 1;
 
-                // NPC1 Interaction with Grading
-                var npc1DialogBox = document.getElementById("npc1-dialog-box");
-                var npc1Dialogue = [
-                    "Sup! Unit 1 Popcorn Hack",
-                    "Which is valid for declaring a variable of type int?",
-                    "1. int 123variable;",
-                    "2. int variable123;",
-                    "3. int variable#123;",
-                    "4. int variable 123"
+                                // NPC1 Interaction with Grading
+                                var npc1DialogBox = document.getElementById("npc1-dialog-box");
+                                var npc1Dialogue = [
+                                    "Sup! Unit 1 Popcorn Hack",
+                                    "Which is valid for declaring a variable of type int?",
+                                    "1. int 123variable;",
+                                    "2. int variable123;",
+                                    "3. int variable#123;",
+                                    "4. int variable 123"
+                                ];
+                                var npc1DialogueIndex = 0;
+
+                                npc1DialogBox.addEventListener("click", async function () {
+                                    npc1DialogueIndex++;
+                                    if (npc1DialogueIndex < npc1Dialogue.length) {
+                                        npc1DialogBox.textContent = npc1Dialogue[npc1DialogueIndex];
+                                    } else if (npc1DialogueIndex === npc1Dialogue.length) {
+                                        const userAnswer = prompt("Enter your choice (e.g., 2):");
+                                        if (userAnswer) {
+                                            const questionId = 1;
+                                            const userId = 1;
+
+                                            const result = await submitAnswer(userAnswer, questionId, userId);
+                                            window.location.reload();
+                                            await getChatScoreBalance();
+
+
+
+                                            alert(`Your response scored: ${result}`);
+                                        }
+                                    } else {
+                                        npc1DialogBox.style.display = "none";
+                                        npc1DialogueIndex = 0;
+                                    }
+                                });
+                                // NPC2 Interaction
+                                var npc2DialogBox = document.getElementById("npc2-dialog-box");
+                var npc2Dialogue = [
+                    "Hey!",
+                    "I need help with stocks, can you come with me?"
                 ];
-                var npc1DialogueIndex = 0;
+                var npc2DialogueIndex = 0;
 
-                npc1DialogBox.addEventListener("click", async function () {
-                    npc1DialogueIndex++;
-                    if (npc1DialogueIndex < npc1Dialogue.length) {
-                        npc1DialogBox.textContent = npc1Dialogue[npc1DialogueIndex];
-                    } else if (npc1DialogueIndex === npc1Dialogue.length) {
-                        const userAnswer = prompt("Enter your choice (e.g., 2):");
-                        if (userAnswer) {
-                            const questionId = 1;
-                            const userId = 1;
-
-                            const result = await submitAnswer(userAnswer, questionId, userId);
-                            window.location.reload();
-                            await getChatScoreBalance();
-
-                            
-
-                            alert(`Your response scored: ${result}`);
-                        }
-                    } else {
-                        npc1DialogBox.style.display = "none";
-                        npc1DialogueIndex = 0;
-                    }
-                });
-
-                async function submitAnswer(content, questionId, personId) {
-                    try {
-                        const response = await fetch("http://localhost:8085/rpg_answer/submitAnswer", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                                content: content,
-                                questionId: questionId,
-                                personId: personId
-                            })
-                        });
-
-                        if (!response.ok) throw new Error("Network response was not ok");
-
-                        const data = await response.json();
-
-                        return data.score || "Error scoring answer"; // Return score
-
-                    } catch (error) {
-                        console.error("Error submitting answer:", error);
-                        return "Error submitting answer";
-                    }
-                }
-
-                // NPC2 Interaction
-                var npc2DialogBox = document.getElementById("npc2-dialog-box");
-var npc2Dialogue = [
-    "Hey!",
-    "I need help with stocks, can you come with me?"
-];
-var npc2DialogueIndex = 0;
-
-npc2DialogBox.addEventListener("click", function () {
-    npc2DialogueIndex++;
-    if (npc2DialogueIndex < npc2Dialogue.length) {
-        npc2DialogBox.textContent = npc2Dialogue[npc2DialogueIndex];
-    } else if (npc2DialogueIndex === npc2Dialogue.length) {
-        npc2DialogBox.style.display = "none";
-        const teleport = confirm("Teleport to stocks?");
-        if (teleport) {
-            window.location.href = "http://127.0.0.1:4100/student_2025/stocks/signup"; // Replace with your desired link
-        }
-    }
-});
-                const blockedZones = [
-                    { x: 17, y: 49.9 }, // NPC1 pos 
-                    { x: 16, y: 96 },   // tree
-                    { x: 152, y: 96 },  // tree 2
-                    { x: 167, y: 55 },  // computer
-                    { x: 125, y: 30 },  // NPC2
-                    { x: 120, y: 93 },  // NPC3
-                    { x: 38, y: 103 },   // npc4
-                    { x: 137, y: 55 },  // npc5
-                ];
-
-                const isBlocked = (newX, newY) => {
-                    return blockedZones.some(zone => {
-                        return Math.abs(zone.x - newX) < 8 && Math.abs(zone.y - newY) < 8;
-                    });
-                };
-
-                const placeCharacter = () => {
-                    var pixelSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--pixel-size"));
-                    const held_direction = held_directions[0];
-                    let newX = x;
-                    let newY = y;
-                    if (held_direction) {
-                        if (held_direction === directions.right) { newX += speed; }
-                        if (held_direction === directions.left) { newX -= speed; }
-                        if (held_direction === directions.down) { newY += speed; }
-                        if (held_direction === directions.up) { newY -= speed; }
-                        if (!isBlocked(newX, newY)) {
-                            x = newX;
-                            y = newY;
-                            character.setAttribute("facing", held_direction);
-                        }
-                    }
-                    character.setAttribute("walking", held_direction ? "true" : "false");
-
-                    // Boundary limits
-                    var leftLimit = -8;
-                    var rightLimit = (16 * 11) + 8;
-                    var topLimit = -8 + 32;
-                    var bottomLimit = (16 * 7);
-                    if (x < leftLimit) { x = leftLimit; }
-                    if (x > rightLimit) { x = rightLimit; }
-                    if (y < topLimit) { y = topLimit; }
-                    if (y > bottomLimit) { y = bottomLimit; }
-
-                    // Camera position
-                    var camera_left = pixelSize * 66;
-                    var camera_top = pixelSize * 42;
-                    map.style.transform = `translate3d( ${-x * pixelSize + camera_left}px, ${-y * pixelSize + camera_top}px, 0 )`;
-                    character.style.transform = `translate3d( ${x * pixelSize}px, ${y * pixelSize}px, 0 )`;
-
-                    // Check dialog areas
-                    checkDialogArea(x, y);
-                };
-
-                const checkDialogArea = (x, y) => {
-                    const dialogAreaNPC1 = { left: 16, right: 30, top: 40, bottom: 60 };
-                    const dialogAreaNPC2 = { left: 125, right: 145, top: 30, bottom: 50 };
-
-                    // NPC1 dialog
-                    if (x >= dialogAreaNPC1.left && x <= dialogAreaNPC1.right && y >= dialogAreaNPC1.top && y <= dialogAreaNPC1.bottom) {
-                        npc1DialogBox.style.display = "block";
-                    } else {
-                        npc1DialogBox.style.display = "none";
-                        npc1DialogueIndex = 0;
-                    }
-
-                    // NPC2 dialog
-                    if (x >= dialogAreaNPC2.left && x <= dialogAreaNPC2.right && y >= dialogAreaNPC2.top && y <= dialogAreaNPC2.bottom) {
-                        npc2DialogBox.style.display = "block";
-                    } else {
+                npc2DialogBox.addEventListener("click", function () {
+                    npc2DialogueIndex++;
+                    if (npc2DialogueIndex < npc2Dialogue.length) {
+                        npc2DialogBox.textContent = npc2Dialogue[npc2DialogueIndex];
+                    } else if (npc2DialogueIndex === npc2Dialogue.length) {
                         npc2DialogBox.style.display = "none";
-                        npc2DialogueIndex = 0;
-                    }
-                };
-
-                const step = () => {
-                    placeCharacter();
-                    window.requestAnimationFrame(() => {
-                        step();
-                    });
-                };
-
-                step();
-
-                const directions = {
-                    up: "up",
-                    down: "down",
-                    left: "left",
-                    right: "right",
-                };
-
-                const keys = {
-                    38: directions.up,
-                    37: directions.left,
-                    39: directions.right,
-                    40: directions.down,
-                };
-
-                document.addEventListener("keydown", (e) => {
-                    var dir = keys[e.which];
-                    if (dir && held_directions.indexOf(dir) === -1) {
-                        held_directions.unshift(dir);
+                        const teleport = confirm("Teleport to stocks?");
+                        if (teleport) {
+                            window.location.href = "{{site.baseurl}}/stocks/home"; // Replace with your desired link
+                        }
                     }
                 });
+                                const blockedZones = [
+                                    { x: 17, y: 49.9 }, // NPC1 pos
+                                    { x: 16, y: 96 },   // tree
+                                    { x: 152, y: 96 },  // tree 2
+                                    { x: 167, y: 55 },  // computer
+                                    { x: 125, y: 30 },  // NPC2
+                                    { x: 120, y: 93 },  // NPC3
+                                    { x: 38, y: 103 },   // npc4
+                                    { x: 137, y: 55 },  // npc5
+                                ];
 
-                document.addEventListener("keyup", (e) => {
-                    var dir = keys[e.which];
-                    var index = held_directions.indexOf(dir);
-                    if (index > -1) {
-                        held_directions.splice(index, 1);
-                    }
-                });
+                                const isBlocked = (newX, newY) => {
+                                    return blockedZones.some(zone => {
+                                        return Math.abs(zone.x - newX) < 8 && Math.abs(zone.y - newY) < 8;
+                                    });
+                                };
 
-                function toggleLeaderboard() {
-                    var leaderboardBox = document.getElementById("leaderboard-box");
-                    leaderboardBox.style.display = leaderboardBox.style.display === "block" ? "none" : "block";
-                }
+                                const placeCharacter = () => {
+                                    var pixelSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--pixel-size"));
+                                    const held_direction = held_directions[0];
+                                    let newX = x;
+                                    let newY = y;
+                                    if (held_direction) {
+                                        if (held_direction === directions.right) { newX += speed; }
+                                        if (held_direction === directions.left) { newX -= speed; }
+                                        if (held_direction === directions.down) { newY += speed; }
+                                        if (held_direction === directions.up) { newY -= speed; }
+                                        if (!isBlocked(newX, newY)) {
+                                            x = newX;
+                                            y = newY;
+                                            character.setAttribute("facing", held_direction);
+                                        }
+                                    }
+                                    character.setAttribute("walking", held_direction ? "true" : "false");
 
-                function goToShop() {
-                    window.location.href = "http://127.0.0.1:5500/shop.html";
-                }
+                                    // Boundary limits
+                                    var leftLimit = -8;
+                                    var rightLimit = (16 * 11) + 8;
+                                    var topLimit = -8 + 32;
+                                    var bottomLimit = (16 * 7);
+                                    if (x < leftLimit) { x = leftLimit; }
+                                    if (x > rightLimit) { x = rightLimit; }
+                                    if (y < topLimit) { y = topLimit; }
+                                    if (y > bottomLimit) { y = bottomLimit; }
+
+                                    // Camera position
+                                    var camera_left = pixelSize * 66;
+                                    var camera_top = pixelSize * 42;
+                                    map.style.transform = `translate3d( ${-x * pixelSize + camera_left}px, ${-y * pixelSize + camera_top}px, 0 )`;
+                                    character.style.transform = `translate3d( ${x * pixelSize}px, ${y * pixelSize}px, 0 )`;
+
+                                    // Check dialog areas
+                                    checkDialogArea(x, y);
+                                };
+
+                                const checkDialogArea = (x, y) => {
+                                    const dialogAreaNPC1 = { left: 16, right: 30, top: 40, bottom: 60 };
+                                    const dialogAreaNPC2 = { left: 125, right: 145, top: 30, bottom: 50 };
+
+                                    // NPC1 dialog
+                                    if (x >= dialogAreaNPC1.left && x <= dialogAreaNPC1.right && y >= dialogAreaNPC1.top && y <= dialogAreaNPC1.bottom) {
+                                        npc1DialogBox.style.display = "block";
+                                    } else {
+                                        npc1DialogBox.style.display = "none";
+                                        npc1DialogueIndex = 0;
+                                    }
+
+                                    // NPC2 dialog
+                                    if (x >= dialogAreaNPC2.left && x <= dialogAreaNPC2.right && y >= dialogAreaNPC2.top && y <= dialogAreaNPC2.bottom) {
+                                        npc2DialogBox.style.display = "block";
+                                    } else {
+                                        npc2DialogBox.style.display = "none";
+                                        npc2DialogueIndex = 0;
+                                    }
+                                };
+
+                                const step = () => {
+                                    placeCharacter();
+                                    window.requestAnimationFrame(() => {
+                                        step();
+                                    });
+                                };
+
+                                step();
+
+                                const directions = {
+                                    up: "up",
+                                    down: "down",
+                                    left: "left",
+                                    right: "right",
+                                };
+
+                                const keys = {
+                                    38: directions.up,
+                                    37: directions.left,
+                                    39: directions.right,
+                                    40: directions.down,
+                                };
+
+                                document.addEventListener("keydown", (e) => {
+                                    var dir = keys[e.which];
+                                    if (dir && held_directions.indexOf(dir) === -1) {
+                                        held_directions.unshift(dir);
+                                    }
+                                });
+
+                                document.addEventListener("keyup", (e) => {
+                                    var dir = keys[e.which];
+                                    var index = held_directions.indexOf(dir);
+                                    if (index > -1) {
+                                        held_directions.splice(index, 1);
+                                    }
+                                });
+
+                                function toggleLeaderboard() {
+                                    var leaderboardBox = document.getElementById("leaderboard-box");
+                                    leaderboardBox.style.display = leaderboardBox.style.display === "block" ? "none" : "block";
+                                }
+
+                                function goToShop() {
+                                    window.location.href = "{{site.baseurl}}/shop.html";
+                                }
             </script>
         </div>
     </div>
     <script type="module">
-        import { javaURI, fetchOptions } from "{{site.baseurl}}/assets/js/api/config.js";
-        function getChatScoreBalance() {
-            const personId = getPersonId();
-            const getChatScoreUrl = `${javaURI}/rpg_answer/getChatScore/` + personId;
-            const getBalanceUrl = `${javaURI}/rpg_answer/getBalance/` + personId;
-            const getQuestionsAnsweredUrl = `${javaURI}/rpg_answer/getQuestionsAnswered/` + personId;
+            import { javaURI, fetchOptions } from "{{site.baseurl}}/assets/js/api/config.js";
+            function getChatScoreBalance() {
+                const personId = 1
+                const getChatScoreUrl = `${javaURI}/rpg_answer/getChatScore/` + personId;
+                const getBalanceUrl = `${javaURI}/rpg_answer/getBalance/` + personId;
+                const getQuestionsAnsweredUrl = `${javaURI}/rpg_answer/getQuestionsAnswered/` + personId;
 
-            fetch(getQuestionsAnsweredUrl, fetchOptions)
-                .then(response => {
-                    if (response.status !== 200) {
-                        console.log("Database response error: " + response.status);
-                        document.getElementById("questionsAnswered").innerHTML = 0;
-                    }
-                    response.json().then(data => {
-                        if (data !== null) {
-                            document.getElementById("questionsAnswered").innerHTML = data;
+                fetch(getQuestionsAnsweredUrl, fetchOptions)
+                    .then(response => {
+                        if (response.status !== 200) {
+                            console.log("Database response error: " + response.status);
+                            document.getElementById("questionsAnswered").innerHTML = 0;
                         }
+                        response.json().then(data => {
+                            if (data !== null) {
+                                document.getElementById("questionsAnswered").innerHTML = data;
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Fetch error:", error);
                     });
-                })
-                .catch(error => {
-                    console.error("Fetch error:", error);
-                });
 
-            fetch(getChatScoreUrl, fetchOptions)
-                .then(response => {
-                    if (response.status !== 200) {
-                        console.log("Database response error: " + response.status);
-                        document.getElementById("chatScore").innerHTML = 0;
-                    }
-                    response.json().then(data => {
-                        if (data !== null) {
-                            document.getElementById("chatScore").innerHTML = data;
+                fetch(getChatScoreUrl, fetchOptions)
+                    .then(response => {
+                        if (response.status !== 200) {
+                            console.log("Database response error: " + response.status);
+                            document.getElementById("chatScore").innerHTML = 0;
                         }
+                        response.json().then(data => {
+                            if (data !== null) {
+                                document.getElementById("chatScore").innerHTML = data;
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Fetch error:", error);
                     });
-                })
-                .catch(error => {
-                    console.error("Fetch error:", error);
-                });
 
-            fetch(getBalanceUrl, fetchOptions)
-                .then(response => {
-                    if (response.status !== 200) {
-                        console.log("Database response error: " + response.status);
-                        document.getElementById("balance").innerHTML = 0;
-                    }
-                    response.json().then(data => {
-                        if (data !== null) {
-                            document.getElementById("balance").innerHTML = data;
+                fetch(getBalanceUrl, fetchOptions)
+                    .then(response => {
+                        if (response.status !== 200) {
+                            console.log("Database response error: " + response.status);
+                            document.getElementById("balance").innerHTML = 0;
                         }
+                        response.json().then(data => {
+                            if (data !== null) {
+                                document.getElementById("balance").innerHTML = data;
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Fetch error:", error);
                     });
-                })
-                .catch(error => {
-                    console.error("Fetch error:", error);
-                });
-        }
-        
-        async function getPersonId(){
-        const url_persons = `${javaURI}/api/person/get`;
-
-        try {
-            const response = await fetch(url_persons, {
-                method: 'GET',
-                callback: getChatScoreBalance,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                callback: getChatScoreBalance,
-                credentials: 'include', // Ensure cookies are included
-            });
-            console.log(response);
-            if (response.ok) {
-                const data = await response.json();
-                personId=data.id;
-                console.log("User details:", data);
-                return personId;
-            } else {
-                console.error(`Failed: ${response.status} ${response.statusText}`);
             }
-        } catch (error) {
-            console.error("Error fetching user details:", error);
-        }
-    }
 
 
-        window.onload = function() {
-            getPersonId();
-        };
+
+            async function submitAnswer(content, questionId) {
+                        try {
+                            const response = await fetch(`${javaURI}/rpg_answer/submitAnswer`, {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    content: content,
+                                    questionId: questionId,
+                                    personId: 1
+                                })
+                            });
+
+                            if (!response.ok) throw new Error("Network response was not ok");
+
+                            const data = await response.json();
+
+                            return data.score || "Error scoring answer"; // Return score
+
+                        } catch (error) {
+                            console.error("Error submitting answer:", error);
+                            return "Error submitting answer";
+                        }
+                    }
+            window.submitAnswer = submitAnswer;
+            window.onload = function() {
+                getChatScoreBalance();
+            };
     </script>
 </body>
