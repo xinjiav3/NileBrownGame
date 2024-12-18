@@ -1,7 +1,7 @@
 ---
 layout: base
 title: Student Toolkit Login
-permalink: /toolkit_login
+permalink: /toolkit-login
 search_exclude: true
 
 ---
