@@ -85,9 +85,9 @@ permalink: /sagai
     <h1>SAGAI</h1>
     <h2>Super Advanced Grader Artificial Intelligence</h2>
     <div class="nav-buttons">
-        <a href="{{site.baseurl}}//project/teacher-toolkit/grader"><button>Grader</button></a>
-        <a href="{{site.baseurl}}/project/teacher-toolkit/generator"><button>Generator</button></a>
-        <a href="{{site.baseurl}}/project/teacher-toolkit/QNA"><button>QNA</button></a>
+        <a href="{{site.baseurl}}/sagai/grader"><button>Grader</button></a>
+        <a href="{{site.baseurl}}/sagai/generator"><button>Generator</button></a>
+        <a href="{{site.baseurl}}/sagai/QNA"><button>QNA</button></a>
         <a href="{{site.baseurl}}/project/teacher-toolkit/assignment_manager"><button>Assignments</button></a>
     </div>
 </body>
