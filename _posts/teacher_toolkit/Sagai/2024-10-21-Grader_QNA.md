@@ -3,7 +3,7 @@ toc: false
 layout: post
 title: QNA
 description: Post questions and get replies from peers
-permalink: /sagai/QNA
+permalink: /teacher/sagai/QNA
 ---
 
 <html lang="en">
@@ -193,9 +193,9 @@ permalink: /sagai/QNA
 <body>
     <!-- Navigation buttons -->
     <div class="nav-buttons">
-        <a href="{{site.baseurl}}/sagai"><button>Home</button></a>
-        <a href="{{site.baseurl}}/sagai/grader"><button>Grader</button></a>
-        <a href="{{site.baseurl}}/sagai/generator"><button>Generator</button></a>
+        <a href="{{site.baseurl}}/teacher/sagai"><button>Home</button></a>
+        <a href="{{site.baseurl}}/teacher/sagai/grader"><button>Grader</button></a>
+        <a href="{{site.baseurl}}/teacher/sagai/generator"><button>Generator</button></a>
     </div>
     <!-- Main Q&A Section -->
     <div class="container">
@@ -230,7 +230,7 @@ permalink: /sagai/QNA
     </script>
   
 <script type="module">
-  import {javaURI} from '{{ site.baseurl }}/assets/js/api/config.js';
+  import {javaURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
 
   // prepare HTML defined "result" container for new outputj
   const resultContainer = document.getElementById("result");

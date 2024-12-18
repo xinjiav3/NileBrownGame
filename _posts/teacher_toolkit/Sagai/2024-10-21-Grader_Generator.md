@@ -2,7 +2,7 @@
 toc: false
 layout: post
 title: AI Generator
-permalink: /sagai/generator
+permalink: /teacher/sagai/generator
 ---
 <head>
    <meta charset="UTF-8">
@@ -232,9 +232,9 @@ permalink: /sagai/generator
 <body>
    <!-- Navigation buttons -->
    <div class="nav-buttons">
-      <a href="{{site.baseurl}}/sagai"><button>Home</button></a>
-      <a href="{{site.baseurl}}/sagai/grader"><button>Grader</button></a>
-        <a href="{{site.baseurl}}/sagai/QNA"><button>QNA</button></a>
+      <a href="{{site.baseurl}}/teacher/sagai"><button>Home</button></a>
+      <a href="{{site.baseurl}}/teacher/sagai/grader"><button>Grader</button></a>
+        <a href="{{site.baseurl}}/teacher/sagai/QNA"><button>QNA</button></a>
    </div>
    <!-- Main Generator Section -->
    <div class="container">
@@ -263,7 +263,7 @@ permalink: /sagai/generator
       </div>
    </div>
    
-   <script>
+   <script type="module">
       import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
 
       const savedQuestions = [];
@@ -328,6 +328,8 @@ permalink: /sagai/generator
           }
       }
       
+window.saveQuestion = saveQuestion;
+
 function toggleModal() {
     const modal = document.getElementById('modal');
     modal.style.display = 'block';
@@ -336,10 +338,14 @@ function toggleModal() {
     loadSavedQuestions();
 }
 
+window.toggleModal = toggleModal;
+
       
       function closeModal() {
           document.getElementById('modal').style.display = 'none';
       }
+
+      window.closeModal = closeModal;
       
 async function loadSavedQuestions() {
     const list = document.getElementById('saved-questions');
