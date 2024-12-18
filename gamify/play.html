@@ -24,7 +24,6 @@
         
         <!-- Streak Controls -->
         <button id="add-streak" onclick="addStreak()">Add Streak</button>
-        <button id="toggle-max-streak" onclick="toggleMaxStreak()">Show Highest Streak</button>
         <div class="user-info">
             <p><strong>Current Streak:</strong> <span id="current-streak">0</span></p>
             <p id="max-streak" class="hidden"><strong>Highest Streak:</strong> <span id="max-streak-value">0</span></p>
@@ -81,15 +80,47 @@
                 // Streak Feature Start
                 let userId = null;
 
-function setUserId() {
-    const input = document.getElementById("user-id-input").value;
-    if (input) {
-        userId = parseInt(input);
-       // document.getElementById("streak-section").classList.remove("hidden");
-        fetchUserInfo();
-    } else {
-        alert("Please enter a valid User ID.");
+                function setUserId() {
+    const input = document.getElementById("user-id-input").value.trim();
+    if (!input || isNaN(input)) {
+        alert("Please enter a valid numeric User ID.");
+        return;
     }
+
+    userId = parseInt(input);
+    console.log("User ID set to:", userId);
+
+    // Display streak section
+    document.querySelector(".streak-container").classList.remove("hidden");
+    document.getElementById("current-streak").textContent = "Loading...";
+    document.getElementById("max-streak-value").textContent = "Loading...";
+
+    fetch(`http://127.0.0.1:8085/rpg_streak/streak?userId=${userId}`)
+        .then((response) => {
+            if (response.status === 404) {
+                console.warn("User ID not found. Adding new user...");
+                return addNewUser(userId); // Automatically create user if not found
+            }
+            if (!response.ok) {
+                throw new Error(`Failed to fetch user information: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (data) {
+                const currentStreak = data.currentStreak ?? 0;
+                const maxStreak = data.maxStreak ?? 0;
+
+                // Automatically update both streak values
+                document.getElementById("current-streak").textContent = currentStreak;
+                document.getElementById("max-streak-value").textContent = maxStreak;
+                document.getElementById("message").textContent = "Data loaded successfully!";
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching user data:", error);
+            document.getElementById("message").textContent = "Failed to load user data.";
+        });
 }
 
 function fetchUserInfo() { // this function fetches the users data 
