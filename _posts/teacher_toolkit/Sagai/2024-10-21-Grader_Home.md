@@ -3,7 +3,7 @@ toc: false
 layout: post
 title: Grader Project
 description: Grade popcorn hacks, generate hacks, or ask questions here
-permalink: /sagai
+permalink: /teacher/sagai
 ---
 
 {% include nav/home.html %}
@@ -85,9 +85,9 @@ permalink: /sagai
     <h1>SAGAI</h1>
     <h2>Super Advanced Grader Artificial Intelligence</h2>
     <div class="nav-buttons">
-        <a href="{{site.baseurl}}/sagai/grader"><button>Grader</button></a>
-        <a href="{{site.baseurl}}/sagai/generator"><button>Generator</button></a>
-        <a href="{{site.baseurl}}/sagai/QNA"><button>QNA</button></a>
-        <a href="{{site.baseurl}}/project/teacher-toolkit/assignment_manager"><button>Assignments</button></a>
+        <a href="{{site.baseurl}}/teacher/sagai/grader"><button>Grader</button></a>
+        <a href="{{site.baseurl}}/teacher/sagai/generator"><button>Generator</button></a>
+        <a href="{{site.baseurl}}/teacher/sagai/QNA"><button>QNA</button></a>
+        <a href="{{site.baseurl}}/teacher/sagai/assignment-manager"><button>Assignments</button></a>
     </div>
 </body>

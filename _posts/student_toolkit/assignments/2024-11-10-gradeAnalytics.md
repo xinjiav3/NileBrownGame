@@ -1,5 +1,5 @@
 ---
-layout: base
+layout: page
 title: Grade Analytics 
 permalink: /student-toolkit/analytics
 search_exclude: true
