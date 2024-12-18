@@ -103,10 +103,6 @@ permalink: /crypto/portfolio
             color: #333;
         }
 
-        .modal-content h2, .modal-content p {
-            color: #333;
-        }
-
         .chart-container {
             height: 300px;
             margin: 20px 0;
@@ -121,70 +117,30 @@ permalink: /crypto/portfolio
             color: #333;
         }
 
-        /* Button Styling */
+        /* Buttons */
         .btn {
             padding: 10px 20px;
+            margin: 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 15px;
+            color: #fff;
             font-size: 1em;
         }
 
-        .btn-invest {
-            background-color: #4CAF50;
-            color: #fff;
-        }
-
-        .btn-close {
-            background-color: #f44336;
-            color: #fff;
-        }
-        
-        /* Navbar */
-        .navbar {
-            width: 100%;
-            background-color: #333;
-            color: #fff;
-            display: flex;
-            justify-content: space-between;
-            padding: 1rem;
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        .navbar .links {
-            display: flex;
-            gap: 2rem;
-        }
-        .navbar .links a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .navbar .links a:hover {
-            color: #ddd;
-        }
+        .btn-buy { background-color: #4CAF50; }
+        .btn-sell { background-color: #f44336; }
+        .btn-close { background-color: #555; }
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <div class="links">
-            <a href="/portfolio_2025/crypto/portfolio" id="portfolioLink">Investing Portfolio</a>
-            <a href="/portfolio_2025/crypto/mining" id="miningLink">Crypto Mining</a>
-            <a href="/portfolio_2025/crypto/team" id="TeamLink">Team Stats</a>
-            <a href="/portfolio_2025/crypto/leaderboard" id="leaderboardLink">Leaderboard</a>
-        </div>
-    </div>
-
     <div class="container">
         <h1>Crypto Investment Portfolio</h1>
-        <div class="user-balance">
-            Current Balance: $<span id="user-balance">5000</span>
-        </div>
+        <div class="user-balance">Current Balance: $<span id="user-balance">5000</span></div>
         <div class="crypto-list" id="crypto-list-container"></div>
     </div>
 
+    <!-- Modal -->
     <div class="modal" id="crypto-modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeModal()">&times;</span>
@@ -194,98 +150,115 @@ permalink: /crypto/portfolio
             <div class="chart-container">
                 <canvas id="crypto-chart"></canvas>
             </div>
-            <button class="btn btn-invest" onclick="investInCrypto()">Invest</button>
+            <button class="btn btn-buy" onclick="buyCrypto()">Buy</button>
+            <button class="btn btn-sell" onclick="sellCrypto()">Sell</button>
+            <button class="btn btn-close" onclick="closeModal()">Close</button>
         </div>
     </div>
 
-    <script type="module">
-        import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+<script type="module">
+    import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-        let userBalance = 5000;
-        document.getElementById('user-balance').innerText = userBalance;
+    let userBalance = 5000;
+    document.getElementById('user-balance').innerText = userBalance;
 
-        async function fetchCryptos() {
+    async function fetchCryptos() {
+        try {
+            const response = await fetch(`${javaURI}/api/crypto/live`, fetchOptions);
+            if (!response.ok) throw new Error(`Failed to fetch crypto data: ${response.status} ${response.statusText}`);
+            const container = document.getElementById('crypto-list-container');
+            container.innerHTML = '';
+            const cryptos = await response.json();
+            cryptos.forEach(crypto => {
+                const item = document.createElement('div');
+                item.className = 'crypto-item';
+                item.innerHTML = `<strong>${crypto.name}</strong><br>$${crypto.price.toFixed(2)}`;
+                item.onclick = () => openModal(crypto);
+                container.appendChild(item);
+            });
+        } catch (error) {
+            console.error('Error fetching cryptos:', error);
+        }
+    }
+
+    window.openModal = function (crypto) {
+        document.getElementById('modal-crypto-name').innerText = crypto.name;
+        document.getElementById('modal-crypto-price').innerText = crypto.price.toFixed(2);
+        document.getElementById('modal-crypto-change').innerText = crypto.changePercentage.toFixed(2);
+        fetchCryptoTrend(crypto.name.toLowerCase(), 7);
+        document.getElementById('crypto-modal').style.display = 'flex';
+    };
+
+    window.closeModal = function () {
+        document.getElementById('crypto-modal').style.display = 'none';
+    };
+
+    async function fetchCryptoTrend(cryptoId, days) {
+        try {
+            const response = await fetch(`${javaURI}/api/crypto/trend?cryptoId=${cryptoId}&days=${days}`, fetchOptions);
+            if (!response.ok) throw new Error("Failed to fetch trend data");
+            const prices = await response.json();
+            const ctx = document.getElementById('crypto-chart').getContext('2d');
+            if (window.cryptoChart) window.cryptoChart.destroy();
+            window.cryptoChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({ length: prices.length }, (_, i) => `Day ${i + 1}`),
+                    datasets: [{
+                        label: `${cryptoId} Price Trend`,
+                        data: prices,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        fill: true
+                    }]
+                }
+            });
+        } catch (error) {
+            console.error("Error fetching trend data:", error);
+        }
+    }
+
+    window.buyCrypto = async function () {
+        const cryptoId = document.getElementById('modal-crypto-name').innerText;
+        const usdAmount = prompt("Enter USD amount to buy:");
+        if (usdAmount) {
             try {
-                const response = await fetch(`${javaURI}/api/crypto/live`, fetchOptions);
-                if (!response.ok) throw new Error(`Failed to fetch crypto data: ${response.status} ${response.statusText}`);
-                const cryptos = await response.json();
-                const cryptoListContainer = document.getElementById('crypto-list-container');
-                cryptoListContainer.innerHTML = '';
-                cryptos.forEach(crypto => {
-                    const cryptoItem = document.createElement('div');
-                    cryptoItem.className = 'crypto-item';
-                    cryptoItem.innerHTML = `<strong>${crypto.name}</strong><br>$${crypto.price.toFixed(2)}`;
-                    cryptoItem.onclick = () => openModal(crypto);
-                    cryptoListContainer.appendChild(cryptoItem);
+                const response = await fetch(`${javaURI}/api/crypto/buy`, {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email: "user@example.com", cryptoId, usdAmount })
                 });
+                const message = await response.text();
+                alert(message);
+                fetchCryptos(); // Refresh data
             } catch (error) {
-                console.log('Error fetching cryptos:', error);
+                console.error("Error buying crypto:", error);
             }
         }
+    };
 
-        function openModal(crypto) {
-            document.getElementById('modal-crypto-name').innerText = crypto.name;
-            document.getElementById('modal-crypto-price').innerText = crypto.price.toFixed(2);
-            document.getElementById('modal-crypto-change').innerText = crypto.changePercentage.toFixed(2);
-            fetchCryptoTrend(crypto.name.toLowerCase(), 7);
-            document.getElementById('crypto-modal').style.display = 'flex';
-        }
-
-        async function fetchCryptoTrend(cryptoId, days) {
+    window.sellCrypto = async function () {
+        const cryptoId = document.getElementById('modal-crypto-name').innerText;
+        const cryptoAmount = prompt("Enter crypto amount to sell:");
+        if (cryptoAmount) {
             try {
-                const response = await fetch(`${javaURI}/api/crypto/trend?cryptoId=${cryptoId}&days=${days}`, fetchOptions);
-                if (!response.ok) throw new Error("Failed to fetch trend data");
-                const prices = await response.json();
-                const labels = Array.from({ length: prices.length }, (_, i) => `Day ${i + 1}`);
-                const ctx = document.getElementById('crypto-chart').getContext('2d');
-                if (window.cryptoChart) window.cryptoChart.destroy();
-                window.cryptoChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: `${cryptoId} Price Trend (USD)`,
-                            data: prices,
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            x: { title: { display: true, text: 'Days Ago' }},
-                            y: { title: { display: true, text: 'Price (USD)' }}
-                        }
-                    }
+                const response = await fetch(`${javaURI}/api/crypto/sell`, {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email: "user@example.com", cryptoId, cryptoAmount })
                 });
+                const message = await response.text();
+                alert(message);
+                fetchCryptos(); // Refresh data
             } catch (error) {
-                console.error("Error fetching trend data:", error);
+                console.error("Error selling crypto:", error);
             }
         }
+    };
 
-        function closeModal() {
-            document.getElementById('crypto-modal').style.display = 'none';
-        }
+    fetchCryptos();
+</script>
 
-        window.onclick = function(event) {
-            const modal = document.getElementById('crypto-modal');
-            if (event.target === modal) closeModal();
-        }
 
-        function investInCrypto() {
-            const amount = parseFloat(prompt("Enter the amount you want to invest:"));
-            if (amount && amount > 0 && amount <= userBalance) {
-                userBalance -= amount;
-                document.getElementById('user-balance').innerText = userBalance.toFixed(2);
-                alert(`You've invested $${amount.toFixed(2)} in ${document.getElementById('modal-crypto-name').innerText}.`);
-            } else {
-                alert("Invalid investment amount or insufficient balance.");
-            }
-        }
-
-        fetchCryptos();
-    </script>
 </body>
 </html>
