@@ -108,7 +108,6 @@ permalink: /gamify/blackjack
                         betAmount: parseInt(bet)
                     })
                 });
-
                 if (!response.ok) throw new Error("Failed to start the game");
                 const game = await response.json();
                 updateHands(game);
@@ -116,7 +115,6 @@ permalink: /gamify/blackjack
                 document.getElementById("error").innerText = "Error: " + error.message;
             }
         }
-
         async function hit() {
             try {
                 const response = await fetch(apiUrl + '/hit', {
@@ -128,7 +126,6 @@ permalink: /gamify/blackjack
                         email: 'your_email@example.com'
                     })
                 });
-
                 if (!response.ok) throw new Error("Failed to hit");
                 const game = await response.json();
                 updateHands(game);
@@ -136,7 +133,6 @@ permalink: /gamify/blackjack
                 document.getElementById("error").innerText = "Error: " + error.message;
             }
         }
-
         async function stand() {
             try {
                 const response = await fetch(apiUrl + '/stand', {
@@ -148,7 +144,6 @@ permalink: /gamify/blackjack
                         email: 'your_email@example.com'
                     })
                 });
-
                 if (!response.ok) throw new Error("Failed to stand");
                 const game = await response.json();
                 updateHands(game);
@@ -156,20 +151,16 @@ permalink: /gamify/blackjack
                 document.getElementById("error").innerText = "Error: " + error.message;
             }
         }
-
         function updateHands(game) {
             const playerCardsDiv = document.getElementById('playerHand');
             const dealerCardsDiv = document.getElementById('dealerHand');
-
             playerCardsDiv.innerHTML = '';
             dealerCardsDiv.innerHTML = '';
-
             game.gameState.playerHand.forEach(card => {
                 const img = document.createElement('img');
                 img.src = `/images/cards/${card.replace(' ', '_')}.png`; // Adjust path as necessary
                 playerCardsDiv.appendChild(img);
             });
-
             game.gameState.dealerHand.forEach(card => {
                 const img = document.createElement('img');
                 img.src = `/images/cards/${card.replace(' ', '_')}.png`; // Adjust path as necessary
