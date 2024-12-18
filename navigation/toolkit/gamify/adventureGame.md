@@ -31,7 +31,6 @@ permalink: /gamify/adventureGame
  body {
     background: var(--bg);
     display: flex;
-    
     justify-content: center;
  }
  .pixel-art {
@@ -44,7 +43,6 @@ permalink: /gamify/adventureGame
     z-index:1;
     position:relative;
     margin: calc(var(--grid-cell) * 0.2) auto; 
-    
  }
  .camera {
     width: calc(var(--pixel-size) * 160);
@@ -280,7 +278,8 @@ permalink: /gamify/adventureGame
     z-index: 10;
     display: none;
 }
- .chat-score, .balance {
+
+.chat-score, .balance {
     font-size: 1.4em;
     font-weight: bold;
     color: #333;
@@ -301,6 +300,7 @@ permalink: /gamify/adventureGame
     top: 60px; /* Slightly below .chat-score */
  }
 <!-- 
+      
  .shop-button {
     position: absolute;
     top: 10px;
