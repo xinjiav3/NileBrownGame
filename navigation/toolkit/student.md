@@ -34,6 +34,13 @@ permalink: /student
       <p>View all slack announcements in one place.</p>
     </div>
   </a>
+  <a href="{{site.baseurl}}/student/calendar" class="toolkit-button" data-description="Never lose track of your assignments again with the Slack Integrated Calendar!">
+    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/calendar.png" alt="Calendar" />
+    <span class="button-name">Calendar</span>
+    <div class="description">
+      <p>View all slack announcements in one place.</p>
+    </div>
+  </a>
 </div>
 
 <style>
