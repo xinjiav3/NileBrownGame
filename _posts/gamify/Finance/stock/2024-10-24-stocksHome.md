@@ -261,6 +261,7 @@ title: Stocks Home
             <a href="{{site.baseurl}}/stocks/viewer">Stocks</a>
             <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
             <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
+            <a href="{{site.baseurl}}/crypto/portfolio">Crypto</a>
             <a onclick="logout()" href="{{site.baseurl}}/stocks/login">Logout</a> 
         </div>
     </nav>
