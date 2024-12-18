@@ -13,7 +13,7 @@ permalink: /student
       <p>Toolset transforms bathroom passes and restroom management with smart digital passes, real-time occupancy tracking, and seamless feedback options. By enhancing hygiene, accessibility, and comfort, it creates a more efficient and user-friendly bathroom experience.</p>
     </div>
   </a>
-  <a href="{{site.baseurl}}/student-toolkit/presentations" class="toolkit-button" data-description="Gamify your learning experience with these tools that make studying more interactive and fun. Discover educational games, quizzes, and activities to boost your knowledge while enjoying the process." data-authors="Author: Jane Smith">
+  <a href="{{site.baseurl}}/student/presentations" class="toolkit-button" data-description="Gamify your learning experience with these tools that make studying more interactive and fun. Discover educational games, quizzes, and activities to boost your knowledge while enjoying the process." data-authors="Author: Jane Smith">
     <img src="{{site.baseurl}}/images/toolkit-nav-buttons/group-chat.png" alt="ScreenQueue" />
     <span class="button-name">ScreenQueue</span>
     <div class="description">
@@ -25,6 +25,13 @@ permalink: /student
     <span class="button-name">Assignment Submissions</span>
     <div class="description">
       <p>Submit assignments on this simple and easy-to-use user interface that is fed directly to Mr. Mortensen.</p>
+    </div>
+  </a>
+  <a href="{{site.baseurl}}/student/calendar" class="toolkit-button" data-description="Never lose track of your assignments again with the Slack Integrated Calendar!">
+    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/calendar.png" alt="Calendar" />
+    <span class="button-name">Calendar</span>
+    <div class="description">
+      <p>View all slack announcements in one place.</p>
     </div>
   </a>
 </div>

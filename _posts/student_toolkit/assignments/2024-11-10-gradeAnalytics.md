@@ -1,17 +1,14 @@
 ---
-layout: page 
+layout: page
 title: Grade Analytics 
-permalink: /student-toolkit/analytics
+permalink: /student/analytics
 search_exclude: true
 show_reading_time: false 
 ---
 
-<head>
-    <title>Grades Analytics</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-</head>
-<body>
+<title>Grades Analytics</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 <div class="container">
     <h1>📊 Grades Analytics</h1>
@@ -37,8 +34,8 @@ show_reading_time: false
 
 <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
 <script type="module">
+    import { javaURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
     document.getElementById('assignmentSelect').addEventListener('change', fetchGrades);
-    import { login, javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
     // Utility to get a cookie by its name
     function getCookie(name) {
         const cookies = document.cookie.split(';');
@@ -255,5 +252,3 @@ async function fetchGrades() {
     window.onload = loadAssignments;
 
 </script>
-
-</body>
