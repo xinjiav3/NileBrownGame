@@ -118,8 +118,7 @@ search_exclude: true
                     <th>Name</th>
                     <th>UID</th>
                     <th>Role</th>
-                    <th>Profile Picture</th>
-                    <th>KASM Server Needed</th>
+                    <th>KASM Server</th>
                     <th>Classes</th>
                 </tr>
             </thead>
@@ -127,7 +126,7 @@ search_exclude: true
                 <!-- javascript generated data -->
             </tbody>
         </table>
-        <a href="#" id="pythonButton" class="details-button">Python Details</a>
+        <a href="{{ site.baseurl }}/profile" id="pythonButton" class="details-button">User Profile</a>
     </div>
 </div>
 
@@ -251,7 +250,6 @@ search_exclude: true
                 name.textContent = data.name;
                 uid.textContent = data.uid;
                 role.textContent = data.role;
-                profile.textContent = data.pfp;
                 kasm.textContent = data.kasm_server_needed;
 
                 if (Array.isArray(data.sections)) {
@@ -264,10 +262,10 @@ search_exclude: true
                 tr.appendChild(name);
                 tr.appendChild(uid);
                 tr.appendChild(role);
-                tr.appendChild(profile);
                 tr.appendChild(kasm);
                 tr.appendChild(classes);
                 resultContainer.appendChild(tr);
+                //window.location.reload();
             })
             .catch(error => {
                 loginForm.style.display = 'block';
