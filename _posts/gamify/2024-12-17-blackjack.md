@@ -1,3 +1,8 @@
+---
+layout: post
+title: BlackJack
+permalink: /gamify/blackjack
+---
 <html lang="en">
 <head>
     <meta charset="UTF-8">
