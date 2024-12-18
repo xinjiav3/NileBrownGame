@@ -177,26 +177,6 @@ permalink: /crypto/mining
         </div>
     </div>
     <script type="module">
-        // At the start of your script tag, add this line to make buyGpu globally available
-        window.buyGpu = async function(gpuId) {
-            try {
-                const options = {
-                    ...fetchOptions,
-                    method: 'POST',
-                    cache: 'no-cache'
-                };
-                const response = await fetch(`${javaURI}/api/mining/gpu/buy/${gpuId}`, options);
-                const result = await response.json();
-                if (result.success) {
-                    showNotification(result.message);
-                    await loadGPUs();
-                    await updateMiningStats();
-                }
-            } catch (error) {
-                console.error('Error buying GPU:', error);
-                showNotification('Error buying GPU: ' + error.message);
-            }
-        }
         import { login, javaURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js'; //imports config.js
         let hashrateChart, profitChart;
         let updateInterval;
@@ -327,7 +307,7 @@ permalink: /crypto/mining
                 showNotification('Error toggling GPU: ' + error.message);
             }
         }
-        async function buyGpu(gpuId) {
+        window.buyGpu = async function(gpuId) {
             try {
                 const options = {
                     ...fetchOptions,
@@ -336,15 +316,37 @@ permalink: /crypto/mining
                 };
                 const response = await fetch(`${javaURI}/api/mining/gpu/buy/${gpuId}`, options);
                 const result = await response.json();
-                if (result.success) {
+                console.log('Response Status:', response.status); // Log the response status
+                console.log('Result:', result); // Log the parsed result
+                if (response.ok) { // Check if the response status is OK (200)
                     showNotification(result.message);
                     await loadGPUs();
                     await updateMiningStats();
+                } else {
+                    // Notify the user if they already own the GPU
+                    showNotification(result.message || 'Failed to buy GPU');
                 }
             } catch (error) {
                 console.error('Error buying GPU:', error);
+                showNotification('Error buying GPU: ' + error.message);
             }
         }
+        async function switchPool(event) {
+            try {
+                const options = {
+                    ...fetchOptions,
+                    method: 'POST',
+                    cache: 'no-cache',
+                    body: JSON.stringify({ pool: event.target.value })
+                };
+                const response = await fetch(`${javaURI}/api/mining/pool`, options);
+                const result = await response.json();
+                if (result.success) {
+                    showNotification(`Switched to ${event.target.value}`);
+                }
+            } catch (error) {
+                console.error('Error switching pool:', error);
+            }
         }
         async function updateMiningStats() {
             try {
@@ -667,6 +669,16 @@ permalink: /crypto/mining
                 current: 0
             }
         };
+        function showNotification(message) {
+            const notificationElement = document.createElement('div');
+            notificationElement.textContent = message;
+            notificationElement.className = 'notification'; // Add your styling class
+            document.body.appendChild(notificationElement);
+            // Remove the notification after a few seconds
+            setTimeout(() => {
+                document.body.removeChild(notificationElement);
+            }, 3000);
+        }
     </script>
 </body>
 </html>
