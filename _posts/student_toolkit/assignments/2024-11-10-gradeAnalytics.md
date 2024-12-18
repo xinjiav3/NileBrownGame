@@ -1,7 +1,7 @@
 ---
 layout: page 
 title: Grade Analytics 
-permalink: /synergy/analytics
+permalink: /student-toolkit/analytics
 search_exclude: true
 show_reading_time: false 
 ---

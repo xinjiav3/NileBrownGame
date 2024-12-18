@@ -7,11 +7,9 @@ async function streamerInit() {
     if (person == firstInLine) {
         startTimer();
         const stream = await captureScreen();
-        mediaStreamCloseOnly = stream
         document.getElementById("mortStream").srcObject = stream;
         const peer = streamerCreatePeer();
         stream.getTracks().forEach(track => peer.addTrack(track, stream));
-        signalingServer.send(JSON.stringify({event: 'streamStarted'}));
     } else {
         alert('You are not first in line. Please wait your turn!')
     }
