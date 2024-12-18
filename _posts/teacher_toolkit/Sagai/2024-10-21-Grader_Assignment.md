@@ -3,7 +3,7 @@ toc: true
 layout: post
 title: Assignment Management
 description: Assignment management system
-permalink: /project/teacher-toolkit/assignment_manager
+permalink: /teacher/sagai/assignment-manager
 
 ---
 
