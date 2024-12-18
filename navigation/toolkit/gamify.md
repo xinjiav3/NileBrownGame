@@ -27,13 +27,6 @@ permalink: /gamify
       <p>Explore collaboration resources that facilitate group work and team projects. Access platforms and tools designed to enhance communication, project management, and collective problem-solving.</p>
     </div>
   </a>
-  <a href="{{site.baseurl}}/investments/home" class="toolkit-button" data-description="Explore collaboration resources that facilitate group work and team projects. Access platforms and tools designed to enhance communication, project management, and collective problem-solving." data-authors="Author: Alex Johnson">
-    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/investments.png" alt="Investments Home" />
-    <span class="button-name">Investments Home</span>
-    <div class="description">
-      <p>Your investments home page.</p>
-    </div>
-  </a>
 </div>
 
 <style>
@@ -50,7 +43,7 @@ permalink: /gamify
     width: 25%;
     height: auto;
     background-color: rgba(0, 0, 0, 0.5);
-    color: white;
+    color: white;x
     font-size: 1.5rem;
     border: none;
     border-radius: 8px;
