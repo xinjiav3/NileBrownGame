@@ -220,7 +220,7 @@ permalink: /sagai/generator
       const jwtToken = getCookie('jwt_java_spring');
       if (!jwtToken) {
           alert('Please login to use this page. Redirecting to login.');
-          window.location.href = '/toolkit_login';
+          window.location.href = '/portfolio_2025/toolkit-login';
       }
   }
 
@@ -263,7 +263,7 @@ permalink: /sagai/generator
       </div>
    </div>
    
-   <script type="module">
+   <script>
       import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
 
       const savedQuestions = [];
@@ -327,8 +327,6 @@ permalink: /sagai/generator
               alert('No question to save!');
           }
       }
-
-      window.saveQuestion = saveQuestion;
       
 function toggleModal() {
     const modal = document.getElementById('modal');
@@ -338,13 +336,10 @@ function toggleModal() {
     loadSavedQuestions();
 }
 
-window.toggleModal = toggleModal;
       
       function closeModal() {
           document.getElementById('modal').style.display = 'none';
       }
-
-      window.closeModal = closeModal;
       
 async function loadSavedQuestions() {
     const list = document.getElementById('saved-questions');
