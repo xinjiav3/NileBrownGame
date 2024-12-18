@@ -170,9 +170,8 @@ title: Stocks Home
             display: none;
             position: fixed;
             top: 50%;
-            left: auto;
-            right: 50%;
-            transform: translateY(-50%, -50%);
+            left: 50%;
+            transform: translate(-50%, -50%);
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
@@ -234,9 +233,10 @@ title: Stocks Home
     </style>
 </head>
 <body>
-<div id="leaderboardModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); width: 80%; max-height: 80%; overflow-y: auto;">
+<!-- Leaderboard Modal and Overlay -->
+<div id="leaderboardModal">
     <h3>Leaderboard</h3>
-    <table style="width: 100%; border-collapse: collapse;">
+    <table id="leaderboardTable">
         <thead>
             <tr>
                 <th>Rank</th>
@@ -244,26 +244,28 @@ title: Stocks Home
                 <th>Total Portfolio Value</th>
             </tr>
         </thead>
-        <tbody id="leaderboardTable">
+        <tbody>
             <tr>
                 <td colspan="3" style="text-align: center;">Loading...</td>
             </tr>
         </tbody>
     </table>
-    <button id="closeLeaderboardButton" style="margin-top: 10px; padding: 10px 20px; background-color: #001f3f; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Close</button>
+    <button id="closeLeaderboardButton">Close</button>
 </div>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="logo">NITD</div>
-        <div class="nav-buttons">
-            <a href="#" id="leaderboardButton">Leaderboard</a>
-            <a href="{{site.baseurl}}/stocks/home">Home</a>
-            <a href="{{site.baseurl}}/stocks/viewer">Stocks</a>
-            <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
-            <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
-            <a onclick="logout()" href="{{site.baseurl}}/stocks/login">Logout</a> 
-        </div>
-    </nav>
+<div id="modalOverlay"></div>
+
+<!-- Navigation Bar -->
+<nav class="navbar">
+    <div class="logo">NITD</div>
+    <div class="nav-buttons">
+        <a href="#" id="leaderboardButton">Leaderboard</a> <!-- Button to open leaderboard -->
+        <a href="{{site.baseurl}}/stocks/home">Home</a>
+        <a href="{{site.baseurl}}/stocks/viewer">Stocks</a>
+        <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
+        <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
+        <a onclick="logout()" href="{{site.baseurl}}/stocks/login">Logout</a> 
+    </div>
+</nav>
     <!-- Dashboard Content   -->
     <div class="dashboard">
         <div class="dashboard-content">
@@ -602,41 +604,70 @@ async function logout() {
             localStorage.setItem('userID', userID)
             return(userID);   
         }
-document.getElementById("leaderboardButton").addEventListener("click", async function () {
-    const modal = document.getElementById("leaderboardModal");
-    const overlay = document.getElementById("modalOverlay");
-    const leaderboardTable = document.getElementById("leaderboardTable");
-    // Display the modal and overlay
-    modal.style.display = "block";
-    overlay.style.display = "block";
-    try {
-        // Fetch leaderboard data
-        const response = await fetch("http://localhost:8085/user/leaderboard"); // Update API endpoint if needed
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const data = await response.json();
-        // Populate the leaderboard table
-        leaderboardTable.innerHTML = data.map((item, index) => `
-            <tr>
-                <td>${index + 1}</td>
-                <td>${item.username}</td>
-                <td>$${item.portfolioValue.toFixed(2)}</td>
-            </tr>
-        `).join('');
-    } catch (error) {
-        console.error("Error fetching leaderboard:", error);
-        leaderboardTable.innerHTML = `
-            <tr>
-                <td colspan="3" style="text-align: center; color: red;">Failed to load leaderboard data</td>
-            </tr>
-        `;
-    }
+document.getElementById("leaderboardButton").addEventListener("click", function () {
+    openLeaderboard(); // Open the leaderboard modal when the button is clicked
 });
 document.getElementById("closeLeaderboardButton").addEventListener("click", function () {
+    closeLeaderboard(); // Close the leaderboard modal when the close button is clicked
+});
+// Open leaderboard modal
+function openLeaderboard() {
     const modal = document.getElementById("leaderboardModal");
     const overlay = document.getElementById("modalOverlay");
-    // Hide the modal and overlay
+    modal.style.display = "block";
+    overlay.style.display = "block";
+    fetchLeaderboard(); // Fetch and display leaderboard data
+}
+// Close leaderboard modal
+function closeLeaderboard() {
+    const modal = document.getElementById("leaderboardModal");
+    const overlay = document.getElementById("modalOverlay");
     modal.style.display = "none";
     overlay.style.display = "none";
-});
+}
+// Fetch leaderboard data
+function fetchLeaderboard() {
+    const leaderboardTable = document.getElementById("leaderboardTable");
+    leaderboardTable.innerHTML = `<tr><td colspan="3" style="text-align: center;">Loading...</td></tr>`; // Display loading text
+    fetch("http://localhost:8085/user/leaderboard") // Update API endpoint if needed
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch leaderboard");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            leaderboardTable.innerHTML = ""; // Clear the loading text
+            if (Array.isArray(data)) {
+                // Sort data by balance descending for proper ranking
+                const sortedData = data.sort((a, b) => b.balance - a.balance);
+                sortedData.forEach((entry, index) => {
+                    const rank = index + 1; // Calculate rank based on order
+                    const username = entry.username; // Extract username
+                    const portfolioValue = entry.balance.toFixed(2); // Extract portfolio value and format it
+                    // Append each entry to the leaderboard table
+                    leaderboardTable.innerHTML += `
+                        <tr>
+                            <td>${rank}</td>
+                            <td>${username}</td>
+                            <td>$${portfolioValue}</td>
+                        </tr>
+                    `;
+                });
+            } else {
+                leaderboardTable.innerHTML = `
+                    <tr>
+                        <td colspan="3" style="text-align: center; color: red;">Invalid leaderboard data format</td>
+                    </tr>
+                `;
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching leaderboard:", error);
+            leaderboardTable.innerHTML = `
+                <tr>
+                    <td colspan="3" style="text-align: center; color: red;">Failed to load leaderboard data</td>
+                </tr>
+            `;
+        });
+}
