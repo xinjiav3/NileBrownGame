@@ -13,6 +13,18 @@ permalink: /crypto/mining
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+<style>
+       .notification { /* This entire style, ".notification", is what makes the notification pops out from the top right! */
+       position: fixed;
+       top: 20px;
+       right: 20px;
+       background-color: #333;
+       color: white;
+       padding: 10px;
+       border-radius: 5px;
+       z-index: 1000; // Ensure it appears above other elements
+   }
+</style>
 <body class="bg-gray-900 text-white min-h-screen p-6">
     <div class="container mx-auto">
         <!-- Main Dashboard -->
@@ -670,9 +682,10 @@ permalink: /crypto/mining
             }
         };
         function showNotification(message) {
+            console.log('Notification:', message); // Debug log
             const notificationElement = document.createElement('div');
             notificationElement.textContent = message;
-            notificationElement.className = 'notification'; // Add your styling class
+            notificationElement.className = 'notification'; // Ensure this class is styled
             document.body.appendChild(notificationElement);
             // Remove the notification after a few seconds
             setTimeout(() => {
