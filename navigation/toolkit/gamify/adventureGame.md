@@ -570,7 +570,9 @@ body {
    border-radius: 10px;
    text-align: center;
    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+   color: black; /* Change text color to black */
 }
+
 
 .leaderboard-close {
    color: #aaa;
@@ -678,16 +680,20 @@ body {
                     Sup! Unit 1 Popcorn Hack (Click)
                 </div>
             </div>
-            <script>
+            <script type="module">
 
                 import { javaURI, fetchOptions } from "{{site.baseurl}}/assets/js/api/config.js";
+                 window.javaURI = `${javaURI}` 
+                 </script>
 
+                 <script>
                     // Open leaderboard modal
                     function openLeaderboard() {
                         const modal = document.getElementById("leaderboard-modal");
                         modal.style.display = "block";
                         fetchLeaderboard(); // Fetch and display leaderboard data
                     }
+                    // window.openLeaderboard = openLeaderboard;
 
                     // Close leaderboard modal
                     function closeLeaderboard() {
@@ -696,7 +702,8 @@ body {
                     }
 
                     function fetchLeaderboard() {
-                        fetch("${javaURI}/rpg_answer/leaderboard")
+                        // fetch(`${javaURI}/rpg_answer/leaderboard`)
+                        fetch(javaURI + '/rpg_answer/leaderboard')
                             .then((response) => {
                                 if (!response.ok) {
                                     throw new Error("Failed to fetch leaderboard");
@@ -974,7 +981,7 @@ body {
 
             async function submitAnswer(content, questionId) {
                         try {
-                            const response = await fetch("${javaURI}/rpg_answer/submitAnswer", {
+                            const response = await fetch(`${javaURI}/rpg_answer/submitAnswer`, {
                                 method: "POST",
                                 headers: {
                                     "Content-Type": "application/json",
@@ -997,7 +1004,7 @@ body {
                             return "Error submitting answer";
                         }
                     }
-
+            window.submitAnswer = submitAnswer;
             window.onload = function() {
                 getChatScoreBalance();
             };
