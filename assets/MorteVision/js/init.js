@@ -1,9 +1,11 @@
-let unsetHost = "skibidi"
+let unsetHost = Window.mortJavaURI
 const isDebug = true
 if (isDebug) {
     unsetHost = "http://localhost:8085"
+    // unsetHost = "https://spring2025.nighthawkcodingsociety.com"
 }
 const rtcServer = unsetHost
+console.log(rtcServer)
 const servers = {
     iceServers:[
       {
@@ -24,4 +26,5 @@ const servers = {
     iceCandidatePoolSize:10,
   }
 
-// const signalingServer = new WebSocket(`${socketServer}/socket`)
+
+const signalingServer = new WebSocket(`${rtcServer}/socket`)

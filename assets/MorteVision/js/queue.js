@@ -3,8 +3,6 @@ import { javaURI } from '../../js/api/config.js';
 
 let assignment = null;
 let currentQueue = [];
-
-
 window.person = "John Mortensen";
 
 document.getElementById('addQueue').addEventListener('click', addToQueue);
