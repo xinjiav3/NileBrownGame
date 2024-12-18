@@ -220,7 +220,7 @@ permalink: /sagai/generator
       const jwtToken = getCookie('jwt_java_spring');
       if (!jwtToken) {
           alert('Please login to use this page. Redirecting to login.');
-          window.location.href = '/portfolio_2025/toolkit_login';
+          window.location.href = '/portfolio_2025/toolkit-login';
       }
   }
 
