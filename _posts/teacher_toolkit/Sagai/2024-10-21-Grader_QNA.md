@@ -230,7 +230,7 @@ permalink: /sagai/QNA
     </script>
   
 <script type="module">
-  import {javaURI} from '{{ site.baseurl }}/assets/js/api/config.js';
+  import {javaURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
 
   // prepare HTML defined "result" container for new outputj
   const resultContainer = document.getElementById("result");
