@@ -13,6 +13,18 @@ permalink: /crypto/mining
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+<style>
+       .notification { /* This entire style, ".notification", is what makes the notification pops out from the top right! */
+       position: fixed;
+       top: 20px;
+       right: 20px;
+       background-color: #333;
+       color: white;
+       padding: 10px;
+       border-radius: 5px;
+       z-index: 1000; // Ensure it appears above other elements
+   }
+</style>
 <body class="bg-gray-900 text-white min-h-screen p-6">
     <div class="container mx-auto">
         <!-- Main Dashboard -->
@@ -25,10 +37,6 @@ permalink: /crypto/mining
                         <div class="stat-label">NICE Price</div>
                         <div class="stat-value" id="nice-price">$0.00</div>
                     </div>
-                    <div>
-                        <div class="stat-label">24h Change</div>
-                        <div class="stat-value" id="nice-change">0.00%</div>
-                    </div>
                 </div>
             </div>
             <!-- Ethereum Market -->
@@ -39,10 +47,6 @@ permalink: /crypto/mining
                         <div class="stat-label">ETH Price</div>
                         <div class="stat-value" id="eth-price">$0.00</div>
                     </div>
-                    <div>
-                        <div class="stat-label">24h Change</div>
-                        <div class="stat-value" id="eth-change">0.00%</div>
-                    </div>
                 </div>
             </div>
             <!-- F2Pool Market -->
@@ -52,10 +56,6 @@ permalink: /crypto/mining
                     <div>
                         <div class="stat-label">F2P Price</div>
                         <div class="stat-value" id="f2p-price">$0.00</div>
-                    </div>
-                    <div>
-                        <div class="stat-label">24h Change</div>
-                        <div class="stat-value" id="f2p-change">0.00%</div>
                     </div>
                 </div>
             </div>
@@ -136,10 +136,6 @@ permalink: /crypto/mining
                         <div class="stat-label">BTC Price</div>
                         <div class="stat-value" id="btc-price">$0.00</div>
                     </div>
-                    <div>
-                        <div class="stat-label">24h Change</div>
-                        <div class="stat-value" id="btc-change">0.00%</div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -193,26 +189,6 @@ permalink: /crypto/mining
         </div>
     </div>
     <script type="module">
-        // At the start of your script tag, add this line to make buyGpu globally available
-        window.buyGpu = async function(gpuId) {
-            try {
-                const options = {
-                    ...fetchOptions,
-                    method: 'POST',
-                    cache: 'no-cache'
-                };
-                const response = await fetch(`${javaURI}/api/mining/gpu/buy/${gpuId}`, options);
-                const result = await response.json();
-                if (result.success) {
-                    showNotification(result.message);
-                    await loadGPUs();
-                    await updateMiningStats();
-                }
-            } catch (error) {
-                console.error('Error buying GPU:', error);
-                showNotification('Error buying GPU: ' + error.message);
-            }
-        }
         import { login, javaURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js'; //imports config.js
         let hashrateChart, profitChart;
         let updateInterval;
@@ -343,7 +319,7 @@ permalink: /crypto/mining
                 showNotification('Error toggling GPU: ' + error.message);
             }
         }
-        async function buyGpu(gpuId) {
+        window.buyGpu = async function(gpuId) {
             try {
                 const options = {
                     ...fetchOptions,
@@ -352,13 +328,19 @@ permalink: /crypto/mining
                 };
                 const response = await fetch(`${javaURI}/api/mining/gpu/buy/${gpuId}`, options);
                 const result = await response.json();
-                if (result.success) {
+                console.log('Response Status:', response.status); // Log the response status
+                console.log('Result:', result); // Log the parsed result
+                if (response.ok) { // Check if the response status is OK (200)
                     showNotification(result.message);
                     await loadGPUs();
                     await updateMiningStats();
+                } else {
+                    // Notify the user if they already own the GPU
+                    showNotification(result.message || 'Failed to buy GPU');
                 }
             } catch (error) {
                 console.error('Error buying GPU:', error);
+                showNotification('Error buying GPU: ' + error.message);
             }
         }
         async function switchPool(event) {
@@ -647,7 +629,7 @@ permalink: /crypto/mining
                 // Simulate NiceHash price based on Bitcoin price
                 const btcPrice = gameState.btcPrice.current;
                 const nicePrice = btcPrice * 0.00002 * (1 + (Math.random() * 0.1 - 0.05)); // Random variation ±5%
-                const change = (Math.random() * 4 - 2); // Random 24h change between -2% and +2%   
+                const change = (Math.random() * 4 - 2); 
                 // Update display
                 if (priceElement) priceElement.textContent = `$${nicePrice.toFixed(2)}`;
                 if (changeElement) {
@@ -699,6 +681,17 @@ permalink: /crypto/mining
                 current: 0
             }
         };
+        function showNotification(message) {
+            console.log('Notification:', message); // Debug log
+            const notificationElement = document.createElement('div');
+            notificationElement.textContent = message;
+            notificationElement.className = 'notification'; // Ensure this class is styled
+            document.body.appendChild(notificationElement);
+            // Remove the notification after a few seconds
+            setTimeout(() => {
+                document.body.removeChild(notificationElement);
+            }, 3000);
+        }
     </script>
 </body>
 </html>
