@@ -9,6 +9,7 @@ permalink: /project/mort-translator/student-confirmation-tracker
 
 <head>
   <title>Student Confirmation</title>
+  <script type="module" src="/assets/js/api/config.js"></script> <!-- Load config -->
   <style>
     /* ... eshaan add in style later ... */
   </style>
@@ -28,10 +29,12 @@ permalink: /project/mort-translator/student-confirmation-tracker
   </tbody>
 </table>
 
-<script>
+<script type="module">
+  import { javaURI } from '/assets/js/api/config.js';
+
   async function fetchSubmissions() {
     try {
-      const response = await fetch('http://localhost:8085/api/grades/requests/seed'); // Replace with your actual backend API endpoint
+      const response = await fetch(`${javaURI}/api/grades/requests/seed`); // Use dynamic URI
       const submissions = await response.json();
       console.log(submissions);
 
