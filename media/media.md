@@ -10,7 +10,8 @@ permalink: /media
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <p>Drag the images into the correct bins (Left, Center, or Right) based on their bias. Order does not matter.</p>
+    <h1>Media Bias Game</h1>
+    <p>Drag the images into the correct bins (Left, Center, or Right).</p>
     <div id="bins">
         <div class="bin" data-bin="Left">Left</div>
         <div class="bin" data-bin="Center">Center</div>
@@ -41,13 +42,15 @@ permalink: /media
                 { src: "reutersC.png", company: "Reuters", bin: "Center" },
                 { src: "wsjC.png", company: "Wall Street Journal", bin: "Center" }
             ];
-            imageFiles.forEach((file, index) => {
+
+            imageFiles.forEach(file => {
                 document.write(`
                     <img src="assets/${file.src}" 
                          class="image" 
                          draggable="true" 
                          data-company="${file.company}" 
-                         data-bin="${file.bin}">
+                         data-bin="${file.bin}" 
+                         style="width: 100px; height: auto;">
                 `);
             });
         </script>
@@ -56,12 +59,14 @@ permalink: /media
     <script>
         const bins = document.querySelectorAll('.bin');
         const images = document.querySelectorAll('.image');
+
         images.forEach(img => {
             img.addEventListener('dragstart', e => {
                 e.dataTransfer.setData('text/plain', e.target.dataset.company);
                 e.dataTransfer.setData('image-id', e.target.id);
             });
         });
+
         bins.forEach(bin => {
             bin.addEventListener('dragover', e => e.preventDefault());
             bin.addEventListener('drop', e => {
@@ -70,7 +75,8 @@ permalink: /media
                 bin.appendChild(img);
             });
         });
-        document.getElementById('submit').addEventListener('click', async () => {
+
+        document.getElementById('submit').addEventListener('click', () => {
             const incorrectAssignments = [];
             bins.forEach(bin => {
                 Array.from(bin.children).forEach(img => {
@@ -79,6 +85,7 @@ permalink: /media
                     }
                 });
             });
+
             if (incorrectAssignments.length === 0) {
                 alert("Congratulations! All images are correctly sorted.");
             } else {
