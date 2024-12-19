@@ -175,8 +175,9 @@ permalink: /crypto/portfolio
     <div class="navbar">
         <div class="navbar-logo">Crypto Portfolio</div>
         <div class="navbar-links">
-            <a href="/portfolio_2025//crypto/portfolio">Portfolio</a>
+            <a href="/portfolio_2025/crypto/portfolio">Portfolio</a>
             <a href="/portfolio_2025//crypto/mining">Mining</a>
+            <a href="/portfolio_2025/stocks/home">Stocks</a>
         </div>
     </div>
 
