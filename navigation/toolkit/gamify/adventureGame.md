@@ -901,24 +901,26 @@ function toggleMaxStreak() { // this handles the max streak.
         button.textContent = "SHOW HIGHEST STREAK";
     }
 }
-                 <script>
+                          <script type="module">
+            import { javaURI, fetchOptions } from "{{site.baseurl}}/assets/js/api/config.js";
                     // Open leaderboard modal
                     function openLeaderboard() {
                         const modal = document.getElementById("leaderboard-modal");
                         modal.style.display = "block";
                         fetchLeaderboard(); // Fetch and display leaderboard data
                     }
-                    // window.openLeaderboard = openLeaderboard;
+                    window.openLeaderboard = openLeaderboard;
 
                     // Close leaderboard modal
                     function closeLeaderboard() {
                         const modal = document.getElementById("leaderboard-modal");
                         modal.style.display = "none";
                     }
+                    window.closeLeaderboard = closeLeaderboard;
 
                     function fetchLeaderboard() {
-                        // fetch(`${javaURI}/rpg_answer/leaderboard`)
-                        fetch(javaURI + '/rpg_answer/leaderboard')
+                        fetch(`${javaURI}/rpg_answer/leaderboard`)
+                        // fetch(javaURI + '/rpg_answer/leaderboard')
                             .then((response) => {
                                 if (!response.ok) {
                                     throw new Error("Failed to fetch leaderboard");
@@ -946,6 +948,7 @@ function toggleMaxStreak() { // this handles the max streak.
                                 document.getElementById("leaderboard-entries").innerHTML = "Failed to load leaderboard.";
                             });
                     }
+                    window.fetchLeaderboard = fetchLeaderboard;
             </script>
             <script>
                                 var character = document.querySelector(".character");
