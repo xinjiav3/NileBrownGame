@@ -10,14 +10,13 @@ permalink: /media
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <h1>Media Bias Game</h1>
     <p>Drag the images into the correct bins (Left, Center, or Right).</p>
-    <div id="bins">
-        <div class="bin" data-bin="Left">Left</div>
-        <div class="bin" data-bin="Center">Center</div>
-        <div class="bin" data-bin="Right">Right</div>
+    <div id="bins" style="display: flex; justify-content: space-around; margin-bottom: 20px;">
+        <div class="bin" data-bin="Left" style="width: 30%; padding: 10px; border: 1px solid black;">Left</div>
+        <div class="bin" data-bin="Center" style="width: 30%; padding: 10px; border: 1px solid black;">Center</div>
+        <div class="bin" data-bin="Right" style="width: 30%; padding: 10px; border: 1px solid black;">Right</div>
     </div>
-    <div id="images">
+    <div id="images" style="display: flex; flex-wrap: wrap; gap: 10px;">
         <script>
             const imageFiles = [
                 { src: "atlanticL.png", company: "Atlantic", bin: "Left" },
@@ -50,12 +49,12 @@ permalink: /media
                          draggable="true" 
                          data-company="${file.company}" 
                          data-bin="${file.bin}" 
-                         style="width: 100px; height: auto;">
+                         style="width: 80px; height: auto; border: 1px solid black; padding: 5px;">
                 `);
             });
         </script>
     </div>
-    <button id="submit">Submit</button>
+    <button id="submit" style="margin-top: 20px;">Submit</button>
     <script>
         const bins = document.querySelectorAll('.bin');
         const images = document.querySelectorAll('.image');
