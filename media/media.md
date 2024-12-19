@@ -11,7 +11,10 @@ permalink: /media
 </head>
 <body>
     <p>Drag the images into the correct bins (Left, Center, or Right). You have 3 lives!</p>
-    <div id="lives" style="font-size: 24px; margin-bottom: 20px;">Lives: 😺😺😺</div>
+    <div id="info" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <div id="lives" style="font-size: 24px;">Lives: 😺😺😺</div>
+        <div id="score" style="font-size: 24px;">Score: 0</div>
+    </div>
     <div id="bins" style="display: flex; justify-content: space-around; margin-bottom: 20px;">
         <div class="bin" data-bin="Left" style="width: 30%; padding: 10px; border: 1px solid black; min-height: 100px;">Left</div>
         <div class="bin" data-bin="Center" style="width: 30%; padding: 10px; border: 1px solid black; min-height: 100px;">Center</div>
@@ -60,8 +63,10 @@ permalink: /media
     <script>
         const bins = document.querySelectorAll('.bin');
         const images = document.querySelectorAll('.image');
+        const livesElement = document.getElementById('lives');
+        const scoreElement = document.getElementById('score');
         let lives = 3;
-        let correctCount = 0;
+        let score = 0;
 
         images.forEach(img => {
             img.addEventListener('dragstart', e => {
@@ -77,12 +82,13 @@ permalink: /media
 
                 if (img.dataset.bin === bin.dataset.bin) {
                     bin.appendChild(img);
-                    correctCount++;
+                    score++;
+                    scoreElement.innerText = `Score: ${score}`;
                 } else {
                     lives--;
-                    document.getElementById('lives').innerText = `Lives: ${"😺".repeat(lives)}`;
+                    livesElement.innerText = `Lives: ${"😺".repeat(lives)}`;
                     if (lives === 0) {
-                        alert(`Game over! Your score: ${correctCount}`);
+                        alert(`Game over! Your final score: ${score}`);
                         location.reload();
                     }
                 }
@@ -90,7 +96,7 @@ permalink: /media
         });
 
         document.getElementById('submit').addEventListener('click', () => {
-            alert(`Your score: ${correctCount}`);
+            alert(`Your final score: ${score}`);
             location.reload();
         });
     </script>
