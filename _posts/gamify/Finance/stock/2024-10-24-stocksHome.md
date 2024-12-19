@@ -341,12 +341,6 @@ title: Stocks Home
     </div>
    <script type="module">
     import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
-    var variable = localStorage.getItem('name')
-    console.log(variable);
-    var userID = localStorage.getItem('userID')
-    const userIDElement = document.getElementById("userIDName");
-    userIDElement.textContent = `Hi ${userID}, Welcome Back`;
-    console.log(userID);
     async function getUserStocks() {
         try {
             const response = await fetch(`http://localhost:8085/user/getStocks?username=${userID}`);
