@@ -852,7 +852,6 @@ function addNewUser(userId) { // This function allows a new user to be created i
             document.getElementById("message").textContent = `Failed to create new user: ${error.message}`;
         });
 }
-
 function addStreak() { // This function adds to the specific streak of each user
     if (!userId) return;
 
@@ -885,6 +884,7 @@ function addStreak() { // This function adds to the specific streak of each user
             document.getElementById("message").textContent = `Failed to update streak: ${error.message}`;
         });
 }
+window.addStreak = addStreak;
 
 function toggleMaxStreak() { // This handles the max streak
     const maxStreakElement = document.getElementById("max-streak");

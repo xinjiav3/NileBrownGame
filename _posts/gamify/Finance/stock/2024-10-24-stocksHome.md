@@ -339,17 +339,27 @@ title: Stocks Home
             </div>
         </div>
     </div>
-    <script>
-    //import userID from 'http://127.0.0.1:4100/student_2025/stocks/login'
-    var variable = localStorage.getItem('name')
-    console.log(variable);
-    var userID = localStorage.getItem('userID')
-    const userIDElement = document.getElementById("userIDName");
-    userIDElement.textContent = `Hi ${userID}, Welcome Back`;
-    console.log(userID);
+   <script type="module">
+    import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+    async function getUserId(){
+        const url_persons = `${javaURI}/api/person/get`;
+        await fetch(url_persons, fetchOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Spring server response: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                userID=data.id;
+            })
+            .catch(error => {
+                console.error("Java Database Error:", error);
+            });
+    }
     async function getUserStocks() {
         try {
-            const response = await fetch(`http://localhost:8085/user/getStocks?username=${userID}`);
+            const response = await fetch(javaURI + `/stocks/table/getStocks?username=${userID}`);
             return await response.json();
         } catch (error) {
             console.error("Error fetching user stocks:", error);
@@ -377,16 +387,6 @@ title: Stocks Home
             table.appendChild(row);
         }
     }
-    async function getStockPrice(stock) {
-        try {
-            const response = await fetch(`http://localhost:8085/api/stocks/${stock}`);
-            const data = await response.json();
-            return data?.chart?.result?.[0]?.meta?.regularMarketPrice ?? "N/A";
-        } catch (error) {
-            console.error("Error fetching stock price:", error);
-            return "N/A";
-        }
-    }
     document.addEventListener("DOMContentLoaded", () => {
         updateYourStocksTable();
     });
@@ -395,7 +395,7 @@ title: Stocks Home
         const stockSymbol = document.getElementById("searchBar").value;
         document.getElementById("output").textContent = ""; // Clear previous messages
      try {
-        const response = await fetch(`http://localhost:8085/api/stocks/${stockSymbol}`);
+        const response = await fetch(javaURI + `/api/stocks/${stockSymbol}`);
         const data = await response.json();
         // Extract timestamps and prices
         const timestamps = data?.chart?.result?.[0]?.timestamp;
@@ -482,7 +482,7 @@ function displayChart(labels, prices, tickerSymbol) {
 }
 async function getStockPrice(stock) {
         try {
-            const response = await fetch(`http://localhost:8085/api/stocks/${stock}`);
+            const response = await fetch(javaURI + `/api/stocks/${stock}`);
             const data = await response.json();
             console.log(data);
             const price = data?.chart?.result?.[0]?.meta?.regularMarketPrice;
@@ -513,7 +513,7 @@ async function updateStockPrices() {
             const stockSymbols = ['Spotify', 'Apple', 'Google', 'Facebook', 'Microsoft'];
             const tickerSymbols = ['SPOT', 'AAPL', 'GOOG', 'META', 'MSFT'];
             const tickerPrices = [];
-            counter = 0; 
+            let counter = 0; 
             for (const stock of tickerSymbols) {
                 const price = await getStockPrice(stock);
                 tickerPrices.push(price)              
@@ -559,7 +559,7 @@ async function getPortfolioPerformance(user) {
         }
 async function getUserStock(user) {
             try {
-                const response = await fetch(`http://localhost:8085/user/getStocks?username=${user}`);
+                const response = await fetch(javaURI + `/stocks/table/getStocks?username=${user}`);
                 const stocksData = await response.json();
                 console.log(stocksData);
                 return stocksData;
@@ -570,7 +570,7 @@ async function getUserStock(user) {
         }
 async function getOldStockPrice(stock) {
         try {
-            const response = await fetch(`http://localhost:8085/api/stocks/${stock}`);
+            const response = await fetch(javaURI + `/api/stocks/${stock}`);
             const data = await response.json();
             console.log(data);
             const oldPrice = data?.chart?.result?.[0]?.meta?.chartPreviousClose;
@@ -590,7 +590,7 @@ async function getOldStockPrice(stock) {
       }
 async function getUserValue(user) {
             try {
-                const response = await fetch(`http://localhost:8085/user/portfolioValue?username=${user}`);
+                const response = await fetch(javaURI + `/stocks/table/portfolioValue?username=${user}`);
                 const stocksData = await response.json();
                 console.log(stocksData);
                 return stocksData;
@@ -630,7 +630,7 @@ function closeLeaderboard() {
 function fetchLeaderboard() {
     const leaderboardTable = document.getElementById("leaderboardTable");
     leaderboardTable.innerHTML = `<tr><td colspan="3" style="text-align: center;">Loading...</td></tr>`; // Display loading text
-    fetch("http://localhost:8085/user/leaderboard") // Update API endpoint if needed
+    fetch(javaURI + "/user/leaderboard") // Update API endpoint if needed
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Failed to fetch leaderboard");
