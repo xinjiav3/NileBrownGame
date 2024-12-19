@@ -11,6 +11,12 @@ permalink: /media
 </head>
 <body>
     <p>Drag the images into the correct bins (Left, Center, or Right). You have 3 lives!</p>
+    <div id="username-container" style="margin-bottom: 20px;">
+        <label for="username">Enter your username:</label>
+        <input type="text" id="username" placeholder="Username">
+        <button id="set-username">Set Username</button>
+        <p id="display-username" style="font-size: 18px; margin-top: 10px;">Username: <span id="current-username">Guest</span></p>
+    </div>
     <div id="info" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
         <div id="lives" style="font-size: 24px;">Lives: 😺😺😺</div>
         <div id="score" style="font-size: 24px;">Score: 0</div>
@@ -65,8 +71,22 @@ permalink: /media
         const images = document.querySelectorAll('.image');
         const livesElement = document.getElementById('lives');
         const scoreElement = document.getElementById('score');
+        const usernameInput = document.getElementById('username');
+        const setUsernameButton = document.getElementById('set-username');
+        const displayUsername = document.getElementById('current-username');
         let lives = 3;
         let score = 0;
+
+        // Set username functionality
+        setUsernameButton.addEventListener('click', () => {
+            const username = usernameInput.value.trim();
+            if (username) {
+                displayUsername.innerText = username;
+                usernameInput.value = '';
+            } else {
+                alert('Please enter a valid username.');
+            }
+        });
 
         images.forEach(img => {
             img.addEventListener('dragstart', e => {
@@ -88,7 +108,7 @@ permalink: /media
                     lives--;
                     livesElement.innerText = `Lives: ${"😺".repeat(lives)}`;
                     if (lives === 0) {
-                        alert(`Game over! Your final score: ${score}`);
+                        alert(`Game over! ${displayUsername.innerText}, your final score: ${score}`);
                         location.reload();
                     }
                 }
@@ -96,7 +116,7 @@ permalink: /media
         });
 
         document.getElementById('submit').addEventListener('click', () => {
-            alert(`Your final score: ${score}`);
+            alert(`${displayUsername.innerText}, your final score: ${score}`);
             location.reload();
         });
     </script>
