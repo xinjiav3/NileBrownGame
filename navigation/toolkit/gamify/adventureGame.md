@@ -705,64 +705,159 @@ body {
             </div>
      
 
-                 <script>
-                  let userEmail = "";
+     <script>
+                
+        // Streak Feature Start
+let userId = null;
 
-                function searchStreakByEmail(email) {
-                    fetch("http://127.0.0.1:8085/rpg_streak/streak/searchbyemail", {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ term: email })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data && data.length > 0) {
-                            document.getElementById("current-streak").textContent = data[0].currentStreak ?? 0;
-                            document.getElementById("max-streak-value").textContent = data[0].maxStreak ?? 0;
-                        } else {
-                            document.getElementById("message").textContent = "No streak data found for this email.";
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-                }
+function setUserId() {
+    const input = document.getElementById("user-id-input").value.trim();
+    if (!input || isNaN(input)) {
+        alert("Please enter a valid numeric User ID.");
+        return;
+    }
 
-                function setUserId() {
-                    const input = document.getElementById("user-id-input").value.trim();
-                    if (!input) {
-                        alert("Please enter a valid email.");
-                        return;
-                    }
-                    userEmail = input;
-                    searchStreakByEmail(userEmail);
-                }
+    userId = parseInt(input);
+    console.log("User ID set to:", userId);
 
-                function addStreak() {
-                    fetch("http://127.0.0.1:8085/rpg_streak/streak", {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            email: userEmail,         // Change 'userId' to 'email'
-                            currentStreak: 1,         // Increment streak
-                            maxStreak: 5              // Example max streak
-                        })
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error("Failed to update streak");
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        document.getElementById("current-streak").textContent = data.currentStreak;
-                        document.getElementById("max-streak-value").textContent = data.maxStreak;
-                        document.getElementById("message").textContent = "Streak updated successfully!";
-                    })
-                    .catch(error => {
-                        console.error('Error updating streak:', error);
-                        document.getElementById("message").textContent = "Failed to update streak.";
-                    });
-                }
+    // Display streak section
+    document.querySelector(".streak-container").classList.remove("hidden");
+    document.getElementById("current-streak").textContent = "Loading...";
+    document.getElementById("max-streak-value").textContent = "Loading...";
 
+    fetch(`http://127.0.0.1:8085/rpg_streak/streak?userId=${userId}`)
+        .then((response) => {
+            if (response.status === 404) {
+                console.warn("User ID not found. Adding new user...");
+                return addNewUser(userId); // Automatically create user if not found
+            }
+            if (!response.ok) {
+                throw new Error(`Failed to fetch user information: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (data) {
+                const currentStreak = data.currentStreak ?? 0;
+                const maxStreak = data.maxStreak ?? 0;
+
+                // Automatically update both streak values
+                document.getElementById("current-streak").textContent = currentStreak;
+                document.getElementById("max-streak-value").textContent = maxStreak;
+                document.getElementById("message").textContent = "Data loaded successfully!";
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching user data:", error);
+            document.getElementById("message").textContent = "Failed to load user data.";
+        });
+}
+
+function fetchUserInfo() { // This function fetches the user's data
+    if (!userId) return;
+
+    fetch(`http://localhost:8085/rpg_streak/streak?userId=${userId}`)
+        .then((response) => {
+            if (response.status === 404) {
+                console.warn("User ID not found. Adding new user...");
+                return addNewUser(userId); // Call function to add user
+            } else if (!response.ok) {
+                throw new Error(`Failed to fetch user information: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (data) {
+                const currentStreak = data.currentStreak ?? 0;
+                document.getElementById("current-streak").textContent = currentStreak;
+                document.getElementById("message").textContent = "";
+            }
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+            document.getElementById("message").textContent = "Failed to load user information.";
+        });
+}
+
+function addNewUser(userId) { // This function allows a new user to be created if an ID isn't in the table
+    fetch("http://127.0.0.1:8085/rpg_streak/streak", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            userId: userId,
+            currentStreak: 0, // Start with 0 streak
+            maxStreak: 0
+        })
+    })
+        .then((response) => {
+            if (!response.ok) throw new Error("Failed to create new user");
+            return response.json();
+        })
+        .then(() => {
+            document.getElementById("message").textContent = "New user created successfully!";
+            document.getElementById("current-streak").textContent = 0;
+        })
+        .catch((error) => {
+            console.error("Error adding new user:", error);
+            document.getElementById("message").textContent = `Failed to create new user: ${error.message}`;
+        });
+}
+
+function addStreak() { // This function adds to the specific streak of each user
+    if (!userId) return;
+
+    fetch("http://localhost:8085/rpg_streak/streak", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            userId: userId,
+            currentStreak: 1,
+            maxStreak: 5
+        })
+    })
+        .then((response) => {
+            if (!response.ok) {
+                return response.text().then((text) => {
+                    throw new Error(`Failed to update streak: ${text}`);
+                });
+            }
+            return response.json();
+        })
+        .then((data) => {
+            const currentStreak = data.currentStreak ?? 0;
+            document.getElementById("current-streak").textContent = currentStreak;
+            document.getElementById("message").textContent = "Streak updated successfully!";
+        })
+        .catch((error) => {
+            console.error("Error updating streak:", error);
+            document.getElementById("message").textContent = `Failed to update streak: ${error.message}`;
+        });
+}
+
+function toggleMaxStreak() { // This handles the max streak
+    const maxStreakElement = document.getElementById("max-streak");
+    const button = document.getElementById("toggle-max-streak");
+    const maxStreakValueElement = document.getElementById("max-streak-value");
+
+    if (maxStreakElement.classList.contains("hidden")) {
+        fetch(`http://localhost:8085/rpg_streak/streak?userId=${userId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                maxStreakValueElement.textContent = data.maxStreak ?? 0;
+                maxStreakElement.classList.remove("hidden");
+                button.textContent = "HIDE HIGHEST STREAK";
+            })
+            .catch((error) => console.error("Error:", error));
+    } else {
+        maxStreakElement.classList.add("hidden");
+        button.textContent = "SHOW HIGHEST STREAK";
+    }
+}
+ </script>
 
             </script>
             <script type="module">
