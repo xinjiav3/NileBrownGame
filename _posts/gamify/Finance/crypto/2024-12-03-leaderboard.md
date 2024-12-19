@@ -202,7 +202,14 @@ title: Leaderboard
         <input type="text" placeholder="Search for a user..." />
         <button class="search-button">Search</button>
       </div>
-
+    <div class="navbar">
+        <div class="links">
+            <a href="/portfolio_2025/crypto/portfolio" id="portfolioLink">Investing Portfolio</a>
+            <a href="/portfolio_2025/crypto/mining" id="miningLink">Crypto Mining</a>
+            <a href="/portfolio_2025/crypto/team" id="TeamLink">Team Stats</a>
+            <a href="/portfolio_2025/crypto/leaderboard" id="leaderboardLink">Leaderboard</a>
+        </div>
+    </div>
       <!-- Summary Cards -->
       <div class="summary-cards">
         <div class="card card-orange">
