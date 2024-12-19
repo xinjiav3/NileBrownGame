@@ -51,7 +51,6 @@ permalink: /media
                 { src: "reutersC.png", company: "Reuters", bin: "Center" },
                 { src: "wsjC.png", company: "Wall Street Journal", bin: "Center" }
             ];
-
             imageFiles.forEach((file, index) => {
                 document.write(`
                     <img src="assets/${file.src}" 
@@ -76,8 +75,6 @@ permalink: /media
         const displayUsername = document.getElementById('current-username');
         let lives = 3;
         let score = 0;
-
-        // Set username functionality
         setUsernameButton.addEventListener('click', () => {
             const username = usernameInput.value.trim();
             if (username) {
@@ -87,19 +84,16 @@ permalink: /media
                 alert('Please enter a valid username.');
             }
         });
-
         images.forEach(img => {
             img.addEventListener('dragstart', e => {
                 e.dataTransfer.setData('image-id', e.target.id);
             });
         });
-
         bins.forEach(bin => {
             bin.addEventListener('dragover', e => e.preventDefault());
             bin.addEventListener('drop', e => {
                 const imageId = e.dataTransfer.getData('image-id');
                 const img = document.getElementById(imageId);
-
                 if (img.dataset.bin === bin.dataset.bin) {
                     bin.appendChild(img);
                     score++;
@@ -109,14 +103,33 @@ permalink: /media
                     livesElement.innerText = `Lives: ${"😺".repeat(lives)}`;
                     if (lives === 0) {
                         alert(`Game over! ${displayUsername.innerText}, your final score: ${score}`);
+                        postScore(displayUsername.innerText, score);
                         location.reload();
                     }
                 }
             });
         });
-
+        function postScore(username, finalScore) {
+            fetch(`http://localhost:8085/api/media/score/${username}/${finalScore}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Score successfully saved!');
+                } else {
+                    console.error('Failed to save score');
+                }
+            })
+            .catch(error => {
+                console.error('Error saving score:', error);
+            });
+        }
         document.getElementById('submit').addEventListener('click', () => {
             alert(`${displayUsername.innerText}, your final score: ${score}`);
+            postScore(displayUsername.innerText, score);
             location.reload();
         });
     </script>
