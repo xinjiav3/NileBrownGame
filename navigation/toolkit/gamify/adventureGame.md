@@ -905,7 +905,6 @@ function toggleMaxStreak() { // This handles the max streak
 }
  </script>
 
-            </script>
             <script type="module">
             import { javaURI, fetchOptions } from "{{site.baseurl}}/assets/js/api/config.js";
                     // Open leaderboard modal
