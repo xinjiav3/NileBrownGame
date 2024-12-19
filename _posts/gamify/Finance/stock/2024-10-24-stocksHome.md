@@ -339,8 +339,8 @@ title: Stocks Home
             </div>
         </div>
     </div>
-    <script>
-    //import userID from 'http://127.0.0.1:4100/student_2025/stocks/login'
+   <script type="module">
+    import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
     var variable = localStorage.getItem('name')
     console.log(variable);
     var userID = localStorage.getItem('userID')
@@ -503,7 +503,7 @@ async function updateStockPrices() {
             const stockSymbols = ['Spotify', 'Apple', 'Google', 'Facebook', 'Microsoft'];
             const tickerSymbols = ['SPOT', 'AAPL', 'GOOG', 'META', 'MSFT'];
             const tickerPrices = [];
-            counter = 0; 
+            let counter = 0; 
             for (const stock of tickerSymbols) {
                 const price = await getStockPrice(stock);
                 tickerPrices.push(price)              
