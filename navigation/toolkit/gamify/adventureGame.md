@@ -750,7 +750,9 @@ body {
             </div>
      
 
-     <script>
+     <script type="module">
+         import { javaURI } from '{{site.baseurl}}/assets/js/api/config.js';
+
                 
         // Streak Feature Start
         window.setUserId = setUserId;
@@ -771,7 +773,7 @@ function setUserId() {
     document.getElementById("current-streak").textContent = "Loading...";
     document.getElementById("max-streak-value").textContent = "Loading...";
 
-    fetch(`http://127.0.0.1:8085/rpg_streak/streak?userId=${userId}`)
+    fetch(`${javaURI}/rpg_streak/streak?userId=${userId}`)
         .then((response) => {
             if (response.status === 404) {
                 console.warn("User ID not found. Adding new user...");
@@ -802,7 +804,7 @@ function setUserId() {
 function fetchUserInfo() { // This function fetches the user's data
     if (!userId) return;
 
-    fetch(`http://localhost:8085/rpg_streak/streak?userId=${userId}`)
+    fetch(`${javaURI}/rpg_streak/streak?userId=${userId}`)
         .then((response) => {
             if (response.status === 404) {
                 console.warn("User ID not found. Adding new user...");
@@ -826,7 +828,7 @@ function fetchUserInfo() { // This function fetches the user's data
 }
 
 function addNewUser(userId) { // This function allows a new user to be created if an ID isn't in the table
-    fetch("http://127.0.0.1:8085/rpg_streak/streak", {
+    fetch(`${javaURI}/rpg_streak/streak`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -854,7 +856,7 @@ function addNewUser(userId) { // This function allows a new user to be created i
 function addStreak() { // This function adds to the specific streak of each user
     if (!userId) return;
 
-    fetch("http://localhost:8085/rpg_streak/streak", {
+    fetch(`${javaURI}/rpg_streak/streak`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -890,7 +892,7 @@ function toggleMaxStreak() { // This handles the max streak
     const maxStreakValueElement = document.getElementById("max-streak-value");
 
     if (maxStreakElement.classList.contains("hidden")) {
-        fetch(`http://localhost:8085/rpg_streak/streak?userId=${userId}`)
+        fetch(`${javaURI}/rpg_streak/streak?userId=${userId}`)
             .then((response) => response.json())
             .then((data) => {
                 maxStreakValueElement.textContent = data.maxStreak ?? 0;

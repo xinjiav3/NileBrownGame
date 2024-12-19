@@ -1,6 +1,6 @@
 let unsetHost = "https://spring2025.nighthawkcodingsociety.com"
 const isDebug = false
-let webSocketServer = "ws://spring2025.nighthawkcodingsociety.com/socket"
+let webSocketServer = "wss://spring2025.nighthawkcodingsociety.com/socket"
 if (isDebug) {
     // unsetHost = "http://localhost:8085"
     unsetHost = "https://spring2025.nighthawkcodingsociety.com"
