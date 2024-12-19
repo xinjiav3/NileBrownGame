@@ -12,39 +12,41 @@ permalink: /media/leaderboard
 </head>
 <body>
     <h1>Leaderboard</h1>
-    <table id="leaderboard-table" border="1">
+    <table id="leaderboard-table" border="1" style="width: 50%; margin: 0 auto;">
         <thead>
             <tr>
                 <th>Rank</th>
                 <th>Username</th>
+                <th>Score</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="leaderboard-body">
             <!-- Leaderboard rows will be inserted here -->
         </tbody>
     </table>
     <script>
-        // Fetch leaderboard data from backend
-        fetch('http://localhost:8085/api/media')  // Assuming the backend returns a list of usernames
-            .then(response => response.json())
-            .then(data => {
-                const leaderboardTable = document.querySelector("#leaderboard-table tbody");
-                if (data.length === 0) {
-                    const noDataRow = document.createElement('tr');
-                    noDataRow.innerHTML = `<td colspan="2">No data available</td>`;
-                    leaderboardTable.appendChild(noDataRow);
-                    return;
-                }
-                data.forEach((username, index) => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${index + 1}</td>  <!-- Rank generated automatically -->
-                        <td>${username}</td>
-                    `;
-                    leaderboardTable.appendChild(row);
-                });
-            })
-            .catch(error => console.error("Error fetching leaderboard:", error));
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('http://localhost:8085/api/media/')
+                .then(response => response.json())
+                .then(data => {
+                    const leaderboardBody = document.getElementById("leaderboard-body");
+                    leaderboardBody.innerHTML = '';
+                    data.forEach(entry => {
+                        const row = document.createElement("tr");
+                        const rankCell = document.createElement("td");
+                        rankCell.textContent = entry.rank;
+                        const usernameCell = document.createElement("td");
+                        usernameCell.textContent = entry.username;
+                        const scoreCell = document.createElement("td");
+                        scoreCell.textContent = entry.score;
+                        row.appendChild(rankCell);
+                        row.appendChild(usernameCell);
+                        row.appendChild(scoreCell);
+                        leaderboardBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching leaderboard:', error));
+        });
     </script>
 </body>
 </html>
