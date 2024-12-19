@@ -599,19 +599,64 @@ body {
    border-bottom: 1px solid #ddd;
 }
 .streak-container {
-    position: absolute; /* Absolute positioning relative to the nearest positioned parent */
-    bottom: 10px; /* Position it 10px from the bottom */
-    right: 10px; /* Position it 10px from the right */
-    background-color: rgba(255, 255, 255, 0.85); /* Semi-transparent background */
-    padding: 15px; /* Add padding for spacing */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-    font-family: 'Orbitron', sans-serif; /* Matching font */
-    font-size: 1.2em; /* Adjust font size */
-    color: #333; /* Text color */
-    z-index: 1000; /* Ensure it appears above other elements */
-    text-align: center; /* Center the content */
+   position: fixed;
+   bottom: 20px; 
+   right: 20px; 
+   background-color: rgba(0, 0, 0, 0.85); 
+   padding: 15px 20px; 
+   border-radius: 10px; 
+   text-align: center; 
+   color: #fff; 
+   font-family: 'Orbitron', sans-serif; 
+   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
+   z-index: 9999; 
+   width: 240px; 
 }
+
+
+.streak-container h3 {
+   font-size: 1.4em;
+   font-weight: bold;
+   color: #0ccaca; 
+   margin-bottom: 10px;
+   text-shadow: 0 0 8px #0ccaca, 0 0 15px #0ccaca; 
+}
+
+
+.streak-container button {
+   background-color: #007BFF; 
+   color: white;
+   border: none; 
+   border-radius: 5px;
+   padding: 8px 12px; 
+   margin-top: 8px; 
+   font-size: 1em;
+   font-weight: bold;
+   cursor: pointer;
+   font-family: 'Orbitron', sans-serif; 
+   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3); 
+   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.streak-container button:hover {
+   background-color: #0056b3; /* Darker blue on hover */
+   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4); /* Enhanced shadow on hover */
+}
+
+
+.streak-container input {
+   width: calc(100% - 20px); 
+   padding: 8px; 
+   margin-top: 10px; 
+   border: 1px solid #444; 
+   border-radius: 5px; 
+   background-color: rgba(255, 255, 255, 0.9); 
+   color: #333;
+   font-family: 'Orbitron', sans-serif;
+   font-size: 1em;
+   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1); 
+}
+
     </style>
 </head>
 
@@ -708,6 +753,7 @@ body {
      <script>
                 
         // Streak Feature Start
+        window.setUserId = setUserId;
 let userId = null;
 
 function setUserId() {
