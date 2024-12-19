@@ -377,16 +377,6 @@ title: Stocks Home
             table.appendChild(row);
         }
     }
-    async function getStockPrice(stock) {
-        try {
-            const response = await fetch(`http://localhost:8085/api/stocks/${stock}`);
-            const data = await response.json();
-            return data?.chart?.result?.[0]?.meta?.regularMarketPrice ?? "N/A";
-        } catch (error) {
-            console.error("Error fetching stock price:", error);
-            return "N/A";
-        }
-    }
     document.addEventListener("DOMContentLoaded", () => {
         updateYourStocksTable();
     });
