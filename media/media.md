@@ -10,7 +10,8 @@ permalink: /media
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <p>Drag the images into the correct bins (Left, Center, or Right).</p>
+    <p>Drag the images into the correct bins (Left, Center, or Right). You have 3 lives!</p>
+    <div id="lives" style="font-size: 24px; margin-bottom: 20px;">Lives: 😺😺😺</div>
     <div id="bins" style="display: flex; justify-content: space-around; margin-bottom: 20px;">
         <div class="bin" data-bin="Left" style="width: 30%; padding: 10px; border: 1px solid black; min-height: 100px;">Left</div>
         <div class="bin" data-bin="Center" style="width: 30%; padding: 10px; border: 1px solid black; min-height: 100px;">Center</div>
@@ -59,6 +60,8 @@ permalink: /media
     <script>
         const bins = document.querySelectorAll('.bin');
         const images = document.querySelectorAll('.image');
+        let lives = 3;
+        let correctCount = 0;
 
         images.forEach(img => {
             img.addEventListener('dragstart', e => {
@@ -71,25 +74,24 @@ permalink: /media
             bin.addEventListener('drop', e => {
                 const imageId = e.dataTransfer.getData('image-id');
                 const img = document.getElementById(imageId);
-                bin.appendChild(img);
+
+                if (img.dataset.bin === bin.dataset.bin) {
+                    bin.appendChild(img);
+                    correctCount++;
+                } else {
+                    lives--;
+                    document.getElementById('lives').innerText = `Lives: ${"😺".repeat(lives)}`;
+                    if (lives === 0) {
+                        alert(`Game over! Your score: ${correctCount}`);
+                        location.reload();
+                    }
+                }
             });
         });
 
         document.getElementById('submit').addEventListener('click', () => {
-            const incorrectAssignments = [];
-            bins.forEach(bin => {
-                Array.from(bin.children).forEach(img => {
-                    if (img.dataset.bin !== bin.dataset.bin) {
-                        incorrectAssignments.push(img.dataset.company);
-                    }
-                });
-            });
-
-            if (incorrectAssignments.length === 0) {
-                alert("Congratulations! All images are correctly sorted.");
-            } else {
-                alert(`Incorrectly sorted companies: ${incorrectAssignments.join(', ')}`);
-            }
+            alert(`Your score: ${correctCount}`);
+            location.reload();
         });
     </script>
 </body>
