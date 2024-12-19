@@ -12,9 +12,9 @@ permalink: /media
 <body>
     <p>Drag the images into the correct bins (Left, Center, or Right).</p>
     <div id="bins" style="display: flex; justify-content: space-around; margin-bottom: 20px;">
-        <div class="bin" data-bin="Left" style="width: 30%; padding: 10px; border: 1px solid black;">Left</div>
-        <div class="bin" data-bin="Center" style="width: 30%; padding: 10px; border: 1px solid black;">Center</div>
-        <div class="bin" data-bin="Right" style="width: 30%; padding: 10px; border: 1px solid black;">Right</div>
+        <div class="bin" data-bin="Left" style="width: 30%; padding: 10px; border: 1px solid black; min-height: 100px;">Left</div>
+        <div class="bin" data-bin="Center" style="width: 30%; padding: 10px; border: 1px solid black; min-height: 100px;">Center</div>
+        <div class="bin" data-bin="Right" style="width: 30%; padding: 10px; border: 1px solid black; min-height: 100px;">Right</div>
     </div>
     <div id="images" style="display: flex; flex-wrap: wrap; gap: 10px;">
         <script>
@@ -42,11 +42,12 @@ permalink: /media
                 { src: "wsjC.png", company: "Wall Street Journal", bin: "Center" }
             ];
 
-            imageFiles.forEach(file => {
+            imageFiles.forEach((file, index) => {
                 document.write(`
                     <img src="assets/${file.src}" 
                          class="image" 
                          draggable="true" 
+                         id="img-${index}" 
                          data-company="${file.company}" 
                          data-bin="${file.bin}" 
                          style="width: 80px; height: auto; border: 1px solid black; padding: 5px;">
@@ -61,7 +62,6 @@ permalink: /media
 
         images.forEach(img => {
             img.addEventListener('dragstart', e => {
-                e.dataTransfer.setData('text/plain', e.target.dataset.company);
                 e.dataTransfer.setData('image-id', e.target.id);
             });
         });
@@ -70,7 +70,7 @@ permalink: /media
             bin.addEventListener('dragover', e => e.preventDefault());
             bin.addEventListener('drop', e => {
                 const imageId = e.dataTransfer.getData('image-id');
-                const img = document.querySelector(`#${imageId}`);
+                const img = document.getElementById(imageId);
                 bin.appendChild(img);
             });
         });
