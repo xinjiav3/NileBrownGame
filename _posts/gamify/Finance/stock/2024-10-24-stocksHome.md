@@ -165,95 +165,96 @@ title: Stocks Home
         .search-button:hover {
             background-color: #e07b00; /* Darker orange on hover */
         }
-        /* Leaderboard modal styling */
-        #leaderboardModal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 80%;
-            max-height: 80%;
-            overflow-y: auto;
-            z-index: 1000; /* Ensures modal is above other elements */
-        }
-        /* Semi-transparent background overlay */
-        #modalOverlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999; /* Ensures overlay is beneath modal */
-        }
-        /* Table styling */
-        #leaderboardTable {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        #leaderboardTable th,
-        #leaderboardTable td {
-            text-align: left;
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-        #leaderboardTable th {
-            background-color: #f8f8f8;
-            font-weight: bold;
-        }
-        #leaderboardTable tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        #leaderboardTable tr:hover {
-            background-color: #f1f1f1;
-        }
-        /* Center the Close button */
-        #closeLeaderboardButton {
-            display: block;
-            margin: 20px auto 0;
-            padding: 10px 20px;
-            background-color: #00274d; /* Adjust color as needed */
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            font-size: 16px;
-        }
-        #closeLeaderboardButton:hover {
-            background-color: #004080; /* Hover color */
-        }
-    </style>
-</head>
-<body>
-<!-- Leaderboard Modal and Overlay -->
-<div id="leaderboardModal">
-    <h3>Leaderboard</h3>
-    <table id="leaderboardTable">
-        <thead>
-            <tr>
-                <th>Rank</th>
-                <th>Username</th>
-                <th>Total Portfolio Value</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td colspan="3" style="text-align: center;">Loading...</td>
-            </tr>
-        </tbody>
-    </table>
-    <button id="closeLeaderboardButton">Close</button>
-</div>
-<div id="modalOverlay"></div>
+     /* Leaderboard modal styling */
+    #leaderboardModal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 80%;
+        max-height: 80%;
+        overflow-y: auto;
+        z-index: 1000; /* Ensures modal is above other elements */
+    }
+    /* Semi-transparent background overlay */
+    #modalOverlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999; /* Ensures overlay is beneath modal */
+    }
+    /* Table styling */
+    #leaderboardTable {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    #leaderboardTable th,
+    #leaderboardTable td {
+        text-align: left;
+        padding: 10px;
+        border: 1px solid #ddd;
+    }
+    #leaderboardTable th {
+        background-color: #f8f8f8;
+        font-weight: bold;
+        text-align: left; /* Align headers to the left by default */
+    }
+    #leaderboardTable tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    #leaderboardTable tr:hover {
+        background-color: #f1f1f1;
+    }
+    /* Close button styling */
+    #closeLeaderboardButton {
+        display: block;
+        margin: 20px auto 0;
+        padding: 10px 20px;
+        background-color: #00274d;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        font-size: 16px;
+    }
+    #closeLeaderboardButton:hover {
+        background-color: #004080;
+    }
+</style>
 
+<body>
+    <!-- Leaderboard Modal -->
+    <div id="leaderboardModal">
+        <h3 style="font-family: Arial, sans-serif; font-size: 24px;">Leaderboard</h3>
+        <hr style="margin: 10px 0; border: 1px solid black;">
+        <table id="leaderboardTable">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Username</th>
+                    <th>Total Portfolio Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="3" style="text-align: center;">Loading...</td>
+                </tr>
+            </tbody>
+        </table>
+        <button id="closeLeaderboardButton">Close</button>
+    </div>
+    <div id="modalOverlay"></div>
 <!-- Navigation Bar -->
 <nav class="navbar">
     <div class="logo">NITD</div>
