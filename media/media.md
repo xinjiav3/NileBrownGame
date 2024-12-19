@@ -65,7 +65,8 @@ permalink: /media
         </script>
     </div>
     <button id="submit" style="margin-top: 20px;">Submit</button>
-    <script>
+    <script type="module">
+        import {javaURI, fetchOptions} from "{{site.baseurl}}/assets/js/api/config.js";
         const bins = document.querySelectorAll('.bin');
         const images = document.querySelectorAll('.image');
         const livesElement = document.getElementById('lives');
@@ -110,7 +111,7 @@ permalink: /media
             });
         });
         function postScore(username, finalScore) {
-            fetch(`http://localhost:8085/api/media/score/${username}/${finalScore}`, {
+            fetch(`${javaURI}/api/media/score/${username}/${finalScore}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

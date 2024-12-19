@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Media Bias Game Leaderboard
+title: Media Bias Game
 permalink: /media/leaderboard
 ---
 
@@ -26,7 +26,7 @@ permalink: /media/leaderboard
     </table>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            fetch('http://localhost:8085/api/media/')
+            fetch('http://localhost:8085/api/media/') // Assuming this is the correct API URL
                 .then(response => response.json())
                 .then(data => {
                     const leaderboardBody = document.getElementById("leaderboard-body");
