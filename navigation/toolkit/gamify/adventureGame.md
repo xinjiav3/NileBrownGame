@@ -631,7 +631,7 @@ body {
     <div class="questions-answered">
         Questions Answered: <span id="questionsAnswered"></span>
     </div>
-<<div class="streak-container">
+<div class="streak-container">
     <h3>Streak</h3>
     <input type="text" id="user-id-input" placeholder="Enter User Email" />
     <button onclick="setUserId()">Submit</button>
@@ -643,9 +643,7 @@ body {
     <div class="message" id="message"></div>
 </div>
 
-        </div>
-        <div class="message" id="message"></div>
-    </div>    
+
     <button class="leaderboard-btn" onclick="openLeaderboard()">
         Leaderboard
     </button>
@@ -680,12 +678,7 @@ body {
                 <div class="npc3"></div>
                 <div class="npc4"></div>
                 <div class="npc5"></div>
-                <button
-                    class="leaderboard-button"
-                    onclick="toggleLeaderboard()"
-
-                    Leaderboard (Click then go <-)
-                </button>
+      
                 <div class="leaderboard-box" id="leaderboard-box">
                     <div class="leaderboard-entry">| Rank | Name | Score |</div>
                     <div class="leaderboard-entry">================</div>
