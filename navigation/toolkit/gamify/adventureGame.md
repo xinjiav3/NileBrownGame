@@ -598,6 +598,20 @@ body {
    padding: 5px 0;
    border-bottom: 1px solid #ddd;
 }
+.streak-container {
+    position: absolute; /* Absolute positioning relative to the nearest positioned parent */
+    bottom: 10px; /* Position it 10px from the bottom */
+    right: 10px; /* Position it 10px from the right */
+    background-color: rgba(255, 255, 255, 0.85); /* Semi-transparent background */
+    padding: 15px; /* Add padding for spacing */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    font-family: 'Orbitron', sans-serif; /* Matching font */
+    font-size: 1.2em; /* Adjust font size */
+    color: #333; /* Text color */
+    z-index: 1000; /* Ensure it appears above other elements */
+    text-align: center; /* Center the content */
+}
     </style>
 </head>
 
@@ -617,7 +631,21 @@ body {
     <div class="questions-answered">
         Questions Answered: <span id="questionsAnswered"></span>
     </div>
+<<div class="streak-container">
+    <h3>Streak</h3>
+    <input type="text" id="user-id-input" placeholder="Enter User Email" />
+    <button onclick="setUserId()">Submit</button>
+    <button id="add-streak" onclick="addStreak()">Add Streak</button>
+    <div class="user-info">
+        <p><strong>Current Streak:</strong> <span id="current-streak">0</span></p>
+        <p id="max-streak" class="hidden"><strong>Highest Streak:</strong> <span id="max-streak-value">0</span></p>
+    </div>
+    <div class="message" id="message"></div>
+</div>
 
+        </div>
+        <div class="message" id="message"></div>
+    </div>    
     <button class="leaderboard-btn" onclick="openLeaderboard()">
         Leaderboard
     </button>
@@ -655,7 +683,7 @@ body {
                 <button
                     class="leaderboard-button"
                     onclick="toggleLeaderboard()"
-                >
+
                     Leaderboard (Click then go <-)
                 </button>
                 <div class="leaderboard-box" id="leaderboard-box">
@@ -689,6 +717,63 @@ body {
                  </script>
 
                  <script>
+                  let userEmail = "";
+
+                function searchStreakByEmail(email) {
+                    fetch("http://127.0.0.1:8085/rpg_streak/streak/searchbyemail", {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ term: email })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && data.length > 0) {
+                            document.getElementById("current-streak").textContent = data[0].currentStreak ?? 0;
+                            document.getElementById("max-streak-value").textContent = data[0].maxStreak ?? 0;
+                        } else {
+                            document.getElementById("message").textContent = "No streak data found for this email.";
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+
+                function setUserId() {
+                    const input = document.getElementById("user-id-input").value.trim();
+                    if (!input) {
+                        alert("Please enter a valid email.");
+                        return;
+                    }
+                    userEmail = input;
+                    searchStreakByEmail(userEmail);
+                }
+
+                function addStreak() {
+                    fetch("http://127.0.0.1:8085/rpg_streak/streak", {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            email: userEmail,         // Change 'userId' to 'email'
+                            currentStreak: 1,         // Increment streak
+                            maxStreak: 5              // Example max streak
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Failed to update streak");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        document.getElementById("current-streak").textContent = data.currentStreak;
+                        document.getElementById("max-streak-value").textContent = data.maxStreak;
+                        document.getElementById("message").textContent = "Streak updated successfully!";
+                    })
+                    .catch(error => {
+                        console.error('Error updating streak:', error);
+                        document.getElementById("message").textContent = "Failed to update streak.";
+                    });
+                }
+
                     // Open leaderboard modal
                     function openLeaderboard() {
                         const modal = document.getElementById("leaderboard-modal");
