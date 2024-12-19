@@ -10,7 +10,6 @@ permalink: /media
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <h1>Media Bias Game</h1>
     <p>Drag the images into the correct bins (Left, Center, or Right) based on their bias. Order does not matter.</p>
     <div id="bins">
         <div class="bin" data-bin="Left">Left</div>
