@@ -3,7 +3,7 @@ toc: false
 layout: post
 title: Seed Tracker Teacher
 type: ccc
-permalink: /project/mort-translator/student-tracker
+permalink: /student/seedtracker
 ---
 
 <html lang="en">

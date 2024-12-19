@@ -3,7 +3,7 @@ toc: false
 layout: post
 title: Seed Tracker Student Confirmation
 type: ccc
-permalink: /teacher/sagai/student-confirmation-tracker
+permalink: /student/seedtracker/confirm
 ---
 
 
