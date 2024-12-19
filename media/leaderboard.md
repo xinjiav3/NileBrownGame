@@ -8,10 +8,8 @@ permalink: /media/leaderboard
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaderboard</title>
 </head>
 <body>
-    <h1>Leaderboard</h1>
     <table id="leaderboard-table" border="1" style="width: 50%; margin: 0 auto;">
         <thead>
             <tr>
