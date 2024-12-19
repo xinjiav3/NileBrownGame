@@ -341,9 +341,25 @@ title: Stocks Home
     </div>
    <script type="module">
     import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+    async function getUserId(){
+        const url_persons = `${javaURI}/api/person/get`;
+        await fetch(url_persons, fetchOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Spring server response: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                userID=data.id;
+            })
+            .catch(error => {
+                console.error("Java Database Error:", error);
+            });
+    }
     async function getUserStocks() {
         try {
-            const response = await fetch(javaURI + `/stocks/tables/getStocks?username=${userID}`);
+            const response = await fetch(javaURI + `/stocks/table/getStocks?username=${userID}`);
             return await response.json();
         } catch (error) {
             console.error("Error fetching user stocks:", error);
@@ -543,7 +559,7 @@ async function getPortfolioPerformance(user) {
         }
 async function getUserStock(user) {
             try {
-                const response = await fetch(javaURI + `/stocks/tables/getStocks?username=${user}`);
+                const response = await fetch(javaURI + `/stocks/table/getStocks?username=${user}`);
                 const stocksData = await response.json();
                 console.log(stocksData);
                 return stocksData;
