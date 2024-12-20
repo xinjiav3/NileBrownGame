@@ -1,7 +1,10 @@
+let globalPeer
+
 async function consumerInit() {
     const peer = await consumerCreatePeer()
     peer.addTransceiver("video", { direction: "recvonly" })
     peer.addTransceiver("audio", { direction: "recvonly" })
+    globalPeer = peer
 }
 
 async function consumerCreatePeer() {

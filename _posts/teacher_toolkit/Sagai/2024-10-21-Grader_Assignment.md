@@ -3,6 +3,8 @@ toc: true
 layout: post
 title: Assignment Management
 description: Assignment management system
+permalink: /teacher/sagai/assignment-manager
+
 ---
 
 <!-- Section for Adding Assignments -->
