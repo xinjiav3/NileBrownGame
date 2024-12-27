@@ -106,7 +106,6 @@ th, td {
         <thead>
             <tr>
                 <th>Name</th>
-                <th>ID</th>
                 <th>Github Id</th>
                 <th>Email</th>
                 <th>Age</th>
@@ -168,7 +167,7 @@ th, td {
                 const roles = document.createElement("td");
 
                 name.textContent = data.name;
-                ghid.textConent = data.uid;
+                ghid.textContent = data.uid;
                 id.textContent = data.email;
                 age.textContent = data.age;
                 roles.textContent = data.roles.map(role => role.name).join(', ');
