@@ -63,12 +63,12 @@ Sprint4:
   start: 13
   end: 15
 Sprint5:
-  title: Prgramming Structures and Game Development 
-  description: The Teacher will be providing topics.  All teams will be doing hacks and forming a more complete Mario game.
+  title: Game Development and Lessons
+  description: The Teacher will be providing topics.  All teams will be adding to game, forming a more complete Platformer game, and preparing lessons on their expert topic.
   start: 16
-  end: 17
+  end: 18
 Sprint6:
-  title: Create a Final Project, "Student Teaching Teams", and N@tM 
+  title: Create a Final Project, starts with "Student Teaching", and concludes with N@tM 
   description: Trimester 2 concludes with students presenting their project at N@tM. Each person within "Student Teams" will have their own specialty feature within the student project. Students should be able to talk about design, coding, and present features of their portion of the system.
-  start: 18
+  start: 19 
   end: 25
