@@ -190,4 +190,8 @@ th, td {
                 resultContainer.appendChild(tr);
             });
     }
+
+        window.onload = function() {
+        javaDatabase();
+    };
 </script>
