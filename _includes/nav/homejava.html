@@ -1,12 +1,13 @@
 <table>
     <tr id="navbar">
-        <td><img src="{{site.baseurl}}/images/logo.png" height="60" title="Toolkit Login" alt=""></td>
+        <td><img src="{{site.baseurl}}/images/logo.png" height="60" title="Toolkit Menu" alt=""></td>
         <td id="profileLink"></td>
         <td id="gamifyLink"></td>
         <td id="studentToolkitLink"></td>
         <td id="teacherToolkitLink"></td>
-        <td><a href="{{site.baseurl}}/signup">Sign Up Toolkit</a></td>
-        <td id="loginArea"><a href="{{site.baseurl}}/toolkit-login">Login to Toolkit!</a></td>
+        <td id="signupLink"><a href="{{site.baseurl}}/signup">Sign Up Toolkit</a></td>
+        <td id="javaLoginArea"><a href="{{site.baseurl}}/toolkit-login">Login to Toolkit!</a></td>
+        <td id="logoutLink"></td>
     </tr>
 </table>
 
@@ -16,30 +17,21 @@
     document.addEventListener('DOMContentLoaded', function() {
         getCredentialsJava()
             .then(data => {
-                const loginArea = document.getElementById('loginArea');
+                const javaLoginArea = document.getElementById('javaLoginArea');
+                const signupLink = document.getElementById('signupLink');
                 const profileLink = document.getElementById('profileLink');
                 const gamifyLink = document.getElementById('gamifyLink');
                 const studentToolkitLink = document.getElementById('studentToolkitLink');
                 const teacherToolkitLink = document.getElementById('teacherToolkitLink');
+                const logoutLink = document.getElementById('logoutLink');
 
                 if (data) { // User is authenticated
+                    // Hide signup and login links
+                    signupLink.style.display = 'none';
+                    javaLoginArea.style.display = 'none';
+
                     // Check for ROLE_TEACHER
                     const isTeacher = data.roles.some(role => role.name === 'ROLE_TEACHER');
-
-                    // Update login area with dropdown links
-                    loginArea.innerHTML = `
-                        <div class="dropdown">
-                            <button class="dropbtn">${data.name}</button>
-                            <div class="dropdown-content">
-                                <a href="{{site.baseurl}}/logoutjava">Logout</a>
-                                <a href="{{site.baseurl}}/profilejava">Profile</a>
-                                <a href="{{site.baseurl}}/stats">Health/Exercise Data</a>
-                                ${isTeacher ? '<a href="{{site.baseurl}}/teacher">Teacher Toolkit</a>' : ''}
-                                <a href="{{site.baseurl}}/gamify/adventureGame">Gamify</a>
-                                <a href="{{site.baseurl}}/student">Student Toolkit</a>
-                            </div>
-                        </div>
-                    `;
 
                     // Display "Profile," "Gamify," and "Student Toolkit"
                     profileLink.innerHTML = `<a href="{{site.baseurl}}/profilejava">Profile</a>`;
@@ -50,9 +42,20 @@
                     if (isTeacher) {
                         teacherToolkitLink.innerHTML = `<a href="{{site.baseurl}}/teacher">Teacher Toolkit</a>`;
                     }
+
+                    // Display logout link
+                    logoutLink.innerHTML = `<a href="{{site.baseurl}}/logout">Logout</a>`;
                 } else {
-                    // User is not authenticated
-                    loginArea.innerHTML = '<a href="{{site.baseurl}}/duallogin">Login</a>';
+                    // User is not authenticated, show signup and login links
+                    signupLink.style.display = 'block';
+                    javaLoginArea.style.display = 'block';
+
+                    // Hide other links
+                    profileLink.style.display = 'none';
+                    gamifyLink.style.display = 'none';
+                    studentToolkitLink.style.display = 'none';
+                    teacherToolkitLink.style.display = 'none';
+                    logoutLink.style.display = 'none';
                 }
             })
             .catch(err => {
