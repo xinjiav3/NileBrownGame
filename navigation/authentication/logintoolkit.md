@@ -1,6 +1,6 @@
 ---
 layout: base
-title: Student Toolkit Login
+title: Toolkits
 permalink: /toolkit-login
 search_exclude: true
 menu: nav/homejava.html
