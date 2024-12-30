@@ -181,7 +181,10 @@ th, td {
                 resultContainer.appendChild(tr);
 
                 // Redirect to the student calendar after successful data fetch
-            window.location.href = "{{ site.baseurl }}/student/calendar";
+            sessionStorage.setItem("loggedIn", "true");
+            setTimeout(() => {
+                window.location.href = "{{ site.baseurl }}/student/calendar";
+            }, 5000); 
             })
             .catch(error => {
                 console.error("Java Database Error:", error);
