@@ -23,6 +23,9 @@
                 const teacherToolkitLink = document.getElementById('teacherToolkitLink');
 
                 if (data) { // User is authenticated
+                    // Check for ROLE_TEACHER
+                    const isTeacher = data.roles.some(role => role.name === 'ROLE_TEACHER');
+
                     // Update login area with dropdown links
                     loginArea.innerHTML = `
                         <div class="dropdown">
@@ -31,7 +34,7 @@
                                 <a href="{{site.baseurl}}/logoutjava">Logout</a>
                                 <a href="{{site.baseurl}}/profilejava">Profile</a>
                                 <a href="{{site.baseurl}}/stats">Health/Exercise Data</a>
-                                ${data.role === 'teacher' ? '<a href="{{site.baseurl}}/teacher">Teacher Toolkit</a>' : ''}
+                                ${isTeacher ? '<a href="{{site.baseurl}}/teacher">Teacher Toolkit</a>' : ''}
                                 <a href="{{site.baseurl}}/adventureGame">Gamify</a>
                                 <a href="{{site.baseurl}}/student">Student Toolkit</a>
                             </div>
@@ -44,7 +47,7 @@
                     studentToolkitLink.innerHTML = `<a href="{{site.baseurl}}/student">Student Toolkit</a>`;
 
                     // Check for teacher role to display "Teacher Toolkit"
-                    if (data.role && data.role === 'teacher') {
+                    if (isTeacher) {
                         teacherToolkitLink.innerHTML = `<a href="{{site.baseurl}}/teacher">Teacher Toolkit</a>`;
                     }
                 } else {

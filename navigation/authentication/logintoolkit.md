@@ -7,8 +7,6 @@ menu: nav/homejava.html
 
 ---
 
-{% include nav/toolkits/login/menu.html %}
-
 
 
 <style>
