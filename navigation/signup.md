@@ -2,11 +2,11 @@
 layout: page 
 title: Sign Up
 permalink: /signup
+menu: nav/homejava.html
 search_exclude: true
 show_reading_time: false 
 ---
 
-{% include nav/toolkits/login/menu.html %}
 
 <style>
 .login-container {
