@@ -1,63 +1,80 @@
 <table>
-    <tr>
+    <tr id="navbar">
         <td><img src="{{site.baseurl}}/images/logo.png" height="60" title="Toolkit Login" alt=""></td>
-        <td><a href="{{site.baseurl}}/profilejava">Profile</a></td>
-        <td><a href="{{site.baseurl}}/signup"> Sign Up Toolkit</a></td>
+        <td id="profileLink"></td>
+        <td id="gamifyLink"></td>
+        <td id="studentToolkitLink"></td>
+        <td id="teacherToolkitLink"></td>
+        <td><a href="{{site.baseurl}}/signup">Sign Up Toolkit</a></td>
         <td id="loginArea"><a href="{{site.baseurl}}/toolkit-login">Login to Toolkit!</a></td>
-        
     </tr>
 </table>
 
 <script type="module">
-    import {javaURI,  fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+    import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
     document.addEventListener('DOMContentLoaded', function() {
-    getCredentialsJava()// Call the function to get credentials
-        .then(data => {
-            const loginArea = document.getElementById('loginArea');
-            if (data) { // Update the login area based on the data
-                // User is authenticated, replace "Login" with User's name
-                loginArea.innerHTML = `
-                    <div class="dropdown">
-                        <button class="dropbtn">${data.name}</button>
-                        <div class="dropdown-content">
-                            <a href="{{site.baseurl}}/logoutjava">Logout</a>
-                            <a href="{{site.baseurl}}/profilejava">Profile</a>
-                            <a href="{{site.baseurl}}/stats">Health/Exercise Data</a>
-                        </div>
-                    </div>
-                `;
-            } else {
-                // User is not authenticated, then "Login" link is shown
-                loginArea.innerHTML = '<a href="{{site.baseurl}}/duallogin">Login</a>';
-            }
-        })
-        .catch(err => { // General error handler
-            console.error("Error fetching credentials: ", err);
-            // Handle any errors that occurred during getCredentials
-        });
-    });
+        getCredentialsJava()
+            .then(data => {
+                const loginArea = document.getElementById('loginArea');
+                const profileLink = document.getElementById('profileLink');
+                const gamifyLink = document.getElementById('gamifyLink');
+                const studentToolkitLink = document.getElementById('studentToolkitLink');
+                const teacherToolkitLink = document.getElementById('teacherToolkitLink');
 
+                if (data) { // User is authenticated
+                    // Update login area with dropdown links
+                    loginArea.innerHTML = `
+                        <div class="dropdown">
+                            <button class="dropbtn">${data.name}</button>
+                            <div class="dropdown-content">
+                                <a href="{{site.baseurl}}/logoutjava">Logout</a>
+                                <a href="{{site.baseurl}}/profilejava">Profile</a>
+                                <a href="{{site.baseurl}}/stats">Health/Exercise Data</a>
+                                ${data.role === 'teacher' ? '<a href="{{site.baseurl}}/teacher">Teacher Toolkit</a>' : ''}
+                                <a href="{{site.baseurl}}/adventureGame">Gamify</a>
+                                <a href="{{site.baseurl}}/student">Student Toolkit</a>
+                            </div>
+                        </div>
+                    `;
+
+                    // Display "Profile," "Gamify," and "Student Toolkit"
+                    profileLink.innerHTML = `<a href="{{site.baseurl}}/profilejava">Profile</a>`;
+                    gamifyLink.innerHTML = `<a href="{{site.baseurl}}/adventureGame">Gamify</a>`;
+                    studentToolkitLink.innerHTML = `<a href="{{site.baseurl}}/student">Student Toolkit</a>`;
+
+                    // Check for teacher role to display "Teacher Toolkit"
+                    if (data.role && data.role === 'teacher') {
+                        teacherToolkitLink.innerHTML = `<a href="{{site.baseurl}}/teacher">Teacher Toolkit</a>`;
+                    }
+                } else {
+                    // User is not authenticated
+                    loginArea.innerHTML = '<a href="{{site.baseurl}}/duallogin">Login</a>';
+                }
+            })
+            .catch(err => {
+                console.error("Error fetching credentials: ", err);
+            });
+    });
 
     function getCredentialsJava() {
         const URL = javaURI + '/api/person/get';
         return fetch(URL, fetchOptions)
-            .then(response => { // API response handler 
+            .then(response => {
                 if (response.status !== 200) {
                     console.error("HTTP status code: " + response.status);
-                    return null; // prepares to stop the chain by returning null.
+                    return null;
                 }
-                return response.json(); // plans to continue the chain with the data.
+                return response.json();
             })
-            .then(data => { // Data handler from the previous promise  
-                if (data === null) return null; // stops the chain, returns null.
-                console.log(data); // logs data with should contain uid, name, etc.
-                return data; // returns data to caller 
+            .then(data => {
+                if (data === null) return null;
+                console.log(data);
+                return data;
             })
-            .catch(err => { // General error handler
+            .catch(err => {
                 console.error("Fetch error: ", err);
                 return null;
             });
     }
-
 </script>
