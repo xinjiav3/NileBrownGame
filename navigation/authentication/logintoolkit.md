@@ -178,6 +178,9 @@ th, td {
                 tr.appendChild(age);
                 tr.appendChild(roles);
                 resultContainer.appendChild(tr);
+
+                // Redirect to the student calendar after successful data fetch
+            window.location.href = "{{ site.baseurl }}/student/calendar";
             })
             .catch(error => {
                 console.error("Java Database Error:", error);
