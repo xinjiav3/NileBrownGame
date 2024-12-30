@@ -3,6 +3,7 @@ layout: base
 title: Teacher Toolkit
 description: 
 permalink: /teacher
+menu: nav/home.html
 ---
 
 <div class="toolkit-buttons">
