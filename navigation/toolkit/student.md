@@ -3,6 +3,7 @@ layout: base
 title: Student Toolkit
 description: 
 permalink: /student
+menu: nav/home.html
 ---
 
 <div class="toolkit-buttons">
