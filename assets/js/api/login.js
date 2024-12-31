@@ -1,9 +1,8 @@
-import { pythonURI, fetchOptions } from './config.js';
+import { baseurl, pythonURI, fetchOptions } from './config.js';
 
 console.log("login.js loaded");
 
 document.addEventListener('DOMContentLoaded', function() {
-    const baseurl = document.querySelector('.trigger').getAttribute('data-baseurl');
     console.log("Base URL:", baseurl); // Debugging line
     getCredentials(baseurl) // Call the function to get credentials
         .then(data => {
