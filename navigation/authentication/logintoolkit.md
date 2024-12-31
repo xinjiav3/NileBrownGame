@@ -1,9 +1,8 @@
 ---
-layout: base
+layout: page 
 title: Toolkits
 permalink: /toolkit-login
 search_exclude: true
-menu: nav/homejava.html
 ---
 
 {% include nav/homejava.html %}

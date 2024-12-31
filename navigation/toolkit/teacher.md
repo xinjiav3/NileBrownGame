@@ -1,9 +1,10 @@
 ---
-layout: base 
+layout: post 
 title: Teacher Toolkit
 description: 
 permalink: /teacher
-menu: nav/home.html
+menu: nav/homejava.html
+show_reading_time: false
 ---
 
 <div class="toolkit-buttons">

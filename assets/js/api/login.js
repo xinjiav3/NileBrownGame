@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <a href="${baseurl}/logout">Logout</a>
                             <a href="${baseurl}/profile">Profile</a>
                             <a href="${baseurl}/analytics">Analytics</a>
+                            <a href="${baseurl}/gamify/adventureGame">Gamify</a>
                             <a href="${baseurl}/toolkit-login">Toolkit</a>
                         </div>
                     </div>
