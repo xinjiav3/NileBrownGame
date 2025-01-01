@@ -1,217 +1,155 @@
 ---
-layout: post
+layout: base
 title: Crypto Portfolio
 type: issues
 permalink: /crypto/portfolio
 ---
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Investment Portfolio</title>
-    <link rel="stylesheet" href="{{site.baseurl}}/assets/css/portfolio.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        /* Basic Styling */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            height: 100vh;
-        }
-
-        h1 {
-            color: #333;
-            margin-top: 20px;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1000px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .user-balance {
-            margin: 20px 0;
-            font-weight: bold;
-        }
-
-        /* Crypto List Styling */
-        .crypto-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            overflow-y: auto;
-            max-height: 400px;
-            padding: 10px;
-            background-color: #fafafa;
-            border-radius: 10px;
-            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .crypto-item {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            text-align: center;
-            width: 120px;
-            transition: transform 0.2s;
-        }
-
-        .crypto-item:hover {
-            transform: scale(1.05);
-            background-color: #444;
-        }
-
-        /* Modal Styling */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 10;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            position: relative;
-            color: #333;
-        }
-
-        .chart-container {
-            height: 300px;
-            margin: 20px 0;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            font-size: 18px;
-            color: #333;
-        }
-
-        /* Buttons */
-        .btn {
-            padding: 10px 20px;
-            margin: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            color: #fff;
-            font-size: 1em;
-        }
-
-        .btn-buy { background-color: #4CAF50; }
-        .btn-sell { background-color: #f44336; }
-        .btn-close { background-color: #555; }
-
-        /* Navigation Bar */
-        .navbar {
-            width: 100%;
-            background-color: #333;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
+<link rel="stylesheet" href="{{site.baseurl}}/assets/css/portfolio.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    h1 {
+        color: #333;
+        margin-top: 20px;
+    }
+    .container {
+        max-width: 1000px;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    .user-balance {
+        margin: 20px 0;
+        font-weight: bold;
+    }
+    /* Crypto List Styling */
+    .crypto-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+        overflow-y: auto;
+        max-height: 400px;
+        padding: 10px;
+        background-color: #fafafa;
+        border-radius: 10px;
+        box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+    .crypto-item {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        text-align: center;
+        width: 120px;
+        transition: transform 0.2s;
+    }
+    .crypto-item:hover {
+        transform: scale(1.05);
+        background-color: #444;
+    }
+    /* Modal Styling */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 10;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+    }
+    .modal-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        position: relative;
+        color: #333;
+    }
+    .chart-container {
+        height: 300px;
+        margin: 20px 0;
+    }
+    .modal-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 18px;
+        color: #333;
+    }
+    /* Buttons */
+    .btn {
+        padding: 10px 20px;
+        margin: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        color: #fff;
+        font-size: 1em;
+    }
+    .btn-buy { background-color: #4CAF50; }
+    .btn-sell { background-color: #f44336; }
+    .btn-close { background-color: #555; }
+         /* Navigation Bar */
         .navbar-logo {
             font-size: 1.5rem;
             font-weight: bold;
         }
-
         .navbar-links {
             display: flex;
             gap: 15px;
         }
-
-        .navbar-links a {
-            text-decoration: none;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
         .navbar-links a:hover {
             background-color: #575757;
         }
-    </style>
-</head>
-<body>
-    <!-- Navigation Bar -->
-    <div class="navbar">
-        <div class="navbar-logo">Crypto Portfolio</div>
-        <div class="navbar-links">
-            <a href="/portfolio_2025/crypto/portfolio">Portfolio</a>
-            <a href="/portfolio_2025//crypto/mining">Mining</a>
-            <a href="/portfolio_2025/stocks/home">Stocks</a>
-        </div>
-    </div>
+</style>
 
-    <div class="container">
-        <h1>Crypto Investment Portfolio</h1>
-        <div class="user-balance">Current Balance: $<span id="user-balance">5000</span></div>
-        <div class="crypto-list" id="crypto-list-container"></div>
+<!-- Navigation Bar -->
+<div class="navbar">
+    <div class="navbar-logo">Crypto Portfolio</div>
+    <div class="navbar-links">
+        <a href="/portfolio_2025/crypto/portfolio">Portfolio</a>
+        <a href="/portfolio_2025//crypto/mining">Mining</a>
+        <a href="/portfolio_2025/stocks/home">Stocks</a>
     </div>
+</div>
 
-    <!-- Modal -->
-    <div class="modal" id="crypto-modal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeModal()">&times;</span>
-            <h2 id="modal-crypto-name">Crypto Details</h2>
-            <p>Current Price: $<span id="modal-crypto-price"></span></p>
-            <p>Change (24h): <span id="modal-crypto-change"></span>%</p>
-            <div class="chart-container">
-                <canvas id="crypto-chart"></canvas>
-            </div>
-            <button class="btn btn-buy" onclick="buyCrypto()">Buy</button>
-            <button class="btn btn-sell" onclick="sellCrypto()">Sell</button>
-            <button class="btn btn-close" onclick="closeModal()">Close</button>
+<div class="container">
+    <h1>Current Balance: $<span id="user-balance">5000</span></h1>
+    <div class="crypto-list" id="crypto-list-container"></div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="crypto-modal">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <h2 id="modal-crypto-name">Crypto Details</h2>
+        <p>Current Price: $<span id="modal-crypto-price"></span></p>
+        <p>Change (24h): <span id="modal-crypto-change"></span>%</p>
+        <div class="chart-container">
+            <canvas id="crypto-chart"></canvas>
         </div>
+        <button class="btn btn-buy" onclick="buyCrypto()">Buy</button>
+        <button class="btn btn-sell" onclick="sellCrypto()">Sell</button>
+        <button class="btn btn-close" onclick="closeModal()">Close</button>
     </div>
+</div>
 
 <script type="module">
     import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
     // Prompt user for email
-    const userEmail = prompt("Please enter your email:");
-    if (!userEmail) {
-        alert("Email is required!");
-        window.location.reload();
-    }
+    const userEmail = "toby@gmail.com"
 
     let userBalance = 5000;
     document.getElementById('user-balance').innerText = userBalance;
@@ -312,6 +250,3 @@ permalink: /crypto/portfolio
 
     fetchCryptos();
 </script>
-
-</body>
-</html>
