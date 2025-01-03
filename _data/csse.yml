@@ -63,12 +63,12 @@ Sprint4:
   start: 13
   end: 16
 Sprint5:
-  title: Game Development and Lessons
-  description: The Teacher will be providing topics.  All teams will be building a lesson and hacks for a part of the game.  The idea of forming a lesson and hacks will help your team become expert in a topic.  Don't try to code too much in the game, but try to make Jupyter Notebooks with lessons and hacks to learn your topic.
+  title: Platformer Game Help System 
+  description: The Teacher will be providing topics.  All teams will be building a help system covering the key topics in the platformer game.  The task of forming a help system will help your team become expert in a topic and prepare you for final sprint.  For now, don't try to code in the Platformer game, but try to make Jupyter Notebooks with help and hacks suggestions on your topic.
   start: 17
-  end: 19
+  end: 18
 Sprint6:
   title: Create a Final Project, starts with "Student Teaching", and concludes with N@tM 
   description: Trimester 2 concludes with students presenting their project at N@tM. Each person within "Student Teams" will have their own specialty feature within the student project. Students should be able to talk about design, coding, and present features of their portion of the system.
-  start: 20 
+  start: 19
   end: 25
