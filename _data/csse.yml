@@ -61,14 +61,14 @@ Sprint4:
   title: Planning, Exploration, and OOP Programming
   description: Students, in trios, will work on Platformer Game and study OOP. There will be a lot of code, some Tech Talks, and some Teaching assignments provided to learn the code.
   start: 13
-  end: 15
+  end: 16
 Sprint5:
   title: Game Development and Lessons
-  description: The Teacher will be providing topics.  All teams will be adding to game, forming a more complete Platformer game, and preparing lessons on their expert topic.
-  start: 16
-  end: 18
+  description: The Teacher will be providing topics.  All teams will be building a lesson and hacks for a part of the game.  The idea of forming a lesson and hacks will help your team become expert in a topic.  Don't try to code too much in the game, but try to make Jupyter Notebooks with lessons and hacks to learn your topic.
+  start: 17
+  end: 19
 Sprint6:
   title: Create a Final Project, starts with "Student Teaching", and concludes with N@tM 
   description: Trimester 2 concludes with students presenting their project at N@tM. Each person within "Student Teams" will have their own specialty feature within the student project. Students should be able to talk about design, coding, and present features of their portion of the system.
-  start: 19 
+  start: 20 
   end: 25
