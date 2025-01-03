@@ -5,11 +5,11 @@ title: RPG Hacks
 description: This project focuses on integrating the Turtle-Water RPG starter into a larger game development project.
 menu: nav/game_intro.html
 permalink: /game/intro/hacks
-courses: {'csse': {'week': 6}}
-type: collab
+courses: {'csse': {'week': 8}}
+type: ccc 
 ---
 
-## Ideation Hacks 
+## Ideation Hacks
 
 The objective of this project is to integrate the Turtle-Water RPG starter into a larger game development project, focusing on ideation, coding, and animation techniques.
 
