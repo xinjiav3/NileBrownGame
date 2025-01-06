@@ -1,8 +1,10 @@
 ---
-layout: base 
+layout: post 
 title: Student Toolkit
 description: 
 permalink: /student
+menu: nav/homejava.html
+show_reading_time: false
 ---
 
 <div class="toolkit-buttons">

@@ -3,6 +3,7 @@ layout: base
 title: Gamify
 description: 
 permalink: /gamify
+menu: nav/home.html
 ---
 
 <div class="toolkit-buttons">

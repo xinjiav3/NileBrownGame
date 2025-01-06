@@ -3,10 +3,9 @@ layout: page
 title: Sign Up
 permalink: /signup
 search_exclude: true
-show_reading_time: false 
 ---
 
-{% include nav/toolkits/login/menu.html %}
+{% include nav/homejava.html%}
 
 <style>
 .login-container {
@@ -64,7 +63,6 @@ show_reading_time: false
             <p>
                 <button type="submit">Sign Up</button>
             </p>
-            <a style="color: grey !important" href="{{site.baseurl}}/duallogin">login</a>
             <p id="signupMessage" style="color: green;"></p>
         </form>
     </div>
@@ -162,7 +160,8 @@ window.signup = function(){
         cache: "no-cache",
         headers: (new Headers({"Content-Type":"application/json"})),
         body: JSON.stringify({
-                email:  document.getElementById("signupUid").value,//later add to signup
+                uid:   document.getElementById("signupUid").value,
+                email: document.getElementById("signupUid").value + "@gmail.com",
                 dob: "11-01-2024",
                 name: document.getElementById("name").value,
                 password: document.getElementById("signupPassword").value,

@@ -49,26 +49,26 @@ Sprint1:
   end: 3
 Sprint2:
   title: Introduction to Development with JavaScript
-  description: A key focus of this course is to make Web Games using JavaScript. These next few weeks we start covering object-oriented programming in JavaScript with game emphasis.  Topics include  control structures, data types, input/output, operators, classes, methods and parameters, basic inheritance, and documentation practices.
+  description: A key focus of this course is to make Web Games using JavaScript. These next few weeks we start covering object-oriented programming in JavaScript.  Topics include  control structures, data types, input/output, operators, classes, methods and parameters, basic inheritance, and documentation practices.
   start: 4
-  end: 7
+  end: 6
 Sprint3:
-  title: Building a blog with GitHub Pages for N@tM
-  description: Part of the process of becoming technically proficient is working on fundamentals and then taking on challenges while coding. These challenges with some vision, questions, and AI research, it will be amazing what can be done. Our goal is to participate in N@tM with the other CS classes and other classes from the Electives Department.  We should have a blog, progress in a game, and a series of lesson hacks to show off.
-  start: 8
+  title: Building a game with GitHub Pages for N@tM
+  description: Part of the process of becoming technically proficient is going beyond fundamentals by taking on a project challenge while coding. A challenge with some vision, questions, AI research, and more allow amazing things to be accomplished. Our goal is to participate in N@tM with the other CS classes and other classes from the Electives Department.  We should have a blog, progress in a game, and a series of lesson hacks to show off.
+  start: 7
   end: 12
 Sprint4:
   title: Planning, Exploration, and OOP Programming
   description: Students, in trios, will work on Platformer Game and study OOP. There will be a lot of code, some Tech Talks, and some Teaching assignments provided to learn the code.
   start: 13
-  end: 15
+  end: 16
 Sprint5:
-  title: Prgramming Structures and Game Development 
-  description: The Teacher will be providing topics.  All teams will be doing hacks and forming a more complete Mario game.
-  start: 16
-  end: 17
+  title: Platformer Game Help System 
+  description: The Teacher will be providing topics.  All teams will be building a help system covering the key topics in the platformer game.  The task of forming a help system will help your team become expert in a topic and prepare you for final sprint.  For now, don't try to code in the Platformer game, but try to make Jupyter Notebooks with help and hacks suggestions on your topic.
+  start: 17
+  end: 18
 Sprint6:
-  title: Create a Final Project, "Student Teaching Teams", and N@tM 
+  title: Create a Final Project, starts with "Student Teaching", and concludes with N@tM 
   description: Trimester 2 concludes with students presenting their project at N@tM. Each person within "Student Teams" will have their own specialty feature within the student project. Students should be able to talk about design, coding, and present features of their portion of the system.
-  start: 18
+  start: 19
   end: 25

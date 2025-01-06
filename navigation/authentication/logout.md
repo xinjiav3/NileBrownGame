@@ -17,7 +17,7 @@ search_exclude: true
     fetch(URL, options)
         .then(response => {
             if (response.ok) {
-                window.location.href = "{{site.baseurl}}/duallogin";
+                window.location.href = "{{site.baseurl}}/login";
                 // Successfully called the logout endpoint, now redirect to the current page
             } else {
                 // Handle response not ok (e.g., display an error message)
