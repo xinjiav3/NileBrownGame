@@ -40,9 +40,9 @@ permalink: /student
   }
 
   .toolkit-button {
-    width: 25%;
+    width: 30%;
     height: auto;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: transparent;
     color: white;
     font-size: 1.5rem;
     border: none;
@@ -79,10 +79,9 @@ permalink: /student
   .toolkit-button .description {
     opacity: 0;
     position: relative;
-    background: rgba(0, 0, 0, 0.8);
+    background: none;
     color: white;
     padding: 10px;
-    border-radius: 5px;
     text-align: center;
     transition: opacity 0.3s ease, transform 0.3s ease;
     white-space: normal;
