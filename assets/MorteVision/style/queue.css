@@ -1,5 +1,8 @@
+
+
   /* Queue layout styling */
   .queue-container {
+    margin: auto;
     display: flex;
     width: 100%;
     justify-content: space-around;
@@ -43,6 +46,8 @@
 
 /* Button styling */
 .controls {
+    margin: auto;
+    width: 500px;
     display: flex;
     justify-content: center;
     gap: 10px;
