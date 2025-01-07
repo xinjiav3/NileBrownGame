@@ -1,11 +1,7 @@
-let unsetHost = "https://spring2025.nighthawkcodingsociety.com"
-const isDebug = false
+import { javaURI } from '../../js/api/config.js';
 let webSocketServer = "wss://spring2025.nighthawkcodingsociety.com/socket"
-if (isDebug) {
-    // unsetHost = "http://localhost:8085"
-    unsetHost = "https://spring2025.nighthawkcodingsociety.com"
-}
-let rtcServer = unsetHost
+
+let rtcServer = javaURI
 console.log(rtcServer)
 const servers = {
     iceServers:[
