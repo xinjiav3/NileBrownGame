@@ -18,10 +18,10 @@
     import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
     Window.mortJavaURI = javaURI
 </script>
-<script src="{{ '/assets/MorteVision/js/init.js?v=' | append: site.github.build_revision | relative_url }}"></script>
-<script
+<script type="module" src="{{ '/assets/MorteVision/js/init.js?v=' | append: site.github.build_revision | relative_url }}"></script>
+<script type="module"
     src="{{ '/assets/MorteVision/js/SFU-Stream.js?v=' | append: site.github.build_revision | relative_url }}"></script>
-<script
+<script type="module"
     src="{{ '/assets/MorteVision/js/SFU-View.js?v=' | append: site.github.build_revision | relative_url }}"></script>
 <script>
     signalingServer.onmessage = async (message) => {

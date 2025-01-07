@@ -1,3 +1,4 @@
+import {javaURI,  fetchOptions } from '../js/config.js'
 async function streamerInit() {
     try {
         firstInLine = document.getElementById("waitingList").firstElementChild.textContent;
@@ -42,7 +43,7 @@ async function streamerNegotiation(peer) {
         sdp: peer.localDescription
     };
 
-    fetch(rtcServer+"/webrtc/broadcast",
+    fetch(javaURI+"/webrtc/broadcast",
         {
             method:"POST",
             body:JSON.stringify(payload),
