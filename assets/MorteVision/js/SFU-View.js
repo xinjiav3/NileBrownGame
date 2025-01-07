@@ -1,4 +1,4 @@
-import {javaURI,  fetchOptions } from '../js/config.js'
+import { javaURI } from '../../js/api/config.js';
 let globalPeer
 
 async function consumerInit() {

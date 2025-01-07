@@ -1,4 +1,4 @@
-import {javaURI,  fetchOptions } from '../js/config.js'
+import { javaURI } from '../../js/api/config.js';
 async function streamerInit() {
     try {
         firstInLine = document.getElementById("waitingList").firstElementChild.textContent;
