@@ -3,6 +3,7 @@ layout: base
 title: Gamify
 description: 
 permalink: /gamify
+menu: nav/home.html
 ---
 
 <div class="toolkit-buttons">
@@ -40,9 +41,9 @@ permalink: /gamify
   }
 
   .toolkit-button {
-    width: 25%;
+    width: 30%;
     height: auto;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: transparent;
     color: white;
     font-size: 1.5rem;
     border: none;
@@ -58,6 +59,7 @@ permalink: /gamify
     text-align: center;
     text-decoration: none;
     padding-bottom: 20px;
+    text-decoration: none;
   }
 
   .toolkit-button img {
@@ -79,10 +81,9 @@ permalink: /gamify
   .toolkit-button .description {
     opacity: 0;
     position: relative;
-    background: rgba(0, 0, 0, 0.8);
+    background: none;
     color: white;
     padding: 10px;
-    border-radius: 5px;
     text-align: center;
     transition: opacity 0.3s ease, transform 0.3s ease;
     white-space: normal;
@@ -90,6 +91,7 @@ permalink: /gamify
     z-index: 1;
     font-size: 0.8rem;
     margin-top: 10px;
+    text-decoration: none;
   }
 
   .toolkit-button:hover {
@@ -103,5 +105,11 @@ permalink: /gamify
   .toolkit-button:hover .description {
     opacity: 1;
     transform: translateY(10px);
+  }
+  .toolkit-button:hover .description .p {
+    text-decoration: none;
+  }
+  .toolkit-button .description .p {
+    text-decoration: none;
   }
 </style>

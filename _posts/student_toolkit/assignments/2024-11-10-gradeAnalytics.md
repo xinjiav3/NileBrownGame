@@ -1,5 +1,5 @@
 ---
-layout: page 
+layout: page
 title: Grade Analytics 
 permalink: /student/analytics
 search_exclude: true

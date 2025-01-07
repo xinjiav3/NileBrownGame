@@ -1,8 +1,10 @@
 ---
-layout: base 
+layout: post 
 title: Student Toolkit
 description: 
 permalink: /student
+menu: nav/homejava.html
+show_reading_time: false
 ---
 
 <div class="toolkit-buttons">
@@ -27,13 +29,6 @@ permalink: /student
       <p>Submit assignments on this simple and easy-to-use user interface that is fed directly to Mr. Mortensen.</p>
     </div>
   </a>
-  <a href="{{site.baseurl}}/student/calendar" class="toolkit-button" data-description="Never lose track of your assignments again with the Slack Integrated Calendar!">
-    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/calendar.png" alt="Calendar" />
-    <span class="button-name">Calendar</span>
-    <div class="description">
-      <p>View all slack announcements in one place.</p>
-    </div>
-  </a>
 </div>
 
 <style>
@@ -47,9 +42,9 @@ permalink: /student
   }
 
   .toolkit-button {
-    width: 25%;
+    width: 30%;
     height: auto;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: transparent;
     color: white;
     font-size: 1.5rem;
     border: none;
@@ -86,10 +81,9 @@ permalink: /student
   .toolkit-button .description {
     opacity: 0;
     position: relative;
-    background: rgba(0, 0, 0, 0.8);
+    background: none;
     color: white;
     padding: 10px;
-    border-radius: 5px;
     text-align: center;
     transition: opacity 0.3s ease, transform 0.3s ease;
     white-space: normal;

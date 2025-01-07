@@ -1,8 +1,10 @@
 ---
-layout: base 
+layout: post 
 title: Teacher Toolkit
 description: 
 permalink: /teacher
+menu: nav/homejava.html
+show_reading_time: false
 ---
 
 <div class="toolkit-buttons">
@@ -13,6 +15,14 @@ permalink: /teacher
       <p>Tired of opening ChatGPT all day everyday? Want an AI companion with you on the site that helps you study for CSA? Look no further! Here you can use AI to generate hacks for practice, grade your hack answers and get feedback, and ask questions to your follow classmates and teachers!</p>
     </div>
   </a>
+  <a href = "{{site.baseurl}}/teacher-toolkit/period1" class="toolkit-button" data-description="View and manage student seating arrangements across all periods of our AP CSA class. Track the progress of each team, monitor tasks assigned to individuals at each table, and gain insights into each student’s GitHub activity, including their number of commits, issues, and more!">
+    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/studentmanagement.png" alt="StudentManagement"/>
+    <span class="button-name">Table Management</span>
+    <div class="description">
+      <p>View and manage student seating arrangements across all periods of our AP CSA class. Track the progress of each team, monitor tasks assigned to individuals at each table, and gain insights into each student’s GitHub activity, including their number of commits, issues, and more!</p>
+    </div>
+  </a>
+</div>
 
   <style>
   .toolkit-buttons {
@@ -25,9 +35,9 @@ permalink: /teacher
   }
 
   .toolkit-button {
-    width: 25%;
+    width: 30%;
     height: auto;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: transparent;
     color: white;
     font-size: 1.5rem;
     border: none;
@@ -64,10 +74,9 @@ permalink: /teacher
   .toolkit-button .description {
     opacity: 0;
     position: relative;
-    background: rgba(0, 0, 0, 0.8);
+    background: none
     color: white;
     padding: 10px;
-    border-radius: 5px;
     text-align: center;
     transition: opacity 0.3s ease, transform 0.3s ease;
     white-space: normal;
