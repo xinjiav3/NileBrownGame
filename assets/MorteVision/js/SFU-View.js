@@ -1,3 +1,4 @@
+import { javaURI } from '../../js/api/config.js';
 let globalPeer
 
 async function consumerInit() {
@@ -24,7 +25,7 @@ async function consumeNegotiation(peer) {
     const payload = {
         sdp: peer.localDescription
     }
-    fetch(rtcServer+"/webrtc/consume",
+    fetch(javaURI+"/webrtc/consume",
         {
             method:"POST",
             body:JSON.stringify(payload),
