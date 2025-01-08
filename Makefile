@@ -109,7 +109,9 @@ cspconvert: $(CSP_MARKDOWN_FILES)
 $(DESTINATION_DIRECTORY)/%_IPYNB_2_.md: _notebooks/%.ipynb
 	@echo "Converting source $< to destination $@"
 	@mkdir -p $(@D)
-	@python3 -c 'import sys; from scripts.convert_notebooks import convert_single_notebook; convert_single_notebook(sys.argv[1])' "$<"
+
+ # Run the external shell script for notebook conversion
+	@./scripts/convert_notebooks.sh
 
 $(DESTINATION_DIRECTORY)/%_IPYNB_2_.md: _notebooks/CSP/%.ipynb
 	@echo "Converting source $< to destination $@"
@@ -140,3 +142,14 @@ stop:
 	@@ps aux | awk -v log_file=$(LOG_FILE) '$$0 ~ "tail -f " log_file { print $$2 }' | xargs kill >/dev/null 2>&1 || true
 	@# removes log
 	@rm -f $(LOG_FILE)
+
+# stops the server and reloads it
+reload:
+	@make stop
+	@make
+
+# stops server, cleans it, reloads it
+refresh:
+	@make stop
+	@make clean
+	@make

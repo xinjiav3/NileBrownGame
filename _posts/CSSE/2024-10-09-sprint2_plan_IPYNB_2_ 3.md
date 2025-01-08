@@ -2,8 +2,6 @@
 layout: post
 title: Sprint 2 - CSSE Objectives
 description: Student Teach and Software Development Objectives for Sprint 2
-type: issues
-courses: {'csse': {'week': 4}}
 comments: True
 ---
 

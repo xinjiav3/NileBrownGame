@@ -10,6 +10,10 @@ show_reading_time: false
  <div class="card">
    <form>
      <div>
+       <label for="newUid">Enter New UID:</label>
+       <input type="text" id="newUid" placeholder="New Uid">
+     </div>
+     <div>
        <label for="newUid">Enter New Email:</label>
        <input type="text" id="newEmail" placeholder="New Email">
      </div>
@@ -73,15 +77,37 @@ async function fetchUserProfile() {
             throw new Error(`Failed to fetch user profile: ${response.status}`);
         }
         const profileData = await response.json();
-        // Extract only the pfp field
-        const profilePicture = profileData.pfp;
-        // Assuming 'pfp' is the key for the profile picture
-        // Display the profile picture
-        displayUserProfile(profilePicture);
+
+        // Pass the full profile data to display function
+        displayUserProfile(profileData);
     } catch (error) {
         console.error('Error fetching user profile:', error.message);
-        // Handle error display or fallback mechanism
+        // Display fallback or error message
+        const profileImageBox = document.getElementById('profileImageBox');
+        profileImageBox.innerHTML = '<p>Error loading profile picture.</p>';
     }
+}
+
+function displayUserProfile(profileData) {
+    const profileImageBox = document.getElementById('profileImageBox');
+    profileImageBox.innerHTML = ''; // Clear existing content
+
+    if (profileData.pfp) {
+        const img = document.createElement('img');
+        
+        // Construct full URL for the image
+        img.src = `${javaURI}${profileData.pfp}`;
+        img.alt = 'Profile Picture';
+        img.style.width = '150px'; // Example size
+        img.style.height = '150px'; // Example size
+
+        profileImageBox.appendChild(img);
+    } else {
+        profileImageBox.innerHTML = '<p>No profile picture available.</p>';
+    }
+
+    // Example: Update other profile fields
+
 }
 // Function to save profile picture
 window.saveProfilePicture = async function () {
@@ -139,6 +165,11 @@ window.updateEmailField = function(newEmail) {
   emailInput.value = newEmail;
   emailInput.placeholder = newEmail;
 }
+window.updateUidField = function(newEmail) {
+  const uidInput = document.getElementById('newUid');
+  uidInput.value = newUid;
+  uidInput.placeholder = newUid;
+}
 // Function to update UI with new Name and change placeholder
 window.updateNameField = function(newName) {
   const nameInput = document.getElementById('newName');
@@ -153,17 +184,35 @@ window.changeEmail = async function(email) {
            URL,
            body: { email },// Adjust the message area as needed
            callback: () => {
-               alert("You updated your email, so you will automatically be logged out. Be sure to remember your new github id to log in!");
                console.log('Email updated successfully!');
                window.updateEmailField(email);
            }
        };
        try {
            await postUpdate(options);
-           await logoutUserJava();
-           window.location.href = '/portfolio_2025/duallogin'
        } catch (error) {
            console.error('Error updating Email:', error.message);
+       }
+   }
+}
+window.changeUid = async function(uid) {
+   if (uid) {
+       const URL = javaURI + "/api/person/update"; // Adjusted endpoint
+       const options = {
+           URL,
+           body: { uid },// Adjust the message area as needed
+           callback: () => {
+               alert("You updated your uid, so you will automatically be logged out. Be sure to remember your new github id to log in!");
+               console.log('Uid updated successfully!');
+               window.updateUidField(uid);
+           }
+       };
+       try {
+           await postUpdate(options);
+           await logoutUserJava();
+           window.location.href = '/portfolio_2025/toolkit-login'
+       } catch (error) {
+           console.error('Error updating  UId:', error.message);
        }
    }
 }
@@ -175,7 +224,8 @@ window.changePassword = async function(password) {
            body: { password }, // Adjust the message area as needed
            callback: () => {
                console.log('Password updated successfully!');
-               window.location.href = '/portfolio_2025/duallogin'
+               window.location.href = '/portfolio_2025/toolkit-login'
+               
            }
        };
      try {
@@ -201,7 +251,7 @@ window.changeName = async function(name) {
        };
        try {
            await postUpdate(options);
-            await logoutUser();       } catch (error) {
+        } catch (error) {
            console.error('Error updating Name:', error.message);
        }
    }
@@ -210,6 +260,10 @@ window.changeName = async function(name) {
 document.getElementById('newEmail').addEventListener('change', function() {
     const email = this.value;
     window.changeEmail(email);
+});
+document.getElementById('newUid').addEventListener('change', function() {
+    const uid = this.value;
+    window.changeUid(uid);
 });
 // Event listener to trigger updateName function when Name field is changed
 document.getElementById('newName').addEventListener('change', function() {
@@ -284,13 +338,35 @@ window.fetchName = async function() {
         return null;
     }
 };
+
+window.fetchUid = async function() {
+    const URL = javaURI + "/api/person/get"; // Adjusted endpoint
+    try {
+        const response = await fetch(URL, fetchOptions);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch Name: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.uid;
+    } catch (error) {
+        console.error('Error fetching Name:', error.message);
+        return null;
+    }
+};
+
+
 // Function to set placeholders for email and Name
 window.setPlaceholders = async function() {
     const emailInput = document.getElementById('newEmail');
     const nameInput = document.getElementById('newName');
+    const uidInput = document.getElementById('newUid');
     try {
         const email = await window.fetchEmail();
         const name = await window.fetchName();
+        const uid = await window.fetchUid();
+        if (uid !== null) {
+            uidInput.placeholder = uid;
+        }
         if (email !== null) {
             emailInput.placeholder = email;
         }

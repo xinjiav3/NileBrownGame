@@ -1,3 +1,5 @@
+import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
+
 //fetchUserData();
 let chatHistoryMode = false; 
 
@@ -14,13 +16,12 @@ const elements = {
 document.getElementById("initId").value=1; // hardcode userID for now...
 
 // URLs for local or deployed access
-uri = "http://localhost:8085"; 
 //uri = "https://codemaxxers.stu.nighthawkcodingsociety.com";
 const urls = {
-  chat: uri+"/aichatbot/chat?message=", // Endpoint for sending a chat message
-  clearHistory: uri+"/aichatbot/chat/history/clear?personid=", // Endpoint for clearing chat history
-  retrieveHistory: uri+"/aichatbot/chat/history?personid=", // Endpoint for retrieving chat history
-  deleteChat: uri+"/aichatbot/chat/history/delete/", //Endpoint for deleting a chat
+  chat: `${javaURI}/aichatbot/chat?message=`, // Endpoint for sending a chat message
+  clearHistory: `${javaURI}/aichatbot/chat/history/clear?personid=`, // Endpoint for clearing chat history
+  retrieveHistory: `${javaURI}/aichatbot/chat/history?personid=`, // Endpoint for retrieving chat history
+  deleteChat: `${javaURI}/aichatbot/chat/history/delete/`, //Endpoint for deleting a chat
   };
 
 // Define assets such as images and names for the bot and user
