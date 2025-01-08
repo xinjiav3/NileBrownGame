@@ -6,17 +6,6 @@ layout: base
 
 <title>Submission Form</title>
 <style>
-    .modal {
-        width: 600px; 
-        max-width: 100%;
-        padding: 30px; 
-        background-color: #000000;
-        border-radius: 12px;
-        animation: moving-glow 2s infinite;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
     select, input[type="url"], textarea, button {
         width: 100%;
         padding: 15px; 
@@ -107,10 +96,8 @@ layout: base
     <br><br>
     <div class="output-box" id="outputBox"></div>
     <br><br>
-    
     <h1>Previous Submissions for: </h1>
     <div class="Assignment-Name" id="Assignment-name">Assignment-Content</div>
-
     <br><br>
     <table id="submissions-table" style="width: 100%; margin-top: 20px;">
         <thead>
@@ -286,4 +273,3 @@ layout: base
     fetchSubmissions();
     fetchAssignments();
 </script>
-</html>
