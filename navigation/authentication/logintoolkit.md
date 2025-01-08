@@ -1,14 +1,11 @@
 ---
-layout: base
-title: Student Toolkit Login
+layout: page 
+title: Toolkits
 permalink: /toolkit-login
 search_exclude: true
-
 ---
 
-{% include nav/toolkits/login/menu.html %}
-
-
+{% include nav/homejava.html %}
 
 <style>
 .login-container {
@@ -106,7 +103,8 @@ th, td {
         <thead>
             <tr>
                 <th>Name</th>
-                <th>ID</th>
+                <th>Github Id</th>
+                <th>Email</th>
                 <th>Age</th>
                 <th>Roles</th>
             </tr>
@@ -130,7 +128,7 @@ th, td {
             method: "POST",
             cache: "no-cache",
             body: {
-                email: document.getElementById("uid").value,
+                uid: document.getElementById("uid").value,
                 password: document.getElementById("password").value,
             },
         };
@@ -160,20 +158,29 @@ th, td {
 
                 const tr = document.createElement("tr");
                 const name = document.createElement("td");
+                const ghid = document.createElement("td");
                 const id = document.createElement("td");
                 const age = document.createElement("td");
                 const roles = document.createElement("td");
 
                 name.textContent = data.name;
+                ghid.textContent = data.uid;
                 id.textContent = data.email;
                 age.textContent = data.age;
                 roles.textContent = data.roles.map(role => role.name).join(', ');
 
                 tr.appendChild(name);
+                tr.appendChild(ghid);
                 tr.appendChild(id);
                 tr.appendChild(age);
                 tr.appendChild(roles);
                 resultContainer.appendChild(tr);
+
+                // Redirect to the student calendar after successful data fetch
+            sessionStorage.setItem("loggedIn", "true");
+            setTimeout(() => {
+                window.location.href = "{{ site.baseurl }}/student/calendar";
+            }, 5000); 
             })
             .catch(error => {
                 console.error("Java Database Error:", error);
@@ -186,4 +193,8 @@ th, td {
                 resultContainer.appendChild(tr);
             });
     }
+
+        window.onload = function() {
+        javaDatabase();
+    };
 </script>

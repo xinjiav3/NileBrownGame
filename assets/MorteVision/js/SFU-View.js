@@ -1,3 +1,23 @@
+import { javaURI } from '../../js/api/config.js';
+const servers = {
+    iceServers:[
+      {
+        urls:
+      [
+      "stun:stun.l.google.com:19302",
+      /*"stun:stun.l.google.com:5349",
+      "stun:stun1.l.google.com:3478",
+      "stun:stun1.l.google.com:5349",
+      "stun:stun2.l.google.com:19302",
+      "stun:stun2.l.google.com:5349",
+      "stun:stun3.l.google.com:3478",
+      "stun:stun3.l.google.com:5349",
+      "stun:stun4.l.google.com:19302",
+      "stun:stun4.l.google.com:5349"*/],
+      },
+    ],
+    iceCandidatePoolSize:10,
+  }
 let globalPeer
 
 async function consumerInit() {
@@ -24,7 +44,7 @@ async function consumeNegotiation(peer) {
     const payload = {
         sdp: peer.localDescription
     }
-    fetch(rtcServer+"/webrtc/consume",
+    fetch(javaURI+"/webrtc/consume",
         {
             method:"POST",
             body:JSON.stringify(payload),
@@ -53,27 +73,7 @@ async function consumerTrackHandler(e) {
     document.getElementById("mortStream").srcObject = e.streams[0]
 }
 
-signalingServer.onmessage = async(message) => {
-        const data = JSON.parse(message.data)
-        switch(data.event)
-        {
-            case "streamStarted":
-                    if(!globalPeer)
-                    {
-                        await consumerInit()
-                    }
-                    else
-                    {
-                        globalPeer.close()
-                        await consumerInit()
-                    }
-            break;
-    
-            case "streamEnded":
-                if(globalPeer)
-                    {
-                        globalPeer.close()
-                    }
-            break;
-                }
-    }
+document.getElementById("watchButton").addEventListener("click",function(e)
+{
+    consumerInit()
+})

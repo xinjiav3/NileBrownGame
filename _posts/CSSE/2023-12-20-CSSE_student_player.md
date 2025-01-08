@@ -3,8 +3,6 @@ comments: true
 toc: true
 layout: post
 title: Player | Student
-type: collab
-courses: { csse: {week: 14} }
 authors: Maryam Abdul-Aziz, Zidane Ahmed, Abi Besufekad, Gavin Ireland
 ---
 
