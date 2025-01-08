@@ -1,18 +1,12 @@
 ---
+toc: false
+title: Submission Page
 permalink: /student/submissions
 search_exclude: true
-layout: base
+layout: post
 ---
+
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #F9F9F9;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 300vh;
-        margin: 20px;
-    }
     .modal {
         width: 600px; 
         max-width: 100%;
