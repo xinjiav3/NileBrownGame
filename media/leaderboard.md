@@ -22,9 +22,10 @@ permalink: /media/leaderboard
             <!-- Leaderboard rows will be inserted here -->
         </tbody>
     </table>
-    <script>
+    <script type="module">
+        import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
         document.addEventListener("DOMContentLoaded", function() {
-            fetch('http://localhost:8085/api/media/') // Assuming this is the correct API URL
+            fetch(javaURI+'/api/media/') // Assuming this is the correct API URL
                 .then(response => response.json())
                 .then(data => {
                     const leaderboardBody = document.getElementById("leaderboard-body");
