@@ -24,6 +24,7 @@ permalink: /media/leaderboard
     </table>
     <script type="module">
         import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
+        console.log(javaURI);
         document.addEventListener("DOMContentLoaded", function() {
             fetch(javaURI+'/api/media/') // Assuming this is the correct API URL
                 .then(response => response.json())
