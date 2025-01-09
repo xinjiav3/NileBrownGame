@@ -1,4 +1,23 @@
 import { javaURI } from '../../js/api/config.js';
+const servers = {
+    iceServers:[
+      {
+        urls:
+      [
+      "stun:stun.l.google.com:19302",
+      /*"stun:stun.l.google.com:5349",
+      "stun:stun1.l.google.com:3478",
+      "stun:stun1.l.google.com:5349",
+      "stun:stun2.l.google.com:19302",
+      "stun:stun2.l.google.com:5349",
+      "stun:stun3.l.google.com:3478",
+      "stun:stun3.l.google.com:5349",
+      "stun:stun4.l.google.com:19302",
+      "stun:stun4.l.google.com:5349"*/],
+      },
+    ],
+    iceCandidatePoolSize:10,
+  }
 async function streamerInit() {
     try {
         firstInLine = document.getElementById("waitingList").firstElementChild.textContent;
@@ -111,3 +130,14 @@ async function captureScreen() {
         document.getElementById("endBroadcastButton").style.display = "none"
     }
 }
+
+
+document.getElementById("broadcastButton").addEventListener("click",function(e)
+{
+    streamerInit()
+})
+
+document.getElementById("endBroadcastButton").addEventListener("click",function(e)
+{
+    endStream()
+})
