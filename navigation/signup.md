@@ -46,7 +46,7 @@ search_exclude: true
             </p>
             <p>
                 <label>
-                    Email:
+                    Github Id:
                     <input type="text" name="signupUid" id="signupUid" required>
                 </label>
             </p>
