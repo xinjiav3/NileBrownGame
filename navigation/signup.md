@@ -174,39 +174,6 @@ window.signup = function(){
             
         }),
     };
-
-    function UpdateOutput(const output){ /// output box
-       const outputBox = document.getElementById('outputBox');
-       if(Response.ok){
-        outputBox=output;
-       }
-       else{
-        outputBox=output;
-       }
-
-    }
-
-    // fetch the API
-    fetch(signupOptions.URL, signupOptions)
-    // response is a RESTful "promise" on any successful fetch
-    .then(response => {
-        
-      if (!response.ok){
-        throw new Error("response error: " + response.status);
-        return; //api failure
-      }
-      // valid response will have JSON data
-      response.json().then(data => {
-          console.log(data);
-          outputBox("working outputbox1");
-      })
-      outputBox("working outputbox");
-    })
-    // catch fetch errors (ie Nginx ACCESS to server blocked)
-    .catch(err => {
-      error(err + " " + signupOptions.URL);
-    });
-  
   }
 
   // Something went wrong with actions or responses
