@@ -54,6 +54,11 @@
     justify-content: space-evenly;
 }
 
+#endBroadcastButton
+{
+    display: none;
+}
+
 #streamControl button
 {
     background-color:red;

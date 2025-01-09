@@ -1,7 +1,9 @@
 ---
+toc: false
+title: Submission Page
 permalink: /student/submissions
 search_exclude: true
-layout: base
+layout: post
 ---
 
 <title>Submission Form</title>

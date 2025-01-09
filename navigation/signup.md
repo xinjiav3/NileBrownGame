@@ -3,9 +3,9 @@ layout: page
 title: Sign Up
 permalink: /signup
 search_exclude: true
-menu: nav/home.html
-show_reading_time: false 
 ---
+
+{% include nav/homejava.html%}
 
 <style>
 .login-container {
@@ -13,6 +13,8 @@ show_reading_time: false
     justify-content: space-between;
     flex-wrap: wrap; /* allows the cards to wrap onto the next line if the screen is too small */
 }
+
+
 
 
 .signup-card {
@@ -44,7 +46,7 @@ show_reading_time: false
             </p>
             <p>
                 <label>
-                    Email:
+                    Github Id:
                     <input type="text" name="signupUid" id="signupUid" required>
                 </label>
             </p>
@@ -63,11 +65,11 @@ show_reading_time: false
             <p>
                 <button type="submit">Sign Up</button>
             </p>
-            <a style="color: grey !important" href="{{site.baseurl}}/duallogin">login</a>
             <p id="signupMessage" style="color: green;"></p>
         </form>
     </div>
 </div>
+<div class="output-box" id="outputBox">HERE</div>
 
 <!--
 <script type="module">
@@ -153,6 +155,8 @@ show_reading_time: false
   import { javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
 
 
+  
+
 window.signup = function(){
     // clones and replaces method
     const signupOptions = {
@@ -161,7 +165,8 @@ window.signup = function(){
         cache: "no-cache",
         headers: (new Headers({"Content-Type":"application/json"})),
         body: JSON.stringify({
-                email:  document.getElementById("signupUid").value,//later add to signup
+                uid:   document.getElementById("signupUid").value,
+                email: document.getElementById("signupUid").value + "@gmail.com",
                 dob: "11-01-2024",
                 name: document.getElementById("name").value,
                 password: document.getElementById("signupPassword").value,
@@ -169,6 +174,17 @@ window.signup = function(){
             
         }),
     };
+
+    function UpdateOutput(const output){ /// output box
+       const outputBox = document.getElementById('outputBox');
+       if(Response.ok){
+        outputBox=output;
+       }
+       else{
+        outputBox=output;
+       }
+
+    }
 
     // fetch the API
     fetch(signupOptions.URL, signupOptions)
@@ -182,7 +198,9 @@ window.signup = function(){
       // valid response will have JSON data
       response.json().then(data => {
           console.log(data);
+          outputBox("working outputbox1");
       })
+      outputBox("working outputbox");
     })
     // catch fetch errors (ie Nginx ACCESS to server blocked)
     .catch(err => {

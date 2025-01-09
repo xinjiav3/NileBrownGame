@@ -31,19 +31,23 @@ permalink: /gamify/adventureGame
  body {
     background: var(--bg);
     display: flex;
+    
     justify-content: center;
  }
  .pixel-art {
     image-rendering: pixelated;
  }
- .frame {
+.frame {
     width: calc(var(--pixel-size) * 160);
     height: calc(var(--pixel-size) * 144);
     outline: var(--pixel-size) solid #fff;
-    z-index:1;
-    position:relative;
-    margin: calc(var(--grid-cell) * 0.2) auto; 
- }
+    z-index: 1;
+    position: absolute; /* or 'fixed' if you want it fixed on the screen */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
  .camera {
     width: calc(var(--pixel-size) * 160);
     height: calc(var(--pixel-size) * 144);
@@ -278,8 +282,7 @@ permalink: /gamify/adventureGame
     z-index: 10;
     display: none;
 }
-
-.chat-score, .balance {
+ .chat-score, .balance {
     font-size: 1.4em;
     font-weight: bold;
     color: #333;
@@ -300,7 +303,6 @@ permalink: /gamify/adventureGame
     top: 60px; /* Slightly below .chat-score */
  }
 <!-- 
-      
  .shop-button {
     position: absolute;
     top: 10px;
@@ -654,7 +656,7 @@ body {
    font-size: 1em;
    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1); 
 }
-<script src="yourScript.js" defer></script>
+
     </style>
 </head>
 
@@ -674,6 +676,18 @@ body {
     <div class="questions-answered">
         Questions Answered: <span id="questionsAnswered"></span>
     </div>
+<div class="streak-container">
+    <h3>Streak</h3>
+    <input type="text" id="user-id-input" placeholder="Enter User Email" />
+    <button onclick="setUserId()">Submit</button>
+    <button id="add-streak" onclick="addStreak()">Add Streak</button>
+    <div class="user-info">
+        <p><strong>Current Streak:</strong> <span id="current-streak">0</span></p>
+        <p id="max-streak" class="hidden"><strong>Highest Streak:</strong> <span id="max-streak-value">0</span></p>
+    </div>
+    <div class="message" id="message"></div>
+</div>
+
 
     <button class="leaderboard-btn" onclick="openLeaderboard()">
         Leaderboard
@@ -709,12 +723,7 @@ body {
                 <div class="npc3"></div>
                 <div class="npc4"></div>
                 <div class="npc5"></div>
-                <button
-                    class="leaderboard-button"
-                    onclick="toggleLeaderboard()"
-                >
-                    Leaderboard (Click then go <-)
-                </button>
+      
                 <div class="leaderboard-box" id="leaderboard-box">
                     <div class="leaderboard-entry">| Rank | Name | Score |</div>
                     <div class="leaderboard-entry">================</div>
@@ -738,27 +747,18 @@ body {
                 <div class="dialog-box" id="npc1-dialog-box">
                     Sup! Unit 1 Popcorn Hack (Click)
                 </div>
-           </div>
-            <div class="streak-container">
-        <h3>Streak</h3>
-        <input type="number" id="user-id-input" placeholder="Enter User ID" />
-        <button onclick="setUserId()">Submit</button>
-        <button id="add-streak" onclick="addStreak()">Add Streak</button>
-        <div class="user-info">
-            <p><strong>Current Streak:</strong> <span id="current-streak">0</span></p>
-            <p id="max-streak" class="hidden"><strong>Highest Streak:</strong> <span id="max-streak-value">0</span></p>
-        </div>
-        <div class="message" id="message"></div>
-    </div>    
-            <script type="module">
- import { javaURI, fetchOptions } from "{{site.baseurl}}/assets/js/api/config.js";
-                import { javaURI, fetchOptions } from "{{site.baseurl}}/assets/js/api/config.js";
-                 window.javaURI = `${javaURI}` 
-                 </script>
-// Streak Feature Start
-                let userId = null;
+            </div>
+     
 
-                function setUserId() {
+     <script type="module">
+         import { javaURI } from '{{site.baseurl}}/assets/js/api/config.js';
+
+                
+        // Streak Feature Start
+        window.setUserId = setUserId;
+let userId = null;
+
+function setUserId() {
     const input = document.getElementById("user-id-input").value.trim();
     if (!input || isNaN(input)) {
         alert("Please enter a valid numeric User ID.");
@@ -773,7 +773,7 @@ body {
     document.getElementById("current-streak").textContent = "Loading...";
     document.getElementById("max-streak-value").textContent = "Loading...";
 
-    fetch(`http://127.0.0.1:8085/rpg_streak/streak?userId=${userId}`)
+    fetch(`${javaURI}/rpg_streak/streak?userId=${userId}`)
         .then((response) => {
             if (response.status === 404) {
                 console.warn("User ID not found. Adding new user...");
@@ -801,10 +801,10 @@ body {
         });
 }
 
-function fetchUserInfo() { // this function fetches the users data 
+function fetchUserInfo() { // This function fetches the user's data
     if (!userId) return;
 
-    fetch(`http://127.0.0.1:8085/rpg_streak/streak?userId=${userId}`)
+    fetch(`${javaURI}/rpg_streak/streak?userId=${userId}`)
         .then((response) => {
             if (response.status === 404) {
                 console.warn("User ID not found. Adding new user...");
@@ -817,18 +817,18 @@ function fetchUserInfo() { // this function fetches the users data
         .then((data) => {
             if (data) {
                 const currentStreak = data.currentStreak ?? 0;
-                document.getElementById('current-streak').textContent = currentStreak;
-                document.getElementById('message').textContent = "";
+                document.getElementById("current-streak").textContent = currentStreak;
+                document.getElementById("message").textContent = "";
             }
         })
         .catch((error) => {
-            console.error('Error:', error);
-            document.getElementById('message').textContent = 'Failed to load user information.';
+            console.error("Error:", error);
+            document.getElementById("message").textContent = "Failed to load user information.";
         });
 }
 
-function addNewUser(userId) { // This function allows a new user to be made if an id entereted isn't in the table 
-    fetch("http://127.0.0.1:8085/rpg_streak/streak", {
+function addNewUser(userId) { // This function allows a new user to be created if an ID isn't in the table
+    fetch(`${javaURI}/rpg_streak/streak`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -839,26 +839,26 @@ function addNewUser(userId) { // This function allows a new user to be made if a
             maxStreak: 0
         })
     })
-    .then(response => {
-        if (!response.ok) throw new Error("Failed to create new user");
-        return response.json();
-    })
-    .then(() => {
-        document.getElementById('message').textContent = "New user created successfully!";
-        document.getElementById('current-streak').textContent = 0;
-    })
-    .catch(error => {
-        console.error("Error adding new user:", error);
-        document.getElementById('message').textContent = `Failed to create new user: ${error.message}`;
-    });
+        .then((response) => {
+            if (!response.ok) throw new Error("Failed to create new user");
+            return response.json();
+        })
+        .then(() => {
+            document.getElementById("message").textContent = "New user created successfully!";
+            document.getElementById("current-streak").textContent = 0;
+        })
+        .catch((error) => {
+            console.error("Error adding new user:", error);
+            document.getElementById("message").textContent = `Failed to create new user: ${error.message}`;
+        });
 }
-function addStreak() { // this function adds to the specific streak of each user 
+function addStreak() { // This function adds to the specific streak of each user
     if (!userId) return;
 
-    fetch("http://127.0.0.1:8085/rpg_streak/streak", {
-        method: 'POST',
+    fetch(`${javaURI}/rpg_streak/streak`, {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
         },
         body: JSON.stringify({
             userId: userId,
@@ -868,57 +868,65 @@ function addStreak() { // this function adds to the specific streak of each user
     })
         .then((response) => {
             if (!response.ok) {
-                return response.text().then(text => { throw new Error(`Failed to update streak: ${text}`); });
+                return response.text().then((text) => {
+                    throw new Error(`Failed to update streak: ${text}`);
+                });
             }
             return response.json();
         })
         .then((data) => {
             const currentStreak = data.currentStreak ?? 0;
-            document.getElementById('current-streak').textContent = currentStreak;
-            document.getElementById('message').textContent = "Streak updated successfully!";
+            document.getElementById("current-streak").textContent = currentStreak;
+            document.getElementById("message").textContent = "Streak updated successfully!";
         })
         .catch((error) => {
-            console.error('Error updating streak:', error);
-            document.getElementById('message').textContent = `Failed to update streak: ${error.message}`;
+            console.error("Error updating streak:", error);
+            document.getElementById("message").textContent = `Failed to update streak: ${error.message}`;
         });
 }
+window.addStreak = addStreak;
 
-function toggleMaxStreak() { // this handles the max streak. 
+function toggleMaxStreak() { // This handles the max streak
     const maxStreakElement = document.getElementById("max-streak");
     const button = document.getElementById("toggle-max-streak");
     const maxStreakValueElement = document.getElementById("max-streak-value");
+
     if (maxStreakElement.classList.contains("hidden")) {
-        fetch(`http://127.0.0.1:8085/rpg_streak/streak?userId=${userId}`)
+        fetch(`${javaURI}/rpg_streak/streak?userId=${userId}`)
             .then((response) => response.json())
             .then((data) => {
                 maxStreakValueElement.textContent = data.maxStreak ?? 0;
                 maxStreakElement.classList.remove("hidden");
                 button.textContent = "HIDE HIGHEST STREAK";
             })
-            .catch((error) => console.error('Error:', error));
+            .catch((error) => console.error("Error:", error));
     } else {
         maxStreakElement.classList.add("hidden");
         button.textContent = "SHOW HIGHEST STREAK";
     }
 }
-                 <script>
+ </script>
+
+            <script type="module">
+            import { javaURI, fetchOptions } from "{{site.baseurl}}/assets/js/api/config.js";
                     // Open leaderboard modal
                     function openLeaderboard() {
                         const modal = document.getElementById("leaderboard-modal");
                         modal.style.display = "block";
                         fetchLeaderboard(); // Fetch and display leaderboard data
                     }
-                    // window.openLeaderboard = openLeaderboard;
+                    window.openLeaderboard = openLeaderboard;
 
                     // Close leaderboard modal
                     function closeLeaderboard() {
                         const modal = document.getElementById("leaderboard-modal");
                         modal.style.display = "none";
                     }
+                    window.closeLeaderboard = closeLeaderboard;
 
                     function fetchLeaderboard() {
-                        // fetch(`${javaURI}/rpg_answer/leaderboard`)
-                        fetch(javaURI + '/rpg_answer/leaderboard')
+                        fetch(`${javaURI}/rpg_answer/leaderboard`)
+                        // fetch(javaURI + '/rpg_answer/leaderboard')
                             .then((response) => {
                                 if (!response.ok) {
                                     throw new Error("Failed to fetch leaderboard");
@@ -946,6 +954,7 @@ function toggleMaxStreak() { // this handles the max streak.
                                 document.getElementById("leaderboard-entries").innerHTML = "Failed to load leaderboard.";
                             });
                     }
+                    window.fetchLeaderboard = fetchLeaderboard;
             </script>
             <script>
                                 var character = document.querySelector(".character");

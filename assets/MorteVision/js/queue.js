@@ -4,7 +4,7 @@ import { javaURI } from '../../js/api/config.js';
 let assignment = null;
 let currentQueue = [];
 
-
+// will remove once things are fixed
 window.person = "John Mortensen";
 
 document.getElementById('addQueue').addEventListener('click', addToQueue);
@@ -18,6 +18,7 @@ let queueUpdateInterval;
 const URL = javaURI + "/api/assignments/"
 console.log(URL)
 
+// timer function to start countdown for person
 function startTimer() {
     console.log("Timer Started")
     let time = timerlength;
@@ -34,6 +35,7 @@ function startTimer() {
     }, 1000);
 }
 
+// ensure accessible outside of current module
 window.startTimer = startTimer;
 
 async function fetchQueue() {
@@ -44,8 +46,9 @@ async function fetchQueue() {
     }
 }
 
+// add user to waiting
 async function addToQueue() {
-    await fetch(URL + `addQueue/${assignment}`, {
+    await fetch(URL + `addToWaiting/${assignment}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify([person])
@@ -53,8 +56,9 @@ async function addToQueue() {
     fetchQueue();
 }
 
+// remove user from waiting
 async function removeFromQueue() {
-    await fetch(URL + `removeQueue/${assignment}`, {
+    await fetch(URL + `removeToWorking/${assignment}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify([person])
@@ -62,9 +66,10 @@ async function removeFromQueue() {
     fetchQueue();
 }
 
+// move user to completed
 async function moveToDoneQueue() {
     const firstPerson = [currentQueue[0]];
-    await fetch(URL + `doneQueue/${assignment}`, {
+    await fetch(URL + `doneToCompleted/${assignment}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(firstPerson)
@@ -72,6 +77,7 @@ async function moveToDoneQueue() {
     fetchQueue();
 }
 
+// reset queue - todo: admin only
 async function resetQueue() {
     await fetch(URL + `resetQueue/${assignment}`, {
         method: 'PUT'
@@ -79,6 +85,7 @@ async function resetQueue() {
     fetchQueue();
 }
 
+// update display - ran periodically
 function updateQueueDisplay(queue) {
     currentQueue = queue.queue;
 
@@ -86,6 +93,7 @@ function updateQueueDisplay(queue) {
     const waitingList = document.getElementById('waitingList');
     const doneList = document.getElementById('doneList');
 
+    // display users as cards
     notGoneList.innerHTML = queue.haventGone.map(person => `<div class="card">${person}</div>`).join('');
     waitingList.innerHTML = queue.queue.map(person => `<div class="card">${person}</div>`).join('');
     doneList.innerHTML = queue.done.map(person => `<div class="card">${person}</div>`).join('');
@@ -93,6 +101,7 @@ function updateQueueDisplay(queue) {
 
 document.getElementById('initializeQueue').addEventListener('click', initializeQueue);
 
+// get assignments, used for initialization and popup connection
 async function fetchAssignments() {
     console.log(URL + 'debug')
     const response = await fetch(URL + 'debug');
@@ -165,9 +174,9 @@ function showAssignmentModal() {
         const selectedAssignment = modalDropdown.value;
         if (selectedAssignment) {
             assignment = selectedAssignment; // Set the global assignment variable
-            fetchQueue(); // Fetch the queue for the selected assignment
-            startQueueUpdateInterval(30);
-            modal.style.display = 'none'; // Hide the modal
+            fetchQueue();
+            startQueueUpdateInterval(10);
+            modal.style.display = 'none';
         } else {
             alert('Please select an assignment.');
         }
