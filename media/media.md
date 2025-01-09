@@ -53,7 +53,7 @@ permalink: /media
             ];
             imageFiles.forEach((file, index) => {
                 document.write(`
-                    <img src="assets/${file.src}" 
+                    <img src="{{site.baseurl}}/media/assets/${file.src}" 
                          class="image" 
                          draggable="true" 
                          id="img-${index}" 
