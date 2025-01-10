@@ -2,7 +2,7 @@
 toc: false
 layout: post
 title: AI Generator
-permalink: /teacher/sagai/generator
+permalink: /student/sagai/generator
 ---
 <head>
    <meta charset="UTF-8">
@@ -205,9 +205,9 @@ permalink: /teacher/sagai/generator
 <body>
    <!-- Navigation buttons -->
    <div class="nav-buttons">
-      <a href="{{site.baseurl}}/teacher/sagai"><button>Home</button></a>
-      <a href="{{site.baseurl}}/teacher/sagai/grader"><button>Grader</button></a>
-        <a href="{{site.baseurl}}/teacher/sagai/QNA"><button>QNA</button></a>
+      <a href="{{site.baseurl}}/student/sagai"><button>Home</button></a>
+      <a href="{{site.baseurl}}/student/sagai/grader"><button>Grader</button></a>
+        <a href="{{site.baseurl}}/student/sagai/QNA"><button>QNA</button></a>
    </div>
    <!-- Main Generator Section -->
    <div class="container">
