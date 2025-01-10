@@ -15,6 +15,8 @@ search_exclude: true
 }
 
 
+
+
 .signup-card {
     margin: auto;
     margin-top: 0; /* remove the top margin */
@@ -44,7 +46,7 @@ search_exclude: true
             </p>
             <p>
                 <label>
-                    Email:
+                    Github Id:
                     <input type="text" name="signupUid" id="signupUid" required>
                 </label>
             </p>
@@ -67,6 +69,7 @@ search_exclude: true
         </form>
     </div>
 </div>
+<div class="output-box" id="outputBox">HERE</div>
 
 <!--
 <script type="module">
@@ -152,6 +155,8 @@ search_exclude: true
   import { javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
 
 
+  
+
 window.signup = function(){
     // clones and replaces method
     const signupOptions = {
@@ -170,6 +175,17 @@ window.signup = function(){
         }),
     };
 
+    function UpdateOutput(const output){ /// output box
+       const outputBox = document.getElementById('outputBox');
+       if(Response.ok){
+        outputBox=output;
+       }
+       else{
+        outputBox=output;
+       }
+
+    }
+
     // fetch the API
     fetch(signupOptions.URL, signupOptions)
     // response is a RESTful "promise" on any successful fetch
@@ -182,7 +198,9 @@ window.signup = function(){
       // valid response will have JSON data
       response.json().then(data => {
           console.log(data);
+          outputBox("working outputbox1");
       })
+      outputBox("working outputbox");
     })
     // catch fetch errors (ie Nginx ACCESS to server blocked)
     .catch(err => {

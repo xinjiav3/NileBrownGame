@@ -3,7 +3,7 @@ toc: false
 layout: post
 title: Seed Tracker Student Confirmation
 type: ccc
-permalink: /project/mort-translator/student-confirmation-tracker
+permalink: /student/seedtracker/confirm
 ---
 
 
@@ -28,10 +28,11 @@ permalink: /project/mort-translator/student-confirmation-tracker
   </tbody>
 </table>
 
-<script>
+<script type="module">
+  import { javaURI } from '{{site.baseurl}}/assets/js/api/config.js';
   async function fetchSubmissions() {
     try {
-      const response = await fetch('http://localhost:8085/api/grades/requests/seed'); // Replace with your actual backend API endpoint
+      const response = await fetch(`${javaURI}/api/grades/requests/seed`); // Replace with your actual backend API endpoint
       const submissions = await response.json();
       console.log(submissions);
 
