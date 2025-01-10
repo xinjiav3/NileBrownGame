@@ -3,7 +3,7 @@ toc: false
 layout: post
 title: Seed Tracker Teacher
 type: ccc
-permalink: /project/mort-translator/student-tracker
+permalink: /student/seedtracker
 ---
 
 <html lang="en">
@@ -125,7 +125,9 @@ permalink: /project/mort-translator/student-tracker
     <div class="message" id="message"></div>
 </div>
 
-<script>
+<script type="module">
+    import { javaURI } from '{{site.baseurl}}/assets/js/api/config.js';
+
     function updateRangeValue(value) {
         document.getElementById('rangeValue').innerText = value;
     }
@@ -151,7 +153,7 @@ permalink: /project/mort-translator/student-tracker
 
         try {
             // Post data to the backend
-            const response = await fetch('http://localhost:8085/api/grades/requests/seed', {
+            const response = await fetch(`${javaURI}/api/grades/requests/seed`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(entryData)
