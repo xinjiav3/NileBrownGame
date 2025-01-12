@@ -102,8 +102,39 @@ class NpcFrog extends GameObject {
             // Join all player names inside the proximity
             if (names.length > 0) {
                 this.handleResponse(`Hello, ${names.join(', ')}`);
+                this.showInputPrompt("Unit 1: Popcorn Hack 1\nWhich is valid for declaring a variable of type int?\n\n1. int 123variable;\n2. int variable123;\n3. int variable#123;\n4. int variable 123", (input) => {
+                    this.handleResponse(`Thanks for sharing! You like ${input}.`);
+                });
             }
         }
+    }
+
+        /**
+     * Show a prompt to the player and handle their input.
+     * 
+     * @param {string} question - The question to display to the player.
+     * @param {function} callback - The callback to handle the player's response.
+     */
+    showInputPrompt(question, callback) {
+        this.inputCallback = callback;
+
+        const promptBox = document.getElementById('custom-prompt');
+        const promptMessage = document.getElementById('custom-prompt-message');
+        const promptInput = document.getElementById('custom-prompt-input');
+        
+        promptMessage.textContent = question;
+        promptInput.value = ''; // Clear previous input
+        promptBox.style.display = 'block';
+
+        const submitButton = document.getElementById('custom-prompt-submit');
+        submitButton.onclick = () => {
+            const inputValue = promptInput.value.trim();
+            if (inputValue && this.inputCallback) {
+                this.inputCallback(inputValue);
+                this.inputCallback = null;
+            }
+            closeCustomPrompt();
+        };
     }
 }
 
@@ -127,4 +158,12 @@ function showCustomAlert(message) {
 function closeCustomAlert() {
     const alertBox = document.getElementById('custom-alert');
     alertBox.style.display = 'none';
+}
+
+/**
+ * Close the custom prompt.
+ */
+function closeCustomPrompt() {
+    const promptBox = document.getElementById('custom-prompt');
+    promptBox.style.display = 'none';
 }

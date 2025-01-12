@@ -6,7 +6,7 @@ import PlayerTwo from './PlayerTwo.js';
 import NpcFrog from './NpcFrog.js';
 
 
-class GameLevelWater {
+class GameLevelDesert {
   constructor(path) {
     const header = document.querySelector('header');
     const footer = document.querySelector('footer');
@@ -41,12 +41,12 @@ class GameLevelWater {
         up: {row: 3, start: 0, columns: 3 },
     };
 
-    // Player 2 sprite data (fish)
-    const sprite_src_fish = path + "/images/rpg/fishies.png";
-    const sprite_data_fish = {
-        name: 'fish',
-        src: sprite_src_fish,
-        SCALE_FACTOR: 16,
+    // Player 2 sprite data (gambler)
+    const sprite_src_gambler = path + "/images/gamify/npc5.png";
+    const sprite_data_gambler = {
+        name: 'gambler',
+        src: sprite_src_gambler,
+        SCALE_FACTOR: 10,
         STEP_FACTOR: 400,
         ANIMATION_RATE: 50,
         pixels: {height: 256, width: 384},
@@ -75,11 +75,11 @@ class GameLevelWater {
     this.objects = [
       { class: Background, data: image_data_water },
       { class: PlayerOne, data: sprite_data_turtle },
-      { class: PlayerTwo, data: sprite_data_fish },
+      { class: PlayerTwo, data: sprite_data_gambler },
       { class: NpcFrog, data: sprite_data_frog }
     ];
   }
 
 }
 
-export default GameLevelWater;
+export default GameLevelDesert;
