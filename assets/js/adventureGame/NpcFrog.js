@@ -103,7 +103,7 @@ class NpcFrog extends GameObject {
             if (names.length > 0) {
                 this.handleResponse(`Hello, ${names.join(', ')}`);
                 this.showInputPrompt("Unit 1: Popcorn Hack 1\nWhich is valid for declaring a variable of type int?\n\n1. int 123variable;\n2. int variable123;\n3. int variable#123;\n4. int variable 123", (input) => {
-                    this.handleResponse(`Thanks for sharing! You like ${input}.`);
+                    this.submitAndDisplayResult(input, 1);
                 });
             }
         }
@@ -135,6 +135,12 @@ class NpcFrog extends GameObject {
             }
             closeCustomPrompt();
         };
+    }
+
+    async submitAndDisplayResult(answer, questionId) {
+        // Call the globally available submitAnswer function here
+        const score = await window.submitAnswer(answer, questionId);
+        this.handleResponse(`Thanks for your answer! Your score is: ${score}`);
     }
 }
 
