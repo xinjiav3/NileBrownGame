@@ -2,7 +2,7 @@
 import GameEnv from './GameEnv.js';
 import Background from './Background.js';
 import PlayerOne from './PlayerOne.js';
-import PlayerTwo from './PlayerTwo.js';
+
 import NpcFrog from './NpcFrog.js';
 
 
@@ -41,22 +41,7 @@ class GameLevelDesert {
         up: {row: 3, start: 0, columns: 3 },
     };
 
-    // Player 2 sprite data (gambler)
-    const sprite_src_gambler = path + "/images/gamify/npc5.png";
-    const sprite_data_gambler = {
-        name: 'gambler',
-        src: sprite_src_gambler,
-        SCALE_FACTOR: 10,
-        STEP_FACTOR: 400,
-        ANIMATION_RATE: 50,
-        pixels: {height: 256, width: 384},
-        INIT_POSITION: { x: 0, y: 0 },
-        orientation: {rows: 8, columns: 12 },
-        down: {row: 0, start: 0, columns: 3 },  // 1st row
-        left: {row: 1, start: 0, columns: 3 },  // 2nd row
-        right: {row: 2, start: 0, columns: 3 }, // 3rd row
-        up: {row: 3, start: 0, columns: 3 },    // 4th row
-    };
+
 
     // NPC sprite data (frog)
     const sprite_src_frog = path + "/images/rpg/fishies.png";
@@ -75,7 +60,6 @@ class GameLevelDesert {
     this.objects = [
       { class: Background, data: image_data_water },
       { class: PlayerOne, data: sprite_data_turtle },
-      { class: PlayerTwo, data: sprite_data_gambler },
       { class: NpcFrog, data: sprite_data_frog }
     ];
   }
