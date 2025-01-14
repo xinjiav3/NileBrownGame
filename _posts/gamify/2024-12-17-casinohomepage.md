@@ -3,7 +3,6 @@ layout: post
 title: Casino Games
 permalink: /gamify/casinohomepage
 ---
-```click escape, then type ":q!" ```
 <style>
     body {
         text-align: center;
@@ -33,7 +32,7 @@ permalink: /gamify/casinohomepage
         align-items: center;
         text-decoration: none;
         padding: 20px;
-        background-color: #e74c3c;
+        background-color: black;
         color: white;
         border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -51,6 +50,8 @@ permalink: /gamify/casinohomepage
     .game-box p {
         font-size: 1.1em;
     }
+    
+
 </style>
 
 <div class="container">
