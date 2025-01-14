@@ -74,6 +74,5 @@ permalink: /gamify/casinohomepage
             <p>Challenge your skills in this classic card game.</p>
         </div>
     </div>
-    <p>Good luck, and may the odds be ever in your favor! 🍀</p>
 </div>
 
