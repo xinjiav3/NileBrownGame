@@ -55,7 +55,6 @@ permalink: /gamify/casinohomepage
 </style>
 
 <div class="container">
-    <p>Choose a game to play by clicking on a box below:</p>
     <div class="game-boxes">
         <div class="game-box" onclick="location='./blackjack'">
             <h2>Blackjack</h2>
