@@ -69,7 +69,7 @@ search_exclude: true
         </form>
     </div>
 </div>
-<div class="output-box" id="outputBox">HERE</div>
+
 
 <!--
 <script type="module">
