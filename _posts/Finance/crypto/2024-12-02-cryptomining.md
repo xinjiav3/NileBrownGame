@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Crypto Mining Simulator
+title: Crypto Mining Simulator back up
 type: issues
-permalink: /crypto/mining
+permalink: /crypto/minings
 ---
 
 <html lang="en">

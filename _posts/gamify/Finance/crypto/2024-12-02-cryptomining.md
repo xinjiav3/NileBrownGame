@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: none
 title: Crypto Mining Simulator
 type: issues
 permalink: /crypto/mining
@@ -9,7 +9,6 @@ permalink: /crypto/mining
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Mining Simulator</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
@@ -24,8 +23,58 @@ permalink: /crypto/mining
        border-radius: 5px;
        z-index: 1000; // Ensure it appears above other elements
    }
+    /* Navigation Bar */
+    .navbar-logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    .navbar-links {
+        display: flex;
+        gap: 15px;
+    }
+    .navbar-links a:hover {
+        background-color: #575757;
+    }
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #001f3f; /* Dark blue background */
+        color: #fff;
+    }
+    .navbar .logo {
+        font-size: 24px;
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+    .navbar .nav-buttons {
+        display: flex;
+        gap: 20px;
+    }
+    .navbar .nav-buttons a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 16px;
+        padding: 8px 16px;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+    .navbar .nav-buttons a:hover {
+        background-color: #ff8c00; /* Orange hover effect */
+    }
+    
 </style>
 <body class="bg-gray-900 text-white min-h-screen p-6">
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="navbar-logo">Crypto Mining</div>
+        <div class="navbar-links">
+            <a href="/portfolio_2025/crypto/portfolio">Portfolio</a>
+            <a href="/portfolio_2025/crypto/mining">Mining</a>
+            <a href="/portfolio_2025/stocks/home">Stocks</a>
+        </div>
+    </div>
     <div class="container mx-auto">
         <!-- Main Dashboard -->
         <div class="grid grid-cols-3 gap-4 mb-4">
@@ -39,7 +88,6 @@ permalink: /crypto/mining
                     </div>
                 </div>
             </div>
-            
             <!-- Ethereum Market -->
             <div class="dashboard-card">
                 <h2>Ethereum Market</h2>
@@ -157,9 +205,6 @@ permalink: /crypto/mining
                 </button>
             </div>
         </div>
-        <div class="navbar">
-
-    </div>
         <!-- Performance Charts -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
             <div class="chart-container">
