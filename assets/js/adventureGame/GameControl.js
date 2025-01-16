@@ -2,30 +2,24 @@ import GameEnv from './GameEnv.js';
 import GameLevelSquares from './GameLevelSquares.js';
 import GameLevelDesert from './GameLevelDesert.js';
 import GameObject from "./GameObject.js";
-import { javaURI, fetchOptions } from "../api/config.js";  // Import javaURI
+import { javaURI, fetchOptions } from "../api/config.js";
+import { showCustomPrompt, submitAnswer } from "./PromptHandler.js";
 
 /**
  * The GameControl object manages the game.
  */
 const GameControl = {
     start: function(path) {
-        // Create the game environment
         GameEnv.create();
-
-        // Initialize the UI for balance, chat score, and questions answered
         this.initStatsUI();
 
-        // Load the game level
         const gameLevel = new GameLevelDesert(path);
         for (let object of gameLevel.objects) {
             if (!object.data) object.data = {};
             new object.class(object.data);
         }
 
-        // Start the game loop
         this.gameLoop();
-
-        // Load initial stats
         this.getChatScoreBalance();
     },
 
@@ -100,57 +94,6 @@ GameObject.prototype.handleKeyDown = function(event) {
         originalHandleKeyDown.call(this, event);
     }
 };
-
-// Updated prompt functions
-function showCustomPrompt(questionId) {
-    const promptBox = document.getElementById('custom-prompt');
-    const submitButton = document.getElementById('custom-prompt-submit');
-    const inputField = document.getElementById('custom-prompt-input');
-    const promptMessage = document.getElementById('custom-prompt-message');
-
-    promptMessage.innerText = "Please enter your answer:";
-    promptBox.style.display = 'block';
-    disableGameControls();
-
-    submitButton.onclick = async function() {
-        const userAnswer = inputField.value;
-        if (userAnswer.trim() === '') {
-            alert("Please provide an answer.");
-            return;
-        }
-        const score = await submitAnswer(userAnswer, questionId);
-        alert("Your score: " + score);
-        GameControl.getChatScoreBalance();
-        closeCustomPrompt();
-    };
-}
-
-function closeCustomPrompt() {
-    const promptBox = document.getElementById('custom-prompt');
-    promptBox.style.display = 'none';
-    enableGameControls();
-}
-
-// Submit the answer and refresh stats
-async function submitAnswer(content, questionId) {
-    try {
-        const response = await fetch(`${javaURI}/rpg_answer/submitAnswer`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ content: content, questionId: questionId, personId: 1 })
-        });
-
-        if (!response.ok) throw new Error("Failed to submit answer.");
-
-        const data = await response.json();
-        GameControl.getChatScoreBalance();
-        return data.score || "Error scoring answer";
-
-    } catch (error) {
-        console.error("Error submitting answer:", error);
-        return "Error submitting answer";
-    }
-}
 
 // Handle window resizing
 window.addEventListener('resize', GameControl.resize.bind(GameControl));
