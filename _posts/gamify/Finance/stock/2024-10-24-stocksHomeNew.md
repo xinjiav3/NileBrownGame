@@ -1,7 +1,7 @@
 ---
 layout: base
-permalink: /stocks/home
-title: Stocks Home
+permalink: /stocks/homeNew
+title: Stocks Home New
 ---
 
 <html lang="en">
