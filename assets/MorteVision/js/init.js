@@ -1,9 +1,8 @@
-let unsetHost = "skibidi"
-const isDebug = true
-if (isDebug) {
-    unsetHost = "http://localhost:8085"
-}
-const rtcServer = unsetHost
+import { javaURI } from '../../js/api/config.js';
+let webSocketServer = "wss://spring2025.nighthawkcodingsociety.com/socket"
+
+let rtcServer = javaURI
+console.log(rtcServer)
 const servers = {
     iceServers:[
       {
@@ -24,4 +23,5 @@ const servers = {
     iceCandidatePoolSize:10,
   }
 
-// const signalingServer = new WebSocket(`${socketServer}/socket`)
+
+const signalingServer = new WebSocket(webSocketServer)

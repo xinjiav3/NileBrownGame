@@ -1,9 +1,8 @@
-import { pythonURI, fetchOptions } from './config.js';
+import { baseurl, pythonURI, fetchOptions } from './config.js';
 
 console.log("login.js loaded");
 
 document.addEventListener('DOMContentLoaded', function() {
-    const baseurl = document.querySelector('.trigger').getAttribute('data-baseurl');
     console.log("Base URL:", baseurl); // Debugging line
     getCredentials(baseurl) // Call the function to get credentials
         .then(data => {
@@ -18,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             <a href="${baseurl}/logout">Logout</a>
                             <a href="${baseurl}/profile">Profile</a>
                             <a href="${baseurl}/analytics">Analytics</a>
+                            <a href="${baseurl}/gamify">Gamify</a>
+                            <a href="${baseurl}/toolkit-login">Toolkit</a>
                         </div>
                     </div>
                 `;
@@ -26,28 +27,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 loginArea.innerHTML = `<a href="${baseurl}/login">Login</a>`;
             }
         })
-        .catch(err => { // General error handler
+        .catch(err => {
             console.error("Error fetching credentials: ", err);
-            // Handle any errors that occurred during getCredentials
         });
 });
 
 function getCredentials(baseurl) {
     const URL = pythonURI + '/api/id';
     return fetch(URL, fetchOptions)
-        .then(response => { // API response handler 
+        .then(response => {
             if (response.status !== 200) {
                 console.error("HTTP status code: " + response.status);
-                return null; // prepares to stop the chain by returning null.
+                return null;
             }
-            return response.json(); // plans to continue the chain with the data.
+            return response.json();
         })
-        .then(data => { // Data handler from the previous promise  
-            if (data === null) return null; // stops the chain, returns null.
-            console.log(data); // logs data with should contain uid, name, etc.
-            return data; // returns data to caller 
+        .then(data => {
+            if (data === null) return null;
+            console.log(data);
+            return data;
         })
-        .catch(err => { // General error handler
+        .catch(err => {
             console.error("Fetch error: ", err);
             return null;
         });
