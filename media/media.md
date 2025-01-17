@@ -12,6 +12,9 @@ permalink: /media
 <body>
     <p>Drag the images into the correct bins (Left, Center, or Right). You have 3 lives!</p>
     <div id="username-container" style="margin-bottom: 20px;">
+        <label for="username">Enter your username:</label>
+        <input type="text" id="username" placeholder="Username">
+        <button id="set-username">Set Username</button>
         <p id="display-username" style="font-size: 18px; margin-top: 10px;">Username: <span id="current-username">Guest</span></p>
     </div>
     <div id="info" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
@@ -24,21 +27,7 @@ permalink: /media
         <div class="bin" data-bin="Right" style="width: 30%; padding: 10px; border: 1px solid black; min-height: 100px;">Right</div>
     </div>
     <div id="images" style="display: flex; flex-wrap: wrap; gap: 10px;">
-        <script type="module">
-            import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
-            fetch(`${javaURI}/api/person/get`)
-                .then(async response => {
-                    if (response.ok) {
-                        const data = await response.json();
-                        document.getElementById('current-username').innerText = data.name || "Guest";
-                    } else {
-                        document.getElementById('current-username').innerText = "Guest";
-                    }
-                })
-                .catch(error => {
-                    console.error('Error getting user:', error);
-                    document.getElementById('current-username').innerText = "Guest";
-                });
+        <script>
             const imageFiles = [
                 { src: "atlanticL.png", company: "Atlantic", bin: "Left" },
                 { src: "buzzfeedL.png", company: "Buzzfeed", bin: "Left" },
@@ -83,9 +72,19 @@ permalink: /media
         const livesElement = document.getElementById('lives');
         const scoreElement = document.getElementById('score');
         const usernameInput = document.getElementById('username');
+        const setUsernameButton = document.getElementById('set-username');
         const displayUsername = document.getElementById('current-username');
         let lives = 3;
         let score = 0;
+        setUsernameButton.addEventListener('click', () => {
+            const username = usernameInput.value.trim();
+            if (username) {
+                displayUsername.innerText = username;
+                usernameInput.value = '';
+            } else {
+                alert('Please enter a valid username.');
+            }
+        });
         images.forEach(img => {
             img.addEventListener('dragstart', e => {
                 e.dataTransfer.setData('image-id', e.target.id);
