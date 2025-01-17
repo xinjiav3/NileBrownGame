@@ -1,12 +1,13 @@
 ---
 layout: base 
-title: Gamify
+title: Gamify Home Base
 description: 
 permalink: /gamify
 menu: nav/home.html
 ---
 
 <div class="toolkit-buttons">
+  <!-- First Row of Buttons -->
   <a href="{{site.baseurl}}/gamify/adventureGame" class="toolkit-button" data-description="This page contains all the games developed by CSA. It includes an adventure game where you can explore endless opurtunites. Within this game you can learn how to gamble by playing the gambling game or all about stocks and crypto in our investment game!" data-authors="Author: NITD+People">
     <img src="{{site.baseurl}}/images/toolkit-nav-buttons/adventure.png" alt="Gamify" />
     <span class="button-name">The Adventure</span>
@@ -30,13 +31,37 @@ menu: nav/home.html
   </a>
 </div>
 
+<!-- Second Row of Buttons -->
+<div class="toolkit-buttons">
+  <a href="{{site.baseurl}}/stocks/home" class="toolkit-button" data-description="Solve challenging puzzles to sharpen your problem-solving skills. Includes logic puzzles, brain teasers, and coding challenges." data-authors="Author: Team PuzzleMasters">
+    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/puzzle.png" alt="Puzzle Game" />
+    <span class="button-name">Puzzle Game</span>
+    <div class="description">
+      <p>Solve challenging puzzles to sharpen your problem-solving skills. Includes logic puzzles, brain teasers, and coding challenges.</p>
+    </div>
+  </a>
+  <a href="{{site.baseurl}}/gamify/casinohomepage" class="toolkit-button" data-description="Classic arcade games reimagined for learning coding concepts. Test your reflexes and learn programming tricks at the same time." data-authors="Author: ArcadeDev">
+    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/arcade.png" alt="Arcade Game" />
+    <span class="button-name">Arcade Game</span>
+    <div class="description">
+      <p>Classic arcade games reimagined for learning coding concepts. Test your reflexes and learn programming tricks at the same time.</p>
+    </div>
+  </a>
+  <a href="{{site.baseurl}}/media" class="toolkit-button" data-description="Engage in simulations that teach real-world applications of coding and software engineering concepts." data-authors="Author: CodeSim Team">
+    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/simulation.png" alt="Simulation Game" />
+    <span class="button-name">Simulation Game</span>
+    <div class="description">
+      <p>Engage in simulations that teach real-world applications of coding and software engineering concepts.</p>
+    </div>
+  </a>
+</div>
+
 <style>
   .toolkit-buttons {
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
-    height: 100vh;
-    margin: 0;
+    margin: 20px 0;
     padding: 20px;
   }
 
@@ -59,7 +84,6 @@ menu: nav/home.html
     text-align: center;
     text-decoration: none;
     padding-bottom: 20px;
-    text-decoration: none;
   }
 
   .toolkit-button img {
@@ -91,7 +115,6 @@ menu: nav/home.html
     z-index: 1;
     font-size: 0.8rem;
     margin-top: 10px;
-    text-decoration: none;
   }
 
   .toolkit-button:hover {
@@ -105,11 +128,5 @@ menu: nav/home.html
   .toolkit-button:hover .description {
     opacity: 1;
     transform: translateY(10px);
-  }
-  .toolkit-button:hover .description .p {
-    text-decoration: none;
-  }
-  .toolkit-button .description .p {
-    text-decoration: none;
   }
 </style>
