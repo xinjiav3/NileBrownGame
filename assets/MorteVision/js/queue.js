@@ -93,10 +93,9 @@ function updateQueueDisplay(queue) {
     const waitingList = document.getElementById('waitingList');
     const doneList = document.getElementById('doneList');
 
-    // display users as cards
-    notGoneList.innerHTML = queue.haventGone.map(person => `<div class="card">${person}</div>`).join('');
-    waitingList.innerHTML = queue.queue.map(person => `<div class="card">${person}</div>`).join('');
-    doneList.innerHTML = queue.done.map(person => `<div class="card">${person}</div>`).join('');
+    notGoneList.innerHTML = queue.working.map(person => `<div class="card">${person}</div>`).join('');
+    waitingList.innerHTML = queue.waiting.map(person => `<div class="card">${person}</div>`).join('');
+    doneList.innerHTML = queue.completed.map(person => `<div class="card">${person}</div>`).join('');
 }
 
 document.getElementById('initializeQueue').addEventListener('click', initializeQueue);

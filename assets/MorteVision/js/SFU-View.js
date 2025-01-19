@@ -23,7 +23,6 @@ let globalPeer
 async function consumerInit() {
     const peer = await consumerCreatePeer()
     peer.addTransceiver("video", { direction: "recvonly" })
-    peer.addTransceiver("audio", { direction: "recvonly" })
     globalPeer = peer
 }
 
@@ -63,6 +62,7 @@ async function consumeNegotiation(peer) {
             console.log(data)
             const desc = new RTCSessionDescription(data);
             peer.setRemoteDescription(desc).catch(e => console.log(e));
+            peer.ontrack = consumerTrackHandler
         })
 }
 
@@ -71,6 +71,7 @@ async function consumerTrackHandler(e) {
     document.getElementById("streamOffline").style.display = "none"
     document.getElementById("mortStream").style.display = "block"
     document.getElementById("mortStream").srcObject = e.streams[0]
+    console.log(e)
 }
 
 document.getElementById("watchButton").addEventListener("click",function(e)
