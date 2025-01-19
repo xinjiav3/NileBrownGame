@@ -19,13 +19,13 @@ const servers = {
     iceCandidatePoolSize:10,
   }
 async function streamerInit() {
-    try {
-        firstInLine = document.getElementById("waitingList").firstElementChild.textContent;
-    } catch {
-        alert('You are not first in line. Please wait your turn!')
-    }
-    if (person == firstInLine) {
-        startTimer();
+    // try {
+    //     firstInLine = document.getElementById("waitingList").firstElementChild.textContent;
+    // } catch {
+    //     alert('You are not first in line. Please wait your turn!')
+    // }
+    //if (person == firstInLine) {
+        //startTimer();
         const stream = await captureScreen();
         mediaStreamCloseOnly = stream
         document.getElementById("mortStream").srcObject = stream;
@@ -39,9 +39,9 @@ async function streamerInit() {
         {
             console.log("didnt send stream started")
         }
-    } else {
-        alert('You are not first in line. Please wait your turn!')
-    }
+    //} else {
+        //alert('You are not first in line. Please wait your turn!')
+    //}
 }
 
 let streamPeerCloseOnly
@@ -114,7 +114,7 @@ async function captureScreen() {
             video: {
                 cursor: "always"
             },
-            audio: true
+            audio: false
         }); //get user video and audio as a media stream
         document.getElementById("streamOffline").style.display = "none"
         document.getElementById("mortStream").style.display = "block"
