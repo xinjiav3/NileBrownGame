@@ -23,16 +23,16 @@ class GameLevelDesert {
         pixels: {height: 580, width: 1038}
     };
 
-    // Player 1 sprite data (turtle)
-    const TURTLE_SCALE_FACTOR = 5;
-    const sprite_src_turtle = path + "/images/gamify/chillguy.png";
-    const sprite_data_turtle = {
-        name: 'turtle',
-        src: sprite_src_turtle,
-        SCALE_FACTOR: TURTLE_SCALE_FACTOR,
+    // Player 1 sprite data (chillguy)
+    const CHILLGUY_SCALE_FACTOR = 5;
+    const sprite_src_chillguy = path + "/images/gamify/chillguy.png";
+    const sprite_data_chillguy = {
+        name: 'Chill Guy',
+        src: sprite_src_chillguy,
+        SCALE_FACTOR: CHILLGUY_SCALE_FACTOR,
         STEP_FACTOR: 1000,
         ANIMATION_RATE: 50,
-        INIT_POSITION: { x: 0, y: height - (height/TURTLE_SCALE_FACTOR) }, 
+        INIT_POSITION: { x: 0, y: height - (height/CHILLGUY_SCALE_FACTOR) }, 
         pixels: {height: 384, width: 512},
         orientation: {rows: 3, columns: 4 },
         down: {row: 0, start: 0, columns: 3 },
@@ -59,7 +59,7 @@ class GameLevelDesert {
     // List of objects defnitions for this level
     this.objects = [
       { class: Background, data: image_data_desert },
-      { class: PlayerOne, data: sprite_data_turtle },
+      { class: PlayerOne, data: sprite_data_chillguy },
       { class: NpcFrog, data: sprite_data_frog }
     ];
   }
