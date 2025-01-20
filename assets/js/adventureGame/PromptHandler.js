@@ -1,6 +1,7 @@
 // PromptHandler.js
 import { javaURI, fetchOptions } from "../api/config.js";
 import { disableGameControls, enableGameControls } from './GameControl.js';
+import { getBalance, getChatScore, getQuestionsAnswered } from './StatsManager.js';
 /**
  * Displays a custom prompt with a question and handles user input.
  * @param {string} question - The question to display.
@@ -56,7 +57,14 @@ export async function submitAnswer(content, questionId) {
         });
 
         const data = await response.json();
-        return data.question.points || "Error scoring answer";
+        const score = data.question.points || "Error scoring answer";
+
+        // Update stats immediately after submitting the answer
+        getBalance();
+        getChatScore();
+        getQuestionsAnswered();
+
+        return score;
     } catch (error) {
         console.error("Error submitting answer:", error);
         return "Error submitting answer";
