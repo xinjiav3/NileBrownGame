@@ -20,7 +20,7 @@ const GameControl = {
         }
 
         this.gameLoop();
-        this.getChatScoreBalance();
+        this.getStats();
     },
 
     gameLoop: function() {
@@ -58,7 +58,7 @@ const GameControl = {
     },
 
     // Fetch and update the stats UI
-    getChatScoreBalance: function() {
+    getStats: function() {
         const personId = 1;
         const endpoints = {
             balance: `${javaURI}/rpg_answer/getBalance/${personId}`,

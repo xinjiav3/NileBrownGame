@@ -75,7 +75,7 @@ permalink: /gamify/adventureGame
 <script type="module">
     import GameControl from '{{site.baseurl}}/assets/js/adventureGame/GameControl.js';
     import { showCustomPrompt, submitAnswer } from '{{site.baseurl}}/assets/js/adventureGame/PromptHandler.js';
-    import { getChatScoreBalance } from '{{site.baseurl}}/assets/js/adventureGame/StatsManager.js';
+    import { getStats } from '{{site.baseurl}}/assets/js/adventureGame/StatsManager.js';
 
     const path = "{{site.baseurl}}";
     GameControl.start(path);
@@ -84,6 +84,6 @@ permalink: /gamify/adventureGame
     window.showCustomPrompt = showCustomPrompt;
 
     window.onload = function() {
-        getChatScoreBalance();
+        getStats();
     };
 </script>

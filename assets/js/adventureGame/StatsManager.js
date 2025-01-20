@@ -4,7 +4,7 @@ import { javaURI, fetchOptions } from "../api/config.js";
 /**
  * Fetches and updates the game stats UI (Balance, Chat Score, Questions Answered).
  */
-export function getChatScoreBalance() {
+export function getStats() {
     const personId = 1;
     const endpoints = {
         balance: `${javaURI}/rpg_answer/getBalance/${personId}`,

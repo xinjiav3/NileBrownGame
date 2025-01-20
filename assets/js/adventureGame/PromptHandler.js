@@ -49,7 +49,7 @@ export async function submitAnswer(content, questionId) {
         });
 
         const data = await response.json();
-        return data.score || "Error scoring answer";
+        return data.question.points || "Error scoring answer";
     } catch (error) {
         console.error("Error submitting answer:", error);
         return "Error submitting answer";

@@ -56,7 +56,7 @@ class NpcFrog extends GameObject {
             this.handleResponse(`Hello, ${names.join(', ')}`);
             showCustomPrompt("Unit 1: Popcorn Hack 1\nWhich is valid for declaring a variable of type int?\n1. int 123variable;\n2. int variable123;\n3. int variable#123;\n4. int variable 123", async (input) => {
                 const score = await submitAnswer(input, 1);
-                this.handleResponse(`Thanks for your answer! Your score is: ${score}`);
+                this.handleResponse(`${score} points have been added to your balance.`);
             });
         }
     }
