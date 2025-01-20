@@ -16,16 +16,16 @@ class GameLevelDesert {
     let height = GameEnv.innerHeight;
 
     // Background data
-    const image_src_water = "https://github.com/user-attachments/assets/8e4e4e21-810f-405e-9a8d-9eb8c890d5a2";
-    const image_data_water = {
+    const image_src_desert = "https://github.com/user-attachments/assets/8e4e4e21-810f-405e-9a8d-9eb8c890d5a2";
+    const image_data_desert = {
         name: 'water',
-        src: image_src_water,
+        src: image_src_desert,
         pixels: {height: 580, width: 1038}
     };
 
     // Player 1 sprite data (turtle)
-    const TURTLE_SCALE_FACTOR = 10;
-    const sprite_src_turtle = path + "/images/rpg/turtle.png";
+    const TURTLE_SCALE_FACTOR = 5;
+    const sprite_src_turtle = path + "/images/gamify/chillguy.png";
     const sprite_data_turtle = {
         name: 'turtle',
         src: sprite_src_turtle,
@@ -33,11 +33,11 @@ class GameLevelDesert {
         STEP_FACTOR: 1000,
         ANIMATION_RATE: 50,
         INIT_POSITION: { x: 0, y: height - (height/TURTLE_SCALE_FACTOR) }, 
-        pixels: {height: 280, width: 256},
-        orientation: {rows: 4, columns: 3 },
+        pixels: {height: 384, width: 512},
+        orientation: {rows: 3, columns: 4 },
         down: {row: 0, start: 0, columns: 3 },
-        left: {row: 1, start: 0, columns: 3 },
-        right: {row: 2, start: 0, columns: 3 },
+        left: {row: 2, start: 0, columns: 3 },
+        right: {row: 1, start: 0, columns: 3 },
         up: {row: 3, start: 0, columns: 3 },
     };
 
@@ -58,7 +58,7 @@ class GameLevelDesert {
 
     // List of objects defnitions for this level
     this.objects = [
-      { class: Background, data: image_data_water },
+      { class: Background, data: image_data_desert },
       { class: PlayerOne, data: sprite_data_turtle },
       { class: NpcFrog, data: sprite_data_frog }
     ];
