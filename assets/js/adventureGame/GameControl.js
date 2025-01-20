@@ -41,6 +41,9 @@ const createStatsUI = () => {
  * @property {function} resize - Resize the canvas and player object when the window is resized.
  */
 const GameControl = {
+    intervalID: null, // Variable to hold the timer interval reference
+    localStorageTimeKey: "localTimes",
+    
     start: function(path) {
         // Create the game environment
         GameEnv.create();
@@ -76,6 +79,109 @@ const GameControl = {
             object.resize(); // Resize the game objects
         }
     },
+
+    /**
+     * Updates and displays the game timer.
+     * @function updateTimer
+     * @memberof GameControl
+     */ 
+    saveTime(time, score) {
+        if (time == 0) return;
+        const userID = GameEnv.userID
+        const oldTable = this.getAllTimes()
+
+        const data = {
+            userID: userID,
+            time: time,
+            score: score
+        }
+
+        if (!oldTable) {
+            localStorage.setItem(this.localStorageTimeKey, JSON.stringify([data]))
+            return;
+        }
+
+        oldTable.push(data)
+
+        localStorage.setItem(this.localStorageTimeKey, JSON.stringify(oldTable))
+    },
+    getAllTimes() {
+        let timeTable = null;
+
+        try {
+            timeTable = localStorage.getItem(this.localStorageTimeKey);
+        }
+        catch (e) {
+            return e;
+        }
+
+        return JSON.parse(timeTable)
+    },
+    updateTimer() {
+        const time = GameEnv.time
+
+        if (GameEnv.timerActive) {
+            const newTime = time + GameEnv.timerInterval
+            GameEnv.time = newTime                
+            if (document.getElementById('timeScore')) {
+                document.getElementById('timeScore').textContent = (time/1000).toFixed(2) 
+            }
+                return newTime
+            }
+            if (document.getElementById('timeScore')) {
+                document.getElementById('timeScore').textContent = (time/1000).toFixed(2) 
+            }
+    },   
+    /**
+     * Starts the game timer.
+     * @function startTimer
+     * @memberof GameControl
+     */
+    startTimer() {
+        if (GameEnv.timerActive) {
+            console.warn("TIMER ACTIVE: TRUE, TIMER NOT STARTED")
+            return;
+        }
+        
+        this.intervalId = setInterval(() => this.updateTimer(), GameEnv.timerInterval);
+        GameEnv.timerActive = true;
+    },
+
+    /**
+     * Stops the game timer.
+     * @function stopTimer
+     * @memberof GameControl
+     */
+    stopTimer() {   
+        if (!GameEnv.timerActive) return;
+        
+        this.saveTime(GameEnv.time, GameEnv.coinScore)
+
+        GameEnv.timerActive = false
+        GameEnv.time = 0;
+        GameEnv.coinScore = 0;
+        this.updateCoinDisplay()
+        clearInterval(this.intervalID)
+    },
+
+    saveTime() {
+        const data = {
+            userID: GameEnv.userID,
+            time: GameEnv.time - 10,
+            coinScore: GameEnv.coinScore
+        }
+
+        const currDataList = JSON.parse(localStorage.getItem(this.localStorageTimeKey))
+
+        if (!currDataList || !Array.isArray(currDataList)) {
+            localStorage.setItem(this.localStorageTimeKey, JSON.stringify([data]))
+            return;
+        }
+
+        currDataList.push(data)
+        
+        localStorage.setItem(this.localStorageTimeKey, JSON.stringify(currDataList))
+    },  
 
     // Initialize UI for game stats
     initStatsUI: function() {

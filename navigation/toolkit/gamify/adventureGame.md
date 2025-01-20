@@ -86,6 +86,9 @@ permalink: /gamify/adventureGame
 
 
 </style>
+<div id="score" style="position: absolute; top: 75px; left: 10px; color: black; font-size: 20px; background-color: white;">
+   Time: <span id="timeScore">0</span>
+</div>
 
 <div id="gameContainer">
     <canvas id='gameCanvas'></canvas>
@@ -112,6 +115,7 @@ permalink: /gamify/adventureGame
 
     const path = "{{site.baseurl}}";
     GameControl.start(path);
+    GameControl.startTimer()
 
     window.submitAnswer = submitAnswer;
     window.showCustomPrompt = showCustomPrompt;

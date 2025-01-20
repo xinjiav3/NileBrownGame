@@ -26,6 +26,9 @@ class GameEnv {
     static innerHeight;
     static top;
     static bottom;
+    static timerActive = false;
+    static timerInterval = 10;
+    static time = 0;
 
     /**
      * Private constructor to prevent instantiation.
