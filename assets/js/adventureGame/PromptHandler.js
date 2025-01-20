@@ -1,15 +1,32 @@
-// PromptHandler.js
 import { javaURI, fetchOptions } from "../api/config.js";
-import { disableGameControls, enableGameControls } from './GameControl.js';
 import { getBalance, getChatScore, getQuestionsAnswered } from './StatsManager.js';
+import GameObject from "./GameObject.js";
+
+// Handle disabling movement during prompts
+let isPromptOpen = false;
+
+export function disableGameControls() {
+    isPromptOpen = true;
+}
+
+export function enableGameControls() {
+    isPromptOpen = false;
+}
+
+export function isPromptCurrentlyOpen() {
+    return isPromptOpen;
+}
+
+const originalHandleKeyDown = GameObject.prototype.handleKeyDown;
+GameObject.prototype.handleKeyDown = function(event) {
+    if (!isPromptOpen) {
+        originalHandleKeyDown.call(this, event);
+    }
+};
+
 /**
  * Displays a custom prompt with a question and handles user input.
- * @param {string} question - The question to display.
- * @param {function} callback - Function to handle the user input.
  */
-
-
-
 export function showCustomPrompt(question, callback) {
     const promptBox = document.getElementById('custom-prompt');
     const promptMessage = document.getElementById('custom-prompt-message');
@@ -44,9 +61,6 @@ export function closeCustomPrompt() {
 
 /**
  * Submits the answer to the server and returns the score.
- * @param {string} content - The user's answer.
- * @param {number} questionId - The ID of the question.
- * @returns {Promise<string|number>} - The score or an error message.
  */
 export async function submitAnswer(content, questionId) {
     try {

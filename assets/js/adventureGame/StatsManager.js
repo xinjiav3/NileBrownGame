@@ -1,4 +1,3 @@
-// StatsManager.js
 import { javaURI, fetchOptions } from "../api/config.js";
 
 /**
