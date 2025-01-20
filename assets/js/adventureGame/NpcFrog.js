@@ -1,6 +1,7 @@
 import GameEnv from "./GameEnv.js";
 import GameObject from "./GameObject.js";
 import { showCustomPrompt, submitAnswer } from "./PromptHandler.js";
+import { isPromptCurrentlyOpen } from './GameControl.js';
 
 class NpcFrog extends GameObject {
     constructor(data = null) {
@@ -31,14 +32,19 @@ class NpcFrog extends GameObject {
     }
 
     handleResponse(message) {
+        if (isPromptCurrentlyOpen()) {
+            return; 
+        }
+    
         if (this.alertTimeout) {
             clearTimeout(this.alertTimeout);
         }
-
+    
         this.alertTimeout = setTimeout(() => {
             alert(message);
         }, 0);
     }
+    
 
     checkProximityToNPC() {
         const players = GameEnv.gameObjects.filter(obj => obj instanceof GameObject);

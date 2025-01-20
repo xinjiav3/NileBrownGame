@@ -1,16 +1,21 @@
 // PromptHandler.js
 import { javaURI, fetchOptions } from "../api/config.js";
-
+import { disableGameControls, enableGameControls } from './GameControl.js';
 /**
  * Displays a custom prompt with a question and handles user input.
  * @param {string} question - The question to display.
  * @param {function} callback - Function to handle the user input.
  */
+
+
+
 export function showCustomPrompt(question, callback) {
     const promptBox = document.getElementById('custom-prompt');
     const promptMessage = document.getElementById('custom-prompt-message');
     const promptInput = document.getElementById('custom-prompt-input');
     const submitButton = document.getElementById('custom-prompt-submit');
+
+    disableGameControls();
 
     promptMessage.textContent = question;
     promptInput.value = '';
@@ -32,6 +37,8 @@ export function showCustomPrompt(question, callback) {
  */
 export function closeCustomPrompt() {
     document.getElementById('custom-prompt').style.display = 'none';
+
+    enableGameControls();
 }
 
 /**

@@ -80,12 +80,16 @@ const GameControl = {
 // Handle disabling movement during prompts
 let isPromptOpen = false;
 
-function disableGameControls() {
+export function disableGameControls() {
     isPromptOpen = true;
 }
 
-function enableGameControls() {
+export function enableGameControls() {
     isPromptOpen = false;
+}
+
+export function isPromptCurrentlyOpen() {
+    return isPromptOpen;
 }
 
 const originalHandleKeyDown = GameObject.prototype.handleKeyDown;
