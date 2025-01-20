@@ -28,24 +28,40 @@ GameObject.prototype.handleKeyDown = function(event) {
  * Displays a custom prompt with a question and handles user input.
  */
 export function showCustomPrompt(question, callback) {
+    // Get the necessary elements for the prompt
     const promptBox = document.getElementById('custom-prompt');
     const promptMessage = document.getElementById('custom-prompt-message');
     const promptInput = document.getElementById('custom-prompt-input');
     const submitButton = document.getElementById('custom-prompt-submit');
 
+    // Prevent game controls from working while the prompt is open
     disableGameControls();
 
-    promptMessage.textContent = question;
+    // Split the question into a title (first line) and the rest of the content
+    const questionLines = question.split("\n");
+    const title = questionLines[0]; // First line is the title
+    const content = questionLines.slice(1).join("<br>"); // Join the rest with line breaks
+
+    // Set up the HTML for the prompt message
+    promptMessage.innerHTML = `
+        <h2 style="margin-bottom: 10px; color: #4682b4;">${title}</h2> <!-- Title with a blue color -->
+        <div style="text-align: left; font-family: monospace; color: #333;"> <!-- Content styled as code -->
+            ${content}
+        </div>
+    `;
+
+    // Clear any previous input and show the prompt
     promptInput.value = '';
     promptBox.style.display = 'block';
 
+    // Handle the submit button click
     submitButton.onclick = () => {
-        const userAnswer = promptInput.value.trim();
+        const userAnswer = promptInput.value.trim(); // Get the user's answer
         if (userAnswer) {
-            callback(userAnswer);
-            closeCustomPrompt();
+            callback(userAnswer); // Pass the answer to the callback function
+            closeCustomPrompt(); // Close the prompt after submitting
         } else {
-            alert("Please provide an answer.");
+            alert("Please provide an answer."); // Show a message if the input is empty
         }
     };
 }
@@ -54,10 +70,13 @@ export function showCustomPrompt(question, callback) {
  * Closes the custom prompt.
  */
 export function closeCustomPrompt() {
-    document.getElementById('custom-prompt').style.display = 'none';
-
+    const promptBox = document.getElementById('custom-prompt');
+    const closeButton = document.getElementById('custom-prompt-close');
+    if (closeButton) closeButton.remove(); // Remove the close button when prompt is closed
+    promptBox.style.display = 'none';
     enableGameControls();
 }
+
 
 /**
  * Submits the answer to the server and returns the score.
