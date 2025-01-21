@@ -4,8 +4,7 @@ import { javaURI } from '../../js/api/config.js';
 let assignment = null;
 let currentQueue = [];
 
-// will remove once things are fixed
-window.person = "John Mortensen";
+let person;
 
 document.getElementById('addQueue').addEventListener('click', addToQueue);
 document.getElementById('removeQueue').addEventListener('click', removeFromQueue);
@@ -168,11 +167,17 @@ window.addEventListener('load', () => {
 async function fetchUser() {
     const response = await fetch(javaURI + `/api/person/get`, {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
+        cache: "no-cache",
+        credentials: 'include',
+        headers: { 
+            'Content-Type': 'application/json',
+            'X-Origin': 'client' 
+        }
     });
     if (response.ok) {
         const userInfo = await response.json();
-        console.log(userInfo);
+        person = userInfo.name;
+        console.log(person);
     }
 }
 function showAssignmentModal() {
