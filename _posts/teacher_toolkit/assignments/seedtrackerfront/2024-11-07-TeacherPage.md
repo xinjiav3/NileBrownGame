@@ -3,7 +3,7 @@ toc: false
 layout: post
 title: Seed Tracker Teacher
 type: ccc
-permalink: /project/mort-translator/teacher-tracker
+permalink: /teacher/seed
 ---
 
 <head>
@@ -28,11 +28,13 @@ permalink: /project/mort-translator/teacher-tracker
   </tbody>
 </table>
 
-<script>
+<script type="module">
   // Fetch all submissions when the page loads
+  import { javaURI } from '{{site.baseurl}}/assets/js/api/config.js';
+
   async function fetchSubmissions() {
     try {
-      const response = await fetch('http://localhost:8085/api/grades/requests/seed');
+      const response = await fetch(`${javaURI}/api/grades/requests/seed`);
       const submissions = await response.json();
 
       const tableBody = document.getElementById('submissionsTable').querySelector('tbody');
@@ -73,7 +75,7 @@ permalink: /project/mort-translator/teacher-tracker
     requestElement.textContent = updatedRequest.toFixed(2);
 
     // Update the backend
-  const response = await fetch(`http://localhost:8085/api/grades/requests/seed/${id}`, {
+  const response = await fetch(`${javaURI}/api/grades/requests/seed/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

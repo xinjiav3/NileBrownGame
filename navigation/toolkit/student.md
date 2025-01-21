@@ -29,6 +29,22 @@ show_reading_time: false
       <p>Submit assignments on this simple and easy-to-use user interface that is fed directly to Mr. Mortensen.</p>
     </div>
   </a>
+
+  <a href="{{site.baseurl}}/student/seedtracker" class="toolkit-button" data-description="Do you want to request seed? This will allow you to do so." data-authors="Author: Alex Johnson">
+    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/seedtracker.png" alt="Seed Tracker" />
+    <span class="button-name">Seed Tracker</span>
+    <div class="description">
+      <p>Do you want to request seed? This will allow you to do so.</p>
+    </div>
+  </a>
+
+  <a href="{{site.baseurl}}/teacher/sagai" class="toolkit-button" data-description="Tired of opening ChatGPT all day everyday? Want an AI companion with you on the site that helps you study for CSA? Look no further! Here you can use AI to generate hacks for practice, grade your hack answers and get feedback, and ask questions to your follow classmates and teachers!">
+    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/sagai.png" alt="SAGAI" />
+    <span class="button-name">SAGAI</span>
+    <div class="description">
+      <p>Tired of opening ChatGPT all day everyday? Want an AI companion with you on the site that helps you study for CSA? Look no further! Here you can use AI to generate hacks for practice, grade your hack answers and get feedback, and ask questions to your follow classmates and teachers!</p>
+    </div>
+  </a>
 </div>
 
 <style>
