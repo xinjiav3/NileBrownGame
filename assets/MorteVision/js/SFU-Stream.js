@@ -1,4 +1,5 @@
 import { javaURI } from '../../js/api/config.js';
+let bruh = "https://justfornow.onrender.com"
 const servers = {
     iceServers:[
       {
@@ -50,7 +51,7 @@ let mediaStreamCloseOnly
 function streamerCreatePeer() {
     const peer = new RTCPeerConnection(servers);
     peer.onnegotiationneeded = () => streamerNegotiation(peer);
-
+    // peer.onicecandidate = async (e) => await peer.addIceCandidate(e.candidate)
     streamPeerCloseOnly = peer
     return peer;
 }
@@ -62,7 +63,7 @@ async function streamerNegotiation(peer) {
         sdp: peer.localDescription
     };
 
-    fetch(javaURI+"/webrtc/broadcast",
+    fetch(bruh+"/webrtc/broadcast",
         {
             method:"POST",
             body:JSON.stringify(payload),

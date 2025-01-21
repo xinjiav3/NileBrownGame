@@ -1,7 +1,7 @@
 ---
 title: Presentation Queue
 permalink: /student-toolkit/queue
-menu: nav/project/productivity-frontend/menu.html
+menu: nav/toolkits/productivity-frontend/menu.html
 layout: base
 ---
 
@@ -22,6 +22,10 @@ layout: base
         <select id="assignmentDropdown"></select>
         <label for="durationInput">Presentation Length (Seconds):</label>
         <input type="number" id="durationInput"/>
+        <label for="presenterInput">Presenters</label>
+        <select id="presenterInput">
+            <option value="tester">Tester Set</option>
+        </select>
         <button id="initializeQueue">Begin Presentations</button>
     </div>
 
@@ -47,6 +51,8 @@ layout: base
         <button id="addQueue">Add to Waiting</button>
         <button id="removeQueue">Remove from Waiting</button>
         <button id="resetQueue">Reset Assignment Queue</button>
+        <button id="beginTimer">Begin Timer</button>
+
     </div>
 
 <div class="timer">
