@@ -298,7 +298,6 @@ show_reading_time: false
                 signupButton.style.backgroundColor = ''; // Reset to default color
             });
     }
-
     // Function to fetch and display Python data
     function pythonDatabase() {
         const URL = `${pythonURI}/api/id`;
@@ -318,7 +317,6 @@ show_reading_time: false
                 const errorMsg = `Python Database Error: ${error.message}`;
             });
     }
-
     function javaDatabase() {
         const URL = `${javaURI}/api/person/get`;
         fetch(URL, fetchOptions)
@@ -338,11 +336,10 @@ show_reading_time: false
                 resultContainer.appendChild(tr);
             });
     }
-
     // Call relevant database functions on the page load
     window.onload = function () {
-        pythonDatabase();
         javaDatabase();
+        pythonDatabase();
     };
     //hello
 </script>
