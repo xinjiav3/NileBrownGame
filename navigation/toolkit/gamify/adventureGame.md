@@ -110,7 +110,7 @@ permalink: /gamify/adventureGame
 
 <script type="module">
     import GameControl from '{{site.baseurl}}/assets/js/adventureGame/GameControl.js';
-    import { showCustomPrompt, submitAnswer } from '{{site.baseurl}}/assets/js/adventureGame/PromptHandler.js';
+    import { showCustomPrompt, closeCustomPrompt, submitAnswer } from '{{site.baseurl}}/assets/js/adventureGame/PromptHandler.js';
     import { getStats } from '{{site.baseurl}}/assets/js/adventureGame/StatsManager.js';
 
     const path = "{{site.baseurl}}";
@@ -119,6 +119,7 @@ permalink: /gamify/adventureGame
 
     window.submitAnswer = submitAnswer;
     window.showCustomPrompt = showCustomPrompt;
+    window.closeCustomPrompt = closeCustomPrompt;
 
     window.onload = function() {
         getStats();

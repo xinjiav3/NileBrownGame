@@ -2,7 +2,7 @@ import GameEnv from "./GameEnv.js";
 import GameObject from "./GameObject.js";
 import { showCustomPrompt, submitAnswer, isPromptCurrentlyOpen } from "./PromptHandler.js";
 
-class NpcFrog extends GameObject {
+class NpcTux extends GameObject {
     constructor(data = null) {
         super(data);
         this.alertTimeout = null;
@@ -121,4 +121,4 @@ class NpcFrog extends GameObject {
     }
 }
 
-export default NpcFrog;
+export default NpcTux;
