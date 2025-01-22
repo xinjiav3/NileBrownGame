@@ -1,4 +1,5 @@
 import { javaURI } from '../../js/api/config.js';
+let bruh = "https://justfornow.onrender.com"
 const servers = {
     iceServers:[
       {
@@ -23,7 +24,6 @@ let globalPeer
 async function consumerInit() {
     const peer = await consumerCreatePeer()
     peer.addTransceiver("video", { direction: "recvonly" })
-    peer.addTransceiver("audio", { direction: "recvonly" })
     globalPeer = peer
 }
 
@@ -35,6 +35,7 @@ async function consumerCreatePeer() {
                 document.getElementById("streamOffline").style.display = "none"
             }
     peer.onnegotiationneeded = () => consumeNegotiation(peer)
+    // peer.onicecandidate = async (e) => await peer.addIceCandidate(e.candidate)
     return peer
 }
 
@@ -44,7 +45,7 @@ async function consumeNegotiation(peer) {
     const payload = {
         sdp: peer.localDescription
     }
-    fetch(javaURI+"/webrtc/consume",
+    fetch(bruh+"/webrtc/consume",
         {
             method:"POST",
             body:JSON.stringify(payload),
@@ -63,6 +64,7 @@ async function consumeNegotiation(peer) {
             console.log(data)
             const desc = new RTCSessionDescription(data);
             peer.setRemoteDescription(desc).catch(e => console.log(e));
+            peer.ontrack = consumerTrackHandler
         })
 }
 
@@ -71,6 +73,7 @@ async function consumerTrackHandler(e) {
     document.getElementById("streamOffline").style.display = "none"
     document.getElementById("mortStream").style.display = "block"
     document.getElementById("mortStream").srcObject = e.streams[0]
+    console.log(e)
 }
 
 document.getElementById("watchButton").addEventListener("click",function(e)
