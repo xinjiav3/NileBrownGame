@@ -221,13 +221,26 @@ show_reading_time: false
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script type="module">
-    import { login, pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
-
+    import { login, pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
     // Function to handle Python login
     window.pythonLogin = function () {
         const options = {
             URL: `${pythonURI}/api/authenticate`,
             callback: pythonDatabase,
+            message: "message",
+            method: "POST",
+            cache: "no-cache",
+            body: {
+                uid: document.getElementById("uid").value,
+                password: document.getElementById("password").value,
+            }
+        };
+        login(options);
+    }
+    window.javaLogin = function () {
+        const options = {
+            URL: `${javaURI}/authenticate`,
+            callback: javaDatabase,
             message: "message",
             method: "POST",
             cache: "no-cache",
