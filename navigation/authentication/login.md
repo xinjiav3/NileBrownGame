@@ -168,17 +168,11 @@ show_reading_time: false
     <div class="login-card">
         <h1 id="pythonTitle">User Login (Python/Flask)</h1>
         <hr>
-        <form id="pythonForm" onsubmit="pythonLogin(); return false;">
+        <form id="pythonForm" onsubmit="loginBoth(); return false;">
             <div class="form-group">
                 <input type="text" class="form-input" id="uid" placeholder="GitHub ID" required>
                 <ion-icon name="id-card-outline"></ion-icon>
             </div>
-            <!-- <p>
-                <label>
-                    GitHub ID:
-                    <input type="text" name="uid" id="uid" required>
-                </label>
-            </p> -->
             <div class="form-group">
                 <ion-icon name="lock-closed-outline"></ion-icon>
                 <input type="password" class="form-input" id="password" placeholder="Password" required>
@@ -222,6 +216,14 @@ show_reading_time: false
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script type="module">
     import { login, pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+     
+    
+    // Function to handle both Python and Java login simultaneously
+    window.loginBoth = function () {
+        pythonLogin(); // Call Python login
+        javaLogin();   // Call Java login
+    }
+
     // Function to handle Python login
     window.pythonLogin = function () {
         const options = {
@@ -237,6 +239,8 @@ show_reading_time: false
         };
         login(options);
     }
+
+    // Function to handle Java login
     window.javaLogin = function () {
         const options = {
             URL: `${javaURI}/authenticate`,
@@ -252,14 +256,29 @@ show_reading_time: false
         login(options);
     }
 
-    // Function to handle signup
-    window.signup = function () {
-        const signupButton = document.querySelector(".signup-card button");
+    // Function to fetch and display Python data
+    function pythonDatabase() {
+        const URL = `${pythonURI}/api/id`;
+        fetch(URL, fetchOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Flask server response: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                window.location.href = '{{site.baseurl}}/profile';
+            })
+            .catch(error => {
+                document.getElementById("message").textContent = `Error: ${error.message}`;
+            });
+    }
 
+        window.signup = function () {
+        const signupButton = document.querySelector(".signup-card button");
         // Disable the button and change its color
         signupButton.disabled = true;
         signupButton.style.backgroundColor = '#d3d3d3'; // Light gray to indicate disabled state
-
         const signupOptions = {
             URL: `${pythonURI}/api/user`,
             method: "POST",
@@ -271,7 +290,6 @@ show_reading_time: false
                 kasm_server_needed: document.getElementById("kasmNeeded").checked,
             }
         };
-
         fetch(signupOptions.URL, {
             method: signupOptions.method,
             headers: {
@@ -298,48 +316,4 @@ show_reading_time: false
                 signupButton.style.backgroundColor = ''; // Reset to default color
             });
     }
-    // Function to fetch and display Python data
-    function pythonDatabase() {
-        const URL = `${pythonURI}/api/id`;
-
-        fetch(URL, fetchOptions)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Flask server response: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                window.location.href = '{{site.baseurl}}/profile';
-            })
-            .catch(error => {
-                console.error("Python Database Error:", error);
-                const errorMsg = `Python Database Error: ${error.message}`;
-            });
-    }
-    function javaDatabase() {
-        const URL = `${javaURI}/api/person/get`;
-        fetch(URL, fetchOptions)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Spring server response: ${response.status}`);
-                }
-                return response.json();
-            })
-            .catch(error => {
-                console.error("Java Database Error:", error);
-                const errorMsg = `Java Database Error: ${error.message}`;
-                const tr = document.createElement("tr");
-                const td = document.createElement("td");
-                td.textContent = errorMsg;
-                tr.appendChild(td);
-                resultContainer.appendChild(tr);
-            });
-    }
-    // Call relevant database functions on the page load
-    window.onload = function () {
-        javaDatabase();
-        pythonDatabase();
-    };
-    //hello
 </script>
