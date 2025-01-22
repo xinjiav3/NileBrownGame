@@ -274,7 +274,7 @@ show_reading_time: false
             });
     }
 
-        window.signup = function () {
+    window.signup = function () {
         const signupButton = document.querySelector(".signup-card button");
         // Disable the button and change its color
         signupButton.disabled = true;
@@ -314,6 +314,21 @@ show_reading_time: false
                 // Re-enable the button if there is an error
                 signupButton.disabled = false;
                 signupButton.style.backgroundColor = ''; // Reset to default color
+            });
+    }
+
+
+    function javaDatabase() {
+        const URL = `${javaURI}/api/person/get`;
+        fetch(URL, fetchOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Spring server response: ${response.status}`);
+                }
+                return response.json();
+            })
+            .catch(error => {
+                console.error("Java Database Error:", error);
             });
     }
 </script>
