@@ -29,7 +29,9 @@ class GameEnv {
     static timerActive = false;
     static timerInterval = 10;
     static time = 0;
-
+    static levels = [];
+    static currentLevel = null;
+    
     /**
      * Private constructor to prevent instantiation.
      * 

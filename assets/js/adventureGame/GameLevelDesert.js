@@ -3,7 +3,7 @@ import GameEnv from './GameEnv.js';
 import Background from './Background.js';
 import PlayerOne from './PlayerOne.js';
 
-import NpcFrog from './NpcFrog.js';
+import NpcTux from './NpcTux.js';
 
 
 class GameLevelDesert {
@@ -43,24 +43,24 @@ class GameLevelDesert {
 
 
 
-    // NPC sprite data (frog)
-    const sprite_src_frog = path + "/images/rpg/fishies.png";
-    const sprite_data_frog = {
+    // NPC sprite data (tux)
+    const sprite_src_tux = path + "/images/gamify/tux.png";
+    const sprite_data_tux = {
         name: 'npc',
-        src: sprite_src_frog,
-        SCALE_FACTOR: 16,  // Adjust this based on your scaling needs
+        src: sprite_src_tux,
+        SCALE_FACTOR: 10,  // Adjust this based on your scaling needs
         ANIMATION_RATE: 50,
-        pixels: {height: 256, width: 384},
+        pixels: {height: 256, width: 352},
         INIT_POSITION: { x: (width / 2), y: (height / 2)},
-        orientation: {rows: 8, columns: 12 },
-        down: {row: 0, start: 9, columns: 3 },  // This is the stationary npc, down is default 
+        orientation: {rows: 8, columns: 11 },
+        down: {row: 5, start: 0, columns: 3 },  // This is the stationary npc, down is default 
     };
 
     // List of objects defnitions for this level
     this.objects = [
       { class: Background, data: image_data_desert },
       { class: PlayerOne, data: sprite_data_chillguy },
-      { class: NpcFrog, data: sprite_data_frog }
+      { class: NpcTux, data: sprite_data_tux }
     ];
   }
 

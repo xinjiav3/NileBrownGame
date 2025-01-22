@@ -71,12 +71,11 @@ export function showCustomPrompt(question, callback) {
  */
 export function closeCustomPrompt() {
     const promptBox = document.getElementById('custom-prompt');
-    const closeButton = document.getElementById('custom-prompt-close');
-    if (closeButton) closeButton.remove(); // Remove the close button when prompt is closed
     promptBox.style.display = 'none';
+    const promptInput = document.getElementById('custom-prompt-input');
+    if (promptInput) promptInput.value = '';
     enableGameControls();
 }
-
 
 /**
  * Submits the answer to the server and returns the score.
