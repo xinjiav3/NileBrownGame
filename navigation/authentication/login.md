@@ -319,9 +319,30 @@ show_reading_time: false
             });
     }
 
+    function javaDatabase() {
+        const URL = `${javaURI}/api/person/get`;
+        fetch(URL, fetchOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Spring server response: ${response.status}`);
+                }
+                return response.json();
+            })
+            .catch(error => {
+                console.error("Java Database Error:", error);
+                const errorMsg = `Java Database Error: ${error.message}`;
+                const tr = document.createElement("tr");
+                const td = document.createElement("td");
+                td.textContent = errorMsg;
+                tr.appendChild(td);
+                resultContainer.appendChild(tr);
+            });
+    }
+
     // Call relevant database functions on the page load
     window.onload = function () {
         pythonDatabase();
+        javaDatabase();
     };
     //hello
 </script>
