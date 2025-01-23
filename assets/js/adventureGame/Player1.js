@@ -1,6 +1,6 @@
 import GameObject from './GameObject.js';
 
-class PlayerOne extends GameObject {
+class Player1 extends GameObject {
     constructor(data = null) {
         super(data);
     }
@@ -52,4 +52,4 @@ class PlayerOne extends GameObject {
 
 }
 
-export default PlayerOne;
+export default Player1;

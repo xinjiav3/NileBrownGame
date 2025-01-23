@@ -1,8 +1,7 @@
 // To build GameLevels, each contains GameObjects from below imports
 import GameEnv from './GameEnv.js';
 import Background from './Background.js';
-import PlayerOne from './PlayerOne.js';
-
+import PlayerChillGuy from './PlayerChillGuy.js';
 import NpcTux from './NpcTux.js';
 
 
@@ -60,7 +59,7 @@ class GameLevelDesert {
     // List of objects defnitions for this level
     this.objects = [
       { class: Background, data: image_data_desert },
-      { class: PlayerOne, data: sprite_data_chillguy },
+      { class: PlayerChillGuy, data: sprite_data_chillguy },
       { class: NpcTux, data: sprite_data_tux }
     ];
   }
