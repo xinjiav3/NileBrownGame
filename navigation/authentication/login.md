@@ -221,13 +221,26 @@ show_reading_time: false
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script type="module">
-    import { login, pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
-
+    import { login, pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
     // Function to handle Python login
     window.pythonLogin = function () {
         const options = {
             URL: `${pythonURI}/api/authenticate`,
             callback: pythonDatabase,
+            message: "message",
+            method: "POST",
+            cache: "no-cache",
+            body: {
+                uid: document.getElementById("uid").value,
+                password: document.getElementById("password").value,
+            }
+        };
+        login(options);
+    }
+    window.javaLogin = function () {
+        const options = {
+            URL: `${javaURI}/authenticate`,
+            callback: javaDatabase,
             message: "message",
             method: "POST",
             cache: "no-cache",
@@ -285,7 +298,6 @@ show_reading_time: false
                 signupButton.style.backgroundColor = ''; // Reset to default color
             });
     }
-
     // Function to fetch and display Python data
     function pythonDatabase() {
         const URL = `${pythonURI}/api/id`;
@@ -305,9 +317,28 @@ show_reading_time: false
                 const errorMsg = `Python Database Error: ${error.message}`;
             });
     }
-
+    function javaDatabase() {
+        const URL = `${javaURI}/api/person/get`;
+        fetch(URL, fetchOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Spring server response: ${response.status}`);
+                }
+                return response.json();
+            })
+            .catch(error => {
+                console.error("Java Database Error:", error);
+                const errorMsg = `Java Database Error: ${error.message}`;
+                const tr = document.createElement("tr");
+                const td = document.createElement("td");
+                td.textContent = errorMsg;
+                tr.appendChild(td);
+                resultContainer.appendChild(tr);
+            });
+    }
     // Call relevant database functions on the page load
     window.onload = function () {
+        javaDatabase();
         pythonDatabase();
     };
     //hello
