@@ -387,7 +387,7 @@ class GameObject {
         this.handleCollisionStart();
         this.handleCollisionEnd();
         this.setActiveCollision();
-        this.handlePlayerReaction();
+        this.handleGameObjectReaction();
     }
    
     /**
@@ -442,44 +442,41 @@ class GameObject {
      */
     // Assuming you have some kind of input handling system
 
-    handlePlayerReaction() {
+    handleGameObjectReaction() {
         // handle player reaction based on collision type
-        switch (this.state.collision) {
-            // 1. Player is on top of npc
-            case "npc":
-            case "player":
+        if (this.state.collision) {
 
-                if (this.collisionData.touchPoints.this.top) {
-                    this.state.movement = { up: true, down: false, left: true, right: true};
-                    if (this.velocity.y < 0) {
-                        this.velocity.y = 0;
-                    }
-                
+            if (this.collisionData.touchPoints.this.top) {
+                this.state.movement = { up: true, down: false, left: true, right: true};
+                if (this.velocity.y < 0) {
+                    this.velocity.y = 0;
+                }
+            
+            }
+
+            if (this.collisionData.touchPoints.this.bottom) {
+                this.state.movement = { up: false, down: true, left: true, right: true};
+                if (this.velocity.y > 0) {
+                    this.velocity.y = 0;
                 }
 
-                if (this.collisionData.touchPoints.this.bottom) {
-                    this.state.movement = { up: false, down: true, left: true, right: true};
-                    if (this.velocity.y > 0) {
-                        this.velocity.y = 0;
-                    }
-
-                } 
-                
-                if (this.collisionData.touchPoints.this.right) {
-                    this.state.movement = { up: true, down: true, left: true, right: false };
-                    if (this.velocity.x > 0) {
-                        this.velocity.x = 0;
-                    }
-                
+            } 
+            
+            if (this.collisionData.touchPoints.this.right) {
+                this.state.movement = { up: true, down: true, left: true, right: false };
+                if (this.velocity.x > 0) {
+                    this.velocity.x = 0;
                 }
-                
-                if (this.collisionData.touchPoints.this.left) {
-                    this.state.movement = { up: true, down: true, left: false, right: true};
-                    if (this.velocity.x < 0) {
-                        this.velocity.x = 0;
-                    }
+            
+            }
+            
+            if (this.collisionData.touchPoints.this.left) {
+                this.state.movement = { up: true, down: true, left: false, right: true};
+                if (this.velocity.x < 0) {
+                    this.velocity.x = 0;
                 }
-                break;
+            }
+            
         }
     }
  
