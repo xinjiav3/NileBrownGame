@@ -6,7 +6,7 @@ import NpcTux from './NpcTux.js';
 import NpcOctocat from './NpcOctocat.js';
 
 
-class GameLevelDesert {
+class GameLevelWater {
   constructor(path) {
     const header = document.querySelector('header');
     const footer = document.querySelector('footer');
@@ -16,11 +16,11 @@ class GameLevelDesert {
     let height = GameEnv.innerHeight;
 
     // Background data
-    const image_src_desert = "https://github.com/user-attachments/assets/8e4e4e21-810f-405e-9a8d-9eb8c890d5a2";
-    const image_data_desert = {
-        name: 'desert',
-        src: image_src_desert,
-        pixels: {height: 580, width: 1038}
+    const image_src_water = path + "/images/gamify/deepseadungeon.jpeg";
+    const image_data_water = {
+        name: 'water',
+        src: image_src_water,
+        pixels: {height: 597, width: 340}
     };
 
     // Player 1 sprite data (chillguy)
@@ -72,7 +72,7 @@ class GameLevelDesert {
 
     // List of objects defnitions for this level
     this.objects = [
-      { class: Background, data: image_data_desert },
+      { class: Background, data: image_data_water },
       { class: PlayerChillGuy, data: sprite_data_chillguy },
       { class: NpcTux, data: sprite_data_tux },
       { class: NpcOctocat, data: sprite_data_octocat },
@@ -81,4 +81,4 @@ class GameLevelDesert {
 
 }
 
-export default GameLevelDesert;
+export default GameLevelWater;
