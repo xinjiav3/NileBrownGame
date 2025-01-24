@@ -4,8 +4,7 @@ import { javaURI } from '../../js/api/config.js';
 let assignment = null;
 let currentQueue = [];
 
-// will remove once things are fixed
-window.person = "John Mortensen";
+let person;
 
 document.getElementById('addQueue').addEventListener('click', addToQueue);
 document.getElementById('removeQueue').addEventListener('click', removeFromQueue);
@@ -20,7 +19,6 @@ console.log(URL)
 
 // timer function to start countdown for person
 function startTimer() {
-    console.log("Timer Started")
     let time = timerlength;
     timerInterval = setInterval(() => {
         const minutes = Math.floor(time / 60);
@@ -43,6 +41,17 @@ async function fetchQueue() {
     if (response.ok) {
         const data = await response.json();
         updateQueueDisplay(data);
+    }
+}
+
+async function fetchTimerLength() {
+    console.log("test")
+    const response = await fetch(URL + `getPresentationLength/${assignment}`);
+    if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        timerlength = data;
+        document.getElementById('timerDisplay').textContent = `${Math.floor(timerlength / 60).toString().padStart(2, '0')}:${(timerlength % 60).toString().padStart(2, '0')}`;
     }
 }
 
@@ -87,7 +96,7 @@ async function resetQueue() {
 
 // update display - ran periodically
 function updateQueueDisplay(queue) {
-    currentQueue = queue.queue;
+    currentQueue = queue.waiting;
 
     const notGoneList = document.getElementById('notGoneList');
     const waitingList = document.getElementById('waitingList');
@@ -99,6 +108,7 @@ function updateQueueDisplay(queue) {
 }
 
 document.getElementById('initializeQueue').addEventListener('click', initializeQueue);
+document.getElementById('beginTimer').addEventListener('click', startTimer);
 
 // get assignments, used for initialization and popup connection
 async function fetchAssignments() {
@@ -113,26 +123,23 @@ async function fetchAssignments() {
     }
 }
 
-// need to wait for function to only fetch from certain period
-async function fetchPeople() {
-    const response = await fetch(javaURI + '/api/people');
-    if (response.ok) {
-        const people = await response.json();
-        return people.map(person => person.name);
-    }
-    return [];
-}
-
 async function initializeQueue() {
-    timerlength = parseInt(document.getElementById("durationInput").value);
+    let peopleList;
+    timerlength = document.getElementById("durationInput").value;
     const assignmentId = document.getElementById('assignmentDropdown').value;
-    // const peopleList = await fetchPeople();
-    const peopleList = ["John Mortensen", "Person 1", "Person 2"];
+    if (document.getElementById("presenterInput").value == "tester") {
+        peopleList = ["Alexander Graham Bell",
+            "Grace Hopper",
+            "John Mortensen",
+            "Madam Curie",
+            "Nikola Tesla",
+            "Thomas Edison"]
+    }
 
     await fetch(URL + `initQueue/${assignmentId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(peopleList)
+        body: JSON.stringify([peopleList, [timerlength]])
     });
     assignment = assignmentId;
     fetchQueue();
@@ -153,9 +160,26 @@ function stopQueueUpdateInterval() {
 }
 
 window.addEventListener('load', () => {
+    fetchUser();
     showAssignmentModal();
 });
 
+async function fetchUser() {
+    const response = await fetch(javaURI + `/api/person/get`, {
+        method: 'GET',
+        cache: "no-cache",
+        credentials: 'include',
+        headers: { 
+            'Content-Type': 'application/json',
+            'X-Origin': 'client' 
+        }
+    });
+    if (response.ok) {
+        const userInfo = await response.json();
+        person = userInfo.name;
+        console.log(person);
+    }
+}
 function showAssignmentModal() {
     const modal = document.getElementById('assignmentModal');
     const modalDropdown = document.getElementById('modalAssignmentDropdown');
@@ -175,6 +199,7 @@ function showAssignmentModal() {
             assignment = selectedAssignment; // Set the global assignment variable
             fetchQueue();
             startQueueUpdateInterval(10);
+            fetchTimerLength();
             modal.style.display = 'none';
         } else {
             alert('Please select an assignment.');
