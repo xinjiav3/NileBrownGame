@@ -160,7 +160,7 @@ comments: false
 
     // Fetch and display assignments on page load
     document.addEventListener('DOMContentLoaded', fetchAssignments);
-    document.querySelector(".modal-content.close-btn").addEventListener('click', closeSubmissionsModal);
+    document.querySelector(".modal-content .close-btn").addEventListener('click', closeSubmissionsModal);
 
     // Fetch assignments
     function fetchAssignments() {
@@ -215,7 +215,7 @@ comments: false
                 <td>${submission.date}</td>
                 <td>${submission.grade || 'Not graded'}</td>
                 <td>
-                    <button class="btn" onclick="gradeSubmission(${submission.id})">Grade</button>
+                    <button class="btn" onclick="gradeAssignment(${submission.student.id}, ${submission.assignmentid})">Grade</button>
                 </td>
                 `;
                 submissionsList.appendChild(row);
@@ -239,8 +239,49 @@ comments: false
     }
 
     // Placeholder for grading a submission
-    function gradeSubmission(submissionId) {
-        alert(`Grade submission ID: ${submissionId}`);
+    window.gradeAssignment = function(studentId, assignmentId) {
+        var gradeSuggestion = null;
+        do {
+            gradeSuggestion = prompt("What grade do you want to give?");
+            if (gradeSuggestion === null) {
+                return;
+            }
+        } while (isNaN(gradeSuggestion) || isNaN(parseFloat(gradeSuggestion)));
+        gradeSuggestion = parseFloat(gradeSuggestion);
+
+        var explanation = prompt("Why do you want to give this grade?");
+        if (explanation === null) {
+            return;
+        }
+        console.log(studentId);
+        console.log(assignmentId);
+        console.log(gradeSuggestion);
+        console.log(explanation);
+
+        fetch(`${javaURI}/api/synergy/grades/requests`, {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'default',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Origin': 'client'
+            },
+            body: JSON.stringify({
+                'studentId': studentId,
+                'assignmentId': assignmentId,
+                'gradeSuggestion': gradeSuggestion,
+                'explanation': explanation
+            })
+        })
+            .then(response => response.text())
+            .then(function(retval) {
+                alert("Created grade request for student! Pending approval...");
+            })
+            .catch(function(err) {
+                console.log(err);
+                alert("Failed to grade submission")
+            })
         // Implement grading functionality as needed
     }
 </script>
