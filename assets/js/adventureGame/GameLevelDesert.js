@@ -3,6 +3,7 @@ import GameEnv from './GameEnv.js';
 import Background from './Background.js';
 import PlayerChillGuy from './PlayerChillGuy.js';
 import NpcTux from './NpcTux.js';
+import NpcOctocat from './NpcOctocat.js';
 
 
 class GameLevelDesert {
@@ -56,11 +57,25 @@ class GameLevelDesert {
         down: {row: 5, start: 0, columns: 3 },  // This is the stationary npc, down is default 
     };
 
+      // NPC sprite data (tux)
+      const sprite_src_octocat = path + "/images/gamify/octocat.png";
+      const sprite_data_octocat = {
+          name: 'npc',
+          src: sprite_src_octocat,
+          SCALE_FACTOR: 10,  // Adjust this based on your scaling needs
+          ANIMATION_RATE: 50,
+          pixels: {height: 301, width: 801},
+          INIT_POSITION: { x: (width / 4), y: (height / 4)},
+          orientation: {rows: 1, columns: 4 },
+          down: {row: 0, start: 0, columns: 3 },  // This is the stationary npc, down is default 
+      };
+
     // List of objects defnitions for this level
     this.objects = [
       { class: Background, data: image_data_desert },
       { class: PlayerChillGuy, data: sprite_data_chillguy },
-      { class: NpcTux, data: sprite_data_tux }
+      { class: NpcTux, data: sprite_data_tux },
+      { class: NpcOctocat, data: sprite_data_octocat },
     ];
   }
 
