@@ -1,8 +1,8 @@
 ---
-layout: post
+layout: base
 title: Grader View
 type: issues
-permalink: /teacher-toolkit/check-grades
+permalink: /student/assign-grades
 comments: false
 ---
 <style>
@@ -13,25 +13,31 @@ comments: false
         border-radius: 5px;
         background-color: #f9f9f9;
     }
+    
     .user-card {
         padding: 10px;
         background-color: #ffffff;
         border: 1px solid #ddd;
         border-radius: 5px;
     }
+    
     .user-card h3 {
         margin: 0 0 10px;
     }
+    
     .user-card p {
         margin: 5px 0;
     }
+    
     .container {
         margin: 20px;
     }
+    
     .toggle-container {
         display: flex;
         margin-bottom: 20px;
     }
+    
     .toggle-btn {
         padding: 10px 20px;
         cursor: pointer;
@@ -40,23 +46,29 @@ comments: false
         margin-right: 10px;
         border-radius: 5px;
     }
+    
     .toggle-active {
         background-color: #007bff;
         color: #fff;
     }
-    table {
+    
+    #submissionsTable {
         width: 100%;
         border-collapse: collapse;
         margin-top: 20px;
     }
-    table th, table td {
+    
+    #submissionsTable th, #submissionsTable td {
         border: 1px solid #ddd;
         padding: 8px;
         text-align: left;
     }
-    table th {
+    
+    #submissionsTable th {
         background-color: #f2f2f2;
+        color: black;
     }
+
     .btn {
         padding: 5px 10px;
         cursor: pointer;
@@ -65,9 +77,11 @@ comments: false
         color: white;
         border-radius: 3px;
     }
+    
     .btn:hover {
         background-color: #0056b3;
     }
+
     .modal {
         display: none;
         position: fixed;
@@ -79,19 +93,22 @@ comments: false
         overflow: auto;
         background-color: rgba(0,0,0,0.4);
     }
+
     .modal-content {
-        background-color: #fefefe;
+        background-color:rgb(22, 22, 22);
         margin: 15% auto;
         padding: 20px;
         border: 1px solid #888;
         width: 80%;
     }
+
     .close-btn {
         float: right;
         font-size: 28px;
         font-weight: bold;
         cursor: pointer;
     }
+
     .close-btn:hover {
         color: red;
     }
@@ -119,111 +136,112 @@ comments: false
 <!-- Submissions Modal -->
 <div id="submissionsModal" class="modal">
 <div class="modal-content">
-    <span class="close-btn" onclick="closeSubmissionsModal()">&times;</span>
+    <span class="close-btn">&times;</span>
     <h2 id="assignmentNameHeader">Submissions</h2>
     <table id="submissionsTable">
-    <thead>
-        <tr>
-        <th>Student Name</th>
-        <th>Submission Content</th>
-        <th>Submission Date</th>
-        <th>Current Grade</th>
-        <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody id="submissionsList">
-        <!-- Populated dynamically -->
-    </tbody>
+        <thead>
+            <tr>
+            <th>Student Name</th>
+            <th>Submission Content</th>
+            <th>Submission Date</th>
+            <th>Current Grade</th>
+            <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="submissionsList">
+            <!-- Populated dynamically -->
+        </tbody>
     </table>
 </div>
 </div>
 
 <script type="module">
-import { javaURI } from '{{site.baseurl}}/assets/js/api/config.js';
+    import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-// Fetch and display assignments on page load
-document.addEventListener('DOMContentLoaded', fetchAssignments);
+    // Fetch and display assignments on page load
+    document.addEventListener('DOMContentLoaded', fetchAssignments);
+    document.querySelector(".modal-content.close-btn").addEventListener('click', closeSubmissionsModal);
 
-// Fetch assignments
-function fetchAssignments() {
-    fetch(`${javaURI}/api/assignments/assigned`)
-    .then(response => response.json())
-    .then(assignments => {
-        const assignmentList = document.getElementById('assignmentList');
-        assignmentList.innerHTML = ''; // Clear previous content
+    // Fetch assignments
+    function fetchAssignments() {
+        fetch(`${javaURI}/api/assignments/assigned`, fetchOptions)
+        .then(response => response.json())
+        .then(assignments => {
+            const assignmentList = document.getElementById('assignmentList');
+            assignmentList.innerHTML = ''; // Clear previous content
 
-        if (assignments.length === 0) {
-        assignmentList.innerHTML = '<tr><td colspan="6">No assignments found</td></tr>';
-        } else {
-        assignments.forEach(assignment => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-            <td>${assignment.name}</td>
-            <td>${assignment.type}</td>
-            <td>${assignment.description}</td>
-            <td>${assignment.points}</td>
-            <td>${assignment.dueDate}</td>
-            <td>
-                <button class="btn" onclick="viewSubmissions(${assignment.id}, '${assignment.name}')">View Submissions</button>
-            </td>
-            `;
-            assignmentList.appendChild(row);
+            if (assignments.length === 0) {
+            assignmentList.innerHTML = '<tr><td colspan="6">No assignments found</td></tr>';
+            } else {
+            assignments.forEach(assignment => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                <td>${assignment.name}</td>
+                <td>${assignment.type}</td>
+                <td>${assignment.description}</td>
+                <td>${assignment.points}</td>
+                <td>${assignment.dueDate}</td>
+                <td>
+                    <button class="btn" onclick="viewSubmissions(${assignment.id}, '${assignment.name}')">View Submissions</button>
+                </td>
+                `;
+                assignmentList.appendChild(row);
+            });
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching assignments:', error);
+            alert('Failed to fetch assignments');
         });
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching assignments:', error);
-        alert('Failed to fetch assignments');
-    });
-}
+    }
+    
+    // View submissions for an assignment, use window object to make it globally accessible
+    window.viewSubmissions = function(assignmentId, assignmentName) {
+        fetch(`${javaURI}/api/assignments/${assignmentId}/submissions`, fetchOptions)
+        .then(response => response.json())
+        .then(submissions => {
+            const submissionsList = document.getElementById('submissionsList');
+            submissionsList.innerHTML = ''; // Clear previous content
+            document.getElementById('assignmentNameHeader').textContent = `Submissions for: ${assignmentName}`;
 
-// View submissions for an assignment
-function viewSubmissions(assignmentId, assignmentName) {
-    fetch(`${javaURI}/api/assignments/${assignmentId}/submissions`, fetchOptions)
-    .then(response => response.json())
-    .then(submissions => {
-        const submissionsList = document.getElementById('submissionsList');
-        submissionsList.innerHTML = ''; // Clear previous content
-        document.getElementById('assignmentNameHeader').textContent = `Submissions for: ${assignmentName}`;
+            if (submissions.length === 0) {
+            submissionsList.innerHTML = '<tr><td colspan="5">No submissions found</td></tr>';
+            } else {
+            submissions.forEach(submission => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                <td>${submission.studentName}</td>
+                <td>${submission.content}</td>
+                <td>${submission.date}</td>
+                <td>${submission.grade || 'Not graded'}</td>
+                <td>
+                    <button class="btn" onclick="gradeSubmission(${submission.id})">Grade</button>
+                </td>
+                `;
+                submissionsList.appendChild(row);
+            });
+            }
 
-        if (submissions.length === 0) {
-        submissionsList.innerHTML = '<tr><td colspan="5">No submissions found</td></tr>';
-        } else {
-        submissions.forEach(submission => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-            <td>${submission.studentName}</td>
-            <td>${submission.content}</td>
-            <td>${submission.date}</td>
-            <td>${submission.grade || 'Not graded'}</td>
-            <td>
-                <button class="btn" onclick="gradeSubmission(${submission.id})">Grade</button>
-            </td>
-            `;
-            submissionsList.appendChild(row);
+            // Show modal
+            const modal = document.getElementById('submissionsModal');
+            modal.style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error fetching submissions:', error);
+            alert('Failed to fetch submissions');
         });
-        }
+    }
 
-        // Show modal
+    // Close submissions modal
+    function closeSubmissionsModal() {
         const modal = document.getElementById('submissionsModal');
-        modal.style.display = 'block';
-    })
-    .catch(error => {
-        console.error('Error fetching submissions:', error);
-        alert('Failed to fetch submissions');
-    });
-}
+        modal.style.display = 'none';
+    }
 
-// Close submissions modal
-function closeSubmissionsModal() {
-    const modal = document.getElementById('submissionsModal');
-    modal.style.display = 'none';
-}
-
-// Placeholder for grading a submission
-function gradeSubmission(submissionId) {
-    alert(`Grade submission ID: ${submissionId}`);
-    // Implement grading functionality as needed
-}
+    // Placeholder for grading a submission
+    function gradeSubmission(submissionId) {
+        alert(`Grade submission ID: ${submissionId}`);
+        // Implement grading functionality as needed
+    }
 </script>
 
