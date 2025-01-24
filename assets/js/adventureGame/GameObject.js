@@ -44,7 +44,7 @@ class GameObject {
     initEnvironmentState = {
         // environment
         collision: '',
-        collisions: [],
+        collisionEvents: [],
         // object 
         animation: 'idle',
         direction: 'right',
@@ -367,8 +367,6 @@ class GameObject {
         };
 
         this.collisionData = { hit, touchPoints };
-
-        console.log("Collision Data:", this.collisionData);
     }
 
 
@@ -398,32 +396,37 @@ class GameObject {
     handleCollisionEvent(objectID) {
         // check if player is touching the "collisionType" object
         if (this.collisionData.touchPoints.other.id === objectID) {
-            // check if the collisionType is not already in the collisions array
-            if (!this.state.collisions.includes(objectID)) {
+            // check if the collision type is not already in the collisions array
+            if (!this.state.collisionEvents.includes(objectID)) {
                 // add the collisionType to the collisions array, making it the current collision
-                this.state.collisions.push(objectID);
+                this.state.collisionEvents.push(objectID);
+                this.handleCollisionAction(objectID) 
             }
         }
     }
+
+    handleCollisionAction(objectID) {
+        // Empty method to be overridden by subclasses if needed
+    }
    
     /**
-     * gameLoop: Tears down Player collision events
+     * Tears down Player collision events
      */
     handleCollisionEnd() {
-        if (this.state.collisions.includes(this.state.collision) && this.collisionData.touchPoints.other.id !== this.state.collision ) {
+        if (this.state.collisionEvents.includes(this.state.collision) && this.collisionData.touchPoints.other.id !== this.state.collision ) {
             // filter out the collision from the array, or in other words, remove the collision
-            this.state.collisions = this.state.collisions.filter(collision => collision !== this.state.collision);
+            this.state.collisionEvents = this.state.collisionEvents.filter(collision => collision !== this.state.collision);
         }
     }
    
     /**
-     * gameLoop: Sets Player collision state from most recent collision in collisions array
+     * Sets collision state from most recent collision in collisions array
      */
     setActiveCollision() {
         // check array for any remaining collisions
-        if (this.state.collisions.length > 0) {
+        if (this.state.collisionEvents.length > 0) {
             // the array contains collisions, set the the last collision in the array
-            this.state.collision = this.state.collisions[this.state.collisions.length - 1];
+            this.state.collision = this.state.collisionEvents[this.state.collisionEvents.length - 1];
         } else {
             // the array is empty, set to empty (default state)
             this.state.collision = "";
@@ -444,7 +447,6 @@ class GameObject {
             this.state.movement = { up: true, down: true, left: true, right: true };
 
             if (touchPoints.top) {
-                console.log("Collision from top");
                 this.state.movement.down = false;
                 if (this.velocity.y > 0) {
                     this.velocity.y = 0;
@@ -452,7 +454,6 @@ class GameObject {
             }
 
             if (touchPoints.bottom) {
-                console.log("Collision from bottom");
                 this.state.movement.up = false;
                 if (this.velocity.y < 0) {
                     this.velocity.y = 0;
@@ -460,7 +461,6 @@ class GameObject {
             }
 
             if (touchPoints.right) {
-                console.log("Collision from right");
                 this.state.movement.left = false;
                 if (this.velocity.x < 0) {
                     this.velocity.x = 0;
@@ -468,21 +468,15 @@ class GameObject {
             }
 
             if (touchPoints.left) {
-                console.log("Collision from left");
                 this.state.movement.right = false;
                 if (this.velocity.x > 0) {
                     this.velocity.x = 0;
                 }
             }
         }
-
-        this.handleCollisionAction();
+       
     }
 
-    handleCollisionAction() {
-        // Empty method to be overridden by subclasses if needed
-    }
- 
 }
 
 export default GameObject;

@@ -57,7 +57,7 @@ class Player1 extends GameObject {
         // Empty method to be overridden by subclasses if needed
     }
     
-    handleCollisionAction() {
+    handleCollisionAction(objectID) {
         // Empty method to be overridden by subclasses if needed
     }
 }
