@@ -1,5 +1,5 @@
 import GameEnv from './GameEnv.js';
-import GameLevelSquares from './GameLevelSquares.js';
+import GameLevelWater from './GameLevelWater.js';
 import GameLevelDesert from './GameLevelDesert.js';
 import { getStats } from "./StatsManager.js";
 
