@@ -113,13 +113,13 @@ class Npc extends GameObject {
                     Math.pow(player.position.x - npc.position.x, 2) + Math.pow(player.position.y - npc.position.y, 2)
                 );
                 // The distance is less than 100 pixels
-                if (player != npc && distance <= 500) {
+                if (player != npc && distance <= 100) {
                     names.push(player.spriteData.id);
                 }
             });
             // Join all player names inside the proximity
             if (names.length > 0) {
-                this.handleResponse(`Hello, ${names.join(', ')}`);
+                //this.handleResponse(`Hello, ${names.join(', ')}`);
                 const quiz = this.quiz;
                 const question = this.getRandomQuestion();
                 showCustomPrompt(`${quiz}\n${question}`, async (input) => {
