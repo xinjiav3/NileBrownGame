@@ -77,25 +77,21 @@ class Npc extends GameObject {
 
     /**
      * Check for collision with player.
-     * If in collision, show a prompt with a random question from the questions array.
+     * If in collision, show a question from the questions array.
      */
     shareQuizQuestion() {
-        // Filter all Player objects from the game environment
-        const players = GameEnv.gameObjects.filter(obj => obj instanceof GameObject);
-        const npc = this;
-        const names = [];
+        // Filter all player objects that are in collision with this NPC
+        const players = GameEnv.gameObjects.filter(obj => obj instanceof GameObject && obj.state.collisionEvents.includes(this.spriteData.id));
+        const questions = this.questions.length > 0;
 
-        if (players.length > 0 && npc) {
+        if (players.length > 0 && questions) {
             players.forEach(player => {
-                if (player.state.collisionEvents.includes(npc.spriteData.id)) {
-                    const quiz = this.quiz;
-                    const question = this.getNextQuestion();
-                    showCustomPrompt(`${quiz}\n${question}`, async (input) => {
-                        const score = await submitAnswer(input, 1);
-                        this.handleResponse(`${score} points have been added to your balance.`);
-                    });
-                }
-            }); // Corrected closing parenthesis for forEach
+                const quiz = this.quiz;
+                const question = this.getNextQuestion();
+                showCustomPrompt(`${quiz}\n${question}`, async (input) => {
+                    const score = await submitAnswer(input, 1);
+                });
+            }); // closing parenthesis for forEach
         }
     }
 }
