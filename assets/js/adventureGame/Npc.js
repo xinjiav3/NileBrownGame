@@ -1,12 +1,13 @@
 import GameEnv from "./GameEnv.js";
 import GameObject from "./GameObject.js";
-import { showCustomPrompt, submitAnswer, isPromptCurrentlyOpen } from "./PromptHandler.js";
+import { shuffleArray, showCustomPrompt, submitAnswer, isPromptCurrentlyOpen } from "./PromptHandler.js";
 
 class Npc extends GameObject {
     constructor(data = null, quiz="", questions=[]) {
         super(data);
         this.quiz = quiz;
-        this.questions = questions
+        this.questions = shuffleArray(questions); // Shuffle questions initially
+        this.currentQuestionIndex = 0; // Initialize the current question index
         this.alertTimeout = null;
     }
 
@@ -42,7 +43,7 @@ class Npc extends GameObject {
         switch (key) {
             case 'e': // Player 1 
             case 'u': // Player 2 
-                this.checkProximityToNPC();
+                this.shareQuizQuestion();
                 break;
         }
     }
@@ -67,66 +68,34 @@ class Npc extends GameObject {
         }
     }
 
-    /**
-     * Custom alert mechanism to handle responses.
-     * 
-     * @param {string} message - The message to be displayed in the alert.
-     */
-    handleResponse(message) {
-        if (isPromptCurrentlyOpen()) {
-            return; 
-        }
-        
-        // Clear any existing alert timeout
-        if (this.alertTimeout) {
-            clearTimeout(this.alertTimeout);
-        }
-        
-        // Set a new alert timeout
-        this.alertTimeout = setTimeout(() => {
-            alert(message);
-        }, 0);
-    }
-    
-     // Get a random question from the array
-     getRandomQuestion() {
-        let randomIndex = Math.floor(Math.random() * this.questions.length);
-        return this.questions[randomIndex];
+    // Get the next question in the shuffled array
+    getNextQuestion() {
+        const question = this.questions[this.currentQuestionIndex];
+        this.currentQuestionIndex = (this.currentQuestionIndex + 1) % this.questions.length;
+        return question;
     }
 
     /**
-     * Check for proximity of objects.
-     * This method checks if any players are within a certain distance of the NPC.
-     * If players are within the specified distance, their names are collected and a response is generated.
+     * Check for collision with player.
+     * If in collision, show a prompt with a random question from the questions array.
      */
-    checkProximityToNPC() {
+    shareQuizQuestion() {
         // Filter all Player objects from the game environment
         const players = GameEnv.gameObjects.filter(obj => obj instanceof GameObject);
         const npc = this;
         const names = [];
 
-
         if (players.length > 0 && npc) {
             players.forEach(player => {
-                // The Euclidean distance between two points in a 2D space
-                var distance = Math.sqrt(
-                    Math.pow(player.position.x - npc.position.x, 2) + Math.pow(player.position.y - npc.position.y, 2)
-                );
-                // The distance is less than 100 pixels
-                if (player != npc && distance <= 120) {
-                    names.push(player.spriteData.id);
+                if (player.state.collisionEvents.includes(npc.spriteData.id)) {
+                    const quiz = this.quiz;
+                    const question = this.getNextQuestion();
+                    showCustomPrompt(`${quiz}\n${question}`, async (input) => {
+                        const score = await submitAnswer(input, 1);
+                        this.handleResponse(`${score} points have been added to your balance.`);
+                    });
                 }
-            });
-            // Join all player names inside the proximity
-            if (names.length > 0) {
-                //this.handleResponse(`Hello, ${names.join(', ')}`);
-                const quiz = this.quiz;
-                const question = this.getRandomQuestion();
-                showCustomPrompt(`${quiz}\n${question}`, async (input) => {
-                    const score = await submitAnswer(input, 1);
-                    this.handleResponse(`${score} points have been added to your balance.`);
-                });
-            }
+            }); // Corrected closing parenthesis for forEach
         }
     }
 }
