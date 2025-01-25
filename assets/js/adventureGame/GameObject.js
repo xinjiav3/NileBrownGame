@@ -320,55 +320,60 @@ class GameObject {
     }
 
     /* Collision detection method
-     * usage: if (object.isCollision(platform)) { // action }
+    * usage: if (object.isCollision(platform)) { // action }
     */
     isCollision(other) {
         // Bounding rectangles from Canvas
         const thisRect = this.canvas.getBoundingClientRect();
         const otherRect = other.canvas.getBoundingClientRect();
 
-        // Calculate hitbox constants
-        const widthPercentage = this.hitbox?.widthPercentage || 0.0;
-        const heightPercentage = this.hitbox?.heightPercentage || 0.0;
+        // Calculate hitbox constants for this object
+        const thisWidthReduction = thisRect.width * (this.hitbox?.widthPercentage || 0.0);
+        const thisHeightReduction = thisRect.height * (this.hitbox?.heightPercentage || 0.0);
 
-        // Calculate hitbox reductions from the width and height
-        const widthReduction = thisRect.width * widthPercentage;
-        const heightReduction = thisRect.height * heightPercentage;
+        // Calculate hitbox constants for other object
+        const otherWidthReduction = otherRect.width * (other.hitbox?.widthPercentage || 0.0);
+        const otherHeightReduction = otherRect.height * (other.hitbox?.heightPercentage || 0.0);
 
-        // Build hitbox by subtracting reductions from the left, right, top, and bottom
-        const thisLeft = thisRect.left + widthReduction;
-        const thisTop = thisRect.top + heightReduction;
-        const thisRight = thisRect.right - widthReduction;
+        // Build hitbox by subtracting reductions from the left, right, and top
+        const thisLeft = thisRect.left + thisWidthReduction;
+        const thisTop = thisRect.top + thisHeightReduction;
+        const thisRight = thisRect.right - thisWidthReduction;
         const thisBottom = thisRect.bottom;
+
+        const otherLeft = otherRect.left + otherWidthReduction;
+        const otherTop = otherRect.top + otherHeightReduction;
+        const otherRight = otherRect.right - otherWidthReduction;
+        const otherBottom = otherRect.bottom;
 
         // Determine hit and touch points of hit
         const hit = (
-            thisLeft < otherRect.right &&
-            thisRight > otherRect.left &&
-            thisTop < otherRect.bottom &&
-            thisBottom > otherRect.top
+            thisLeft < otherRight &&
+            thisRight > otherLeft &&
+            thisTop < otherBottom &&
+            thisBottom > otherTop
         );
 
         const touchPoints = {
             this: {
                 id: this.canvas.id,
-                top: thisBottom > otherRect.top && thisTop < otherRect.top,
-                bottom: thisTop < otherRect.bottom && thisBottom > otherRect.bottom,
-                left: thisRight > otherRect.left && thisLeft < otherRect.left,
-                right: thisLeft < otherRect.right && thisRight > otherRect.right,
+                top: thisBottom > otherTop && thisTop < otherTop,
+                bottom: thisTop < otherBottom && thisBottom > otherBottom,
+                left: thisRight > otherLeft && thisLeft < otherLeft,
+                right: thisLeft < otherRight && thisRight > otherRight,
             },
             other: {
                 id: other.canvas.id,
-                top: otherRect.bottom > thisTop && otherRect.top < thisTop,
-                bottom: otherRect.top < thisBottom && otherRect.bottom > thisBottom,
-                left: otherRect.right > thisLeft && otherRect.left < thisLeft,
-                right: otherRect.left < thisRight && otherRect.right > thisRight,
+                top: otherBottom > thisTop && otherTop < thisTop,
+                bottom: otherTop < thisBottom && otherBottom > thisBottom,
+                left: otherRight > thisLeft && otherLeft < thisLeft,
+                right: otherLeft < thisRight && otherRight > thisRight,
             },
         };
 
         this.collisionData = { hit, touchPoints };
-    }
 
+    }
 
     /**
      * gameLoop: Collision action handler for the Player.

@@ -113,7 +113,7 @@ class Npc extends GameObject {
                     Math.pow(player.position.x - npc.position.x, 2) + Math.pow(player.position.y - npc.position.y, 2)
                 );
                 // The distance is less than 100 pixels
-                if (player != npc && distance <= 100) {
+                if (player != npc && distance <= 120) {
                     names.push(player.spriteData.id);
                 }
             });

@@ -47,12 +47,13 @@ class GameLevelDesert {
     const sprite_data_tux = {
         id: 'Tux',
         src: sprite_src_tux,
-        SCALE_FACTOR: 10,  // Adjust this based on your scaling needs
+        SCALE_FACTOR: 8,  // Adjust this based on your scaling needs
         ANIMATION_RATE: 50,
         pixels: {height: 256, width: 352},
         INIT_POSITION: { x: (width / 2), y: (height / 2)},
         orientation: {rows: 8, columns: 11 },
         down: {row: 5, start: 0, columns: 3 },  // This is the stationary npc, down is default 
+        hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
     };
 
       // NPC sprite data (tux)
@@ -66,6 +67,7 @@ class GameLevelDesert {
           INIT_POSITION: { x: (width / 4), y: (height / 4)},
           orientation: {rows: 1, columns: 4 },
           down: {row: 0, start: 0, columns: 3 },  // This is the stationary npc, down is default 
+          hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
       };
 
     // List of objects defnitions for this level
