@@ -291,12 +291,12 @@ show_reading_time: false
                     "Content-Type": "application/json",
                 }),
                 body: JSON.stringify({
-                    uid: document.getElementById("signupUid").value,
-                    email: document.getElementById("signupUid").value + "@gmail.com",
+                    uid: document.getElementById("uid").value,
+                    email: document.getElementById("uid").value + "@gmail.com",
                     dob: "11-01-2024", // Static date, can be modified
-                    name: document.getElementById("name").value,
-                    password: document.getElementById("signupPassword").value,
-                    kasmServerNeeded: document.getElementById("kasmNeeded").checked,
+                    name: document.getElementById("uid").value,
+                    password: document.getElementById("password").value,
+                    kasmServerNeeded: False;
                 }),
             };
             try {
