@@ -255,7 +255,7 @@ show_reading_time: false
        login(options);
    }
    // Function to handle Java login
-   window.javaLogin = async function () {
+  window.javaLogin = function () {
     const options = {
         URL: `${javaURI}/authenticate`,
         callback: javaDatabase,
@@ -270,62 +270,69 @@ show_reading_time: false
             "Content-Type": "application/json",
         },
     };
-    try {
-        // Attempt to log in
-        const response = await login(options);
-        if (response.ok) {
-            console.log("Login successful!");
-        } else {
-            throw new Error("Invalid login");
-        }
-    } catch (error) {
-        console.error("Login failed:", error.message);
-        // If login fails, create a new Java account
-        if (error.message === "Invalid login") {
-            alert("Login failed. Creating a new Java account for the user...");
-            const signupOptionsJava = {
-                URL: `${javaURI}/api/person/create`,
-                method: "POST",
-                cache: "no-cache",
-                headers: new Headers({
-                    "Content-Type": "application/json",
-                }),
-                body: JSON.stringify({
-                    uid: document.getElementById("uid").value,
-                    email: document.getElementById("uid").value + "@gmail.com",
-                    dob: "11-01-2024", // Static date, can be modified
-                    name: document.getElementById("uid").value,
-                    password: document.getElementById("password").value,
-                    kasmServerNeeded: False,
-                }),
-            };
-            try {
-                // Create a new account
-                const signupResponse = await fetch(signupOptionsJava.URL, signupOptionsJava);
-                if (signupResponse.ok) {
-                    const signupResult = await signupResponse.json();
-                    console.log("Account creation successful:", signupResult);
-                    // Log the user in after successful account creation
-                    const newLoginResponse = await login(options);
-                    if (newLoginResponse.ok) {
-                        console.log("Login successful after account creation!");
-                    } else {
-                        throw new Error("Login failed after account creation");
-                    }
-                } else {
-                    throw new Error("Account creation failed");
-                }
-            } catch (signupError) {
-                console.error("Account creation failed:", signupError.message);
-                alert("Account creation failed. Please try again.");
+    // Attempt to log in
+    login(options)
+        .then(response => {
+            if (response.ok) {
+                console.log("Login successful!");
+            } else {
+                throw new Error("Invalid login");
             }
-        } else {
-            alert("An unexpected error occurred. Please try again later.");
-        }
-    }
+        })
+        .catch(error => {
+            console.error("Login failed:", error.message);
+            // If login fails, create a new Java account
+            if (error.message === "Invalid login") {
+                alert("Login failed. Creating a new Java account for the user...");
+                const signupOptionsJava = {
+                    URL: `${javaURI}/api/person/create`,
+                    method: "POST",
+                    cache: "no-cache",
+                    headers: new Headers({
+                        "Content-Type": "application/json",
+                    }),
+                    body: JSON.stringify({
+                        uid: document.getElementById("uid").value,
+                        email: document.getElementById("uid").value + "@gmail.com",
+                        dob: "11-01-2024", // Static date, can be modified
+                        name: document.getElementById("uid").value,
+                        password: document.getElementById("password").value,
+                        kasmServerNeeded: false,
+                    }),
+                };
+                // Create a new account
+                fetch(signupOptionsJava.URL, signupOptionsJava)
+                    .then(signupResponse => {
+                        if (signupResponse.ok) {
+                            return signupResponse.json();
+                        } else {
+                            throw new Error("Account creation failed");
+                        }
+                    })
+                    .then(signupResult => {
+                        console.log("Account creation successful:", signupResult);
+                        // Log the user in after successful account creation
+                        login(options)
+                            .then(newLoginResponse => {
+                                if (newLoginResponse.ok) {
+                                    console.log("Login successful after account creation!");
+                                } else {
+                                    throw new Error("Login failed after account creation");
+                                }
+                            })
+                            .catch(newLoginError => {
+                                console.error("Login failed after account creation:", newLoginError.message);
+                            });
+                    })
+                    .catch(signupError => {
+                        console.error("Account creation failed:", signupError.message);
+                        alert("Account creation failed. Please try again.");
+                    });
+            } else {
+                alert("An unexpected error occurred. Please try again later.");
+            }
+        });
 };
-
-
    // Function to fetch and display Python data
    function pythonDatabase() {
        const URL = `${pythonURI}/api/id`;
