@@ -296,7 +296,7 @@ show_reading_time: false
                     dob: "11-01-2024", // Static date, can be modified
                     name: document.getElementById("uid").value,
                     password: document.getElementById("password").value,
-                    kasmServerNeeded: False;
+                    kasmServerNeeded: False,
                 }),
             };
             try {
