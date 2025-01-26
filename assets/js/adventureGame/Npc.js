@@ -81,7 +81,7 @@ class Npc extends Player {
      */
     shareQuizQuestion() {
         // Filter all player objects that are in collision with this NPC
-        const players = GameEnv.gameObjects.filter(obj => obj instanceof GameObject && obj.state.collisionEvents.includes(this.spriteData.id));
+        const players = GameEnv.gameObjects.filter(obj => obj instanceof Player && obj.state.collisionEvents.includes(this.spriteData.id));
         const questions = this.questions.length > 0;
 
         if (players.length > 0 && questions) {
