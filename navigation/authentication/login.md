@@ -273,7 +273,7 @@ show_reading_time: false
     try {
         // Attempt to log in
         const response = await login(options);
-        if (response.success) {
+        if (response.ok) {
             console.log("Login successful!");
         } else {
             throw new Error("Invalid login");
@@ -307,7 +307,7 @@ show_reading_time: false
                     console.log("Account creation successful:", signupResult);
                     // Log the user in after successful account creation
                     const newLoginResponse = await login(options);
-                    if (newLoginResponse.success) {
+                    if (newLoginResponse.ok) {
                         console.log("Login successful after account creation!");
                     } else {
                         throw new Error("Login failed after account creation");
