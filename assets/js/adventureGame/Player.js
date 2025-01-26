@@ -32,9 +32,10 @@ const INIT_POSITION = { x: 0, y: 0 };
  * @property {number} frameCount - The total number of frames for each direction.
  * @property {Object} spriteData - The data for the sprite sheet.
  * @property {number} frameCounter - Counter to control the animation rate.
- * @method resize - Resizes the object based on the game environment.
  * @method draw - Draws the object on the canvas.
  * @method update - Updates the object's position and ensures it stays within the canvas boundaries.
+ * @method resize - Resizes the object based on the game environment.
+ * @method destroy - Removes the object from the game environment.    
  * @method bindEventListeners - Binds key event listeners to handle object movement.
  * @method handleKeyDown - Handles key down events to change the object's velocity.
  * @method handleKeyUp - Handles key up events to stop the object's velocity.
@@ -121,34 +122,6 @@ class Player extends GameObject {
         this.bindEventListeners();
     }
 
-    /**
-     * Resizes the object based on the game environment.
-     * 
-     * This method adjusts the object's size and velocity based on the scale of the game environment.
-     * It also adjusts the object's position proportionally based on the previous and current scale.
-     */
-    resize() {
-        // Calculate the new scale resulting from the window resize
-        const newScale = { width: GameEnv.innerWidth, height: GameEnv.innerHeight };
-
-        // Adjust the object's position proportionally
-        this.position.x = (this.position.x / this.scale.width) * newScale.width;
-        this.position.y = (this.position.y / this.scale.height) * newScale.height;
-
-        // Update the object's scale to the new scale
-        this.scale = newScale;
-
-        // Recalculate the object's size based on the new scale
-        this.size = this.scale.height / this.scaleFactor; 
-
-        // Recalculate the object's velocity steps based on the new scale
-        this.xVelocity = this.scale.width / this.stepFactor;
-        this.yVelocity = this.scale.height / this.stepFactor;
-
-        // Set the object's width and height to the new size (object is a square)
-        this.width = this.size;
-        this.height = this.size;
-    }
 
     /**
      * Draws the object on the canvas.
@@ -240,6 +213,36 @@ class Player extends GameObject {
         }
     }
 
+    /**
+     * Resizes the object based on the game environment.
+     * 
+     * This method adjusts the object's size and velocity based on the scale of the game environment.
+     * It also adjusts the object's position proportionally based on the previous and current scale.
+     */
+    resize() {
+        // Calculate the new scale resulting from the window resize
+        const newScale = { width: GameEnv.innerWidth, height: GameEnv.innerHeight };
+
+        // Adjust the object's position proportionally
+        this.position.x = (this.position.x / this.scale.width) * newScale.width;
+        this.position.y = (this.position.y / this.scale.height) * newScale.height;
+
+        // Update the object's scale to the new scale
+        this.scale = newScale;
+
+        // Recalculate the object's size based on the new scale
+        this.size = this.scale.height / this.scaleFactor; 
+
+        // Recalculate the object's velocity steps based on the new scale
+        this.xVelocity = this.scale.width / this.stepFactor;
+        this.yVelocity = this.scale.height / this.stepFactor;
+
+        // Set the object's width and height to the new size (object is a square)
+        this.width = this.size;
+        this.height = this.size;
+    }
+    
+
     /* Destroy Game Object
      * remove canvas element of object
      * remove object from GameEnv.gameObjects array
@@ -288,24 +291,6 @@ class Player extends GameObject {
         throw new Error('Method "handleKeyUp()" must be implemented');
     }
 
-    setX(x) {
-        if (x < 0) {
-            x = 0;
-        }
-        this.x = x;
-    }
-
-    setY(y) {
-        if (y < GameEnv.top) {
-            y = GameEnv.top;
-        }
-        if (y > GameEnv.bottom) {
-            y = GameEnv.bottom;
-        }
-        this.y = y;
-    }
-
-    
 
 }
 
