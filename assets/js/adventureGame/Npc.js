@@ -1,8 +1,8 @@
 import GameEnv from "./GameEnv.js";
-import GameObject from "./GameObject.js";
+import Player from "./Player.js";
 import { shuffleArray, showCustomPrompt, submitAnswer, isPromptCurrentlyOpen } from "./PromptHandler.js";
 
-class Npc extends GameObject {
+class Npc extends Player {
     constructor(data = null, quiz="", questions=[]) {
         super(data);
         this.quiz = quiz;

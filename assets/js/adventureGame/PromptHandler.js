@@ -1,6 +1,6 @@
 import { javaURI, fetchOptions } from "../api/config.js";
 import { getBalance, getChatScore, getQuestionsAnswered } from './StatsManager.js';
-import GameObject from "./GameObject.js";
+import GameObject from "./Player.js";
 
 // Handle disabling movement during prompts
 let isPromptOpen = false;
