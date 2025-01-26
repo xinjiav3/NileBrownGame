@@ -41,19 +41,6 @@ const INIT_POSITION = { x: 0, y: 0 };
  * @method handleKeyUp - Handles key up events to stop the object's velocity.
  */
 class Player extends GameObject {
-    // This object represents the initial state of the player when the game starts.
-    initEnvironmentState = {
-        // environment
-        collision: '',
-        collisionEvents: [],
-        // object 
-        animation: 'idle',
-        direction: 'right',
-        movement: {up: true, down: true, left: true, right: true },
-        isDying: false,
-        isFinishing: false,
-    };
-    
     /**
      * The constructor method is called when a new Player object is created.
      * 
@@ -61,12 +48,20 @@ class Player extends GameObject {
      */
     constructor(data = null) {
         super();
-        this.state = {...this.initEnvironmentState}; // Object control data 
+        this.state = {
+            ...this.state,
+            animation: 'idle',
+            direction: 'right',
+            isDying: false,
+            isFinishing: false,
+        }; // Object control data
+
         // Create canvas element
         this.canvas = document.createElement("canvas");
         this.canvas.id = data.id || "default";
         this.canvas.width = data.pixels?.width || 0;
         this.canvas.height = data.pixels?.height || 0;
+        this.hitbox = data?.hitbox || {};
         this.ctx = this.canvas.getContext('2d');
         document.getElementById("gameContainer").appendChild(this.canvas);
 
@@ -74,10 +69,6 @@ class Player extends GameObject {
         this.x = 0;
         this.y = 0;
         this.frame = 0;
-        this.collisionWidth = 0;
-        this.collisionHeight = 0;
-        this.collisionData = {};
-        this.hitbox = data?.hitbox || {};
         
         // Initialize the object's scale based on the game environment
         this.scale = { width: GameEnv.innerWidth, height: GameEnv.innerHeight };
@@ -99,14 +90,7 @@ class Player extends GameObject {
             this.direction = 'down'; // Initial direction
             this.spriteData = data;
         } else {
-            // Default to red square
-            this.scaleFactor = SCALE_FACTOR;
-            this.stepFactor = STEP_FACTOR;
-            this.animationRate = ANIMATION_RATE;
-            this.position = INIT_POSITION;
-
-            // No sprite sheet for default
-            this.spriteSheet = null;
+            throw new Error('Sprite data is required');
         }
 
         // Initialize the object's position and velocity

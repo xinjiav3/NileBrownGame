@@ -22,6 +22,15 @@ class GameObject {
         if (new.target === GameObject) {
             throw new TypeError("Cannot construct GameObject instances directly");
         }
+        this.collisionWidth = 0;
+        this.collisionHeight = 0;
+        this.collisionData = {};
+        this.hitbox = {};
+        this.state = {
+            collision: "",
+            collisionEvents: [],
+            movement: { up: true, down: true, left: true, right: true },
+        };
     }
 
     /**
