@@ -270,7 +270,6 @@ show_reading_time: false
             "Content-Type": "application/json",
         },
     };
-
     // Attempt to log in using fetch
     fetch(options.URL, options)
         .then(response => {
@@ -282,11 +281,9 @@ show_reading_time: false
         })
         .catch(error => {
             console.error("Login failed:", error.message);
-
             // If login fails, create a new Java account
             if (error.message === "Invalid login") {
-                alert("Login failed. Creating a new Java account for the user...");
-
+                alert("Login for Spring failed. Creating a new Java account for the user...");
                 const signupOptionsJava = {
                     URL: `${javaURI}/api/person/create`,
                     method: "POST",
@@ -303,7 +300,6 @@ show_reading_time: false
                         kasmServerNeeded: false,
                     }),
                 };
-
                 // Create a new account using fetch
                 fetch(signupOptionsJava.URL, signupOptionsJava)
                     .then(signupResponse => {
@@ -314,6 +310,7 @@ show_reading_time: false
                         }
                     })
                     .then(signupResult => {
+                        alert("Account Creation Successful. Logging you into Flask/Spring!");
                         console.log("Account creation successful:", signupResult);
                         // Log the user in after successful account creation
                         const newLoginOptions = {
@@ -328,7 +325,6 @@ show_reading_time: false
                                 "Content-Type": "application/json",
                             },
                         };
-
                         // Attempt to log the user in after account creation
                         fetch(newLoginOptions.URL, newLoginOptions)
                             .then(newLoginResponse => {
@@ -351,7 +347,6 @@ show_reading_time: false
             }
         });
 };
-
    // Function to fetch and display Python data
    function pythonDatabase() {
        const URL = `${pythonURI}/api/id`;
