@@ -151,6 +151,7 @@ function startQueueUpdateInterval(intervalInSeconds) {
     queueUpdateInterval = setInterval(() => {
         console.log("Updating queue...");
         fetchQueue();
+        fetchTimerLength();
     }, intervalInSeconds * 1000);
 }
 
