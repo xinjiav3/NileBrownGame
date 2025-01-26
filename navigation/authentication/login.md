@@ -234,14 +234,11 @@ show_reading_time: false
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script type="module">
    import { login, pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
-   
    // Function to handle both Python and Java login simultaneously
    window.loginBoth = function () {
        pythonLogin(); // Call Python login
        javaLogin();   // Call Java login
    }
-
-
    // Function to handle Python login
    window.pythonLogin = function () {
        const options = {
@@ -257,23 +254,76 @@ show_reading_time: false
        };
        login(options);
    }
-
-
    // Function to handle Java login
-   window.javaLogin = function () {
-       const options = {
-           URL: `${javaURI}/authenticate`,
-           callback: javaDatabase,
-           message: "message",
-           method: "POST",
-           cache: "no-cache",
-           body: {
-               uid: document.getElementById("uid").value,
-               password: document.getElementById("password").value,
-           }
-       };
-       login(options);
-   }
+   window.javaLogin = async function () {
+    const options = {
+        URL: `${javaURI}/authenticate`,
+        callback: javaDatabase,
+        message: "message",
+        method: "POST",
+        cache: "no-cache",
+        body: JSON.stringify({
+            uid: document.getElementById("uid").value,
+            password: document.getElementById("password").value,
+        }),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    try {
+        // Attempt to log in
+        const response = await login(options);
+        if (response.success) {
+            console.log("Login successful!");
+        } else {
+            throw new Error("Invalid login");
+        }
+    } catch (error) {
+        console.error("Login failed:", error.message);
+        // If login fails, create a new Java account
+        if (error.message === "Invalid login") {
+            alert("Login failed. Creating a new Java account for the user...");
+            const signupOptionsJava = {
+                URL: `${javaURI}/api/person/create`,
+                method: "POST",
+                cache: "no-cache",
+                headers: new Headers({
+                    "Content-Type": "application/json",
+                }),
+                body: JSON.stringify({
+                    uid: document.getElementById("signupUid").value,
+                    email: document.getElementById("signupUid").value + "@gmail.com",
+                    dob: "11-01-2024", // Static date, can be modified
+                    name: document.getElementById("name").value,
+                    password: document.getElementById("signupPassword").value,
+                    kasmServerNeeded: document.getElementById("kasmNeeded").checked,
+                }),
+            };
+            try {
+                // Create a new account
+                const signupResponse = await fetch(signupOptionsJava.URL, signupOptionsJava);
+                if (signupResponse.ok) {
+                    const signupResult = await signupResponse.json();
+                    console.log("Account creation successful:", signupResult);
+                    // Log the user in after successful account creation
+                    const newLoginResponse = await login(options);
+                    if (newLoginResponse.success) {
+                        console.log("Login successful after account creation!");
+                    } else {
+                        throw new Error("Login failed after account creation");
+                    }
+                } else {
+                    throw new Error("Account creation failed");
+                }
+            } catch (signupError) {
+                console.error("Account creation failed:", signupError.message);
+                alert("Account creation failed. Please try again.");
+            }
+        } else {
+            alert("An unexpected error occurred. Please try again later.");
+        }
+    }
+};
 
 
    // Function to fetch and display Python data
