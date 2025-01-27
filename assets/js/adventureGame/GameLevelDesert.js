@@ -1,10 +1,9 @@
 // To build GameLevels, each contains GameObjects from below imports
 import GameEnv from './GameEnv.js';
 import Background from './Background.js';
-import PlayerChillGuy from './PlayerChillGuy.js';
+import Player from './Player.js';
 import NpcTux from './NpcTux.js';
 import NpcOctocat from './NpcOctocat.js';
-
 
 class GameLevelDesert {
   constructor(path) {
@@ -42,6 +41,7 @@ class GameLevelDesert {
         right: {row: 1, start: 0, columns: 3 },
         up: {row: 3, start: 0, columns: 3 },
         hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
+        keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
     };
 
     // NPC sprite data (tux)
@@ -77,7 +77,7 @@ class GameLevelDesert {
     // List of objects defnitions for this level
     this.objects = [
       { class: Background, data: image_data_desert },
-      { class: PlayerChillGuy, data: sprite_data_chillguy },
+      { class: Player, data: sprite_data_chillguy },
       { class: NpcTux, data: sprite_data_tux },
       { class: NpcOctocat, data: sprite_data_octocat },
     ];

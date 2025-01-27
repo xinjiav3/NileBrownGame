@@ -1,7 +1,7 @@
 // To build GameLevels, each contains GameObjects from below imports
 import GameEnv from './GameEnv.js';
 import Background from './Background.js';
-import PlayerChillGuy from './PlayerChillGuy.js';
+import Player from './Player.js';
 import NpcTux from './NpcTux.js';
 import NpcOctocat from './NpcOctocat.js';
 
@@ -43,7 +43,6 @@ class GameLevelWater {
     };
 
 
-
     // NPC sprite data (tux)
     const sprite_src_tux = path + "/images/gamify/tux.png";
     const sprite_data_tux = {
@@ -57,6 +56,7 @@ class GameLevelWater {
         down: {row: 5, start: 0, columns: 3 },  // This is the stationary npc, down is default 
     };
 
+    
       // NPC sprite data (octocat)
       const sprite_src_octocat = path + "/images/gamify/octocat.png";
       const sprite_data_octocat = {
@@ -73,7 +73,7 @@ class GameLevelWater {
     // List of objects defnitions for this level
     this.objects = [
       { class: Background, data: image_data_water },
-      { class: PlayerChillGuy, data: sprite_data_chillguy },
+      { class: Player, data: sprite_data_chillguy },
       { class: NpcTux, data: sprite_data_tux },
       { class: NpcOctocat, data: sprite_data_octocat },
     ];

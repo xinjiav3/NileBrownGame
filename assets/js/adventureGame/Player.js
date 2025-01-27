@@ -62,6 +62,7 @@ class Player extends GameObject {
         this.canvas.width = data.pixels?.width || 0;
         this.canvas.height = data.pixels?.height || 0;
         this.hitbox = data?.hitbox || {};
+        this.keypress = data?.keypress || {up: 87, left: 65, down: 83, right: 68};
         this.ctx = this.canvas.getContext('2d');
         document.getElementById("gameContainer").appendChild(this.canvas);
 
@@ -251,30 +252,50 @@ class Player extends GameObject {
         addEventListener('keyup', this.handleKeyUp.bind(this));
     }
 
-    /**
-     * Handles key down events to change the object's velocity.
-     * 
-     * This method updates the object's velocity based on the key pressed.
-     * 
-     * @param {Object} event - The keydown event object.
-     * @abstract
-     */
     handleKeyDown({ keyCode }) {
-        throw new Error('Method "handleKeyDown()" must be implemented');
+        switch (keyCode) {
+            case this.keypress.up:
+                this.velocity.y -= this.yVelocity;
+                this.direction = 'up';
+                break;
+            case this.keypress.left:
+                this.velocity.x -= this.xVelocity;
+                this.direction = 'left';
+                break;
+            case this.keypress.down:
+                this.velocity.y += this.yVelocity;
+                this.direction = 'down';
+                break;
+            case this.keypress.right:
+                this.velocity.x += this.xVelocity;
+                this.direction = 'right';
+                break;
+        }
     }
 
     /**
-     * Handles key up events to stop the object's velocity.
+     * Handles key up events to stop the player's velocity.
      * 
-     * This method stops the object's velocity based on the key released.
+     * This method stops the player's velocity based on the key released.
      * 
      * @param {Object} event - The keyup event object.
-     * @abstract
      */
     handleKeyUp({ keyCode }) {
-        throw new Error('Method "handleKeyUp()" must be implemented');
+        switch (keyCode) {
+            case this.keypress.up:
+                this.velocity.y = 0;
+                break;
+            case this.keypress.left:
+                this.velocity.x = 0;
+                break;
+            case this.keypress.down: 
+                this.velocity.y = 0;
+                break;
+            case this.keypress.right: 
+                this.velocity.x = 0;
+                break;
+        }
     }
-
 
 }
 
