@@ -157,21 +157,19 @@ class GameObject {
      */
     handleCollisionEvent() {
         const objectID = this.collisionData.touchPoints.other.id;
-        const greet = this.collisionData.touchPoints.other.greet;
+        const objectGreet = this.collisionData.touchPoints.other.greet;
         // check if the collision type is not already in the collisions array
         if (!this.state.collisionEvents.includes(objectID)) {
             // add the collisionType to the collisions array, making it the current collision
             this.state.collisionEvents.push(objectID);
-            alert(greet);
+            alert(objectGreet);
         }
         this.handleReaction();
     }
 
     /**
-     * gameloop: Handles Player reaction / state updates to the collision
+     * Handles Player reaction or state updates related to the collision
      */
-    // Assuming you have some kind of input handling system
-
     handleReaction() {
         // handle player reaction based on collision type
         if (this.state.collisionEvents.length > 0) {
