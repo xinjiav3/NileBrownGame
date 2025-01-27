@@ -27,7 +27,6 @@ class GameObject {
         this.collisionData = {};
         this.hitbox = {};
         this.state = {
-            collision: "",
             collisionEvents: [],
             movement: { up: true, down: true, left: true, right: true },
         };
@@ -88,13 +87,20 @@ class GameObject {
      * calls collisionAction on hit
      */
     collisionChecks() {
-        for (var gameObj of GameEnv.gameObjects){
+        let collisionDetected = false;
+
+        for (var gameObj of GameEnv.gameObjects) {
             if (gameObj.canvas && this != gameObj) {
                 this.isCollision(gameObj);
-                if (this.collisionData.hit){
+                if (this.collisionData.hit) {
+                    collisionDetected = true;
                     this.collisionAction();
                 }
             }
+        }
+
+        if (!collisionDetected) {
+            this.state.collisionEvents = [];
         }
     }
 
@@ -160,8 +166,6 @@ class GameObject {
      */
     collisionAction() {
         this.handleCollisionStart();
-        this.handleCollisionEnd();
-        this.setActiveCollision();
         this.handleReaction();
     }
     
@@ -183,37 +187,13 @@ class GameObject {
     }
 
     /**
-     * Tears down Player collision events
-     */
-    handleCollisionEnd() {
-        if (this.state.collisionEvents.includes(this.state.collision) && this.collisionData.touchPoints.other.id !== this.state.collision ) {
-            // filter out the collision from the array, or in other words, remove the collision
-            this.state.collisionEvents = this.state.collisionEvents.filter(collision => collision !== this.state.collision);
-        }
-    }
-    
-    /**
-     * Sets collision state from most recent collision in collisions array
-     */
-    setActiveCollision() {
-        // check array for any remaining collisions
-        if (this.state.collisionEvents.length > 0) {
-            // the array contains collisions, set the the last collision in the array
-            this.state.collision = this.state.collisionEvents[this.state.collisionEvents.length - 1];
-        } else {
-            // the array is empty, set to empty (default state)
-            this.state.collision = "";
-        }
-    }
-    
-    /**
      * gameloop: Handles Player reaction / state updates to the collision
      */
     // Assuming you have some kind of input handling system
 
     handleReaction() {
         // handle player reaction based on collision type
-        if (this.state.collision) {
+        if (this.state.collisionEvents.length > 0) {
             const touchPoints = this.collisionData.touchPoints.this;
 
             // Reset movement to allow all directions initially
@@ -247,9 +227,7 @@ class GameObject {
                 }
             }
         }
-        
     }
-    
 }
 
 export default GameObject;
