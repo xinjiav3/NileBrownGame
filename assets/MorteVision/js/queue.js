@@ -8,7 +8,6 @@ let person;
 
 document.getElementById('addQueue').addEventListener('click', addToQueue);
 document.getElementById('removeQueue').addEventListener('click', removeFromQueue);
-document.getElementById('resetQueue').addEventListener('click', resetQueue);
 
 let timerInterval;
 let timerlength;
@@ -107,43 +106,7 @@ function updateQueueDisplay(queue) {
     doneList.innerHTML = queue.completed.map(person => `<div class="card">${person}</div>`).join('');
 }
 
-document.getElementById('initializeQueue').addEventListener('click', initializeQueue);
 document.getElementById('beginTimer').addEventListener('click', startTimer);
-
-// get assignments, used for initialization and popup connection
-async function fetchAssignments() {
-    console.log(URL + 'debug')
-    const response = await fetch(URL + 'debug');
-    if (response.ok) {
-        const assignments = await response.json();
-        const dropdown = document.getElementById('assignmentDropdown');
-        dropdown.innerHTML = assignments.map(assignment =>
-            `<option value="${assignment.id}">${assignment.name}</option>`
-        ).join('');
-    }
-}
-
-async function initializeQueue() {
-    let peopleList;
-    timerlength = document.getElementById("durationInput").value;
-    const assignmentId = document.getElementById('assignmentDropdown').value;
-    if (document.getElementById("presenterInput").value == "tester") {
-        peopleList = ["Alexander Graham Bell",
-            "Grace Hopper",
-            "John Mortensen",
-            "Madam Curie",
-            "Nikola Tesla",
-            "Thomas Edison"]
-    }
-
-    await fetch(URL + `initQueue/${assignmentId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify([peopleList, [timerlength]])
-    });
-    assignment = assignmentId;
-    fetchQueue();
-}
 
 // Start the interval to periodically update the queue
 function startQueueUpdateInterval(intervalInSeconds) {
@@ -181,15 +144,18 @@ async function fetchUser() {
         console.log(person);
     }
 }
-function showAssignmentModal() {
+
+async function showAssignmentModal() {
     const modal = document.getElementById('assignmentModal');
     const modalDropdown = document.getElementById('modalAssignmentDropdown');
-    
-    // Fetch assignments and populate the dropdown
-    fetchAssignments().then(() => {
-        const dropdown = document.getElementById('assignmentDropdown');
-        modalDropdown.innerHTML = dropdown.innerHTML; // Use the same data as the main dropdown
-    });
+
+    const response = await fetch(URL + 'debug');
+    if (response.ok) {
+        const assignments = await response.json();
+        modalDropdown.innerHTML = assignments.map(assignment =>
+            `<option value="${assignment.id}">${assignment.name}</option>`
+        ).join('');
+    }
 
     modal.style.display = 'block';
 
