@@ -43,15 +43,34 @@ const createStatsUI = () => {
 const GameControl = {
     intervalID: null, // Variable to hold the timer interval reference
     localStorageTimeKey: "localTimes",
-    
+
     start: function(path) {
-        // Create the game environment
         GameEnv.create();
+        const levelClasses = [GameLevelDesert, GameLevelWater];
+        this.currentLevelIndex = 0;
+        this.levelClasses = levelClasses;
+        this.path = path;
+        this.loadLevel();
+        this.addEscKeyListener();
+    },
+    
+    loadLevel: function() {
+        if (this.currentLevelIndex >= this.levelClasses.length) {
+            alert("All levels completed.");
+            return;
+        }
+        GameEnv.continueLevel = true;
+        GameEnv.gameObjects = [];
+        const LevelClass = this.levelClasses[this.currentLevelIndex];
+        const levelInstance = new LevelClass(this.path);
+        this.level(levelInstance);
+    },
+    
+    level: function(gameInstance) {
+        // Create the game environment
         this.initStatsUI();
-        // Load the game level
-        const gameLevel = new GameLevelDesert(path);
         // Prepare game objects for the level
-        for (let object of gameLevel.objects) {
+        for (let object of gameInstance.objects) {
             if (!object.data) object.data = {};
             new object.class(object.data);
         }
@@ -59,15 +78,22 @@ const GameControl = {
         this.gameLoop();
         getStats();
     },
-
+    
     gameLoop: function() {
-        // Clear the canvas
+        // Base case: If the level has ended, exit the game loop
+        if (!GameEnv.continueLevel) {
+            alert("Level ended.");
+            this.currentLevelIndex++;
+            this.loadLevel();
+            return;
+        }
+        // Nominal case: If the level is continuing, proceed with game loop
+        // Update the canvas
         GameEnv.clear();
-        // Update the game objects
         for (let object of GameEnv.gameObjects) {
             object.update();  // Update the game objects
         }
-        // Recursively call the game loop
+        // Recursively call this function at animation frame rate
         requestAnimationFrame(this.gameLoop.bind(this));
     },
 
@@ -78,6 +104,15 @@ const GameControl = {
         for (let object of GameEnv.gameObjects) {
             object.resize(); // Resize the game objects
         }
+    },
+
+    addEscKeyListener: function() {
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                GameEnv.continueLevel = false;
+                console.log("Escape key pressed. Ending level.");
+            }
+        });
     },
 
     /**
