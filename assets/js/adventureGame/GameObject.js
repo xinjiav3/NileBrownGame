@@ -3,14 +3,18 @@ import GameEnv from './GameEnv.js';
 /**
  * The GameObject class serves as a base class for all game objects.
  * It mimics an interface by defining abstract methods that must be implemented
- * by any subclass. This ensures that all game objects have a consistent interface
- * and can be managed uniformly within the game loop.
+ * by any subclass. This ensures that all game objects have a consistent interfaces
+ * and can be managed uniformly within GameControl.js.
  * 
  * @class GameObject
  * @method draw - Draws the object on the canvas. Must be implemented by subclasses.
  * @method update - Updates the object's state. Must be implemented by subclasses.
  * @method resize - Resizes the object based on the canvas size. Must be implemented by subclasses.
  * @method destroy - Removes the object from the game environment. Must be implemented by subclasses.
+ * @method collisionChecks - Checks for collisions with other game objects.
+ * @method isCollision - Detects collisions with other game objects.
+ * @method handleCollisionEvent - Updates the collisions array when player is touching the object.
+ * @method handleReaction - Handles player reaction / state updates to the collision.
  */
 class GameObject {
     /**
@@ -68,20 +72,6 @@ class GameObject {
         throw new Error("Method 'destroy()' must be implemented.");
     }
 
-    /**
-     * Watch for these collision events 
-     */
-    handleCollisionStart() {
-        throw new Error("Method 'handleCollisionStart()' must be implemented.");
-    }
-
-    /**
-     * Take these collision actions 
-     */
-    handleCollisionAction(objectID) {
-        throw new Error("Method 'handleCollisionAction()' must be implemented.");
-    }
-
     /** Collision checks
      * uses Player isCollision to detect hit
      * calls collisionAction on hit
@@ -94,7 +84,7 @@ class GameObject {
                 this.isCollision(gameObj);
                 if (this.collisionData.hit) {
                     collisionDetected = true;
-                    this.collisionAction();
+                    this.handleCollisionEvent();
                 }
             }
         }
@@ -142,6 +132,7 @@ class GameObject {
         const touchPoints = {
             this: {
                 id: this.canvas.id,
+                greet: this.spriteData.greeting,
                 top: thisBottom > otherTop && thisTop < otherTop,
                 bottom: thisTop < otherBottom && thisBottom > otherBottom,
                 left: thisRight > otherLeft && thisLeft < otherLeft,
@@ -149,6 +140,7 @@ class GameObject {
             },
             other: {
                 id: other.canvas.id,
+                greet: other.spriteData.greeting,
                 top: otherBottom > thisTop && otherTop < thisTop,
                 bottom: otherTop < thisBottom && otherBottom > thisBottom,
                 left: otherRight > thisLeft && otherLeft < thisLeft,
@@ -157,33 +149,22 @@ class GameObject {
         };
 
         this.collisionData = { hit, touchPoints };
-
     }
 
     /**
-     * Collision action handler for the Player.
-     * @override
-     */
-    collisionAction() {
-        this.handleCollisionStart();
-        this.handleReaction();
-    }
-    
-
-    /**
-     * Update the collisions array when player is touching the object being watched
+     * Update the collisions array when player is touching the object
      * @param {*} objectID 
      */
-    handleCollisionEvent(objectID) {
-        // check if player is touching the "collisionType" object
-        if (this.collisionData.touchPoints.other.id === objectID) {
-            // check if the collision type is not already in the collisions array
-            if (!this.state.collisionEvents.includes(objectID)) {
-                // add the collisionType to the collisions array, making it the current collision
-                this.state.collisionEvents.push(objectID);
-                this.handleCollisionAction(objectID) 
-            }
+    handleCollisionEvent() {
+        const objectID = this.collisionData.touchPoints.other.id;
+        const greet = this.collisionData.touchPoints.other.greet;
+        // check if the collision type is not already in the collisions array
+        if (!this.state.collisionEvents.includes(objectID)) {
+            // add the collisionType to the collisions array, making it the current collision
+            this.state.collisionEvents.push(objectID);
+            alert(greet);
         }
+        this.handleReaction();
     }
 
     /**

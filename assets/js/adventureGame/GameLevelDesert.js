@@ -19,6 +19,7 @@ class GameLevelDesert {
     const image_src_desert = path + "/images/gamify/desert.png";
     const image_data_desert = {
         name: 'desert',
+        greeting: "Welcome to the desert!  It is hot and dry here, but there are many adventures to be had!",
         src: image_src_desert,
         pixels: {height: 580, width: 1038}
     };
@@ -28,6 +29,7 @@ class GameLevelDesert {
     const sprite_src_chillguy = path + "/images/gamify/chillguy.png";
     const sprite_data_chillguy = {
         id: 'Chill Guy',
+        greeting: "Hi I am Chill Guy, the desert wanderer. I am looking for wisdome and adventure!",
         src: sprite_src_chillguy,
         SCALE_FACTOR: CHILLGUY_SCALE_FACTOR,
         STEP_FACTOR: 1000,
@@ -46,6 +48,7 @@ class GameLevelDesert {
     const sprite_src_tux = path + "/images/gamify/tux.png";
     const sprite_data_tux = {
         id: 'Tux',
+        greeting: "Hi I am Tux, the Linux mascot.  I am very happy to spend some linux shell time with you!",
         src: sprite_src_tux,
         SCALE_FACTOR: 8,  // Adjust this based on your scaling needs
         ANIMATION_RATE: 50,
@@ -60,6 +63,7 @@ class GameLevelDesert {
       const sprite_src_octocat = path + "/images/gamify/octocat.png";
       const sprite_data_octocat = {
           id: 'Octocat',
+          greeting: "Hi I am Octocat! I am the GitHub code code code collaboration mascot",
           src: sprite_src_octocat,
           SCALE_FACTOR: 10,  // Adjust this based on your scaling needs
           ANIMATION_RATE: 50,
