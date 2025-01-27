@@ -1,13 +1,17 @@
 import GameEnv from "./GameEnv.js";
-import GameObject from "./GameObject.js";
-import { showCustomPrompt, submitAnswer, isPromptCurrentlyOpen } from "./PromptHandler.js";
+import Character from "./Character.js";
+import Prompt from "./Prompt.js";
 
-class Npc extends GameObject {
-    constructor(data = null, quiz="", questions=[]) {
+class Npc extends Character {
+    constructor(data = null) {
         super(data);
-        this.quiz = quiz;
-        this.questions = questions
+        const questions = data?.quiz?.questions;
+        this.quiz = data?.quiz?.title; // Get the quiz title
+        this.questions = Prompt.shuffleArray(questions); // Shuffle the quiz questions initially
+        this.currentQuestionIndex = 0; // Initialize the current question index
         this.alertTimeout = null;
+
+        this.bindEventListeners();
     }
 
     /**
@@ -20,6 +24,17 @@ class Npc extends GameObject {
         this.draw();
     }
 
+    /**
+     * Binds key event listeners to handle object movement.
+     * 
+     * This method binds keydown and keyup event listeners to handle object movement.
+     * The .bind(this) method ensures that 'this' refers to the object object.
+     */
+    bindEventListeners() {
+        addEventListener('keydown', this.handleKeyDown.bind(this));
+        addEventListener('keyup', this.handleKeyUp.bind(this));
+    }
+    
     /**
      * Handles keydown events for proximity interaction.
      * This method is triggered when a key is pressed and checks for proximity interactions.
@@ -35,14 +50,11 @@ class Npc extends GameObject {
      */
     handleKeyDown({ key }) {
 
-        if (isPromptCurrentlyOpen() && (key === 'e' || key === 'u')) {
-            return; 
-        }
 
         switch (key) {
             case 'e': // Player 1 
             case 'u': // Player 2 
-                this.checkProximityToNPC();
+                this.shareQuizQuestion();
                 break;
         }
     }
@@ -67,66 +79,30 @@ class Npc extends GameObject {
         }
     }
 
-    /**
-     * Custom alert mechanism to handle responses.
-     * 
-     * @param {string} message - The message to be displayed in the alert.
-     */
-    handleResponse(message) {
-        if (isPromptCurrentlyOpen()) {
-            return; 
-        }
-        
-        // Clear any existing alert timeout
-        if (this.alertTimeout) {
-            clearTimeout(this.alertTimeout);
-        }
-        
-        // Set a new alert timeout
-        this.alertTimeout = setTimeout(() => {
-            alert(message);
-        }, 0);
-    }
-    
-     // Get a random question from the array
-     getRandomQuestion() {
-        let randomIndex = Math.floor(Math.random() * this.questions.length);
-        return this.questions[randomIndex];
+    // Get the next question in the shuffled array
+    getNextQuestion() {
+        const question = this.questions[this.currentQuestionIndex];
+        this.currentQuestionIndex = (this.currentQuestionIndex + 1) % this.questions.length;
+        return question;
     }
 
     /**
-     * Check for proximity of objects.
-     * This method checks if any players are within a certain distance of the NPC.
-     * If players are within the specified distance, their names are collected and a response is generated.
+     * Check for collision with player.
+     * If in collision, show a question from the questions array.
      */
-    checkProximityToNPC() {
-        // Filter all Player objects from the game environment
-        const players = GameEnv.gameObjects.filter(obj => obj instanceof GameObject);
-        const npc = this;
-        const names = [];
+    shareQuizQuestion() {
+        // Filter objects that are in collision with this NPC
+        const players = GameEnv.gameObjects.filter(obj => obj.state.collisionEvents.includes(this.spriteData.id));
+        const questions = this.questions.length > 0;
 
 
-        if (players.length > 0 && npc) {
+        if (players.length > 0 && questions) {
             players.forEach(player => {
-                // The Euclidean distance between two points in a 2D space
-                var distance = Math.sqrt(
-                    Math.pow(player.position.x - npc.position.x, 2) + Math.pow(player.position.y - npc.position.y, 2)
-                );
-                // The distance is less than 100 pixels
-                if (player != npc && distance <= 500) {
-                    names.push(player.spriteData.name);
+                if (!Prompt.isOpen) {
+                    // Display the custom prompt with the NPC's name and question
+                    Prompt.openPromptPanel(this);
                 }
             });
-            // Join all player names inside the proximity
-            if (names.length > 0) {
-                this.handleResponse(`Hello, ${names.join(', ')}`);
-                const quiz = this.quiz;
-                const question = this.getRandomQuestion();
-                showCustomPrompt(`${quiz}\n${question}`, async (input) => {
-                    const score = await submitAnswer(input, 1);
-                    this.handleResponse(`${score} points have been added to your balance.`);
-                });
-            }
         }
     }
 }

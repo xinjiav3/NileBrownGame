@@ -5,6 +5,7 @@ permalink: /gamify/adventureGame
 ---
 
 <style>
+    
 #custom-prompt {
     display: none;
     position: fixed;
@@ -91,10 +92,13 @@ permalink: /gamify/adventureGame
 </div>
 
 <div id="gameContainer">
+    <div id="promptDropDown" class="promptDropDown" style="z-index: 9999">
+    <!-- <a href="javascript:void(0)" id="leaderboard-header">&times; Leaderboard</a> -->
+    </div>
     <canvas id='gameCanvas'></canvas>
 </div>
 
-<div id="custom-alert" class="custom-alert">
+<!-- <div id="custom-alert" class="custom-alert">
     <button onclick="closeCustomAlert()" id="custom-alert-message"></button>
 </div>
 
@@ -105,17 +109,19 @@ permalink: /gamify/adventureGame
         <input type="text" id="custom-prompt-input" placeholder="Type your answer here..." />
         <button id="custom-prompt-submit">Submit</button>
     </div>
-</div>
+</div> -->
 
 
 <script type="module">
     import GameControl from '{{site.baseurl}}/assets/js/adventureGame/GameControl.js';
-    import { showCustomPrompt, closeCustomPrompt, submitAnswer } from '{{site.baseurl}}/assets/js/adventureGame/PromptHandler.js';
+    import Prompt from '{{site.baseurl}}/assets/js/adventureGame/Prompt.js';
     import { getStats } from '{{site.baseurl}}/assets/js/adventureGame/StatsManager.js';
 
     const path = "{{site.baseurl}}";
     GameControl.start(path);
     GameControl.startTimer()
+    Prompt.initializePrompt();
+
 
     window.submitAnswer = submitAnswer;
     window.showCustomPrompt = showCustomPrompt;

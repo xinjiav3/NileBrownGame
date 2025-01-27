@@ -1,10 +1,8 @@
 // To build GameLevels, each contains GameObjects from below imports
 import GameEnv from './GameEnv.js';
 import Background from './Background.js';
-import PlayerChillGuy from './PlayerChillGuy.js';
-import NpcTux from './NpcTux.js';
-import NpcOctocat from './NpcOctocat.js';
-
+import Player from './Player.js';
+import Npc from './Npc.js';
 
 class GameLevelWater {
   constructor(path) {
@@ -18,7 +16,7 @@ class GameLevelWater {
     // Background data
     const image_src_water = path + "/images/gamify/deepseadungeon.jpeg";
     const image_data_water = {
-        name: 'water',
+        id: 'Water',
         src: image_src_water,
         pixels: {height: 597, width: 340}
     };
@@ -27,7 +25,7 @@ class GameLevelWater {
     const CHILLGUY_SCALE_FACTOR = 5;
     const sprite_src_chillguy = path + "/images/gamify/chillguy.png";
     const sprite_data_chillguy = {
-        name: 'Chill Guy',
+        id: 'Chill Guy',
         src: sprite_src_chillguy,
         SCALE_FACTOR: CHILLGUY_SCALE_FACTOR,
         STEP_FACTOR: 1000,
@@ -43,11 +41,10 @@ class GameLevelWater {
     };
 
 
-
     // NPC sprite data (tux)
     const sprite_src_tux = path + "/images/gamify/tux.png";
     const sprite_data_tux = {
-        name: 'npc',
+        id: 'Tux',
         src: sprite_src_tux,
         SCALE_FACTOR: 10,  // Adjust this based on your scaling needs
         ANIMATION_RATE: 50,
@@ -57,10 +54,11 @@ class GameLevelWater {
         down: {row: 5, start: 0, columns: 3 },  // This is the stationary npc, down is default 
     };
 
-      // NPC sprite data (tux)
+    
+      // NPC sprite data (octocat)
       const sprite_src_octocat = path + "/images/gamify/octocat.png";
       const sprite_data_octocat = {
-          name: 'npc',
+          id: 'Octocat',
           src: sprite_src_octocat,
           SCALE_FACTOR: 10,  // Adjust this based on your scaling needs
           ANIMATION_RATE: 50,
@@ -73,9 +71,9 @@ class GameLevelWater {
     // List of objects defnitions for this level
     this.objects = [
       { class: Background, data: image_data_water },
-      { class: PlayerChillGuy, data: sprite_data_chillguy },
-      { class: NpcTux, data: sprite_data_tux },
-      { class: NpcOctocat, data: sprite_data_octocat },
+      { class: Player, data: sprite_data_chillguy },
+      { class: Npc, data: sprite_data_tux },
+      { class: Npc, data: sprite_data_octocat },
     ];
   }
 
