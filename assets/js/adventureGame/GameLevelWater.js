@@ -2,9 +2,7 @@
 import GameEnv from './GameEnv.js';
 import Background from './Background.js';
 import Player from './Player.js';
-import NpcTux from './NpcTux.js';
-import NpcOctocat from './NpcOctocat.js';
-
+import Npc from './Npc.js';
 
 class GameLevelWater {
   constructor(path) {
@@ -74,8 +72,8 @@ class GameLevelWater {
     this.objects = [
       { class: Background, data: image_data_water },
       { class: Player, data: sprite_data_chillguy },
-      { class: NpcTux, data: sprite_data_tux },
-      { class: NpcOctocat, data: sprite_data_octocat },
+      { class: Npc, data: sprite_data_tux },
+      { class: Npc, data: sprite_data_octocat },
     ];
   }
 

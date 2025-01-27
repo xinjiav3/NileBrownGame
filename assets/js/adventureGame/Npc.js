@@ -3,12 +3,15 @@ import Character from "./Character.js";
 import { shuffleArray, showCustomPrompt, submitAnswer, isPromptCurrentlyOpen } from "./PromptHandler.js";
 
 class Npc extends Character {
-    constructor(data = null, quiz="", questions=[]) {
+    constructor(data = null) {
         super(data);
-        this.quiz = quiz;
-        this.questions = shuffleArray(questions); // Shuffle questions initially
+        const questions = data?.quiz?.questions;
+        this.quiz = data?.quiz?.title; // Get the quiz title
+        this.questions = shuffleArray(questions); // Shuffle the quiz questions initially
         this.currentQuestionIndex = 0; // Initialize the current question index
         this.alertTimeout = null;
+
+        this.bindEventListeners();
     }
 
     /**
@@ -21,6 +24,17 @@ class Npc extends Character {
         this.draw();
     }
 
+    /**
+     * Binds key event listeners to handle object movement.
+     * 
+     * This method binds keydown and keyup event listeners to handle object movement.
+     * The .bind(this) method ensures that 'this' refers to the object object.
+     */
+    bindEventListeners() {
+        addEventListener('keydown', this.handleKeyDown.bind(this));
+        addEventListener('keyup', this.handleKeyUp.bind(this));
+    }
+    
     /**
      * Handles keydown events for proximity interaction.
      * This method is triggered when a key is pressed and checks for proximity interactions.
@@ -80,8 +94,8 @@ class Npc extends Character {
      * If in collision, show a question from the questions array.
      */
     shareQuizQuestion() {
-        // Filter all player objects that are in collision with this NPC
-        const players = GameEnv.gameObjects.filter(obj => obj instanceof Player && obj.state.collisionEvents.includes(this.spriteData.id));
+        // Filter objects that are in collision with this NPC
+        const players = GameEnv.gameObjects.filter(obj => obj.state.collisionEvents.includes(this.spriteData.id));
         const questions = this.questions.length > 0;
 
         if (players.length > 0 && questions) {
