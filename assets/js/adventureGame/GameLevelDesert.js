@@ -119,7 +119,6 @@ class GameLevelDesert {
       { class: Player, data: sprite_data_chillguy },
       { class: Npc, data: sprite_data_tux },
       { class: Npc, data: sprite_data_octocat },
-      { class: Npc, data: sprite_data_javanomad }
     ];
   }
 
