@@ -83,6 +83,14 @@ layout: post
             box-shadow: 0 0 10px rgba(0, 255, 162, 0.8);
         }
     }
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+    .shake {
+        animation: shake 0.5s infinite;
+    }
 </style>
 
 <div id="modal" class="modal">
@@ -250,7 +258,7 @@ layout: post
         const timeLeftElement = document.getElementById('time-left');
         let message = '';
         let color = '';
-
+        let shouldShake = false;
         if (days > 3) {
             message = `Time Left: ${days}d ${hours}h ${minutes}m`;
             color = 'green';
@@ -260,13 +268,21 @@ layout: post
         } else if (days <= 0 && (hours > 0 || minutes > 0)) {
             message = `Time Left: ${hours}h ${minutes}m (Almost due!)`;
             color = 'red';
+            shouldShake = true;
         } else {
             message = 'Deadline Passed';
             color = 'red';
+            shouldShake = true;
         }
 
         timeLeftElement.textContent = message;
         timeLeftElement.style.color = color;
+
+        if (shouldShake) {
+            timeLeftElement.classList.add('shake');
+        } else {
+            timeLeftElement.classList.remove('shake');
+        }
     }
 
 
