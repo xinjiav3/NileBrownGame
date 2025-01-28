@@ -201,7 +201,7 @@ const Prompt = {
         const promptTitle = document.createElement("div");
         promptTitle.id = "promptTitle";
         document.getElementById("promptDropDown").appendChild(promptTitle);
-        document.getElementById("promptDropDown").append(this.updatePromptTable())
+        // document.getElementById("promptDropDown").append(this.updatePromptTable())
 
        // document.getElementById("prompt-button").addEventListener("click",Prompt.openPromptPanel)
     },
