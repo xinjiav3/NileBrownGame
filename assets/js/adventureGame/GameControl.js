@@ -60,7 +60,6 @@ const GameControl = {
             return;
         }
         GameEnv.continueLevel = true;
-        GameEnv.gameObjects = [];
         const LevelClass = this.levelClasses[this.currentLevelIndex];
         const levelInstance = new LevelClass(this.path);
         this.level(levelInstance);
@@ -83,6 +82,10 @@ const GameControl = {
         // Base case: If the level has ended, exit the game loop
         if (!GameEnv.continueLevel) {
             alert("Level ended.");
+            // Clear the game environment, backkwards avoids skipping elements
+            for (let index = GameEnv.gameObjects.length - 1; index >= 0; index--) {
+                GameEnv.gameObjects[index].destroy();
+            }
             this.currentLevelIndex++;
             this.loadLevel();
             return;
