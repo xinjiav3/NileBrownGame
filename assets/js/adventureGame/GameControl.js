@@ -59,6 +59,7 @@ const GameControl = {
     
     loadLevel: function() {
         if (this.currentLevelIndex >= this.levelClasses.length) {
+            this.stopTimer();
             return;
         }
         GameEnv.continueLevel = true;
@@ -104,8 +105,9 @@ const GameControl = {
         for (let object of GameEnv.gameObjects) {
             object.update();  // Update the game objects
         }
-        if (this.currentLevelIndex === 0 && this.currentPass === 10) {
-            alert("Level started.");
+        // First time messaging
+        if (this.currentLevelIndex === 0 && this.currentPass === 7) {
+            alert("Start Level.");
         }
         this.currentPass++;
         // Recursively call this function at animation frame rate
