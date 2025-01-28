@@ -83,6 +83,9 @@ layout: post
         </select>
     </div>
     <div class="Assignment-Content" id="Assignment-Content">Assignment-Content</div>
+    <div id="timer-container">
+        <p id="time-left">Time Left: 100%</p>
+    </div>
     <br><br>
     <div>
         <label for="submissionContent" style="font-size: 18px;">Submission Content:</label>
@@ -220,10 +223,22 @@ layout: post
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        
+            const totalTime = deadlineDate - new Date(deadline);  
+            const timeLeft = deadlineDate - now;
+            const percentageLeft = (timeLeft / totalTime) * 100;
+            updateTimeText(days+" days "+hours+" hours "+minutes+" minutes");
+
             return `${days}d ${hours}h ${minutes}m left`;
         } else {
+            updateTimeText("DEADLINE PASSED"); 
             return "Deadline Passed";
         }
+    }
+
+    function updateTimeText(timeleft) {
+        const timeLeftElement = document.getElementById('time-left');
+        timeLeftElement.textContent = `Time Left: ${timeleft}`;
     }
 
 
