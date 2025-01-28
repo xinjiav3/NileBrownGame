@@ -67,13 +67,12 @@ const GameControl = {
         this.currentPass = 0;
         const LevelClass = this.levelClasses[this.currentLevelIndex];
         const levelInstance = new LevelClass(this.path);
-        this.level(levelInstance);
+        this.loadLevelObjects(levelInstance);
     },
     
-    level: function(gameInstance) {
-        // Create the game environment
+    loadLevelObjects: function(gameInstance) {
         this.initStatsUI();
-        // Prepare game objects for the level
+        // Instantiate the game objects
         for (let object of gameInstance.objects) {
             if (!object.data) object.data = {};
             new object.class(object.data);
@@ -82,38 +81,49 @@ const GameControl = {
         this.gameLoop();
         getStats();
     },
-    
+
     gameLoop: function() {
-        // Base case: If the level has ended, exit the game loop
+        // Base case: leave the game loop 
         if (!GameEnv.continueLevel) {
-            if (this.currentLevelIndex < this.levelClasses.length - 1) {
-                alert("Level ended.");
-            } else {
-                alert("Game over. All levels completed.");
-            }
-            // Clear the game environment, backwards avoids skipping elements
-            for (let index = GameEnv.gameObjects.length - 1; index >= 0; index--) {
-                GameEnv.gameObjects[index].destroy();
-            }
-            this.currentLevelIndex++;
-            this.loadLevel();
+            this.handleLevelEnd();
             return;
         }
-        // Nominal case: If the level is continuing, proceed with game loop
-        // Update the canvas
+        // Nominal case: update the game objects 
         GameEnv.clear();
         for (let object of GameEnv.gameObjects) {
             object.update();  // Update the game objects
         }
-        // First time messaging
-        if (this.currentLevelIndex === 0 && this.currentPass === 7) {
-            alert("Start Level.");
-        }
-        this.currentPass++;
+        this.handleLevelStart();
         // Recursively call this function at animation frame rate
         requestAnimationFrame(this.gameLoop.bind(this));
     },
 
+    handleLevelStart: function() {
+        // First time message for level 0
+        if (this.currentLevelIndex === 0 && this.currentPass === 7) {
+            alert("Start Level.");
+        }
+        // Recursion tracker
+        this.currentPass++;
+    },
+
+    handleLevelEnd: function() {
+        // More levels to play 
+        if (this.currentLevelIndex < this.levelClasses.length - 1) {
+            alert("Level ended.");
+        } else { // All levels completed
+            alert("Game over. All levels completed.");
+        }
+        // Tear down the game environment
+        for (let index = GameEnv.gameObjects.length - 1; index >= 0; index--) {
+            GameEnv.gameObjects[index].destroy();
+        }
+        // Move to the next level
+        this.currentLevelIndex++;
+        // Go back to the loadLevel function
+        this.loadLevel();
+    },
+    
     resize: function() {
         // Resize the game environment
         GameEnv.resize();
