@@ -43,23 +43,27 @@ const createStatsUI = () => {
 const GameControl = {
     intervalID: null, // Variable to hold the timer interval reference
     localStorageTimeKey: "localTimes",
+    currentPass: 0,
+    currentLevelIndex: 0,
+    levelClasses: [],
+    path: '',
 
     start: function(path) {
         GameEnv.create();
-        const levelClasses = [GameLevelDesert, GameLevelWater];
+        this.levelClasses = [GameLevelDesert, GameLevelWater];
         this.currentLevelIndex = 0;
-        this.levelClasses = levelClasses;
         this.path = path;
+        this.addExitKeyListener();
         this.loadLevel();
-        this.addEscKeyListener();
     },
     
     loadLevel: function() {
         if (this.currentLevelIndex >= this.levelClasses.length) {
-            alert("All levels completed.");
             return;
         }
         GameEnv.continueLevel = true;
+        GameEnv.gameObjects = [];
+        this.currentPass = 0;
         const LevelClass = this.levelClasses[this.currentLevelIndex];
         const levelInstance = new LevelClass(this.path);
         this.level(levelInstance);
@@ -81,8 +85,12 @@ const GameControl = {
     gameLoop: function() {
         // Base case: If the level has ended, exit the game loop
         if (!GameEnv.continueLevel) {
-            alert("Level ended.");
-            // Clear the game environment, backkwards avoids skipping elements
+            if (this.currentLevelIndex < this.levelClasses.length - 1) {
+                alert("Level ended.");
+            } else {
+                alert("Game over. All levels completed.");
+            }
+            // Clear the game environment, backwards avoids skipping elements
             for (let index = GameEnv.gameObjects.length - 1; index >= 0; index--) {
                 GameEnv.gameObjects[index].destroy();
             }
@@ -96,6 +104,10 @@ const GameControl = {
         for (let object of GameEnv.gameObjects) {
             object.update();  // Update the game objects
         }
+        if (this.currentLevelIndex === 0 && this.currentPass === 10) {
+            alert("Level started.");
+        }
+        this.currentPass++;
         // Recursively call this function at animation frame rate
         requestAnimationFrame(this.gameLoop.bind(this));
     },
@@ -109,11 +121,10 @@ const GameControl = {
         }
     },
 
-    addEscKeyListener: function() {
+    addExitKeyListener: function() {
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
                 GameEnv.continueLevel = false;
-                console.log("Escape key pressed. Ending level.");
             }
         });
     },
