@@ -204,9 +204,27 @@ layout: post
         selectedTask = this.value;
         assignIndex = this.selectedIndex;
         document.getElementById("Assignment-Content").innerText=assignments[assignIndex-1].description;
+        console.log(assignments[assignIndex-1].dueDate);
+        console.log(calculateTimeLeft(assignments[assignIndex-1].dueDate));
+        console.log(assignments[assignIndex-1].timestamp);
         document.getElementById("Assignment-name").innerText= this.value;
         fetchSubmissions();
     });
+
+    function calculateTimeLeft(deadline) {
+        const now = new Date();
+        const deadlineDate = new Date(deadline);
+        const diff = deadlineDate - now;
+
+        if (diff > 0) {
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            return `${days}d ${hours}h ${minutes}m left`;
+        } else {
+            return "Deadline Passed";
+        }
+    }
 
 
      async function getUserId(){
