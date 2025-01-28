@@ -4,8 +4,69 @@ title: Viewing Grades
 permalink: /student/view-grades
 comments: false
 ---
+<style>
+    /* Styling the table */
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 18px;
+        text-align: left;
+    }
+
+    .styled-table th, .styled-table td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+    }
+
+    .styled-table th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .styled-table tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .styled-table tbody tr:hover {
+        background-color: #ddd;
+    }
+
+    .styled-table td {
+        text-align: center;
+    }
+
+    /* Button styling */
+    #gradegetter {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    #gradegetter:hover {
+        background-color: #45a049;
+    }
+
+</style>
+
+
 
 <button id="gradegetter">Get Grades</button>
+<table id="gradesTable" class="styled-table">
+    <thead>
+        <tr>
+            <th>Assignment</th>
+            <th>Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Dynamic content will be inserted here -->
+    </tbody>
+</table>
 
 <script type="module">
     import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
@@ -13,6 +74,26 @@ comments: false
     let userId=-1;
     let grades=[];
     let assignment;
+
+
+    function populateTable(grades) {
+        const tableBody = document.getElementById("gradesTable").getElementsByTagName("tbody")[0];
+        
+        // Clear previous table data
+        tableBody.innerHTML = "";
+
+        // Loop through grades array and insert rows into the table
+        grades.forEach(stugrade => {
+            let row = tableBody.insertRow();
+
+            let cell1 = row.insertCell(0);
+            cell1.textContent = stugrade[1];
+
+            let cell2 = row.insertCell(1);
+            cell2.textContent = stugrade[0];
+        });
+    }
+
     async function getUserId(){
         const url_persons = `${javaURI}/api/person/get`;
         await fetch(url_persons, fetchOptions)
@@ -86,6 +167,7 @@ comments: false
             }
 
             console.log(grades);  
+            populateTable(grades);
 
         } catch (error) {
             console.error('Error fetching grades:', error);
