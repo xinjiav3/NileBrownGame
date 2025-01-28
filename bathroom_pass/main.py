@@ -3,13 +3,13 @@ import threading
 import requests
 import json
 
-from assets import javaURI
+from assets.api.assets import javaURI
 
 app = Flask(__name__)
 
 # Static queue data (replace with a dynamic backend if needed)
 queue = ["John Mortensen", "Srijan Atti"]
-current_user = "Toby Macguire"
+current_user = ""
 next_up = "Matthew Wakayama"
 
 def barcode_reader():

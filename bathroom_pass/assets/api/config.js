@@ -1,9 +1,7 @@
 export const baseurl = "/portfolio_2025";
 
-const location = "localhost" 
-
 export var pythonURI;
-if (location === "localhost" || location === "127.0.0.1") {
+if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
     pythonURI = "http://localhost:8087";  // Same URI for localhost or 127.0.0.1
 } else {
     pythonURI = "https://flask2025.nighthawkcodingsociety.com";
@@ -11,7 +9,7 @@ if (location === "localhost" || location === "127.0.0.1") {
 
 export var javaURI;
 // 127.0.0.1:8085 does not work for some machines
-if (location === "localhost" || location === "127.0.0.1") {
+if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
         javaURI = "http://localhost:8085";
 } else {
     javaURI = "https://spring2025.nighthawkcodingsociety.com";
