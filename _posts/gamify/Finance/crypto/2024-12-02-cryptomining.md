@@ -23,6 +23,18 @@ permalink: /crypto/mining
        border-radius: 5px;
        z-index: 1000; // Ensure it appears above other elements
    }
+   /* GPU Inventory Styles */
+   .dashboard-card {
+       @apply bg-gray-800 rounded-lg p-4 shadow-lg;
+   }
+   #gpu-inventory {
+       @apply mt-4;
+       min-height: 200px; /* Ensure minimum height even when empty */
+   }
+   .gpu-card {
+       @apply bg-gray-800 rounded-lg p-4 shadow-lg mb-4;
+       border: 1px solid rgba(255, 255, 255, 0.1);
+   }
     /* Navigation Bar */
     .navbar-logo {
         font-size: 1.5rem;
@@ -66,6 +78,8 @@ permalink: /crypto/mining
     
 </style>
 <body class="bg-gray-900 text-white min-h-screen p-6">
+    *** note: If the stats number are not showing, try to stop the mining and start again... <br>
+    *** note: If it says "Error loading mining state. Please try again.", please check if you are logged in or no...
     <!-- Navigation Bar -->
     <div class="navbar">
         <div class="navbar-logo">Crypto Mining</div>
@@ -215,9 +229,9 @@ permalink: /crypto/mining
             </div>
         </div>
         <!-- GPU Inventory -->
-        <div class="dashboard-card mt-4">
+        <div class="dashboard-card mt-4 bg-gray-900 p-6 rounded-lg">
             <h2 class="text-xl font-bold mb-4">My GPU Inventory</h2>
-            <div id="gpu-inventory" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div id="gpu-inventory" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 min-h-[200px]">
                 <!-- GPU inventory will be populated here -->
             </div>
         </div>
@@ -243,12 +257,16 @@ permalink: /crypto/mining
         let updateInterval;
         // Initialize charts and setup
         document.addEventListener('DOMContentLoaded', async () => {
-            initializeCharts();
-            setupEventListeners();
-            await updateAllMarketPrices();
-            await updateNiceHashPrice();
-            await loadGPUs();
-            startPeriodicUpdates();
+            try {
+                initializeCharts();
+                setupEventListeners();
+                await initializeMiningState();
+                await updateAllMarketPrices();
+                await updateNiceHashPrice();
+                await loadGPUs();
+            } catch (error) {
+                console.error('Error during initialization:', error);
+            }
         });
         function initializeCharts() {
             const chartConfig = {
@@ -311,8 +329,42 @@ permalink: /crypto/mining
             document.getElementById('gpu-shop').addEventListener('click', openGpuShop);
             document.getElementById('pool-selection').addEventListener('change', switchPool);
         }
+        async function initializeMiningState() {
+            try {
+                const options = {
+                    ...fetchOptions,
+                    method: 'GET',
+                    cache: 'no-cache'
+                };
+                // Fetch initial mining state
+                const response = await fetch(`${javaURI}/api/mining/state`, options);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch mining state');
+                }
+                const state = await response.json();
+                console.log('Initial mining state:', state);
+                // Update UI with initial state
+                updateDisplay(state);
+                updateMiningButton(state.isMining);
+                // Start periodic updates if mining is active
+                if (state.isMining) {
+                    startPeriodicUpdates();
+                }
+            } catch (error) {
+                console.error('Error initializing mining state:', error);
+                showNotification('Error loading mining state. Please try again.');
+            }
+        }
         async function startPeriodicUpdates() {
+            if (updateInterval) {
+                clearInterval(updateInterval);
+            }
+            // Update mining stats every min
             updateInterval = setInterval(async () => {
+                await updateMiningStats();
+            }, 60000);
+            // Update market prices every hour
+            setInterval(async () => {
                 await updateAllMarketPrices();
                 await updateNiceHashPrice();
             }, 3600000);
@@ -333,7 +385,7 @@ permalink: /crypto/mining
                 console.error('Error loading GPUs:', error);
             }
         }
-           async function toggleMining() {
+        async function toggleMining() {
             try {
                 const options = {
                     ...fetchOptions,
@@ -342,8 +394,13 @@ permalink: /crypto/mining
                 };
                 const response = await fetch(`${javaURI}/api/mining/toggle`, options);
                 const result = await response.json();
-                updateMiningButton(result.isMining); // Ensure this reflects the correct state
-                await updateMiningStats(); // Refresh stats after toggling
+                updateMiningButton(result.isMining);
+                if (result.isMining) {
+                    startPeriodicUpdates();
+                } else {
+                    stopPeriodicUpdates();
+                }
+                await updateMiningStats();
             } catch (error) {
                 console.error('Error toggling mining:', error);
             }
@@ -418,8 +475,10 @@ permalink: /crypto/mining
                 };
                 const response = await fetch(`${javaURI}/api/mining/stats`, options);
                 const stats = await response.json();
-                updateDisplay(stats); // Ensure this function correctly updates the UI
-                updateCharts(stats); // Ensure this updates the charts as well
+                console.log('Raw mining stats:', stats); // Add this line
+                console.log('GPUs in stats:', stats.gpus); // Add this line
+                updateDisplay(stats);
+                updateCharts(stats);
             } catch (error) {
                 console.error('Error updating mining stats:', error);
             }
@@ -454,21 +513,31 @@ permalink: /crypto/mining
             renderGpuInventory(stats); // Ensure this function is correctly populating the GPU inventory
         }
         function renderGpuInventory(stats) {
+            console.log('Rendering GPU inventory with stats:', stats);
             const inventoryElement = document.getElementById('gpu-inventory');
-            if (!inventoryElement || !stats.gpus) return;
+            if (!inventoryElement) {
+                console.error('GPU inventory element not found');
+                return;
+            }
+            if (!stats.activeGPUs) {
+                console.error('No GPUs array in stats');
+                return;
+            }
             inventoryElement.innerHTML = '';
-            if (stats.gpus.length === 0) {
+            if (stats.activeGPUs.length === 0) {
+                console.log('No GPUs in inventory');
                 inventoryElement.innerHTML = `
-                    <div class="text-gray-400 text-center p-4">
+                   <div class="text-gray-400 text-center p-8 bg-gray-800 rounded-lg w-full col-span-full">
                         No GPUs in inventory. Visit the shop to buy some!
                     </div>
                 `;
                 return;
             }
-            stats.gpus.forEach(gpu => {
+            console.log('Number of GPUs to render:', stats.activeGPUs.length);
+            stats.activeGPUs.forEach(gpu => {
+                console.log('Rendering GPU:', gpu);
                 const gpuCard = document.createElement('div');
-                gpuCard.className = 'bg-gray-800 rounded-lg p-4 shadow-lg';
-                // Calculate efficiency and daily estimates
+                gpuCard.className = 'gpu-card transform transition-all duration-200 hover:scale-105';
                 const efficiency = (gpu.hashrate / gpu.power).toFixed(3);
                 const dailyRevenue = gpu.hashrate * 86400 / (1e12);
                 const dailyPowerCost = (gpu.power * 24) / 1000 * 0.12;
@@ -482,6 +551,7 @@ permalink: /crypto/mining
                                     <p class="text-gray-400">Performance</p>
                                     <p class="text-white">⚡ ${gpu.hashrate} MH/s</p>
                                     <p class="text-white">🔌 ${gpu.power}W</p>
+                                    <p class="text-white">🌡️ ${gpu.temp}°C</p>
                                     <p class="text-white">📊 ${efficiency} MH/W</p>
                                 </div>
                                 <div class="text-sm">
@@ -735,11 +805,6 @@ permalink: /crypto/mining
                 changeElement.style.color = changeValue >= 0 ? '#2ecc71' : '#e74c3c';
             }
         }
-        // Update all prices every hour
-        setInterval(() => {
-            updateAllMarketPrices();
-            updateNiceHashPrice();
-        }, 3600000);
         // gameState
         const gameState = {
             btcPrice: {
@@ -747,32 +812,20 @@ permalink: /crypto/mining
             }
         };
         function showNotification(message) {
-            console.log('Notification:', message); // Debug log
+            console.log('Notification:', message);
             const notificationElement = document.createElement('div');
             notificationElement.textContent = message;
-            notificationElement.className = 'notification'; // Ensure this class is styled
+            notificationElement.className = 'notification';
             document.body.appendChild(notificationElement);
-            // Remove the notification after a few seconds
             setTimeout(() => {
                 document.body.removeChild(notificationElement);
             }, 3000);
         }
-        // Function to fetch and display Python data
-        function pythonDatabase() {
-            const URL = `${pythonURI}/api/id`;
-            fetch(URL, fetchOptions)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Flask server response: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    window.location.href = '{{site.baseurl}}/profile';
-                })
-                .catch(error => {
-                    document.getElementById("message").textContent = `Error: ${error.message}`;
-                });
+        function stopPeriodicUpdates() {
+            if (updateInterval) {
+                clearInterval(updateInterval);
+                updateInterval = null;
+            }
         }
     </script>
 </body>
