@@ -99,8 +99,8 @@ const GameControl = {
     },
 
     handleLevelStart: function() {
-        // First time message for level 0
-        if (this.currentLevelIndex === 0 && this.currentPass === 7) {
+        // First time message for level 0, delay 10 passes
+        if (this.currentLevelIndex === 0 && this.currentPass === 10) {
             alert("Start Level.");
         }
         // Recursion tracker
