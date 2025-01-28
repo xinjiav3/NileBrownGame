@@ -12,6 +12,7 @@ comments: false
     document.getElementById("gradegetter").addEventListener("click", getGrades);
     let userId=-1;
     let grades=[];
+    let assignment;
     async function getUserId(){
         const url_persons = `${javaURI}/api/person/get`;
         await fetch(url_persons, fetchOptions)
@@ -31,41 +32,68 @@ comments: false
             });
     }
 
-    
-    
-    function getGrades() {
-        console.log("here");
-        const urlGrade = javaURI + '/api/synergy/grades';  // Declare and initialize urlGrade at the start
-
-        fetch(urlGrade, {
-            method: 'GET',  // Using GET to fetch data
-            credentials: 'include',  // Send cookies if needed
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log("works");
-                return response.json();
-            } else {
-                throw new Error('Failed to get data: ' + response.statusText);
-            }
-        })
-        .then(data => {
-            console.log("here");
-            getUserId();
-            console.log(data);
-            data.forEach(grade => {
-                console.log(`Grade for studentId ${grade.studentId}: ${grade.grade}`);
-                console.log(grade.studentId+" "+userId);
-                if(grade.studentId==userId){
-                    grades.push(grade.grade);
+    async function fetchAssignmentbyId(assignmentId) {
+        try {
+            const response = await fetch(javaURI + "/api/assignments/" + String(assignmentId), {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
                 }
             });
-            console.log(grades);
-        })
-        .catch(error => {
-            console.error('Error fetching grades:', error);
-        });
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch assignments: ${response.statusText}`);
+            }
+
+            const assignment = await response.text();
+            console.log(assignment + " ----");
+            return assignment;  
+
+        } catch (error) {
+            console.error('Error fetching assignments:', error);
+        }
     }
+
+    
+    async function getGrades() {
+        console.log("here");
+        const urlGrade = javaURI + '/api/synergy/grades';
+
+        try {
+            const response = await fetch(urlGrade, {
+                method: 'GET',
+                credentials: 'include',
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to get data: ' + response.statusText);
+            }
+
+            const data = await response.json();
+            await getUserId();  
+
+            for (const grade of data) {
+                if (grade.studentId == userId) {
+                    let stugrade = [];
+                    stugrade.push(grade.grade);
+                    
+                    
+                    const assignmentDetails = await fetchAssignmentbyId(grade.assignmentId);
+                    stugrade.push(assignmentDetails);
+                    
+                    grades.push(stugrade);
+                }
+            }
+
+            console.log(grades);  
+
+        } catch (error) {
+            console.error('Error fetching grades:', error);
+        }
+    }
+
+
     getUserId();
+    
     
 </script>
