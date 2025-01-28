@@ -40,13 +40,6 @@ menu: nav/home.html
 
 <!-- Second Row of Buttons -->
 <div class="toolkit-buttons">
-  <a href="{{site.baseurl}}/stocks/home" class="toolkit-button" data-description="Solve challenging puzzles to sharpen your problem-solving skills. Includes logic puzzles, brain teasers, and coding challenges." data-authors="Author: Team PuzzleMasters">
-    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/stocks.png" alt="Stocks Game" />
-    <span class="button-name">Stocks Game</span>
-    <div class="description">
-      <p>Learn the basics of finance and investing with a stock investing simulator for no-risk learning.</p>
-    </div>
-  </a>
   <a href="{{site.baseurl}}/gamify/casinohomepage" class="toolkit-button" data-description="Classic arcade games reimagined for learning coding concepts. Test your reflexes and learn programming tricks at the same time." data-authors="Author: ArcadeDev">
     <img src="{{site.baseurl}}/images/toolkit-nav-buttons/casinohomepage.png" alt="Casino Game" />
     <span class="button-name">Casino Game</span>
