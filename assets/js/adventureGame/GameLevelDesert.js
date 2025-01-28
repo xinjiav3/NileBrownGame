@@ -76,7 +76,7 @@ class GameLevelDesert {
         }
       };
 
-      
+
 
       // NPC data for Octocat
       const sprite_src_octocat = path + "/images/gamify/octocat.png"; // be sure to include the path
