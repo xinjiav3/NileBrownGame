@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
     <title>Queue Management</title>
     <style>
         body {
@@ -60,7 +64,7 @@
             background: #f9f9f9;
             border-radius: 5px;
         }
-        .map {
+        .map-container {
             width: 400px;
             height: 300px;
             background-color: #eee;
@@ -82,6 +86,36 @@
         .button:hover {
             background-color: #0056b3;
         }
+
+        .map-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+        }
+        .map-container img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        .location {
+            position: absolute;
+            cursor: pointer;
+        }
+        .location:hover .info {
+            display: block;
+        }
+        .info {
+            display: none;
+            position: absolute;
+            bottom: 30px;
+            left: -50px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+            z-index: 10;
+        }
     </style>
 </head>
 <body class="occupied-glow">
@@ -89,7 +123,7 @@
     
     <div class="container">
         <div class="info-box">
-            <p>Currently Away: <span id="current-away">Toby Macguire</span></p>
+            <p>Currently Away: <span id="current-away"></span></p>
             <div class="queue">
                 <strong>Next-up:</strong>
                 <p id="next-up">Matthew Wakayama</p>
@@ -98,7 +132,9 @@
             </div>
             <button class="button" onclick="updateQueue()">Leave Now</button>
         </div>
-        <div class="map"></div>
+        <div class="map-container">
+            <img src="https://i.ibb.co/tMQ1mTy6/map.png" alt="Map">
+        </div>
     </div>
 
     <script>
@@ -131,6 +167,146 @@
         }
 
         document.addEventListener("DOMContentLoaded", renderQueue);
+        
+
+        import { javaURI, pythonURI, fetchOptions } from '../assets/api/config.js';
+
+        async function fetchLocations() {
+            try {
+                const response = await fetch(javaURI + '/api/issue/issues', fetchOptions);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const issues = await response.json();
+
+                const mapContainer = document.querySelector('.map-container');
+
+                issues.forEach(issue => {
+                    console.log(issue.bathroom)
+                    if (issue.count == 0) {
+                        return;
+                    }
+                    const locElement = document.createElement('div');
+                    locElement.className = 'location';
+                    locElement.style.position = 'absolute';
+                    locElement.style.top = (issue.positionY * 100) + '%';
+                    locElement.style.left = (issue.positionX * 100) + '%';
+
+                    const icon = document.createElement('img');
+                    icon.src = 'https://i.ibb.co/jPDbhG4H/marker.webp';
+                    icon.alt = 'Location Icon';
+                    icon.style.width = '48px';
+                    icon.style.height = '48px';
+
+                    const info = document.createElement('div');
+                    info.className = 'info';
+                    info.textContent = `${issue.bathroom} Bathroom: ${issue.issue}`;
+
+                    locElement.appendChild(icon);
+                    locElement.appendChild(info);
+                    mapContainer.appendChild(locElement);
+                });
+            } catch (error) {
+                console.error('Error fetching issues:', error);
+            }
+        }
+
+        // Fetch locations on page load
+        fetchLocations();
+
+        const other = document.getElementById("checkbox_4");
+        const report_button = document.getElementById("report-btn");
+
+        console.log("hello")
+
+        other.addEventListener('click', function (){
+            console.log('other clicked');
+            document.getElementById('additionalInfo').style.display = 'block';
+        });
+
+        const url = javaURI + '/api/issue/update/';
+
+        window.report_box = function report_box() {
+            // Collect all selected checkboxes
+            const selectedBathroom = document.querySelector('input[name="radio2"]:checked');
+            if (!selectedBathroom) {
+                alert("Please select a bathroom.");
+                return;
+            }
+            let bathroomValue = selectedBathroom.value; // Make sure to use `let` for reassignment
+            switch (bathroomValue) {
+                case '3':
+                    bathroomValue = 'D Building Bathroom';
+                    break;
+                case '4':
+                    bathroomValue = 'L Building Bathroom';
+                    break;
+                case '5':
+                    bathroomValue = 'A Building Bathroom';
+                    break;
+                case '6':
+                    bathroomValue = 'Football Field Bathroom';
+                    break;
+                case '7':
+                    bathroomValue = 'Locker Room Bathroom';
+                    break;
+            }
+
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            const selectedIssues = [];
+
+            checkboxes.forEach(checkbox => {
+                selectedIssues.push(checkbox.value); // Collect the values of selected checkboxes
+            });
+
+            const additionalIssue = document.getElementById("additionalInfo").value;
+            if (selectedIssues.length === 0 && additionalIssue == null) {
+                alert("Please select at least one issue.");
+                return;
+            }
+            if (selectedIssues[0] == 'Other' && additionalIssue != null) {
+                selectedIssues[0] = additionalIssue;
+            }
+
+            const reportData = {
+                bathroomName: bathroomValue,
+                issue: selectedIssues[0], // Sending all issues instead of just the first one
+                count: 1
+            };
+            console.log(JSON.stringify(reportData));
+
+            // Create a unique URL for each issue
+            const putOptions = {
+                ...fetchOptions,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(reportData), // Send the current issue in the body
+            };
+
+            // Send individual PUT requests for each issue
+            fetch(javaURI + '/api/issue/add', putOptions)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok: ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Success for issue:', data);
+                })
+                .catch(error => {
+                    console.error('Error for issue:', error);
+                });
+
+
+            alert("Issues reported!");
+            // Fetch locations on page load
+            fetchLocations();
+        };
+
+        report_button.addEventListener("click", report_box)
     </script>
 </body>
 </html>
