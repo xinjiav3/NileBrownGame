@@ -125,7 +125,7 @@ layout: post
     let submissions=[];
     let assignIndex = 0;
     let assignments;
-    let userId=0;
+    let userId=-1;
     let Student;
 
     document.getElementById("submit-assignment").addEventListener("click", Submit);
@@ -134,6 +134,10 @@ layout: post
         const submissionContent = document.getElementById('submissionContent').value;
         const comment=document.getElementById('comments').value;
         getUserId();
+        if(userId==-1){
+            alert("Please login first");
+            return;
+        }
         const student_id=userId;
         const assigmentId=assignments[assignIndex-1].id;
         urllink_submit+=assigmentId.toString();
@@ -151,11 +155,14 @@ layout: post
             const outputBox = document.getElementById('outputBox');
             if (response.ok) {
                 outputBox.innerText = 'Successful Submission! ';
+                fetchSubmissions();
                 return response.json();
             } else {
                 outputBox.innerText = 'Failed Submission! ';
                 throw new Error('Failed to submit data: ' + response.statusText);
             }
+            
+
         })
         .then(result => {
             console.log('Submission successful:', result);
