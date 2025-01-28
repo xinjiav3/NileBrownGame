@@ -77,7 +77,7 @@ class GameLevelDesert {
       };
 
       //NPC Data for Byte Nomad
-      const sprite_src_javanomad = path + "/images/gamify/java_nomad.png"; // Ensure correct path to the image
+      const sprite_src_javanomad = path + "/images/gamify/wizard.png"; // Ensure correct path to the image
       const sprite_data_javanomad = {
           id: 'Java Nomad',
           greeting: "Ah, traveler! The digital sands shift like the wind, and only those who understand Java can truly master the art of programming. Are you ready to test your Java knowledge?",
