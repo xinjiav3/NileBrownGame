@@ -97,6 +97,27 @@ comments: false
 <div id="progress-bar-container">
     <div id="progress-bar">0%</div>
 </div>
+<div style="margin: 20px;">
+    <input
+        id="usernameInput"
+        type="text"
+        placeholder="Enter username"
+        style="width: 100%; margin-bottom: 10px; padding: 8px; border-radius: 5px; border: 1px solid #ddd;"
+    />
+    <textarea
+        id="dailyActivityInput"
+        rows="2"
+        placeholder="Enter daily activity"
+        style="width: 100%; margin-bottom: 10px; padding: 8px; border-radius: 5px; border: 1px solid #ddd;"
+    ></textarea>
+    <button
+        class="create-button"
+        onclick="saveDailyActivityForUser()"
+        style="padding: 10px 20px; font-size: 16px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;"
+    >
+        Save Activity
+    </button>
+</div>
 <div id="student-cards-container"></div>
 <button class="create-button" onclick="createStudent()">Create Student</button>
 
@@ -212,6 +233,50 @@ comments: false
       document.getElementById("student-cards-container").innerHTML = "<p>No table selected.</p>";
     }
   });
+  window.saveDailyActivityForUser = function saveDailyActivityForUser() {
+    // Get the username and daily activity inputs
+    const usernameInput = document.getElementById("usernameInput");
+    const dailyActivityInput = document.getElementById("dailyActivityInput");
+
+    const username = usernameInput.value.trim();
+    const dailyActivity = dailyActivityInput.value.trim();
+
+    // Validate inputs
+    if (!username) {
+        alert("Please enter a username.");
+        return;
+    }
+    if (!dailyActivity) {
+        alert("Please enter a daily activity.");
+        return;
+    }
+
+    // Prepare the request body
+    const requestBody = {
+        username: username,
+        dailyActivity: dailyActivity,
+    };
+
+    // Send POST request to save the daily activity
+    fetch(`${javaURI}/api/students/save-daily-activity`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+    })
+        .then((response) => {
+            if (!response.ok) throw new Error("Failed to save daily activity.");
+            alert("Daily activity saved successfully!");
+            // Clear the input fields
+            usernameInput.value = "";
+            dailyActivityInput.value = "";
+        })
+        .catch((error) => {
+            console.error("Error saving daily activity:", error);
+            alert("An error occurred while saving the daily activity.");
+        });
+};
 window.addTask = function addTask(username) {
     const newTask = prompt("Enter a new task:");
     if (newTask) {
