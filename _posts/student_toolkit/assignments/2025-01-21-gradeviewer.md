@@ -55,7 +55,7 @@ comments: false
 
 
 
-<button id="gradegetter">Get Grades</button>
+
 <table id="gradesTable" class="styled-table">
     <thead>
         <tr>
@@ -70,19 +70,16 @@ comments: false
 
 <script type="module">
     import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
-    document.getElementById("gradegetter").addEventListener("click", getGrades);
     let userId=-1;
     let grades=[];
     let assignment;
 
-
+    
     function populateTable(grades) {
         const tableBody = document.getElementById("gradesTable").getElementsByTagName("tbody")[0];
         
-        // Clear previous table data
         tableBody.innerHTML = "";
 
-        // Loop through grades array and insert rows into the table
         grades.forEach(stugrade => {
             let row = tableBody.insertRow();
 
@@ -175,7 +172,9 @@ comments: false
     }
 
 
-    getUserId();
-    
+    window.onload = async function() {
+        await getUserId();
+        await getGrades(); 
+    };
     
 </script>
