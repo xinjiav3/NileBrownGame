@@ -8,6 +8,13 @@ menu: nav/home.html
 
 <div class="toolkit-buttons">
   <!-- First Row of Buttons -->
+    <a href="{{site.baseurl}}/stocks/home" class="toolkit-button" data-description="Experience real-time stock market simulation with virtual trading. Monitor popular stocks like Apple, Google, and Microsoft, manage your portfolio, and climb the leaderboard as you learn investment strategies in a risk-free environment." data-authors="Author: NITD+People">
+    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/stocks.png" alt="Stocks Home" />
+    <span class="button-name">Stocks Home</span>
+    <div class="description">
+      <p>Experience real-time stock market simulation with virtual trading. Monitor popular stocks like Apple, Google, and Microsoft, manage your portfolio, and climb the leaderboard as you learn investment strategies in a risk-free environment.</p>
+    </div>
+  </a>
   <a href="{{site.baseurl}}/gamify/adventureGame" class="toolkit-button" data-description="This page contains all the games developed by CSA. It includes an adventure game where you can explore endless opurtunites. Within this game you can learn how to gamble by playing the gambling game or all about stocks and crypto in our investment game!" data-authors="Author: NITD+People">
     <img src="{{site.baseurl}}/images/toolkit-nav-buttons/adventure.png" alt="Gamify" />
     <span class="button-name">The Adventure</span>
