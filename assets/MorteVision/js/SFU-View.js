@@ -1,4 +1,5 @@
 import { javaURI } from '../../js/api/config.js';
+let bruh = "https://justfornow.onrender.com"
 const servers = {
     iceServers:[
       {
@@ -34,6 +35,7 @@ async function consumerCreatePeer() {
                 document.getElementById("streamOffline").style.display = "none"
             }
     peer.onnegotiationneeded = () => consumeNegotiation(peer)
+    // peer.onicecandidate = async (e) => await peer.addIceCandidate(e.candidate)
     return peer
 }
 
@@ -43,7 +45,7 @@ async function consumeNegotiation(peer) {
     const payload = {
         sdp: peer.localDescription
     }
-    fetch(javaURI+"/webrtc/consume",
+    fetch(bruh+"/webrtc/consume",
         {
             method:"POST",
             body:JSON.stringify(payload),
