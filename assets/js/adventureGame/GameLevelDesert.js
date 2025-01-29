@@ -178,7 +178,7 @@ const sprite_data_htmlhank = {
       { class: Npc, data: sprite_data_tux },
       { class: Npc, data: sprite_data_octocat },
       { class: Npc, data: sprite_data_robot },
-      { class: Npc, data: sprite_data_htmlhank }, 
+     // { class: Npc, data: sprite_data_htmlhank }, 
     ];
   }
 
