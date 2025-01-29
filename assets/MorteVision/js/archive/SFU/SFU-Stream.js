@@ -1,4 +1,5 @@
-import { javaURI } from '../../js/api/config.js';
+import { javaURI } from '../../../../js/api/config.js';
+let bruh = "http://localhost:443"//https://justfornow.onrender.com"
 const servers = {
     iceServers:[
       {
@@ -47,41 +48,37 @@ async function streamerInit() {
 let streamPeerCloseOnly
 let mediaStreamCloseOnly
 
+let socket = io(bruh, { autoConnect: false });
+
 function streamerCreatePeer() {
     const peer = new RTCPeerConnection(servers);
     peer.onnegotiationneeded = () => streamerNegotiation(peer);
-
+    // peer.onicecandidate = async (e) => await peer.addIceCandidate(e.candidate)
+    peer.onicecandidate = (e) => {
+        if (e.candidate) {
+            console.log('ICE candidate');
+            socket.emit("clientIceStream", {candidate:e.candidate})
+        }
+    }
     streamPeerCloseOnly = peer
     return peer;
 }
 
+socket.on('serverIceStream', (data) => {
+    globalPeer.addIceCandidate(new RTCIceCandidate(data.candidate));
+});
+
 async function streamerNegotiation(peer) {
+    socket.connect()
     const offer = await peer.createOffer();
     await peer.setLocalDescription(offer);
     const payload = {
         sdp: peer.localDescription
     };
-
-    fetch(javaURI+"/webrtc/broadcast",
-        {
-            method:"POST",
-            body:JSON.stringify(payload),
-            headers: {
-                "Content-Type": "application/json",
-              },
-        }).then(response => {
-            if(response.ok)
-            {
-                console.log(response)
-                return response.json()
-            }
-            console.log(response)
-            throw new Error("broadcast endpoint failure");
-        }).then(data =>{
-            console.log(data)
-            const desc = new RTCSessionDescription(data);
-            peer.setRemoteDescription(desc).catch(e => console.log(e));
-        })
+    socket.emit("broadcast", payload, (response) => {
+        const desc = new RTCSessionDescription(data);
+        peer.setRemoteDescription(desc).catch(e => console.log(e));
+    })
 }
 
 async function endStream()
