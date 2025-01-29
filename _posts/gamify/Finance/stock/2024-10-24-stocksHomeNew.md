@@ -399,7 +399,7 @@ title: Stocks Home
             </div>
             <div class="search-container">
                 <input type="text" id="searchBar" placeholder="Search...">
-                <button class="search-button" onclick="getStockData()">SearchUDHFIUDSHF</button>
+                <button class="search-button" onclick="getStockData()">Search</button>
             </div>
             <div class="chart-container" id="chartContainer">
                 <div class="chart" id="chart1">
