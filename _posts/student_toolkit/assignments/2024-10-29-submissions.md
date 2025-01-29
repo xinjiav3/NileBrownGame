@@ -8,6 +8,16 @@ layout: post
 
 <title>Submission Form</title>
 <style>
+    #timer-container {
+        text-align: center;
+        font-size: 24px;
+        font-family: Arial, sans-serif;
+        margin-top: 20px;
+    }
+    #time-left {
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
     select, input[type="url"], textarea, button {
         width: 100%;
         padding: 15px; 
@@ -73,6 +83,14 @@ layout: post
             box-shadow: 0 0 10px rgba(0, 255, 162, 0.8);
         }
     }
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+    .shake {
+        animation: shake 0.5s infinite;
+    }
 </style>
 
 <div id="modal" class="modal">
@@ -83,6 +101,9 @@ layout: post
         </select>
     </div>
     <div class="Assignment-Content" id="Assignment-Content">Assignment-Content</div>
+    <div id="timer-container">
+        <p id="time-left"></p>
+    </div>
     <br><br>
     <div>
         <label for="submissionContent" style="font-size: 18px;">Submission Content:</label>
@@ -125,7 +146,7 @@ layout: post
     let submissions=[];
     let assignIndex = 0;
     let assignments;
-    let userId=0;
+    let userId=-1;
     let Student;
 
     document.getElementById("submit-assignment").addEventListener("click", Submit);
@@ -134,6 +155,10 @@ layout: post
         const submissionContent = document.getElementById('submissionContent').value;
         const comment=document.getElementById('comments').value;
         getUserId();
+        if(userId==-1){
+            alert("Please login first");
+            return;
+        }
         const student_id=userId;
         const assigmentId=assignments[assignIndex-1].id;
         urllink_submit+=assigmentId.toString();
@@ -151,11 +176,14 @@ layout: post
             const outputBox = document.getElementById('outputBox');
             if (response.ok) {
                 outputBox.innerText = 'Successful Submission! ';
+                fetchSubmissions();
                 return response.json();
             } else {
                 outputBox.innerText = 'Failed Submission! ';
                 throw new Error('Failed to submit data: ' + response.statusText);
             }
+            
+
         })
         .then(result => {
             console.log('Submission successful:', result);
@@ -197,9 +225,65 @@ layout: post
         selectedTask = this.value;
         assignIndex = this.selectedIndex;
         document.getElementById("Assignment-Content").innerText=assignments[assignIndex-1].description;
+        console.log(assignments[assignIndex-1].dueDate);
+        console.log(calculateTimeLeft(assignments[assignIndex-1].dueDate));
+        console.log(assignments[assignIndex-1].timestamp);
         document.getElementById("Assignment-name").innerText= this.value;
         fetchSubmissions();
     });
+
+    function calculateTimeLeft(deadline) {
+        const now = new Date();
+        const deadlineDate = new Date(deadline);
+        const diff = deadlineDate - now;
+
+        if (diff > 0) {
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        
+            const totalTime = deadlineDate - new Date(deadline);  
+            const timeLeft = deadlineDate - now;
+            const percentageLeft = (timeLeft / totalTime) * 100;
+            updateTimeText(days,hours,minutes);
+
+            return `${days}d ${hours}h ${minutes}m left`;
+        } else {
+            updateTimeText(-0.5,-0.5,-0.5); 
+            return "Deadline Passed";
+        }
+    }
+
+    function updateTimeText(days, hours, minutes) {
+        const timeLeftElement = document.getElementById('time-left');
+        let message = '';
+        let color = '';
+        let shouldShake = false;
+        if (days > 3) {
+            message = `Time Left: ${days}d ${hours}h ${minutes}m`;
+            color = 'green';
+        } else if (days <= 3 && days > 0) {
+            message = `Time Left: ${days}d ${hours}h ${minutes}m (Hurry up!)`;
+            color = 'orange';
+        } else if (days <= 0 && (hours > 0 || minutes > 0)) {
+            message = `Time Left: ${hours}h ${minutes}m (Almost due!)`;
+            color = 'red';
+            shouldShake = true;
+        } else {
+            message = 'Deadline Passed';
+            color = 'red';
+            shouldShake = true;
+        }
+
+        timeLeftElement.textContent = message;
+        timeLeftElement.style.color = color;
+
+        if (shouldShake) {
+            timeLeftElement.classList.add('shake');
+        } else {
+            timeLeftElement.classList.remove('shake');
+        }
+    }
 
 
      async function getUserId(){
