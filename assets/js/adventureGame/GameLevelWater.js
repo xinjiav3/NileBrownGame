@@ -19,13 +19,16 @@ class GameLevelWater {
     };
 
     // NPC Data for Byte Nomad (Smaller Version)
-    const sprite_src_javanomad = path + "/images/gamify/wizard.png"; // Ensure correct path to the image
+    const sprite_src_javanomad = path + "/images/gamify/animwizard.png"; // Ensure correct path to the image
     const sprite_data_javanomad = {
         id: 'Java Nomad',
         greeting: "Ah, traveler! The digital sands shift like the wind, and only those who understand Java can truly master the art of programming. Are you ready to test your Java knowledge?",
         src: sprite_src_javanomad,
         SCALE_FACTOR: 4, // Reduced scale factor for a smaller NPC
-        pixels: { height: 163, width: 185 },
+        orientation: {rows: 3, columns: 7 },
+        pixels: { height: 813, width: 307 },
+        ANIMATION_RATE: 100,
+        INIT_POSITION: { x: (width * 3 / 4), y: (height * 3 / 4)},
         INIT_POSITION: { x: (width / 2), y: (height / 2.5) }, // Adjusted for better placement
         hitbox: { widthPercentage: 0.07, heightPercentage: 0.07 }, // Reduced hitbox to match new size
 
