@@ -216,19 +216,19 @@ title: Stocks Game
         }
 
         async function submitStocks() {
-            const credentials = await getCredentialsJava();
+            /*const credentials = await getCredentialsJava();
             const email = credentials?.email;
             if (!email) {
                 alert("Error: User email not found.");
                 return;
-            }
+            }*/
         
             const stockList = Object.entries(userStocks).map(([symbol, quantity]) => ({
                 stockSymbol: symbol,
                 quantity: quantity
             }));
         
-            const payload = { username: email, stocks: stockList };
+            const payload = { username: "toby@gmail.com", stocks: stockList };
         
             console.log("Submitting payload:", JSON.stringify(payload, null, 2));
         
