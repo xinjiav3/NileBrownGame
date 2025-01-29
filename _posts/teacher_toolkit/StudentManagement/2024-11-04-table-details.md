@@ -120,6 +120,63 @@ comments: false
 </div>
 <div id="student-cards-container"></div>
 <button class="create-button" onclick="createStudent()">Create Student</button>
+<div id="rating-section" style="margin-top: 20px; border: 1px solid #ddd; padding: 20px; border-radius: 5px;">
+    <h2>Rate Student</h2>
+    <input type="text" id="rating-username" placeholder="Enter username to rate" style="width: 100%; margin-bottom: 10px; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+        <div>
+            <label for="communication">Communication:</label><br>
+            <select id="communication" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <div>
+            <label for="teamwork">Teamwork:</label><br>
+            <select id="teamwork" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <div>
+            <label for="problemSolving">Problem Solving:</label><br>
+            <select id="problemSolving" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <div>
+            <label for="creativity">Creativity:</label><br>
+            <select id="creativity" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <div>
+            <label for="punctuality">Punctuality:</label><br>
+            <select id="punctuality" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+    </div>
+    <button class="create-button" onclick="rateStudent()" style="margin-top: 10px;">Submit Rating</button>
+</div>
 
 <script type="module">
   import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
@@ -196,6 +253,8 @@ comments: false
                                   </a>`).join(', ') 
                               : 'No tasks assigned'}
                       </p>
+                      <p><strong>Daily Activity:</strong> ${student.dailyActivity ? student.dailyActivity : 'No activity recorded'}</p>
+                      <p><strong>Average Rating:</strong> ${student.averageRating !== undefined ? student.averageRating.toFixed(2) : 'Not Rated Yet'}</p>
                       <button class="add-task-button" onclick="addTask('${student.username}')">Add Task</button>
                       <button class="delete-button" onclick="deleteStudent('${student.username}')">Delete</button>
                   `;
@@ -220,6 +279,7 @@ comments: false
                       </p>
                       <button class="add-task-button" onclick="addTask('${student.username}')">Add Task</button>
                       <button class="delete-button" onclick="deleteStudent('${student.username}')">Delete</button>
+
                   `;
               });
 
@@ -233,6 +293,7 @@ comments: false
       document.getElementById("student-cards-container").innerHTML = "<p>No table selected.</p>";
     }
   });
+  
   window.saveDailyActivityForUser = function saveDailyActivityForUser() {
     // Get the username and daily activity inputs
     const usernameInput = document.getElementById("usernameInput");
@@ -277,6 +338,7 @@ comments: false
             alert("An error occurred while saving the daily activity.");
         });
 };
+
 window.addTask = function addTask(username) {
     const newTask = prompt("Enter a new task:");
     if (newTask) {
@@ -336,7 +398,51 @@ window.addTask = function addTask(username) {
         alert("Please fill in all fields to create a student.");
       }
   };
+ window.rateStudent = function rateStudent() {
+        const username = document.getElementById("rating-username").value;
+        const communication = document.getElementById("communication").value;
+        const teamwork = document.getElementById("teamwork").value;
+        const problemSolving = document.getElementById("problemSolving").value;
+        const creativity = document.getElementById("creativity").value;
+        const punctuality = document.getElementById("punctuality").value;
 
+        if (!username) {
+            alert("Please enter the username to rate.");
+            return;
+        }
+
+        const ratingData = {
+            username: username,
+            communication: parseInt(communication),
+            teamwork: parseInt(teamwork),
+            problemSolving: parseInt(problemSolving),
+            creativity: parseInt(creativity),
+            punctuality: parseInt(punctuality),
+        };
+
+        fetch(`${javaURI}/api/students/rate`, { // Assuming your endpoint is /api/students/rate
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(ratingData),
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(err => {throw new Error(err)}); //Throw error with the error response
+            }
+            return response.text();
+        })
+        .then(message => {
+            alert(message);
+          
+            document.getElementById("rating-username").value = "";
+        })
+        .catch(error => {
+            console.error("Error rating student:", error);
+            alert("Error rating student: " + error.message); // Display backend error message
+        });
+    };
   window.deleteStudent = function deleteStudent(username) {
     fetch(`${javaURI}/api/students/delete?username=${encodeURIComponent(username)}`, {
       method: "POST",
@@ -375,3 +481,4 @@ window.addTask = function addTask(username) {
       .catch(error => console.error("Error completing task:", error));
   };
 </script>
+   

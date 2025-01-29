@@ -152,13 +152,7 @@ permalink: /student/sagai/grader
         <!-- Grading Form -->
         <div class="form-box">
             <label for="requirements">Requirements:</label>
-            <select id="requirements">
-                <option value="Write a Java program to reverse a string.">Write a Java program to reverse a string.</option>
-                <option value="Write a Java program to find the factorial of a number.">Write a Java program to find the factorial of a number.</option>
-                <option value="Write a Java program to check if a number is prime.">Write a Java program to check if a number is prime.</option>
-                <option value="Write a Java program to sort an array using bubble sort.">Write a Java program to sort an array using bubble sort.</option>
-                <option value="Write a Java program to find the largest element in an array.">Write a Java program to find the largest element in an array.</option>
-            </select>
+            <textarea id="requirements" placeholder="Write requirements here" oninput="adjustTextareaHeight(this)"></textarea>
             
             <label for="code">Code:</label>
             <textarea id="code" placeholder="Insert your code here" oninput="adjustTextareaHeight(this)"></textarea>
