@@ -19,217 +19,262 @@ title: Stocks Buy/Sell New
         }
         .navbar {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
-            background-color: #001f3f; /* Dark blue background */
+            padding: 1rem 2rem;
+            background-color: #001f3f;
             color: #fff;
+            box-sizing: border-box;
         }
         .navbar .logo {
-            font-size: 24px;
-            font-weight: bold;
-            letter-spacing: 2px;
+            font-size: 2rem;
+            flex: 1 1 auto;
         }
-        .navbar .nav-buttons {
+        .nav-buttons {
             display: flex;
-            gap: 20px;
+            flex: 2 1 auto;
+            justify-content: flex-end;
+            gap: 1.5rem;
+            flex-wrap: wrap;
         }
-        .navbar .nav-buttons a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 16px;
-            padding: 8px 16px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        .navbar .nav-buttons a:hover {
-            background-color: #ff8c00; /* Orange hover effect */
+        .nav-buttons a {
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
         }
         .summary-cards {
-            display: flex;
-            justify-content: space-between;
-            margin: 20px 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
         }
         .card {
-            padding: 0px;
-            margin: 30px;
-            border-radius: 8px;
+            padding: 1rem;
+            border-radius: 0.5rem;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            flex: 1;
             text-align: center;
-            color: #fff; /* Text color set to white */
-            padding-bottom: -40px;
-        }
-        .card-orange {
-            background-color: #FF8C00; /* Orange color */
-        }
-        .card-purple {
-            background-color: #6A0DAD; /* Purple color */
-        }
-        .card-darkblue {
-            background-color: #001f3f; /* Dark blue color */
+            color: #fff;
+            box-sizing: border-box;
+            font-size: 1rem;
         }
         .card h2 {
-            font-size: 20px;
+            font-size: 1.25rem;
         }
         .card p {
-            font-size: 36px;
-            font-weight: bold;
+            font-size: 1.75rem;
         }
         .main-content {
-            width: 80%;
-            padding: 20px;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2%;
+            box-sizing: border-box;
         }
         .header {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             justify-content: space-between;
-            margin: 30px;
+            align-items: center;
+            margin: 3rem 0;
         }
         .header h1 {
-            font-size: 2em;
-            font-weight: bold;
-            margin: 0;
+            font-size: 2rem;
+            flex: 1 1 60%;
         }
         .buy-sell-buttons-container {
             display: flex;
             flex-direction: column;
-            align-items: flex-end; /* Align the buysell text to the right */
+            align-items: flex-end;
+            flex: 1 1 35%;
+            margin-top: 1rem;
         }
         .buysell {
-            margin-top: 10px; /* Add some space between buttons and the buysell text */
-            text-align: right;
-        }
-        .buysell.negative {
-            color: #d32f2f; /* Red for negative change */
-            margin-left: 30px;
-        }
-        .buysell.positive {
-            color: #388e3c;
-            justify-items: right; 
+            margin-top: 0.5rem;
+            font-size: 1rem;
         }
         .price-info h2 {
-            font-size: 2.5em;
-            font-weight: bold;
-            margin: 30px;
+            font-size: 2.5rem;
+            margin: 2rem 0;
         }
-        .change.negative {
-            color: #d32f2f; /* Red for negative change */
-            margin-left: 30px;
-        }
-        .change.positive {
-            color: #388e3c;
-            margin-left: 30px;
+        .change {
+            font-size: 1.25rem;
         }
         .metrics {
             display: flex;
-            gap: 15px;
-            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
         }
         .metric {
+            flex: 1 1 200px;
             background-color: #ffffff;
             border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 4px;
+            padding: 1rem;
+            border-radius: 0.25rem;
             text-align: center;
-            flex: 1;
+            box-sizing: border-box;
+            font-size: 1rem;
         }
         .search-container {
-            margin-bottom: 20px; /* Add margin to space it out */
             display: flex;
-            margin-right: 30px; 
-            margin-left: 30px; 
-            margin-top: 30px; 
+            width: 100%;
+            max-width: 600px;
+            margin: 2rem auto;
             background-color: #081e3d;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            box-sizing: border-box;
         }
         .search-container input[type="text"] {
-            width: 100%; /* Full width of the graph */
-            padding: 12px;
+            flex: 1;
+            padding: 0.75rem;
             border: none;
-            border-radius: 4px;
-            outline: none;
-            font-size: 16px;
+            border-radius: 0.25rem 0 0 0.25rem;
+            font-size: 1rem;
             background-color: #6ab8f9;
         }
         .search-button {
-            background-color: #ff8c00; /* Orange color */
-            color: #fff;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
             border: none;
-            border-radius: 0 4px 4px 0; /* Rounded corners on the right */
-            padding: 12px 20px;
+            border-radius: 0 0.25rem 0.25rem 0;
             cursor: pointer;
-            font-size: 16px;
+            background-color: #ff8c00;
             transition: background-color 0.3s;
         }
         .search-button:hover {
-            background-color: #e07b00; /* Darker orange on hover */
+            background-color: #e07b00;
         }
         .chart-container {
             position: relative;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin: 20px 0;
-            display: flex;
-            gap: 20px;
-            margin-top: 30px; 
-            margin-right: 30px; 
-            margin-left: 30px; 
+            width: 100%;
+            padding-top: 56.25%;
+            margin: 2rem 0;
         }
         .chart {
-            height: 100%; /* Set height to 100% to fill the container */
-            width: 100%; /* Set height to 100% to fill the container */
-            background-color: #fff; /* Set the chart background to white */
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: #999;
-            flex: 1;
-        }.buy-sell-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 10px;
-            margin-bottom: 20px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
-        .buy-button, .sell-button {
-            padding: 12px 20px;
-            font-size: 16px;
-            font-weight: bold;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            color: #fff;
+        canvas#stockChart {
+            width: 100% !important;
+            height: 100% !important;
         }
         .buy-sell-buttons {
             display: flex;
-            gap: 15px;
+            gap: 1rem;
+            margin-top: 0.5rem;
         }
         .buy-button, .sell-button {
-            padding: 10px 15px;
-            font-size: 16px;
-            font-weight: bold;
+            flex: 1;
+            padding: 0.75rem;
+            font-size: 1rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 0.25rem;
             cursor: pointer;
             transition: background-color 0.3s;
             color: #fff;
         }
         .buy-button {
-            background-color: #388e3c; /* Green for buy */
+            background-color: #388e3c;
         }
         .buy-button:hover {
             background-color: #2e7d32;
         }
         .sell-button {
-            background-color: #d32f2f; /* Red for sell */
+            background-color: #d32f2f;
         }
         .sell-button:hover {
             background-color: #c62828;
+        }
+        html {
+            font-size: 16px;
+        }
+        @media (max-width: 1200px) {
+            html {
+                font-size: 15px;
+            }
+        }
+        @media (max-width: 992px) {
+            html {
+                font-size: 14px;
+            }
+        }
+        @media (max-width: 768px) {
+            html {
+                font-size: 13px;
+            }
+        }
+        @media (max-width: 576px) {
+            html {
+                font-size: 12px;
+            }
+        }
+        @media (max-width: 768px) {
+            .navbar .logo {
+                font-size: 1.5rem;
+            }
+            .nav-buttons a {
+                font-size: 0.9rem;
+                padding: 0.5rem 1rem;
+            }
+            .header h1 {
+                font-size: 1.75rem;
+                flex: 1 1 100%;
+                text-align: center;
+            }
+            .buy-sell-buttons-container {
+                flex: 1 1 100%;
+                align-items: center;
+            }
+            .search-container {
+                max-width: 90%;
+            }
+            .summary-cards {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            .card h2 {
+                font-size: 1.1rem;
+            }
+            .card p {
+                font-size: 1.5rem;
+            }
+            .price-info h2 {
+                font-size: 2rem;
+            }
+            .change {
+                font-size: 1rem;
+            }
+            .metric {
+                flex: 1 1 150px;
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .search-container {
+                flex-direction: column;
+            }
+            .search-container input[type="text"], .search-button {
+                width: 100%;
+                border-radius: 0.25rem;
+            }
+            .search-button {
+                margin-top: 0.5rem;
+                border-radius: 0.25rem;
+            }
+            .buy-sell-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .buy-button, .sell-button {
+                width: 100%;
+            }
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
         }
     </style>
 </head>
