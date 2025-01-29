@@ -3,7 +3,7 @@ toc: false
 layout: post
 title: Grader
 description: Grade your work
-permalink: /project/teacher-toolkit/grader
+permalink: /student/sagai/grader
 ---
 
 <html lang="en">
@@ -140,9 +140,9 @@ permalink: /project/teacher-toolkit/grader
 
     <!-- Navigation buttons -->
     <div class="nav-buttons">
-      <a href="{{site.baseurl}}/project/teacher-toolkit"><button>Home</button></a>
-      <a href="{{site.baseurl}}/project/teacher-toolkit/generator"><button>Generator</button></a>
-        <a href="{{site.baseurl}}/project/teacher-toolkit/QNA"><button>QNA</button></a>
+      <a href="{{site.baseurl}}/student/sagai"><button>Home</button></a>
+      <a href="{{site.baseurl}}/student/sagai/generator"><button>Generator</button></a>
+        <a href="{{site.baseurl}}/student/sagai/QNA"><button>QNA</button></a>
     </div>
 
     <!-- Main Grader section -->

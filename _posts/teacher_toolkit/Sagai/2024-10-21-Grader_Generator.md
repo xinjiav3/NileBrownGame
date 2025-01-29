@@ -2,7 +2,7 @@
 toc: false
 layout: post
 title: AI Generator
-permalink: /teacher/sagai/generator
+permalink: /student/sagai/generator
 ---
 <head>
    <meta charset="UTF-8">
@@ -202,39 +202,12 @@ permalink: /teacher/sagai/generator
    </style>
 </head>
 
-<script>
-  // Function to check for JWT in cookies
-  function getCookie(cookieName) {
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-          const cookie = cookies[i].trim();
-          if (cookie.startsWith(cookieName + '=')) {
-              return cookie.substring((cookieName + '=').length);
-          }
-      }
-      return null;
-  }
-
-  // Redirect if JWT is not present
-  function checkAuthentication() {
-      const jwtToken = getCookie('jwt_java_spring');
-      if (!jwtToken) {
-          alert('Please login to use this page. Redirecting to login.');
-          window.location.href = '/portfolio_2025/toolkit-login';
-      }
-  }
-
-  // Run the check on page load
-  window.onload = checkAuthentication;
-</script>
-
-
 <body>
    <!-- Navigation buttons -->
    <div class="nav-buttons">
-      <a href="{{site.baseurl}}/teacher/sagai"><button>Home</button></a>
-      <a href="{{site.baseurl}}/teacher/sagai/grader"><button>Grader</button></a>
-        <a href="{{site.baseurl}}/teacher/sagai/QNA"><button>QNA</button></a>
+      <a href="{{site.baseurl}}/student/sagai"><button>Home</button></a>
+      <a href="{{site.baseurl}}/student/sagai/grader"><button>Grader</button></a>
+        <a href="{{site.baseurl}}/student/sagai/QNA"><button>QNA</button></a>
    </div>
    <!-- Main Generator Section -->
    <div class="container">
@@ -263,7 +236,7 @@ permalink: /teacher/sagai/generator
       </div>
    </div>
    
-   <script>
+   <script type="module">
       import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
 
       const savedQuestions = [];
@@ -328,6 +301,8 @@ permalink: /teacher/sagai/generator
           }
       }
       
+window.saveQuestion = saveQuestion;
+
 function toggleModal() {
     const modal = document.getElementById('modal');
     modal.style.display = 'block';
@@ -336,10 +311,14 @@ function toggleModal() {
     loadSavedQuestions();
 }
 
+window.toggleModal = toggleModal;
+
       
       function closeModal() {
           document.getElementById('modal').style.display = 'none';
       }
+
+      window.closeModal = closeModal;
       
 async function loadSavedQuestions() {
     const list = document.getElementById('saved-questions');

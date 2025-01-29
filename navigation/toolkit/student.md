@@ -1,8 +1,10 @@
 ---
-layout: base 
+layout: post 
 title: Student Toolkit
 description: 
 permalink: /student
+menu: nav/homejava.html
+show_reading_time: false
 ---
 
 <div class="toolkit-buttons">
@@ -13,7 +15,7 @@ permalink: /student
       <p>Toolset transforms bathroom passes and restroom management with smart digital passes, real-time occupancy tracking, and seamless feedback options. By enhancing hygiene, accessibility, and comfort, it creates a more efficient and user-friendly bathroom experience.</p>
     </div>
   </a>
-  <a href="{{site.baseurl}}/student/presentations" class="toolkit-button" data-description="Gamify your learning experience with these tools that make studying more interactive and fun. Discover educational games, quizzes, and activities to boost your knowledge while enjoying the process." data-authors="Author: Jane Smith">
+  <a href="{{site.baseurl}}/student-toolkit/queue" class="toolkit-button" data-description="Gamify your learning experience with these tools that make studying more interactive and fun. Discover educational games, quizzes, and activities to boost your knowledge while enjoying the process." data-authors="Author: Jane Smith">
     <img src="{{site.baseurl}}/images/toolkit-nav-buttons/group-chat.png" alt="ScreenQueue" />
     <span class="button-name">ScreenQueue</span>
     <div class="description">
@@ -27,13 +29,32 @@ permalink: /student
       <p>Submit assignments on this simple and easy-to-use user interface that is fed directly to Mr. Mortensen.</p>
     </div>
   </a>
-  <a href="{{site.baseurl}}/student/calendar" class="toolkit-button" data-description="Never lose track of your assignments again with the Slack Integrated Calendar!">
-    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/calendar.png" alt="Calendar" />
-    <span class="button-name">Calendar</span>
+
+  <a href="{{site.baseurl}}/student/seedtracker" class="toolkit-button" data-description="Do you want to request seed? This will allow you to do so." data-authors="Author: Alex Johnson">
+    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/seedtracker.png" alt="Seed Tracker" />
+    <span class="button-name">Seed Tracker</span>
     <div class="description">
-      <p>View all slack announcements in one place.</p>
+      <p>Do you want to request seed? This will allow you to do so.</p>
     </div>
   </a>
+
+  <a href="{{site.baseurl}}/student/sagai" class="toolkit-button" data-description="Tired of opening ChatGPT all day everyday? Want an AI companion with you on the site that helps you study for CSA? Look no further! Here you can use AI to generate hacks for practice, grade your hack answers and get feedback, and ask questions to your follow classmates and teachers!">
+    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/sagai.png" alt="SAGAI" />
+    <span class="button-name">SAGAI</span>
+    <div class="description">
+      <p>Tired of opening ChatGPT all day everyday? Want an AI companion with you on the site that helps you study for CSA? Look no further! Here you can use AI to generate hacks for practice, grade your hack answers and get feedback, and ask questions to your follow classmates and teachers!</p>
+    </div>
+  </a>
+ 
+<a href="{{site.baseurl}}/student/view-grades" class="toolkit-button" data-description="Easily track your academic progress with the View Grades tool. Access real-time updates on assignments, quizzes, and overall performance to stay informed and on top of your studies.">
+  <img src="{{site.baseurl}}/images/toolkit-nav-buttons/grades.png" alt="Grades" />
+  <span class="button-name">View Grades</span>
+  <div class="description">
+    <p>Easily track your academic progress with the View Grades tool. Access real-time updates on assignments, quizzes, and overall performance to stay informed and on top of your studies.</p>
+  </div>
+</a>
+</div>
+
 </div>
 
 <style>
@@ -47,9 +68,9 @@ permalink: /student
   }
 
   .toolkit-button {
-    width: 25%;
+    width: 30%;
     height: auto;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: transparent;
     color: white;
     font-size: 1.5rem;
     border: none;
@@ -86,10 +107,9 @@ permalink: /student
   .toolkit-button .description {
     opacity: 0;
     position: relative;
-    background: rgba(0, 0, 0, 0.8);
+    background: none;
     color: white;
     padding: 10px;
-    border-radius: 5px;
     text-align: center;
     transition: opacity 0.3s ease, transform 0.3s ease;
     white-space: normal;

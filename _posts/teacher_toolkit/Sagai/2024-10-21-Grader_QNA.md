@@ -3,7 +3,7 @@ toc: false
 layout: post
 title: QNA
 description: Post questions and get replies from peers
-permalink: /teacher/sagai/QNA
+permalink: /student/sagai/QNA
 ---
 
 <html lang="en">
@@ -193,9 +193,9 @@ permalink: /teacher/sagai/QNA
 <body>
     <!-- Navigation buttons -->
     <div class="nav-buttons">
-        <a href="{{site.baseurl}}/teacher/sagai"><button>Home</button></a>
-        <a href="{{site.baseurl}}/teacher/sagai/grader"><button>Grader</button></a>
-        <a href="{{site.baseurl}}/teacher/sagai/generator"><button>Generator</button></a>
+        <a href="{{site.baseurl}}/student/sagai"><button>Home</button></a>
+        <a href="{{site.baseurl}}/student/sagai/grader"><button>Grader</button></a>
+        <a href="{{site.baseurl}}/student/sagai/generator"><button>Generator</button></a>
     </div>
     <!-- Main Q&A Section -->
     <div class="container">
@@ -230,7 +230,7 @@ permalink: /teacher/sagai/QNA
     </script>
   
 <script type="module">
-  import {javaURI} from '{{ site.baseurl }}/assets/js/api/config.js';
+  import {javaURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
 
   // prepare HTML defined "result" container for new outputj
   const resultContainer = document.getElementById("result");
@@ -271,10 +271,11 @@ permalink: /teacher/sagai/QNA
 
   function populateQuestion(row){
         const questionContainer = document.getElementById('questions-container');
-        // Create the new question element
-        const questionDiv = returnQuestionDiv(row);
         // Create the reply box (hidden by default)
         const replyDiv = returnReplyDiv(row);
+       // Create the new question element
+        const questionDiv = returnQuestionDiv(row,replyDiv);
+       
         // Add everything to the DOM
         const questionsHeader = questionContainer.querySelector("h2");
         questionsHeader.insertAdjacentElement("afterend", questionDiv);
@@ -285,17 +286,25 @@ permalink: /teacher/sagai/QNA
         //document.getElementById('question-input').value = "";
   }
 
-  function returnQuestionDiv(row){
+  function returnQuestionDiv(row,replyDiv){
         const questionDiv = document.createElement('div');
         questionDiv.classList.add('question');
         questionDiv.id = `question-${row.id}`;
         const questionTextDiv = document.createElement('div');
         questionTextDiv.innerHTML = row.content ;
+
+        const deleteDiv = document.createElement('div');
+        deleteDiv.classList.add('arrow');
+        deleteDiv.innerHTML = '&#x1F5D1;'; // Down arrow symbol
+        deleteDiv.onclick = () => deleteMessage(row.id, replyDiv,  questionDiv);
+
+
         const arrowDiv = document.createElement('div');
         arrowDiv.classList.add('arrow');
         arrowDiv.innerHTML = '&#9662;'; // Down arrow symbol
         arrowDiv.onclick = () => toggleReplyBox(row.id);
         questionDiv.appendChild(questionTextDiv);
+        questionDiv.appendChild(deleteDiv);
         questionDiv.appendChild(arrowDiv);
         return questionDiv;
   } 
@@ -436,6 +445,33 @@ permalink: /teacher/sagai/QNA
     
       replyDiv.removeChild(replyTextArea);
          
+    })
+    // catch fetch errors (ie Nginx ACCESS to server blocked)
+    .catch(err => {
+      error(err + " " + postURL);
+    });
+  
+  }
+
+    // Delete Message
+  function deleteMessage(commentId, replyDiv, questionDiv) {
+    const postURL = `${javaURI}/api/saigai/messages/${commentId}`;
+  // prepare fetch PUT options, clones with JS Spread Operator (...)
+  const postOptions = {...fetchOptions,
+    method: 'DELETE',
+  }; // clones and replaces method
+    // fetch the API
+    fetch(postURL, postOptions)
+    // response is a RESTful "promise" on any successful fetch
+    .then(response => {
+      // check for response errors
+      if (response.status != 200) {
+          error("Delete API response failure: " + response.status)
+          return;  // api failure
+      }
+      const questionContainer = document.getElementById('questions-container');
+      questionContainer.removeChild(replyDiv);
+       questionContainer.removeChild(questionDiv);        
     })
     // catch fetch errors (ie Nginx ACCESS to server blocked)
     .catch(err => {

@@ -39,7 +39,7 @@ show_reading_time: false
             </p>
             <p>
                 <label>
-                    Email:
+                    Github Id
                     <input type="text" name="signupUid" id="signupUid" required>
                 </label>
             </p>

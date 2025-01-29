@@ -1,35 +1,57 @@
+import { javaURI } from '../../js/api/config.js';
+let bruh = "https://justfornow.onrender.com"
+const servers = {
+    iceServers:[
+      {
+        urls:
+      [
+      "stun:stun.l.google.com:19302",
+      /*"stun:stun.l.google.com:5349",
+      "stun:stun1.l.google.com:3478",
+      "stun:stun1.l.google.com:5349",
+      "stun:stun2.l.google.com:19302",
+      "stun:stun2.l.google.com:5349",
+      "stun:stun3.l.google.com:3478",
+      "stun:stun3.l.google.com:5349",
+      "stun:stun4.l.google.com:19302",
+      "stun:stun4.l.google.com:5349"*/],
+      },
+    ],
+    iceCandidatePoolSize:10,
+  }
 async function streamerInit() {
-    try {
-        firstInLine = document.getElementById("waitingList").firstElementChild.textContent;
-    } catch {
-        alert('You are not first in line. Please wait your turn!')
-    }
-    if (person == firstInLine) {
-        startTimer();
+    // try {
+    //     firstInLine = document.getElementById("waitingList").firstElementChild.textContent;
+    // } catch {
+    //     alert('You are not first in line. Please wait your turn!')
+    // }
+    //if (person == firstInLine) {
+        //startTimer();
         const stream = await captureScreen();
         mediaStreamCloseOnly = stream
         document.getElementById("mortStream").srcObject = stream;
         const peer = streamerCreatePeer();
         stream.getTracks().forEach(track => peer.addTrack(track, stream));
+        try
+        {
         signalingServer.send(JSON.stringify({event: 'streamStarted'}));
-    } else {
-        alert('You are not first in line. Please wait your turn!')
-    }
+        }
+        catch
+        {
+            console.log("didnt send stream started")
+        }
+    //} else {
+        //alert('You are not first in line. Please wait your turn!')
+    //}
 }
 
 let streamPeerCloseOnly
 let mediaStreamCloseOnly
 
 function streamerCreatePeer() {
-    const peer = new RTCPeerConnection({
-        iceServers: [
-            {
-                urls: "stun:stun.stunprotocol.org"
-            }
-        ]
-    });
+    const peer = new RTCPeerConnection(servers);
     peer.onnegotiationneeded = () => streamerNegotiation(peer);
-
+    // peer.onicecandidate = async (e) => await peer.addIceCandidate(e.candidate)
     streamPeerCloseOnly = peer
     return peer;
 }
@@ -41,7 +63,7 @@ async function streamerNegotiation(peer) {
         sdp: peer.localDescription
     };
 
-    fetch(rtcServer+"/webrtc/broadcast",
+    fetch(bruh+"/webrtc/broadcast",
         {
             method:"POST",
             body:JSON.stringify(payload),
@@ -73,7 +95,14 @@ async function endStream()
     {
         streamPeerCloseOnly.close()
     }
+    try
+    {
     signalingServer.send(JSON.stringify({event: 'streamEnded'})); //pls dont exploit this
+    }
+    catch
+    {
+        console.log("didn't send stream ended")
+    }
     document.getElementById("endBroadcastButton").style.display = "none"
     document.getElementById("broadcastButton").style.display = "flex"
     
@@ -86,7 +115,7 @@ async function captureScreen() {
             video: {
                 cursor: "always"
             },
-            audio: true
+            audio: false
         }); //get user video and audio as a media stream
         document.getElementById("streamOffline").style.display = "none"
         document.getElementById("mortStream").style.display = "block"
@@ -102,3 +131,14 @@ async function captureScreen() {
         document.getElementById("endBroadcastButton").style.display = "none"
     }
 }
+
+
+document.getElementById("broadcastButton").addEventListener("click",function(e)
+{
+    streamerInit()
+})
+
+document.getElementById("endBroadcastButton").addEventListener("click",function(e)
+{
+    endStream()
+})
