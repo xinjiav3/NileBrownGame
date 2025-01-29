@@ -5,7 +5,7 @@ permalink: /gamify/adventureGame
 ---
 
 <style>
-    
+/* Existing CSS styling */
 #custom-prompt {
     display: none;
     position: fixed;
@@ -27,7 +27,6 @@ permalink: /gamify/adventureGame
     position: relative;
     padding: 40px 20px 20px; /* Extra padding at the top for the close button */
 }
-
 
 #custom-prompt-message {
     margin-bottom: 20px;
@@ -84,9 +83,52 @@ permalink: /gamify/adventureGame
     transform: scale(1.2); /* Slight grow effect */
 }
 
+/* New button style for NPC Tracker */
+#npcTrackerButton {
+    position: fixed;
+    top: 250px; /* Placed below the existing score */
+    left: 20px;
+    background-color: #4682b4; /* Steel blue */
+    color: white;
+    padding: 15px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    z-index: 1000;
+}
 
+#npcTrackerButton:hover {
+    background-color: #5a9bd3; /* Lighter blue */
+}
 
+/* Style for the NPC Tracker pop-up */
+#npcTrackerPopup {
+    display: none; /* Completely hidden when the game starts */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    height: 20%;
+    background-color: white;
+    border: 2px solid #4682b4;
+    border-radius: 12px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: black;
+    display: none; /* Ensures it does NOT appear on load */
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+}
 </style>
+
 <div id="score" style="position: absolute; top: 75px; left: 10px; color: black; font-size: 20px; background-color: white;">
    Time: <span id="timeScore">0</span>
 </div>
@@ -98,19 +140,11 @@ permalink: /gamify/adventureGame
     <canvas id='gameCanvas'></canvas>
 </div>
 
-<!-- <div id="custom-alert" class="custom-alert">
-    <button onclick="closeCustomAlert()" id="custom-alert-message"></button>
-</div>
+<!-- Button for NPC Tracker -->
+<button id="npcTrackerButton">NPC Tracker</button>
 
-<div id="custom-prompt" style="display: none;">
-    <div id="custom-prompt-box">
-        <button id="custom-prompt-close" onclick="closeCustomPrompt()">✕</button>
-        <p id="custom-prompt-message"></p>
-        <input type="text" id="custom-prompt-input" placeholder="Type your answer here..." />
-        <button id="custom-prompt-submit">Submit</button>
-    </div>
-</div> -->
-
+<!-- NPC Tracker Pop-up -->
+<div id="npcTrackerPopup">Tux</div>
 
 <script type="module">
     import GameControl from '{{site.baseurl}}/assets/js/adventureGame/GameControl.js';
@@ -119,9 +153,8 @@ permalink: /gamify/adventureGame
 
     const path = "{{site.baseurl}}";
     GameControl.start(path);
-    GameControl.startTimer()
+    GameControl.startTimer();
     Prompt.initializePrompt();
-
 
     window.submitAnswer = submitAnswer;
     window.showCustomPrompt = showCustomPrompt;
@@ -130,4 +163,24 @@ permalink: /gamify/adventureGame
     window.onload = function() {
         getStats();
     };
+</script>
+
+<script>
+    // Function to toggle the NPC Tracker popup
+    function toggleNpcTracker() {
+        const popup = document.getElementById("npcTrackerPopup");
+        if (popup.style.display === "none" || popup.style.display === "") {
+            popup.style.display = "flex"; // Show the popup
+        } else {
+            popup.style.display = "none"; // Hide the popup
+        }
+    }
+
+    // Wait until the DOM is fully loaded
+    document.addEventListener("DOMContentLoaded", function() {
+        const npcTrackerButton = document.getElementById("npcTrackerButton");
+        if (npcTrackerButton) {
+            npcTrackerButton.addEventListener("click", toggleNpcTracker);
+        }
+    });
 </script>
