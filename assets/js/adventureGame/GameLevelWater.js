@@ -36,16 +36,16 @@ class GameLevelWater {
         quiz: { 
           title: "Jupyter Notebook Command Quiz",
           questions: [
-            "Which shortcut is used to run a cell in Jupyter Notebook?\n1. Shift + Enter\n2. Ctrl + Enter\n3. Alt + Enter\n4. Tab + Enter",
-            "Which shortcut adds a new cell above the current cell?\n1. A\n2. B\n3. C\n4. D",
-            "Which shortcut adds a new cell below the current cell?\n1. B\n2. A\n3. C\n4. D",
-            "Which shortcut changes a cell to Markdown format?\n1. M\n2. Y\n3. R\n4. K",
-            "Which shortcut changes a cell to Code format?\n1. Y\n2. M\n3. C\n4. D",
-            "Which shortcut deletes the current cell?\n1. D, D\n2. X\n3. Del\n4. Ctrl + D",
-            "Which shortcut saves the current notebook?\n1. Ctrl + S\n2. Alt + S\n3. Shift + S\n4. Tab + S",
-            "Which shortcut restarts the kernel?\n1. 0, 0\n2. R, R\n3. K, K\n4. Shift + R",
-            "Which shortcut interrupts the kernel?\n1. I, I\n2. Ctrl + C\n3. Shift + I\n4. Alt + I",
-            "Which shortcut toggles line numbers in a cell?\n1. L\n2. N\n3. T\n4. G"
+            "Which keyword is used to define a class in Java?\n1. define\n2. class\n3. Class\n4. struct",
+            "Which data type is used to store a single character in Java?\n1. String\n2. char\n3. Character\n4. ch",
+            "What is the default value of an int variable in Java?\n1. 0\n2. null\n3. undefined\n4. -1",
+            "Which of these is NOT a Java access modifier?\n1. public\n2. private\n3. protected\n4. external",
+            "What is the purpose of the 'final' keyword in Java?\n1. It defines a constant variable\n2. It prevents method overriding\n3. It prevents class inheritance\n4. All of the above",
+            "Which Java loop is guaranteed to execute at least once?\n1. for loop\n2. while loop\n3. do-while loop\n4. foreach loop",
+            "What is the parent class of all Java classes?\n1. Object\n2. BaseClass\n3. Root\n4. Core",
+            "How do you correctly create a new object in Java?\n1. Object obj = Object();\n2. Object obj = new Object();\n3. Object obj = new();\n4. new Object obj;",
+            "Which Java keyword is used to handle exceptions?\n1. throw\n2. try\n3. error\n4. exception",
+            "Which Java collection allows key-value pairs?\n1. ArrayList\n2. HashMap\n3. HashSet\n4. LinkedList"
           ] 
         }
       };
