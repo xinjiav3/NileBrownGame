@@ -121,22 +121,22 @@
             padding: 0;
             margin: 0;
             display: flex;
-            justify-content: center; /* Centers items horizontally */
-            align-items: center; /* Centers items vertically (if needed) */
-            gap: 10px; /* Adds spacing between items */
+            flex-direction: column; /* Stack items vertically */
+            align-items: center; /* Optional: Align items to center */
+            gap: 5px; /* Adjust spacing between items */
         }
         .qr-code-container {
             display: flex;
             position:absolute;
             justify-content: center; /* Center horizontally */
-            padding-top:300px; /* Add space below the queue */
-            left:500px;
+            padding-top:400px; /* Add space below the queue */
+            left:260px;
             z-index:-99;
         }
         
         .qr-code-container img {
-            width: 100px; /* Adjust size as needed */
-            height: 100px;
+            width: 200px; /* Adjust size as needed */
+            height: 200px;
         }
         .button{
             z-index:99;
@@ -222,6 +222,7 @@
             fetchLocations();
         }
 
+        let  mortensenQueue = null;
         async function fetchQueueData() {
             try {
                 const QueueURI = javaURI + "/api/queue/all";
@@ -234,7 +235,7 @@
         
                 const data = await response.json();
                 console.log(data);
-                let  mortensenQueue = null;
+
                 //const mortensenQueue = data.find(queue => queue.teacherEmail === teacherName);
                 for (let i = 0; i < data.length; i++)
                 {
@@ -256,7 +257,7 @@
                 const queueArray = mortensenQueue.peopleQueue.split(",");
                 
                 // Set the first person as "currently away" and the second as "next-up"
-                const currentUser = queueArray[0] || "None"; // First person in the queue
+                const currentUser = queueArray[0] || "Nobody"; // First person in the queue
                 const nextUp = queueArray[1] || "None"; // Second person in the queue
         
                 // Update the UI
@@ -276,7 +277,7 @@
         
                 // Update status bar and glow effect
                 const statusBar = document.getElementById("status-bar");
-                if (currentUser !== "None") {
+                if (document.getElementById('current-away').innerText.trim() != "Nobody") {
                     statusBar.textContent = "OCCUPIED";
                     statusBar.classList.add("occupied");
                     statusBar.classList.remove("unoccupied");
@@ -295,7 +296,24 @@
         }
         
         
-
+        function check_glow()
+        {
+            // Update status bar and glow effect
+            const statusBar = document.getElementById("status-bar");
+            if (document.getElementById('current-away').innerText.trim() != "Nobody") {
+                statusBar.textContent = "OCCUPIED";
+                statusBar.classList.add("occupied");
+                statusBar.classList.remove("unoccupied");
+                document.body.classList.add("occupied-glow");
+                document.body.classList.remove("unoccupied-glow");
+            } else {
+                statusBar.textContent = "UNOCCUPIED";
+                statusBar.classList.add("unoccupied");
+                statusBar.classList.remove("occupied");
+                document.body.classList.add("unoccupied-glow");
+                document.body.classList.remove("occupied-glow");
+            }
+        }
         
         // Fetch queue data on page load
         document.addEventListener("DOMContentLoaded", fetchQueueData);
@@ -314,26 +332,33 @@
             }
         }
 
+        
         window.addEventListener('click', function(event) {
             if (event.target && event.target.id == 'leave-now'){
-                removeFromQueue();
+                if (document.getElementById('current-away').innerHTML === 'Nobody')
+                {
+                    removeFromQueue();
+                }
+                else
+                {
+                    document.getElementById('current-away').innerHTML = 'Nobody';
+                    check_glow();
+                }
             }
         })
 
+        const deleteOptions = {
+            ...fetchOptions,
+            method: 'DELETE',
+        };
         function removeFromQueue()
         {
-            const queuer = {
-                teacherEmail: teacherName,
-                studentName: mortensenQueue[0],
-                uri: javaURI,
-            };
-            fetch(javaURI + '/api/queue/remove', {
+            fetch(javaURI + "/api/queue/removefront/" + teacherName, {
                 ...deleteOptions,
-                body: JSON.stringify(queuer),
             })
                 .then(response => {
                     if (response.ok) {
-                        window.fetchQueueData();
+                        fetchQueueData();
                     } else alert("Failed to remove from queue.");
                 })
                 .catch(error => console.error("Error removing from queue:", error));
