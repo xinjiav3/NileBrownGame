@@ -1,7 +1,7 @@
 ---
 layout: base
-permalink: /stocks/buysell
-title: Stocks Buy/Sell
+permalink: /stocks/buysellNew
+title: Stocks Buy/Sell New
 ---
 
 <html lang="en">
