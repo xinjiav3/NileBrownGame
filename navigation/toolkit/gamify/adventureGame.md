@@ -25,14 +25,14 @@ permalink: /gamify/adventureGame
 #custom-prompt-box {
     text-align: center;
     position: relative;
-    padding: 40px 20px 20px; /* Extra padding at the top for the close button */
+    padding: 40px 20px 20px;
 }
 
 #custom-prompt-message {
     margin-bottom: 20px;
     font-size: 18px;
     font-weight: bold;
-    color: #4682b4; /* Steel blue text color */
+    color: #4682b4;
 }
 
 /* New button style for NPC Tracker */
@@ -40,7 +40,7 @@ permalink: /gamify/adventureGame
     position: relative;
     display: block;
     margin: 15px auto;
-    background-color: #4682b4; /* Steel blue */
+    background-color: #4682b4;
     color: white;
     padding: 12px 20px;
     font-size: 16px;
@@ -53,7 +53,7 @@ permalink: /gamify/adventureGame
 }
 
 #npcTrackerButton:hover {
-    background-color: #5a9bd3; /* Lighter blue */
+    background-color: #5a9bd3;
 }
 
 /* NPC Tracker Pop-up */
@@ -165,10 +165,10 @@ permalink: /gamify/adventureGame
 
     // Function to track NPC interactions
     function trackNpcInteraction() {
-        // Simulated NPC interactions (assuming Tux first, then Octocat)
-        const possibleNpcs = ["Tux", "Octocat"];
+        // List of possible NPCs to track (in order)
+        const possibleNpcs = ["Tux", "Octocat", "Linux Robot"];
 
-        // If the player hasn't interacted yet, add Tux first, then Octocat
+        // If the player hasn't interacted yet, add the next NPC in order
         if (npcTracker.length < possibleNpcs.length) {
             const nextNpc = possibleNpcs[npcTracker.length];
             if (!npcTracker.includes(nextNpc)) {
