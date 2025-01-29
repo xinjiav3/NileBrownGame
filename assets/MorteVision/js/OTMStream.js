@@ -11,7 +11,7 @@ socket.on("viewOfferServer", function (data) {
     viewOfferServer(data)
 })
 
-socket.on("sendIceToStreamerClient", function (data) {
+socket.on("sendIceToStreamerServer", function (data) {
     console.log("recieved candidate" + data["candidate"])
     globalPeerBroadcaster.addIceCandidate(data["candidate"])
 })
@@ -21,7 +21,7 @@ async function viewOfferServer(data) {
     let remotedesc = new RTCSessionDescription()
     remotedesc.sdp = data["sdp"]
     remotedesc.type = data["type"]
-    peer.onicecandidate = (e) => socket.emit("sendIceToViewersClient", { candidate:e.candidate.candidate })
+    peer.onicecandidate = (e) => socket.emit("sendIceToViewersClient", { candidate:e.candidate })
     peer.setRemoteDescription(remotedesc)
     videoStreamGlobal.getTracks().forEach(track => peer.addTrack(track, videoStreamGlobal));
     const answer = await peer.createAnswer()

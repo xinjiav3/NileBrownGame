@@ -4,14 +4,14 @@ socket.on("viewAcceptServer", function (data) {
 
 let globalPeer
 
-socket.on("sendIceToViewersClient", function (data) {
+socket.on("sendIceToViewersServer", function (data) {
     console.log("recieved candidate" + data["candidate"])
     globalPeer.addIceCandidate(data["candidate"])
 })
 
 async function consume() {
     const peer = new RTCPeerConnection(servers)
-    peer.onicecandidate = (e) => {console.log(e.candidate);socket.emit("sendIceToStreamerClient", {candidate:e.candidate.candidate })}
+    peer.onicecandidate = (e) => {socket.emit("sendIceToStreamerClient", {candidate:e.candidate })}
     peer.addTransceiver("video", { direction: "recvonly" });
     // peer.onnegotiationneeded = () => consumeNegotiation(peer)
     const offer = await peer.createOffer()
@@ -40,7 +40,6 @@ async function viewAcceptServer(data) {
     //  globalPeer.addTransceiver("video", { direction: "recvonly" })
     globalPeer.onnegotiationneeded = (e) => {
         globalPeer.ontrack = (g) => {
-            console.log(g.streams[0])
             console.log("fired here for some reason")
             document.getElementById("mortStream").srcObject = g.streams[0]
             document.getElementById("mortStream").style.display = "block"
