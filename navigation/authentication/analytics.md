@@ -140,7 +140,7 @@ search_exclude: true
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'Github')">Github</button>
     <button class="tablinks" onclick="openTab(event, 'Bathroom')">Bathroom</button>
-    <button class="tablinks" onclick="openTab(event, 'Something else')">Something else</button>
+    <button class="tablinks" onclick="openTab(event, 'Grades')">Grades</button>
 </div>
 
 <div id="Github" class="tabcontent">
@@ -152,7 +152,6 @@ search_exclude: true
             <pre id="modalData"></pre>
         </div>
     </div>
-
     <!-- Analytics Page -->
     <!-- Analytics Page -->
     <div class="container animate__animated animate__fadeIn">
@@ -176,33 +175,54 @@ search_exclude: true
     </div>
 </div>
 
+<!-- Bathroom Tab -->
 <div id="Bathroom" class="tabcontent">
     <h3 style="padding-left: 32px;" class="animate__animated animate__fadeIn">Bathroom</h3>
     <div class="container">
         <div class="components">
-        <table>
-            <thead>
-                <tr>
-                    <th>Statistic</th>
-                    <th>Value</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Average Duration (minutes)</td>
-                    <td id="avg-duration">placeholder</td>
-                </tr>
-                <tr>
-                    <td>Number of Times Gone</td>
-                    <td id="num-times">placeholder</td>
-                </tr>
-            </tbody>
-        </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Statistic</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Average Duration (minutes)</td>
+                        <td id="avg-duration">placeholder</td>
+                    </tr>
+                    <tr>
+                        <td>Number of Times Gone</td>
+                        <td id="num-times">placeholder</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
-<div id="Something else" class="tabcontent">
-    <h3>Something else</h3>
-    <p>Your content here</p>
+<!-- Grades Tab -->
+<div id="Grades" class="tabcontent">
+    <h3 style="padding-left: 32px;" class="animate__animated animate__fadeIn">Grades</h3>
+    <div class="container">
+        <div class="components">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Assignment</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody id="gradesTableBody">
+                    <tr>
+                        <td>Placeholder</td>
+                        <td>Placeholder</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -431,6 +451,7 @@ search_exclude: true
             .then(data => {
                 if (data === null) return null;
                 console.log("Person data:", data);
+                window.id = data.id;
                 getTinkle(encodeURIComponent(data.name)); // Fetch tinkle data for the person
             })
             .catch(err => {
@@ -443,3 +464,31 @@ search_exclude: true
     }
 </script>
 
+<script type="module">
+    import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+
+    function loadGrades() {
+        const gradesURL = `${javaURI}/api/synergy/grades/map/${window.id}`;
+        
+        fetch(gradesURL, { ...fetchOptions, credentials: 'include' })
+            .then(response => response.json())
+            .then(grades => {
+                const tableBody = document.getElementById('gradesTableBody');
+                tableBody.innerHTML = ''; // Clear existing content
+                
+                for (const [assignment, grade] of Object.entries(grades)) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>Assignment #${assignment}</td>
+                        <td>${grade.toFixed(2)}</td>
+                    `;
+                    tableBody.appendChild(row);
+                }
+            })
+            .catch(error => console.error('Error loading grades:', error));
+    }
+
+    // Load grades when the tab is clicked
+    document.querySelector('button[onclick="openTab(event, \'Grades\')"]')
+        .addEventListener('click', loadGrades);
+</script>
