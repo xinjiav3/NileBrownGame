@@ -1,5 +1,5 @@
 ---
-layout: none
+layout: base
 permalink: /stocks/home
 title: Stocks Home
 ---
@@ -55,33 +55,36 @@ title: Stocks Home
             width: 70%; /* Increased width for the left side */
         }
         .sidebar {
-            width: 25%; /* Width for the right side */
+            width: 35%; /* Width for the right side */
             display: flex;
             flex-direction: column;
             gap: 20px;
+            justify-content: space-between; 
+            /*left: 50%;*/
+            position: relative; 
+            background-color: #121212; /* Orange hover effect */
+            padding: 20px; /* Add padding to the sidebar */
+            box-sizing: border-box; /* Ensure padding doesn't overflow */
         }
         .stock-table, .your-stocks {
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .your-stocks, .stock-table {
-            height: full; /* Height for tables */
+            background-color: #121212; /* Orange hover effect */
+            border-collapse: collapse;
         }
         .stock-table table, .your-stocks table {
             width: 100%;
             border-collapse: collapse;
+            background-color: #121212; /* Orange hover effect */
         }
-        .stock-table table, th, td, .your-stocks table, th, td {
-            border: none; /* Removed the border to make it invisible */
-        }
-        .stock-table th, td, .your-stocks th, td {
+        .stock-table th, .stock-table td, .your-stocks th, .your-stocks td {
             padding: 10px;
             text-align: left;
+            background-color: #121212; /* Orange hover effect */
         }
         .stock-table th, .your-stocks th {
-            background-color: #f2f2f2;
+            background-color: #121212; /* Orange hover effect */
         }
         .welcome {
             font-size: 24px;
@@ -99,8 +102,7 @@ title: Stocks Home
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             flex: 1;
             text-align: center;
-            color: #fff; /* Text color set to white */
-            padding-bottom: -40px;
+            color: #fff;
         }
         .card-orange {
             background-color: #FF8C00; /* Orange color */
@@ -112,10 +114,11 @@ title: Stocks Home
             background-color: #001f3f; /* Dark blue color */
         }
         .card h2 {
-            font-size: 20px;
+            margin-top: 2px; 
+            font-size: 18px;
         }
         .card p {
-            font-size: 36px;
+            font-size: 28px;
             font-weight: bold;
         }
         .chart-container {
@@ -129,9 +132,9 @@ title: Stocks Home
             gap: 20px;
         }
         .chart {
-            height: 100%; /* Set height to 100% to fill the container */
-            width: 100%; /* Set height to 100% to fill the container */
-            background-color: #fff; /* Set the chart background to white */
+            height: 100%; 
+            width: 100%; 
+            background-color: #fff; 
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -141,11 +144,11 @@ title: Stocks Home
             flex: 1;
         }
         .search-container {
-            margin-bottom: 20px; /* Add margin to space it out */
+            margin-bottom: 20px;
             display: flex;
         }
         .search-container input[type="text"] {
-            width: 100%; /* Full width of the graph */
+            width: 100%;
             padding: 12px;
             border: none;
             border-radius: 4px;
@@ -153,142 +156,58 @@ title: Stocks Home
             font-size: 16px;
         }
         .search-button {
-            background-color: #ff8c00; /* Orange color */
+            background-color: #ff8c00; 
             color: #fff;
             border: none;
-            border-radius: 0 4px 4px 0; /* Rounded corners on the right */
+            border-radius: 0 4px 4px 0; 
             padding: 12px 20px;
             cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s;
         }
         .search-button:hover {
-            background-color: #e07b00; /* Darker orange on hover */
+            background-color: #e07b00;
         }
-     /* Leaderboard modal styling */
-    #leaderboardModal {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        width: 80%;
-        max-height: 80%;
-        overflow-y: auto;
-        z-index: 1000; /* Ensures modal is above other elements */
-    }
-    /* Semi-transparent background overlay */
-    #modalOverlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 999; /* Ensures overlay is beneath modal */
-    }
-    /* Table styling */
-    #leaderboardTable {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-    #leaderboardTable th,
-    #leaderboardTable td {
-        text-align: left;
-        padding: 10px;
-        border: 1px solid #ddd;
-    }
-    #leaderboardTable th {
-        background-color: #f8f8f8;
-        font-weight: bold;
-        text-align: left; /* Align headers to the left by default */
-    }
-    #leaderboardTable tr:nth-child(even) {
-        background-color: #f9f9f9;
-    }
-    #leaderboardTable tr:hover {
-        background-color: #f1f1f1;
-    }
-    /* Close button styling */
-    #closeLeaderboardButton {
-        display: block;
-        margin: 20px auto 0;
-        padding: 10px 20px;
-        background-color: #00274d;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        text-align: center;
-        font-size: 16px;
-    }
-    #closeLeaderboardButton:hover {
-        background-color: #004080;
-    }
-</style>
-
+    </style>
+</head>
 <body>
-    <!-- Leaderboard Modal -->
-    <div id="leaderboardModal">
-        <h3 style="font-family: Arial, sans-serif; font-size: 24px;">Leaderboard</h3>
-        <hr style="margin: 10px 0; border: 1px solid black;">
-        <table id="leaderboardTable">
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Username</th>
-                    <th>Total Portfolio Value</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td colspan="3" style="text-align: center;">Loading...</td>
-                </tr>
-            </tbody>
-        </table>
-        <button id="closeLeaderboardButton">Close</button>
-    </div>
-    <div id="modalOverlay"></div>
-<!-- Navigation Bar -->
-<nav class="navbar">
-    <div class="logo">NITD</div>
-    <div class="nav-buttons">
-        <a href="{{site.baseurl}}/stocks/home">Home</a>
-        <a href="{{site.baseurl}}/crypto/portfolio">Crypto</a>
-        <a href="{{site.baseurl}}/stocks/viewer">Stocks</a>
-        <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
-        <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
-        <a href="{{site.baseurl}}/stocks/leaderboard">Leaderboard</a>
-    </div>
-</nav>
-    <!-- Dashboard Content   -->
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">NITD</div>
+        <div class="nav-buttons">
+            <a href="{{site.baseurl}}/stocks/home">Home</a>
+            <a href="{{site.baseurl}}/crypto/portfolio">Crypto</a>
+            <a href="{{site.baseurl}}/stocks/viewer">Stocks</a>
+            <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
+            <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
+            <a href="{{site.baseurl}}/stocks/leaderboard">Leaderboard</a>
+        </div>
+    </nav>
+    <!-- Dashboard -->
     <div class="dashboard">
         <div class="dashboard-content">
             <h1 id="userIDName" class="welcome">Hi Rafael, Welcome Back</h1>
             <p>Invest your money with small risk!</p>
             <div class="summary-cards">
                 <div class="card card-orange">
-                    <h2>Today's Dollar Change</h2>
+                    <h2>Today's Dollar</h2>
+                    <h2>Change</h2>
                     <p id="totalGain">NA</p>
                 </div>
                 <div class="card card-purple">
-                    <h2>Today's Percent Change</h2>
+                    <h2>Today's Percent</h2>
+                    <h2>Change</h2>
                     <p id="percentIncrease">NA</p>
                 </div>
                 <div class="card card-darkblue">
-                    <h2>Revenue Return</h2>
+                    <h2>Revenue</h2>
+                    <h2>Return</h2>
                     <p id="portfolioValue">NA</p>
                 </div>
             </div>
             <div class="search-container">
-               <input type="text" id="searchBar" placeholder="Search...">
-               <button class="search-button" onclick="getStockData()">Search</button>
+                <input type="text" id="searchBar" placeholder="Search...">
+                <button class="search-button" onclick="getStockData()">Search</button>
             </div>
             <div class="chart-container" id="chartContainer">
                 <div class="chart" id="chart1">
@@ -339,6 +258,8 @@ title: Stocks Home
             </div>
         </div>
     </div>
+</body>
+</html>
    <script type="module">
     import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
     async function getUserId(){

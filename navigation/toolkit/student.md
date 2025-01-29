@@ -15,7 +15,7 @@ show_reading_time: false
       <p>Toolset transforms bathroom passes and restroom management with smart digital passes, real-time occupancy tracking, and seamless feedback options. By enhancing hygiene, accessibility, and comfort, it creates a more efficient and user-friendly bathroom experience.</p>
     </div>
   </a>
-  <a href="{{site.baseurl}}/student/presentations" class="toolkit-button" data-description="Gamify your learning experience with these tools that make studying more interactive and fun. Discover educational games, quizzes, and activities to boost your knowledge while enjoying the process." data-authors="Author: Jane Smith">
+  <a href="{{site.baseurl}}/student-toolkit/queue" class="toolkit-button" data-description="Gamify your learning experience with these tools that make studying more interactive and fun. Discover educational games, quizzes, and activities to boost your knowledge while enjoying the process." data-authors="Author: Jane Smith">
     <img src="{{site.baseurl}}/images/toolkit-nav-buttons/group-chat.png" alt="ScreenQueue" />
     <span class="button-name">ScreenQueue</span>
     <div class="description">
@@ -38,13 +38,23 @@ show_reading_time: false
     </div>
   </a>
 
-  <a href="{{site.baseurl}}/teacher/sagai" class="toolkit-button" data-description="Tired of opening ChatGPT all day everyday? Want an AI companion with you on the site that helps you study for CSA? Look no further! Here you can use AI to generate hacks for practice, grade your hack answers and get feedback, and ask questions to your follow classmates and teachers!">
+  <a href="{{site.baseurl}}/student/sagai" class="toolkit-button" data-description="Tired of opening ChatGPT all day everyday? Want an AI companion with you on the site that helps you study for CSA? Look no further! Here you can use AI to generate hacks for practice, grade your hack answers and get feedback, and ask questions to your follow classmates and teachers!">
     <img src="{{site.baseurl}}/images/toolkit-nav-buttons/sagai.png" alt="SAGAI" />
     <span class="button-name">SAGAI</span>
     <div class="description">
       <p>Tired of opening ChatGPT all day everyday? Want an AI companion with you on the site that helps you study for CSA? Look no further! Here you can use AI to generate hacks for practice, grade your hack answers and get feedback, and ask questions to your follow classmates and teachers!</p>
     </div>
   </a>
+ 
+<a href="{{site.baseurl}}/student/view-grades" class="toolkit-button" data-description="Easily track your academic progress with the View Grades tool. Access real-time updates on assignments, quizzes, and overall performance to stay informed and on top of your studies.">
+  <img src="{{site.baseurl}}/images/toolkit-nav-buttons/grades.png" alt="Grades" />
+  <span class="button-name">View Grades</span>
+  <div class="description">
+    <p>Easily track your academic progress with the View Grades tool. Access real-time updates on assignments, quizzes, and overall performance to stay informed and on top of your studies.</p>
+  </div>
+</a>
+</div>
+
 </div>
 
 <style>
