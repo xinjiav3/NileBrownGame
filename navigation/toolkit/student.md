@@ -45,6 +45,16 @@ show_reading_time: false
       <p>Tired of opening ChatGPT all day everyday? Want an AI companion with you on the site that helps you study for CSA? Look no further! Here you can use AI to generate hacks for practice, grade your hack answers and get feedback, and ask questions to your follow classmates and teachers!</p>
     </div>
   </a>
+ 
+<a href="{{site.baseurl}}/student/view-grades" class="toolkit-button" data-description="Easily track your academic progress with the View Grades tool. Access real-time updates on assignments, quizzes, and overall performance to stay informed and on top of your studies.">
+  <img src="{{site.baseurl}}/images/toolkit-nav-buttons/grades.png" alt="Grades" />
+  <span class="button-name">View Grades</span>
+  <div class="description">
+    <p>Easily track your academic progress with the View Grades tool. Access real-time updates on assignments, quizzes, and overall performance to stay informed and on top of your studies.</p>
+  </div>
+</a>
+</div>
+
 </div>
 
 <style>
