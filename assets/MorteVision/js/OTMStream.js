@@ -1,8 +1,8 @@
 let videoStreamGlobal
-
+let globalPeerBroadcaster
 async function broadcast() {
     const stream = await captureScreen();
-    mediaStreamCloseOnly = videoStreamGlobal
+    videoStreamGlobal = stream
     document.getElementById("mortStream").srcObject = stream;
     socket.emit("streamReady")
 }
@@ -11,13 +11,19 @@ socket.on("viewOfferServer", function (data) {
     viewOfferServer(data)
 })
 
+socket.on("sendIceToStreamerClient", function (data) {
+    console.log("recieved candidate" + data["candidate"])
+    globalPeerBroadcaster.addIceCandidate(data["candidate"])
+})
+
 async function viewOfferServer(data) {
     const peer = new RTCPeerConnection(servers);
     let remotedesc = new RTCSessionDescription()
     remotedesc.sdp = data["sdp"]
     remotedesc.type = data["type"]
-    peer.onicecandidate = (e) => peer.addIceCandidate(e.candidate)
+    peer.onicecandidate = (e) => socket.emit("sendIceToViewersClient", { candidate:e.candidate.candidate })
     peer.setRemoteDescription(remotedesc)
+    videoStreamGlobal.getTracks().forEach(track => peer.addTrack(track, videoStreamGlobal));
     const answer = await peer.createAnswer()
     await peer.setLocalDescription(answer)
     let payload =
@@ -26,7 +32,10 @@ async function viewOfferServer(data) {
         sdp: answer.sdp,
         senderUID: data["senderUID"]
     }
-    console.log(payload)
+    globalPeerBroadcaster = peer
+    peer.onnegotiationneeded = (e) => {
+        videoStreamGlobal.getTracks().forEach(track => peer.addTrack(track, videoStreamGlobal));
+    }
     socket.emit("viewAcceptClient", payload)
 }
 
