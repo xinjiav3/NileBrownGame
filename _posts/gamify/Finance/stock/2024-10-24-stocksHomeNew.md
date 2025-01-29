@@ -399,7 +399,7 @@ title: Stocks Home
             </div>
             <div class="search-container">
                 <input type="text" id="searchBar" placeholder="Search...">
-                <button class="search-button" onclick="getStockData()">Search</button>
+                <button class="search-button" onclick="getStockData()">SearchUDHFIUDSHF</button>
             </div>
             <div class="chart-container" id="chartContainer">
                 <div class="chart" id="chart1">
@@ -454,24 +454,6 @@ title: Stocks Home
 </html>
    <script type="module">
     import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
-    async function getUserId(){
-        const url_persons = `${javaURI}/api/person/get`;
-        await fetch(url_persons, fetchOptions)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Spring server response: ${response.status}`);
-                }
-                console.log(userID);
-                return response.json();
-            })
-            .then(data => {
-                userID=data.id;
-                console.log(userID);
-            })
-            .catch(error => {
-                console.error("Java Database Error:", error);
-            });
-    }
    function getCredentialsJava() {
         const URL = javaURI + '/api/person/get';
         return fetch(URL, fetchOptions)
@@ -534,10 +516,10 @@ title: Stocks Home
         updateYourStocksTable();
     });
     let stockChart; // Declare stockChart globally
-    async function getStockData() {
-        const stockSymbol = document.getElementById("searchBar").value;
-        document.getElementById("output").textContent = ""; // Clear previous messages
-     try {
+   window.getStockData = async function() {
+    const stockSymbol = document.getElementById("searchBar").value;
+    document.getElementById("output").textContent = ""; // Clear previous messages
+    try {
         const response = await fetch(javaURI + `/api/stocks/${stockSymbol}`);
         const data = await response.json();
         // Extract timestamps and prices
@@ -545,18 +527,17 @@ title: Stocks Home
         const prices = data?.chart?.result?.[0]?.indicators?.quote?.[0]?.close;
         // Check if data exists
         if (timestamps && prices) {
-                // Convert timestamps to readable dates
-                const labels = timestamps.map(ts => new Date(ts * 1000).toLocaleString());
-               displayChart(labels, prices, stockSymbol);
-            } else {
-                console.error(`Data not found for ${stockSymbol}. Response structure:`, data);
-                document.getElementById("output").textContent = `Data not found for ${stockSymbol}.`;
-            }
-        } catch (error) {
-            console.error('Error fetching stock data:', error);
-            document.getElementById("output").textContent = "Error fetching stock data. Please try again later.";
+            // Convert timestamps to readable dates
+            const labels = timestamps.map(ts => new Date(ts * 1000).toLocaleString());
+            displayChart(labels, prices, stockSymbol);
+        } else {
+            document.getElementById("output").textContent = `Data not found for ${stockSymbol}.`;
         }
-}
+    } catch (error) {
+        console.error('Error fetching stock data:', error);
+        document.getElementById("output").textContent = "Error fetching stock data. Please try again later.";
+    }
+};
 function displayChart(labels, prices, tickerSymbol) {
     const ctx = document.getElementById('stockChart').getContext('2d');
     // Destroy the old chart if it exists
@@ -650,7 +631,7 @@ return new Promise((resolve) => {
       document.addEventListener("DOMContentLoaded", () => {
             getCredentialsJava();
             updateStockPrices(); // Call the function after DOM is fully loaded
-            getPortfolioPerformance(userID);
+            getPortfolioPerformance();
             //getUserIdFromAPI();
         });
 async function updateStockPrices() {
@@ -674,33 +655,41 @@ async function updateStockPrices() {
                 //console.log(counter);
             }
         }
-async function getPortfolioPerformance(user) {
-            // Fetch user's stocks and quantities
-            const userStocks = await getUserStock(user);
-            const userValue = await getUserValue(user);
-            let totalGain = 0;
-            let totalLatestValue = 0;
-            let totalOldValue = 0;
-            for (const { stockSymbol, quantity } of userStocks) {
-                const latestPrice = await getStockPrice(stockSymbol);
-                const oldPrice = await getOldStockPrice(stockSymbol);
-                // Calculate gain for each stock
-                const stockGain = (latestPrice - oldPrice) * quantity;
-                totalGain += stockGain;
-                // Calculate total values for percent increase calculation
-                totalLatestValue += latestPrice * quantity;
-                totalOldValue += oldPrice * quantity;
-            }
-            // Calculate percent increase
-            const percentIncrease = ((totalLatestValue - totalOldValue) / totalOldValue) * 100;
-            console.log(`total increase: $${totalGain.toFixed(2)}, percent increase: ${percentIncrease.toFixed(2)}%`);
-            const totalElement = document.getElementById("totalGain");
-            const percentElement = document.getElementById("percentIncrease");
-            const valueElement = document.getElementById("portfolioValue");
-            totalElement.textContent = `$${totalGain.toFixed(2)}`;
-            percentElement.textContent = `${percentIncrease.toFixed(2)}%`;
-            valueElement.textContent = `$${userValue.toFixed(2)}`;
+async function getPortfolioPerformance() {
+    try {
+        // Fetch user credentials
+        const credentials = await getCredentialsJava();
+        const email = credentials?.email;
+        if (!email) {
+            throw new Error("User email not found");
         }
+        // Fetch user's stocks and portfolio value using the email
+        const userStocks = await getUserStock(email);
+        const userValue = await getUserValue(email);
+        let totalGain = 0;
+        let totalLatestValue = 0;
+        let totalOldValue = 0;
+        for (const { stockSymbol, quantity } of userStocks) {
+            const latestPrice = await getStockPrice(stockSymbol);
+            const oldPrice = await getOldStockPrice(stockSymbol);
+            // Calculate gain for each stock
+            const stockGain = (latestPrice - oldPrice) * quantity;
+            totalGain += stockGain;
+            // Calculate total values for percent increase calculation
+            totalLatestValue += latestPrice * quantity;
+            totalOldValue += oldPrice * quantity;
+        }
+        // Calculate percent increase
+        const percentIncrease = ((totalLatestValue - totalOldValue) / totalOldValue) * 100;
+        console.log(`Total increase: $${totalGain.toFixed(2)}, Percent increase: ${percentIncrease.toFixed(2)}%`);
+        // Update UI elements
+        document.getElementById("totalGain").textContent = `$${totalGain.toFixed(2)}`;
+        document.getElementById("percentIncrease").textContent = `${percentIncrease.toFixed(2)}%`;
+        document.getElementById("portfolioValue").textContent = `$${userValue.toFixed(2)}`;
+    } catch (error) {
+        console.error("Error fetching portfolio performance:", error);
+    }
+}
 async function getUserStock(user) {
             try {
                 const response = await fetch(javaURI + `/stocks/table/getStocks?username=${user}`);
@@ -742,12 +731,6 @@ async function getUserValue(user) {
                 console.error("Error fetching user stocks:", error);
                 return [];
             }
-        }
-async function logout() {
-            userID = "";
-            console.log(userID);
-            localStorage.setItem('userID', userID)
-            return(userID);   
         }
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
