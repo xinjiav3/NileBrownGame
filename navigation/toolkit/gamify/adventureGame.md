@@ -35,62 +35,14 @@ permalink: /gamify/adventureGame
     color: #4682b4; /* Steel blue text color */
 }
 
-#custom-prompt-input {
-    width: 90%;
-    padding: 12px;
-    border: 1px solid #87ceeb; /* Sky blue border */
-    border-radius: 8px;
-    margin-bottom: 20px;
-    font-size: 16px;
-    color: #333; /* Darker text for input */
-    background-color: #ffffff; /* White input background */
-    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-#custom-prompt-submit {
-    padding: 12px 25px;
-    background-color: #4682b4; /* Steel blue button background */
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: background-color 0.3s ease-in-out, transform 0.2s ease;
-}
-
-#custom-prompt-submit:hover {
-    background-color: #5a9bd3; /* Slightly lighter blue */
-    transform: scale(1.05);
-}
-
-#custom-prompt-close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #87ceeb; /* Sky blue close button */
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.2s ease-in-out, transform 0.2s ease;
-    line-height: 1;
-}
-
-#custom-prompt-close:hover {
-    color: #4682b4; /* Steel blue on hover */
-    transform: scale(1.2); /* Slight grow effect */
-}
-
 /* New button style for NPC Tracker */
 #npcTrackerButton {
-    position: fixed;
-    top: 250px; /* Placed below the existing score */
-    left: 20px;
+    position: relative;
+    display: block;
+    margin: 15px auto;
     background-color: #4682b4; /* Steel blue */
     color: white;
-    padding: 15px 20px;
+    padding: 12px 20px;
     font-size: 16px;
     font-weight: bold;
     border: none;
@@ -104,47 +56,53 @@ permalink: /gamify/adventureGame
     background-color: #5a9bd3; /* Lighter blue */
 }
 
-/* Style for the NPC Tracker pop-up */
+/* NPC Tracker Pop-up */
 #npcTrackerPopup {
-    display: none; /* Completely hidden when the game starts */
+    display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 40%;
-    height: 20%;
+    height: auto;
+    min-height: 20%;
     background-color: white;
     border: 2px solid #4682b4;
     border-radius: 12px;
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
     padding: 20px;
     text-align: center;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
     color: black;
-    display: none; /* Ensures it does NOT appear on load */
-    justify-content: center;
-    align-items: center;
     z-index: 1001;
 }
 </style>
 
+<!-- Score & Stats -->
 <div id="score" style="position: absolute; top: 75px; left: 10px; color: black; font-size: 20px; background-color: white;">
    Time: <span id="timeScore">0</span>
 </div>
 
+<div id="stats-container" style="position: absolute; top: 120px; left: 10px; background-color: rgba(0, 0, 0, 0.7); color: white; padding: 10px; border-radius: 5px;">
+    <div>Balance: <span id="balance">0</span></div>
+    <div>Chat Score: <span id="chatScore">0</span></div>
+    <div>Questions Answered: <span id="questionsAnswered">0</span></div>
+    
+    <!-- NPC Tracker Button added below the stats -->
+    <button id="npcTrackerButton">NPC Tracker</button>
+</div>
+
 <div id="gameContainer">
-    <div id="promptDropDown" class="promptDropDown" style="z-index: 9999">
-    <!-- <a href="javascript:void(0)" id="leaderboard-header">&times; Leaderboard</a> -->
-    </div>
+    <div id="promptDropDown" class="promptDropDown" style="z-index: 9999"></div>
     <canvas id='gameCanvas'></canvas>
 </div>
 
-<!-- Button for NPC Tracker -->
-<button id="npcTrackerButton">NPC Tracker</button>
-
 <!-- NPC Tracker Pop-up -->
-<div id="npcTrackerPopup">Tux</div>
+<div id="npcTrackerPopup">
+    <h2>NPCs Met:</h2>
+    <ul id="npcTrackerList"></ul>
+</div>
 
 <script type="module">
     import GameControl from '{{site.baseurl}}/assets/js/adventureGame/GameControl.js';
@@ -166,11 +124,25 @@ permalink: /gamify/adventureGame
 </script>
 
 <script>
-    // Function to toggle the NPC Tracker popup
+    let npcTracker = []; // Stores NPC names in order
+
+    // Function to update NPC tracker UI
+    function updateNpcTracker() {
+        const list = document.getElementById("npcTrackerList");
+        list.innerHTML = ""; // Clear old data
+        npcTracker.forEach(npc => {
+            const li = document.createElement("li");
+            li.textContent = npc;
+            list.appendChild(li);
+        });
+    }
+
+    // Function to toggle the NPC Tracker pop-up
     function toggleNpcTracker() {
         const popup = document.getElementById("npcTrackerPopup");
         if (popup.style.display === "none" || popup.style.display === "") {
-            popup.style.display = "flex"; // Show the popup
+            updateNpcTracker();
+            popup.style.display = "block"; // Show the popup
         } else {
             popup.style.display = "none"; // Hide the popup
         }
@@ -182,5 +154,28 @@ permalink: /gamify/adventureGame
         if (npcTrackerButton) {
             npcTrackerButton.addEventListener("click", toggleNpcTracker);
         }
+
+        // Detect when the player presses "E" to interact with NPCs
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "e" || event.key === "E") {
+                trackNpcInteraction();
+            }
+        });
     });
+
+    // Function to track NPC interactions
+    function trackNpcInteraction() {
+        // Simulated NPC interactions (assuming Tux first, then Octocat)
+        const possibleNpcs = ["Tux", "Octocat"];
+
+        // If the player hasn't interacted yet, add Tux first, then Octocat
+        if (npcTracker.length < possibleNpcs.length) {
+            const nextNpc = possibleNpcs[npcTracker.length];
+            if (!npcTracker.includes(nextNpc)) {
+                npcTracker.push(nextNpc);
+            }
+        }
+
+        updateNpcTracker();
+    }
 </script>
