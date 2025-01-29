@@ -39,7 +39,6 @@ permalink: /crypto/mining
                     </div>
                 </div>
             </div>
-            
             <!-- Ethereum Market -->
             <div class="dashboard-card">
                 <h2>Ethereum Market</h2>
@@ -157,9 +156,6 @@ permalink: /crypto/mining
                 </button>
             </div>
         </div>
-        <div class="navbar">
-
-    </div>
         <!-- Performance Charts -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
             <div class="chart-container">
@@ -373,6 +369,7 @@ permalink: /crypto/mining
                 };
                 const response = await fetch(`${javaURI}/api/mining/stats`, options);
                 const stats = await response.json();
+                console.log('Stats fetched:', stats); // Debug log to check the fetched stats
                 updateDisplay(stats); // Ensure this function correctly updates the UI
                 updateCharts(stats); // Ensure this updates the charts as well
             } catch (error) {
@@ -381,15 +378,31 @@ permalink: /crypto/mining
         }
         // UI Updates
         function updateDisplay(stats) {
+            console.log('Updating display with stats:', stats); // Debug log
             if (!stats) return; // Guard clause for undefined stats
-            document.getElementById('btc-balance').textContent = (typeof stats.btcBalance === 'number' ? stats.btcBalance : 0).toFixed(8);
-            document.getElementById('pending-balance').textContent = (typeof stats.pendingBalance === 'number' ? stats.pendingBalance : 0).toFixed(8);
-            document.getElementById('hashrate').textContent = `${(typeof stats.hashrate === 'number' ? stats.hashrate : 0).toFixed(2)} MH/s`;
+            // Update BTC Balance
+            document.getElementById('btc-balance').textContent = (parseFloat(stats.btcBalance) || 0).toFixed(8);
+            // Update Pending BTC
+            document.getElementById('pending-balance').textContent = (parseFloat(stats.pendingBalance) || 0).toFixed(8);
+            // Update Hashrate
+            document.getElementById('hashrate').textContent = `${(parseFloat(stats.hashrate) || 0).toFixed(2)} MH/s`;
+            // Update Shares
             document.getElementById('shares').textContent = stats.shares || 0;
+            // Update GPU Temperature
             document.getElementById('gpu-temp').textContent = `${(typeof stats.averageTemperature === 'number' ? stats.averageTemperature : 0).toFixed(1)}°C`;
+            // Update Power Draw
             document.getElementById('power-draw').textContent = `${(typeof stats.powerConsumption === 'number' ? stats.powerConsumption : 0).toFixed(0)}W`;
+            // Update Daily Revenue
             document.getElementById('daily-revenue').textContent = `$${(typeof stats.dailyRevenue === 'number' ? stats.dailyRevenue : 0).toFixed(2)}`;
+            // Update Power Cost
             document.getElementById('power-cost').textContent = `$${(typeof stats.powerCost === 'number' ? stats.powerCost : 0).toFixed(2)}`;
+            // Update Current GPU
+            if (stats.activeGPUs && stats.activeGPUs.length > 0) {
+                document.getElementById('current-gpu').textContent = stats.activeGPUs[0].name; // Display the first active GPU
+            } else {
+                document.getElementById('current-gpu').textContent = 'No GPU';
+            }
+            // Render GPU Inventory
             renderGpuInventory(stats); // Ensure this function is correctly populating the GPU inventory
         }
         function renderGpuInventory(stats) {
