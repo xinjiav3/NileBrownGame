@@ -110,4 +110,4 @@ if __name__ == '__main__':
     threading.Thread(target=barcode_listener, daemon=True).start()
 
     # Run Flask app
-    app.run(debug=True)
+    app.run(port=4100, debug=True)

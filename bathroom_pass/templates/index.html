@@ -140,6 +140,7 @@
     <script type="module">
         import { javaURI, pythonURI, fetchOptions } from '/static/assets/api/config.js';
         
+        const teacherName = "jmort1021@gmail.com";
         window.fetchLocations = async function fetchLocations() {
             try {
                 const response = await fetch(javaURI + '/api/issue/issues', fetchOptions);
@@ -192,25 +193,58 @@
 
         async function fetchQueueData() {
             try {
-                const queueURI = javaURI + "/api/queue/all"
-                const response = await fetch(queueURI);
+                const QueueURI = javaURI + "/api/queue/all";
+                const response = await fetch(QueueURI, fetchOptions);
+        
+                if (response.status !== 200) {
+                    console.error("Failed to fetch queue data.");
+                    return;
+                }
+        
                 const data = await response.json();
+                console.log(data);
+                let  mortensenQueue = null;
+                //const mortensenQueue = data.find(queue => queue.teacherEmail === teacherName);
+                for (let i = 0; i < data.length; i++)
+                {
+                    console.log(data[i].teacherEmail);
+                    if (data[i].teacherEmail == teacherName)
+                    {
+                        mortensenQueue = data[i];
+                        break;
+                    }
+                }
+                
+                console.log(mortensenQueue);
+                if (!mortensenQueue) {
+                    console.error("No queue found for the teacher.");
+                    return;
+                }
 
-                document.getElementById("current-away").textContent = data.current_user || "None";
-                document.getElementById("next-up").textContent = data.next_up || "None";
-
-                // Update queue list dynamically
+                // Split the queue into an array
+                const queueArray = mortensenQueue.peopleQueue.split(",");
+                
+                // Set the first person as "currently away" and the second as "next-up"
+                const currentUser = queueArray[0] || "None"; // First person in the queue
+                const nextUp = queueArray[1] || "None"; // Second person in the queue
+        
+                // Update the UI
+                document.getElementById("current-away").textContent = currentUser;
+                document.getElementById("next-up").textContent = nextUp;
+        
                 const queueList = document.getElementById("queue-list");
-                queueList.innerHTML = "";
-                data.queue.forEach(user => {
-                    let li = document.createElement("li");
-                    li.textContent = user;
+                queueList.innerHTML = ""; // Clear the existing list
+        
+                // Add the rest of the queue (starting from index 2)
+                queueArray.slice(2).forEach(person => {
+                    const li = document.createElement("li");
+                    li.textContent = person;
                     queueList.appendChild(li);
                 });
-
-                // Update status bar
+        
+                // Update status bar and glow effect
                 const statusBar = document.getElementById("status-bar");
-                if (data.current_user) {
+                if (currentUser !== "None") {
                     statusBar.textContent = "OCCUPIED";
                     statusBar.classList.add("occupied");
                     statusBar.classList.remove("unoccupied");
@@ -227,9 +261,13 @@
                 console.error("Error fetching queue data:", error);
             }
         }
+        
+        
 
+        
         // Fetch queue data on page load
         document.addEventListener("DOMContentLoaded", fetchQueueData);
+        
 
         async function updateQueue() {
             try {
