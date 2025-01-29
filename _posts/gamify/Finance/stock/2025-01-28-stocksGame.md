@@ -11,7 +11,6 @@ title: Stocks Game
     <title>Stocks Game - Simulate 5 Years</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- All CSS is kept inline below so we don't get 404 for external styles.css -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -28,35 +27,15 @@ title: Stocks Game
             background-color: #001f3f;
             color: #fff;
         }
-        .navbar .logo {
-            font-size: 24px;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-        .navbar .nav-buttons {
-            display: flex;
-            gap: 20px;
-        }
-        .navbar .nav-buttons a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 16px;
-            padding: 8px 16px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        .navbar .nav-buttons a:hover {
-            background-color: #ff8c00;
-        }
         .container {
             padding: 30px;
             text-align: center;
         }
         .search-container {
-            margin-bottom: 20px;
             display: flex;
             justify-content: center;
-            gap: 5px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
         .search-container input {
             padding: 12px;
@@ -64,14 +43,6 @@ title: Stocks Game
             border-radius: 4px;
             font-size: 16px;
             background-color: #6ab8f9;
-        }
-        .search-container input[type="text"] {
-            width: 240px;
-        }
-        .search-container input[type="number"] {
-            width: 80px;
-            border-radius: 0;
-            border: none;
         }
         .search-button {
             background-color: #ff8c00;
@@ -81,15 +52,6 @@ title: Stocks Game
             cursor: pointer;
             font-size: 16px;
             border-radius: 4px;
-        }
-        .search-button:hover {
-            background-color: #e07b00;
-        }
-        .game-panel {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            margin-top: 30px;
         }
         .money-display {
             font-size: 24px;
@@ -128,291 +90,172 @@ title: Stocks Game
         .simulate-button:hover {
             background-color: #ff8c00;
         }
-        .animation-container {
-            display: none;
-            margin-top: 20px;
-        }
-        .result {
-            font-size: 24px;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-        /* Extra override if you want green text for error or success messages */
-        .error-text {
-            color: #6cf12f;
-        }
     </style>
+
 </head>
 <body>
-    <!-- Navigation Bar -->
+
     <nav class="navbar">
         <div class="logo">NITD</div>
-        <div class="nav-buttons">
-            <a href="{{site.baseurl}}/stocks/home">Home</a>
-            <a href="{{site.baseurl}}/crypto/portfolio">Crypto</a>
-            <a href="{{site.baseurl}}/stocks/viewer">Stocks</a>
-            <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
-            <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
-            <a href="{{site.baseurl}}/stocks/leaderboard">Leaderboard</a>
-            <a href="{{site.baseurl}}/stocks/game">Stocks Game</a>
-        </div>
     </nav>
 
     <div class="container">
         <h1>Stock Market Simulation Game</h1>
         <p>Pick stocks and simulate their growth over 5 years!</p>
 
-        <!-- A simple 'login' to identify who is playing -->
-        <div style="margin-bottom: 20px;">
-            <input type="text" id="userEmail" placeholder="Enter your email" 
-                   style="padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
-            <button onclick="loginUser()"
-                    style="padding: 8px 16px; border: none; border-radius: 4px; background-color: #001f3f; color: #fff; cursor: pointer;">
-                Login
-            </button>
-        </div>
+        <div class="money-display" id="moneyDisplay">Balance: $10,000</div>
 
-        <div class="money-display" id="moneyDisplay">Starting Money: $10,000</div>
-
-        <!-- Stock search & add section -->
         <div class="search-container">
             <input type="text" id="stockSearch" placeholder="Search Stock Symbol">
             <input type="number" id="stockQuantity" placeholder="Qty" min="1">
             <button class="search-button" onclick="addStock()">Add Stock</button>
         </div>
 
-        <div class="game-panel">
-            <div class="selected-stocks">
-                <h2>Your Selected Stocks</h2>
-                <table id="stockTable">
-                    <tr>
-                        <th>Stock</th>
-                        <th>Shares</th>
-                        <th>Price</th>
-                    </tr>
-                </table>
-            </div>
+        <div class="selected-stocks">
+            <h2>Your Selected Stocks</h2>
+            <table id="stockTable">
+                <tr>
+                    <th>Stock</th>
+                    <th>Shares</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </table>
         </div>
 
-        <button class="simulate-button" onclick="simulateYears()">Simulate 5 Years</button>
-
-        <!-- Loading animation -->
-        <div class="animation-container" id="animation">
-            <!-- If you don't actually have this .gif, remove or fix path -->
-            <img src="{{site.baseurl}}/assets/images/stock-animation.gif" width="200" alt="Simulating...">
-            <p>Simulating...</p>
-        </div>
-
-        <!-- Simulation result -->
-        <div class="result" id="result"></div>
+        <button class="simulate-button" onclick="submitStocks()">Submit Stocks</button>
     </div>
 
     <script>
-        /**
-         * In this script, we assume your Java (Spring Boot) backend:
-         *   1) Runs on http://localhost:8085
-         *   2) Has routes:
-         *      - GET  /stocks/table/getStocks?username=...
-         *      - GET  /stocks/table/portfolioValue?username=...
-         *      - POST /stocks/table/addStock
-         *      - POST /stocks/table/simulateStocks
-         * 
-         * Make sure your Person + userStocksTable data is in the DB
-         * and your code references the correct port/paths below.
-         */
+        const javaURI = "http://127.0.0.1:8085";
+        const STOCK_API = "https://nitdpython.stu.nighthawkcodingsociety.com/api/stocks/price_five_years_ago/";
+        let balance = 10000;
+        let userStocks = {};
 
-        // Adjust if your backend is on a different host/port:
-        const BASE_URL = "http://localhost:8085/stocks/table";
+        document.getElementById("moneyDisplay").textContent = `Balance: $${balance.toFixed(2)}`;
 
-        let currentUserEmail = "";
+        async function getCredentialsJava() {
+            const URL = javaURI + '/api/person/get';
+            return fetch(URL)
+                .then(response => response.ok ? response.json() : null)
+                .catch(err => console.error("Fetch error:", err));
+        }
 
-        // On "Login," store the email and refresh data
-        function loginUser() {
-            const emailInput = document.getElementById("userEmail").value.trim();
-            if (!emailInput) {
-                alert("Please enter a valid email.");
+        async function getStockPrice(symbol) {
+            try {
+                const response = await fetch(`${STOCK_API}${symbol}`);
+                if (!response.ok) throw new Error("Stock not found.");
+                const data = await response.json();
+                return data.price_five_years_ago;
+            } catch (err) {
+                console.error("Stock fetch error:", err);
+                return null;
+            }
+        }
+
+        async function addStock() {
+            const stockSymbol = document.getElementById("stockSearch").value.trim().toUpperCase();
+            const quantity = parseInt(document.getElementById("stockQuantity").value.trim(), 10);
+
+            if (!stockSymbol || isNaN(quantity) || quantity <= 0) {
+                alert("Enter a valid stock symbol and quantity.");
                 return;
             }
-            currentUserEmail = emailInput;
-            document.getElementById("moneyDisplay").textContent = "Loading portfolio...";
-            refreshPortfolio();
+
+            const stockPrice = await getStockPrice(stockSymbol);
+            if (stockPrice === null) {
+                alert("Stock not found.");
+                return;
+            }
+
+            const totalCost = stockPrice * quantity;
+            if (totalCost > balance) {
+                alert("Insufficient funds!");
+                return;
+            }
+
+            balance -= totalCost;
+            userStocks[stockSymbol] = (userStocks[stockSymbol] || 0) + quantity;
+            updateUI();
         }
 
-        /**
-         * Refresh the user's portfolio: fetch the user's stocks, then portfolio value
-         */
-        async function refreshPortfolio() {
-            if (!currentUserEmail) return;
-            await getStocks();
-            await getPortfolioValue();
+        function removeStock(symbol) {
+            if (!userStocks[symbol]) return;
+
+            getStockPrice(symbol).then(stockPrice => {
+                balance += stockPrice * userStocks[symbol];
+                delete userStocks[symbol];
+                updateUI();
+            });
         }
 
-        /**
-         * GET user's stocks from your backend
-         */
-        async function getStocks() {
+        function updateUI() {
+            document.getElementById("moneyDisplay").textContent = `Balance: $${balance.toFixed(2)}`;
             const table = document.getElementById("stockTable");
-            // Reset table to header:
             table.innerHTML = `
                 <tr>
                     <th>Stock</th>
                     <th>Shares</th>
                     <th>Price</th>
+                    <th>Action</th>
                 </tr>
             `;
-            try {
-                const url = `${BASE_URL}/getStocks?username=${encodeURIComponent(currentUserEmail)}`;
-                const resp = await fetch(url);
-                if (!resp.ok) {
-                    throw new Error("Failed to fetch user stocks.");
-                }
-                const stockList = await resp.json(); // array of { stockSymbol, quantity }
 
-                // For now, "Price" is "N/A" unless you fetch real-time from your API
-                stockList.forEach(stock => {
-                    const rowHtml = `
-                        <tr>
-                            <td>${stock.stockSymbol}</td>
-                            <td>${stock.quantity}</td>
-                            <td>N/A</td>
-                        </tr>
+            Object.keys(userStocks).forEach(symbol => {
+                getStockPrice(symbol).then(price => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${symbol}</td>
+                        <td>${userStocks[symbol]}</td>
+                        <td>$${price.toFixed(2)}</td>
+                        <td><button onclick="removeStock('${symbol}')">Sell</button></td>
                     `;
-                    table.innerHTML += rowHtml;
+                    table.appendChild(row);
                 });
-            } catch (err) {
-                console.error("Error fetching stocks:", err);
-                document.getElementById("moneyDisplay").textContent = "Error fetching portfolio value.";
-            }
+            });
         }
 
-        /**
-         * GET the user's total portfolio value (stocks + leftover balance)
-         */
-        async function getPortfolioValue() {
-            try {
-                const url = `${BASE_URL}/portfolioValue?username=${encodeURIComponent(currentUserEmail)}`;
-                const resp = await fetch(url);
-                if (!resp.ok) {
-                    throw new Error("Could not fetch portfolio value.");
-                }
-                const totalValue = await resp.json(); // numeric
-                document.getElementById("moneyDisplay").textContent = 
-                    `Total Portfolio Value: $${totalValue.toFixed(2)}`;
-            } catch (err) {
-                console.error("Error loading portfolio value:", err);
-                document.getElementById("moneyDisplay").textContent = "Error fetching portfolio value.";
-            }
-        }
-
-        /**
-         * POST to add a stock to the user's portfolio
-         */
-        async function addStock() {
-            if (!currentUserEmail) {
-                alert("Please login first.");
+        async function submitStocks() {
+            const credentials = await getCredentialsJava();
+            const email = credentials?.email;
+            if (!email) {
+                alert("Error: User email not found.");
                 return;
             }
-            const stockSymbol = document.getElementById("stockSearch").value.trim().toUpperCase();
-            const qtyStr = document.getElementById("stockQuantity").value.trim();
-            const quantity = parseInt(qtyStr, 10);
-
-            if (!stockSymbol || isNaN(quantity) || quantity <= 0) {
-                alert("Please enter a valid stock symbol and quantity.");
-                return;
-            }
-
-            const bodyData = {
-                username: currentUserEmail,
-                stockSymbol: stockSymbol,
+        
+            const stockList = Object.entries(userStocks).map(([symbol, quantity]) => ({
+                stockSymbol: symbol,
                 quantity: quantity
-            };
-
+            }));
+        
+            const payload = { username: email, stocks: stockList };
+        
+            console.log("Submitting payload:", JSON.stringify(payload, null, 2));
+        
             try {
-                const resp = await fetch(`${BASE_URL}/addStock`, {
+                const response = await fetch(`${javaURI}/stocks/table/simulateStocks`, {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(bodyData),
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
                 });
-                if (!resp.ok) {
-                    const errorText = await resp.text();
-                    alert("Error: " + errorText);
+        
+                const result = await response.text(); // Log raw response
+                console.log("Server response:", result);
+        
+                if (!response.ok) {
+                    alert("Error submitting stocks: " + result);
                     return;
                 }
-                // On success, refresh
-                await refreshPortfolio();
-                // Clear inputs
-                document.getElementById("stockSearch").value = "";
-                document.getElementById("stockQuantity").value = "";
+        
+                alert("Stocks successfully purchased!");
             } catch (err) {
-                console.error("Error adding stock:", err);
+                console.error("Stock purchase error:", err);
             }
         }
-
-        /**
-         * Simulate 5 years of stock changes for the user's entire portfolio
-         */
-        async function simulateYears() {
-            if (!currentUserEmail) {
-                alert("Please login first.");
-                return;
-            }
-            // Show "Simulating..." animation
-            document.getElementById("animation").style.display = "block";
-            document.getElementById("result").textContent = "";
-
-            // Fetch user stocks first
-            let userStocks = [];
-            try {
-                const resp = await fetch(`${BASE_URL}/getStocks?username=${encodeURIComponent(currentUserEmail)}`);
-                if (!resp.ok) {
-                    throw new Error("Could not fetch user stocks before simulation.");
-                }
-                userStocks = await resp.json(); // array of { stockSymbol, quantity }
-            } catch (err) {
-                console.error("Error loading stocks for simulation:", err);
-                document.getElementById("animation").style.display = "none";
-                alert("Cannot load stocks for simulation.");
-                return;
-            }
-
-            // POST them to /simulateStocks
-            const requestBody = {
-                username: currentUserEmail,
-                stocks: userStocks
-            };
-
-            try {
-                const response = await fetch(`${BASE_URL}/simulateStocks`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(requestBody),
-                });
-
-                // Keep animation for ~3s
-                setTimeout(async () => {
-                    document.getElementById("animation").style.display = "none";
-
-                    if (!response.ok) {
-                        const errorMsg = await response.text();
-                        document.getElementById("result").textContent = "Error: " + errorMsg;
-                        return;
-                    }
-
-                    const successMsg = await response.text();
-                    console.log(successMsg);
-
-                    // Refresh portfolio to see updated balances
-                    await refreshPortfolio();
-                    document.getElementById("result").textContent =
-                        "Simulation complete! Your updated portfolio and balance are applied.";
-                }, 3000);
-
-            } catch (err) {
-                console.error("Error simulating years:", err);
-                document.getElementById("animation").style.display = "none";
-                document.getElementById("result").textContent = "An error occurred during simulation.";
-            }
-        }
+        
     </script>
+
 </body>
 </html>
