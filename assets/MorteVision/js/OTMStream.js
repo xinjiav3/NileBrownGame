@@ -16,7 +16,7 @@ async function viewOfferServer(data) {
     let remotedesc = new RTCSessionDescription()
     remotedesc.sdp = data["sdp"]
     remotedesc.type = data["type"]
-    peer.onicecandidate = (e) => console.log(e.candidate)
+    peer.onicecandidate = (e) => peer.addIceCandidate(e.candidate)
     peer.setRemoteDescription(remotedesc)
     const answer = await peer.createAnswer()
     await peer.setLocalDescription(answer)
@@ -24,13 +24,10 @@ async function viewOfferServer(data) {
     {
         type: "answer",
         sdp: answer.sdp,
-        target: data["uid"]
+        senderUID: data["senderUID"]
     }
+    console.log(payload)
     socket.emit("viewAcceptClient", payload)
-
-    peer.onnegotiationneeded = async (e) => {
-
-    };
 }
 
 async function captureScreen() {

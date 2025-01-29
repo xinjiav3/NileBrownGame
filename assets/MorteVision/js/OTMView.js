@@ -15,10 +15,10 @@ async function consume() {
     peer.addTransceiver("video", { direction: "recvonly" })
     const offer = await peer.createOffer()
     await peer.setLocalDescription(offer)
+    peer.onicecandidate = (e) => peer.addIceCandidate(e.candidate)
     globalPeer = peer
     let payload =
     {
-        message:"test",
         type: "offer",
         sdp: offer.sdp
     }
@@ -28,12 +28,9 @@ async function consume() {
 async function viewAcceptServer(data) {
     let remotedesc = new RTCSessionDescription()
     remotedesc.sdp = data["sdp"]
-    remotedesc.type = data["type"]
-    globalPeer.onicecandidate = (e) => console.log(e.candidate)
+    remotedesc.type = "answer"
+    console.log(data["sdp"])
     globalPeer.setRemoteDescription(remotedesc)
-
-    peer.onnegotiationneeded = async (e) => {
-
-    };
+    console.log("peerconnections be like")
 }
 
