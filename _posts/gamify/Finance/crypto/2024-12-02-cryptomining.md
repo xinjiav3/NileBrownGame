@@ -76,6 +76,160 @@ permalink: /crypto/mining
         background-color: #ff8c00; /* Orange hover effect */
     }
     
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #001f3f;
+    color: #fff;
+}
+.navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+.navbar .nav-buttons {
+    display: flex;
+    gap: 20px;
+}
+.navbar .nav-buttons a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+.navbar .nav-buttons a:hover {
+    background-color: #ff8c00;
+}
+.dashboard {
+    padding: 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 40px;
+}
+.dashboard-content {
+    width: 70%;
+}
+.sidebar {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.stock-table, .your-stocks {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.your-stocks, .stock-table {
+    height: full;
+}
+.stock-table table, .your-stocks table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.stock-table table, th, td, .your-stocks table, th, td {
+    border: none;
+}
+.stock-table th, td, .your-stocks th, td {
+    padding: 10px;
+    text-align: left;
+}
+.stock-table th, .your-stocks th {
+    background-color: #f2f2f2;
+}
+.welcome {
+    font-size: 24px;
+    font-weight: bold;
+}
+.summary-cards {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+.card {
+    padding: 0px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    text-align: center;
+    color: #fff;
+    padding-bottom: -40px;
+}
+.card-orange {
+    background-color: #FF8C00;
+}
+.card-purple {
+    background-color: #6A0DAD;
+}
+.card-darkblue {
+    background-color: #001f3f;
+}
+.card h2 {
+    font-size: 20px;
+}
+.card p {
+    font-size: 36px;
+    font-weight: bold;
+}
+.chart-container {
+    position: relative;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    display: flex;
+    gap: 20px;
+}
+.chart {
+    height: 100%;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #999;
+    flex: 1;
+}
+.search-container {
+    margin-bottom: 20px;
+    display: flex;
+}
+.search-container input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+    font-size: 16px;
+}
+.search-button {
+    background-color: #ff8c00;
+    color: #fff;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+.search-button:hover {
+    background-color: #e07b00;
+}
 </style>
 <body class="bg-gray-900 text-white min-h-screen p-6">
     *** note: If the stats number are not showing, try to stop the mining and start again... <br>
