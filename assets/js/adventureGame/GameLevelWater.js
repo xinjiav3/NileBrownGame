@@ -1,4 +1,3 @@
-// To build GameLevels, each contains GameObjects from below imports
 import GameEnv from './GameEnv.js';
 import Background from './Background.js';
 
@@ -19,19 +18,19 @@ class GameLevelWater {
         pixels: {height: 597, width: 340}
     };
 
-      //NPC Data for Byte Nomad
+    // NPC Data for Byte Nomad (Smaller Version)
     const sprite_src_javanomad = path + "/images/gamify/wizard.png"; // Ensure correct path to the image
     const sprite_data_javanomad = {
         id: 'Java Nomad',
         greeting: "Ah, traveler! The digital sands shift like the wind, and only those who understand Java can truly master the art of programming. Are you ready to test your Java knowledge?",
         src: sprite_src_javanomad,
-        SCALE_FACTOR: 7,
-        pixels: { height: 163, width: 185 }, // Updated to correct image size
-        INIT_POSITION: { x: (width / 1.8), y: (height / 3) },
-        hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
-      
-          // Java Knowledge Quiz
-         quiz: { 
+        SCALE_FACTOR: 4, // Reduced scale factor for a smaller NPC
+        pixels: { height: 163, width: 185 },
+        INIT_POSITION: { x: (width / 2), y: (height / 2.5) }, // Adjusted for better placement
+        hitbox: { widthPercentage: 0.07, heightPercentage: 0.07 }, // Reduced hitbox to match new size
+
+        // Java Knowledge Quiz
+        quiz: { 
           title: "Java Nomad's Code Wisdom",
           questions: [
               "Which keyword is used to define a class in Java?\n1. define\n2. class\n3. Class\n4. struct",
@@ -48,17 +47,12 @@ class GameLevelWater {
           }
       };
 
-
-
-
-
-    // List of objects defnitions for this level
+    // List of objects definitions for this level
     this.objects = [
       { class: Background, data: image_data_water },
       { class: Background, data: sprite_data_javanomad },
     ];
   }
-
 }
 
 export default GameLevelWater;
