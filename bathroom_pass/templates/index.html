@@ -123,10 +123,10 @@
     
     <div class="container">
         <div class="info-box">
-            <p>Currently Away: <span id="current-away"></span></p>
+            <p>Currently Away: <span id="current-away"></span>{{current_user}}</p>
             <div class="queue">
                 <strong>Next-up:</strong>
-                <p id="next-up">Matthew Wakayama</p>
+                <p id="next-up">{{next_up}}</p>
                 <strong>In Queue:</strong>
                 <ul id="queue-list"></ul>
             </div>
@@ -137,41 +137,10 @@
         </div>
     </div>
 
-    <script>
-        let queue = ["John Mortensen", "Srijan Atti"];
-
-        function renderQueue() {
-            let queueList = document.getElementById("queue-list");
-            queueList.innerHTML = "";
-            queue.forEach(user => {
-                let li = document.createElement("li");
-                li.textContent = user;
-                queueList.appendChild(li);
-            });
-        }
-
-        function updateQueue() {
-            let current = document.getElementById("current-away").textContent;
-            let nextUp = document.getElementById("next-up").textContent;
-            if (queue.length > 0) {
-                document.getElementById("current-away").textContent = nextUp;
-                document.getElementById("next-up").textContent = queue.shift();
-            } else {
-                document.getElementById("status-bar").textContent = "UNOCCUPIED";
-                document.getElementById("status-bar").classList.remove("occupied");
-                document.getElementById("status-bar").classList.add("unoccupied");
-                document.body.classList.remove("occupied-glow");
-                document.body.classList.add("unoccupied-glow");
-            }
-            renderQueue();
-        }
-
-        document.addEventListener("DOMContentLoaded", renderQueue);
+    <script type="module">
+        import { javaURI, pythonURI, fetchOptions } from '/static/assets/api/config.js';
         
-
-        import { javaURI, pythonURI, fetchOptions } from '../assets/api/config.js';
-
-        async function fetchLocations() {
+        window.fetchLocations = async function fetchLocations() {
             try {
                 const response = await fetch(javaURI + '/api/issue/issues', fetchOptions);
                 if (!response.ok) {
@@ -214,99 +183,66 @@
         // Fetch locations on page load
         fetchLocations();
 
-        const other = document.getElementById("checkbox_4");
-        const report_button = document.getElementById("report-btn");
-
         console.log("hello")
 
-        other.addEventListener('click', function (){
-            console.log('other clicked');
-            document.getElementById('additionalInfo').style.display = 'block';
-        });
+            // Fetch locations on page load
+        window.onload = function() { 
+            fetchLocations();
+        }
 
-        const url = javaURI + '/api/issue/update/';
+        async function fetchQueueData() {
+            try {
+                const queueURI = javaURI + "/api/queue/all"
+                const response = await fetch(queueURI);
+                const data = await response.json();
 
-        window.report_box = function report_box() {
-            // Collect all selected checkboxes
-            const selectedBathroom = document.querySelector('input[name="radio2"]:checked');
-            if (!selectedBathroom) {
-                alert("Please select a bathroom.");
-                return;
-            }
-            let bathroomValue = selectedBathroom.value; // Make sure to use `let` for reassignment
-            switch (bathroomValue) {
-                case '3':
-                    bathroomValue = 'D Building Bathroom';
-                    break;
-                case '4':
-                    bathroomValue = 'L Building Bathroom';
-                    break;
-                case '5':
-                    bathroomValue = 'A Building Bathroom';
-                    break;
-                case '6':
-                    bathroomValue = 'Football Field Bathroom';
-                    break;
-                case '7':
-                    bathroomValue = 'Locker Room Bathroom';
-                    break;
-            }
+                document.getElementById("current-away").textContent = data.current_user || "None";
+                document.getElementById("next-up").textContent = data.next_up || "None";
 
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-            const selectedIssues = [];
-
-            checkboxes.forEach(checkbox => {
-                selectedIssues.push(checkbox.value); // Collect the values of selected checkboxes
-            });
-
-            const additionalIssue = document.getElementById("additionalInfo").value;
-            if (selectedIssues.length === 0 && additionalIssue == null) {
-                alert("Please select at least one issue.");
-                return;
-            }
-            if (selectedIssues[0] == 'Other' && additionalIssue != null) {
-                selectedIssues[0] = additionalIssue;
-            }
-
-            const reportData = {
-                bathroomName: bathroomValue,
-                issue: selectedIssues[0], // Sending all issues instead of just the first one
-                count: 1
-            };
-            console.log(JSON.stringify(reportData));
-
-            // Create a unique URL for each issue
-            const putOptions = {
-                ...fetchOptions,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(reportData), // Send the current issue in the body
-            };
-
-            // Send individual PUT requests for each issue
-            fetch(javaURI + '/api/issue/add', putOptions)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok: ' + response.statusText);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Success for issue:', data);
-                })
-                .catch(error => {
-                    console.error('Error for issue:', error);
+                // Update queue list dynamically
+                const queueList = document.getElementById("queue-list");
+                queueList.innerHTML = "";
+                data.queue.forEach(user => {
+                    let li = document.createElement("li");
+                    li.textContent = user;
+                    queueList.appendChild(li);
                 });
 
+                // Update status bar
+                const statusBar = document.getElementById("status-bar");
+                if (data.current_user) {
+                    statusBar.textContent = "OCCUPIED";
+                    statusBar.classList.add("occupied");
+                    statusBar.classList.remove("unoccupied");
+                    document.body.classList.add("occupied-glow");
+                    document.body.classList.remove("unoccupied-glow");
+                } else {
+                    statusBar.textContent = "UNOCCUPIED";
+                    statusBar.classList.add("unoccupied");
+                    statusBar.classList.remove("occupied");
+                    document.body.classList.add("unoccupied-glow");
+                    document.body.classList.remove("occupied-glow");
+                }
+            } catch (error) {
+                console.error("Error fetching queue data:", error);
+            }
+        }
 
-            alert("Issues reported!");
-            // Fetch locations on page load
-            fetchLocations();
-        };
+        // Fetch queue data on page load
+        document.addEventListener("DOMContentLoaded", fetchQueueData);
 
-        report_button.addEventListener("click", report_box)
-    </script>
+        async function updateQueue() {
+            try {
+                const addQueueURI = javaURI + "/api/queue/add"
+                const response = await fetch(addQueueURI, { method: "POST" }); // Update this if you have a specific route for updating the queue
+                if (response.ok) {
+                    fetchQueueData(); // Refresh queue data after updating
+                }
+            } catch (error) {
+                console.error("Error updating queue:", error);
+            }
+        }
+
+</script>
 </body>
 </html>

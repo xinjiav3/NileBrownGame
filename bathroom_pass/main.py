@@ -3,7 +3,7 @@ import threading
 import requests
 import json
 
-from assets.api.assets import javaURI
+from static.assets.api.assets import javaURI
 
 app = Flask(__name__)
 
