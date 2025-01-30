@@ -1,5 +1,5 @@
 ---
-layout: none
+layout: base
 permalink: /stocks/portfolio
 title: Stocks Portfolio
 ---
@@ -54,7 +54,7 @@ title: Stocks Portfolio
             width: 70%;
         }
         .summary-section, .watchlist, .portfolio-stocks {
-            background-color: #fff;
+            background-color: #121212;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -88,16 +88,22 @@ title: Stocks Portfolio
             background-color: #001f3f; /* Dark blue color */
         }
         .card h2 {
-            font-size: 20px;
+            margin-top: 10px; 
+            font-size: 18px;
+        }
+        .card h3 {
+            margin-top: 4px; 
+            font-size: 18px;
         }
         .card p {
-            font-size: 36px;
+            font-size: 28px;
             font-weight: bold;
         }
         .portfolio-stocks table, .watchlist table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-top: -50;
+            background-color: #1e1e1e;
         }
         .portfolio-stocks th, .portfolio-stocks td, .watchlist th, .watchlist td {
             padding: 12px;
@@ -107,7 +113,7 @@ title: Stocks Portfolio
         .chart-container {
             margin-top: 20px;
             padding: 20px;
-            background-color: #fff;
+            background-color: #1e1e1e;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
@@ -135,11 +141,13 @@ title: Stocks Portfolio
                 <h2>Portfolio Overview</h2>
                 <div class="summary-cards">
                     <div class="card card-orange">
-                    <h3>Today's Dollar Change</h3>
+                    <h3>Today's Dollar</h3>
+                    <h3>Change</h3>
                     <p id="totalGain">NA</p>
                 </div>
                 <div class="card card-purple">
-                    <h3>Today's Percent Change</h3>
+                    <h3>Today's Percent</h3>
+                    <h3>Change</h3>
                     <p id="percentIncrease">NA</p>
                 </div>
                     <div class="card card-darkblue">
