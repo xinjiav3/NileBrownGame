@@ -72,19 +72,28 @@ permalink: /media
         const displayUsername = document.getElementById('current-username');
         let lives = 3;
         let score = 0;
-        fetch(`${javaURI}/api/person/get`)
-        .then(async response => {
+        async function fetchUser() {
+            const response = await fetch(javaURI + `/api/person/get`, {
+                method: 'GET',
+                cache: "no-cache",
+                credentials: 'include',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-Origin': 'client' 
+                }
+            });
             if (response.ok) {
-                userInfo = await response.json();
-                uid = userInfo.uid;
-                console.log(uid);
-                displayUsername.textContent = uid;
+                const userInfo = await response.json();
+                const person = userInfo.name;
+                console.log(person);
+                displayUsername.textContent = person;
             } else if (response.status === 401 || response.status === 201) {
                 // 401 is the code for unauthorized
                 console.log("guest");
                 displayUsername.textContent = "Guest";
             }
-        })
+        }
+        fetchUser()
         images.forEach(img => {
             img.addEventListener('dragstart', e => {
                 e.dataTransfer.setData('image-id', e.target.id);
