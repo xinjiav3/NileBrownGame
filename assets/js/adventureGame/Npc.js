@@ -1,134 +1,79 @@
 import GameEnv from "./GameEnv.js";
-import GameObject from "./GameObject.js";
-import { showCustomPrompt, submitAnswer, isPromptCurrentlyOpen } from "./PromptHandler.js";
-
-class Npc extends GameObject {
-    constructor(data = null, quiz="", questions=[]) {
+import Character from "./Character.js";
+import Prompt from "./Prompt.js";
+class Npc extends Character {
+    constructor(data = null) {
         super(data);
-        this.quiz = quiz;
-        this.questions = questions
+        this.quiz = data?.quiz?.title; // Quiz title
+        this.questions = Prompt.shuffleArray(data?.quiz?.questions || []); // Shuffle questions
+        this.currentQuestionIndex = 0; // Start from the first question
         this.alertTimeout = null;
+        this.bindEventListeners();
     }
-
     /**
      * Override the update method to draw the NPC.
      * This NPC is stationary, so the update method only calls the draw method.
-     * 
-     * @override
      */
     update() {
         this.draw();
     }
-
     /**
-     * Handles keydown events for proximity interaction.
-     * This method is triggered when a key is pressed and checks for proximity interactions.
-     * 
-     * @param {Object} event - The event object containing the key that was pressed.
-     * @param {string} event.key - The key that was pressed.
-     * 
-     * Keys handled:
-     * - 'e': Proximity interaction for Player 1
-     * - 'u': Proximity interaction for Player 2
-     * 
-     * This method calls checkProximityToNPC() if either 'e' or 'u' is pressed.
+     * Bind key event listeners for proximity interaction.
+     */
+    bindEventListeners() {
+        addEventListener('keydown', this.handleKeyDown.bind(this));
+        addEventListener('keyup', this.handleKeyUp.bind(this));
+    }
+    /**
+     * Handle keydown events for interaction.
+     * @param {Object} event - The keydown event.
      */
     handleKeyDown({ key }) {
-
-        if (isPromptCurrentlyOpen() && (key === 'e' || key === 'u')) {
-            return; 
-        }
-
         switch (key) {
-            case 'e': // Player 1 
-            case 'u': // Player 2 
-                this.checkProximityToNPC();
+            case 'e': // Player 1 interaction
+            case 'u': // Player 2 interaction
+                this.shareQuizQuestion();
                 break;
         }
     }
-
     /**
-     * Handles key up events to stop the player's velocity.
-     * 
-     * This method stops the player's velocity based on the key released.
-     * It also clears the alert timeout if the 'e' or 'u' key is released.
-     * 
-     * @param {Object} event - The keyup event object.
-     * @param {string} event.key - The key that was released.
+     * Handle keyup events to stop player actions.
+     * @param {Object} event - The keyup event.
      */
     handleKeyUp({ key }) {
-        // Check if the released key is 'e' or 'u'
         if (key === 'e' || key === 'u') {
-            // Clear the alert timeout to cancel the alert
+            // Clear any active timeouts when the interaction key is released
             if (this.alertTimeout) {
                 clearTimeout(this.alertTimeout);
                 this.alertTimeout = null;
             }
         }
     }
-
     /**
-     * Custom alert mechanism to handle responses.
-     * 
-     * @param {string} message - The message to be displayed in the alert.
+     * Get the next question in the shuffled array.
+     * @returns {string} - The next quiz question.
      */
-    handleResponse(message) {
-        if (isPromptCurrentlyOpen()) {
-            return; 
-        }
-        
-        // Clear any existing alert timeout
-        if (this.alertTimeout) {
-            clearTimeout(this.alertTimeout);
-        }
-        
-        // Set a new alert timeout
-        this.alertTimeout = setTimeout(() => {
-            alert(message);
-        }, 0);
+    getNextQuestion() {
+        const question = this.questions[this.currentQuestionIndex];
+        this.currentQuestionIndex = (this.currentQuestionIndex + 1) % this.questions.length; // Cycle through questions
+        return question;
     }
-    
-     // Get a random question from the array
-     getRandomQuestion() {
-        let randomIndex = Math.floor(Math.random() * this.questions.length);
-        return this.questions[randomIndex];
-    }
-
     /**
-     * Check for proximity of objects.
-     * This method checks if any players are within a certain distance of the NPC.
-     * If players are within the specified distance, their names are collected and a response is generated.
+     * Handle proximity interaction and share a quiz question.
      */
-    checkProximityToNPC() {
-        // Filter all Player objects from the game environment
-        const players = GameEnv.gameObjects.filter(obj => obj instanceof GameObject);
-        const npc = this;
-        const names = [];
-
-
-        if (players.length > 0 && npc) {
+    shareQuizQuestion() {
+        const players = GameEnv.gameObjects.filter(obj => obj.state.collisionEvents.includes(this.spriteData.id));
+        const hasQuestions = this.questions.length > 0;
+        if (players.length > 0 && hasQuestions) {
             players.forEach(player => {
-                // The Euclidean distance between two points in a 2D space
-                var distance = Math.sqrt(
-                    Math.pow(player.position.x - npc.position.x, 2) + Math.pow(player.position.y - npc.position.y, 2)
-                );
-                // The distance is less than 100 pixels
-                if (player != npc && distance <= 500) {
-                    names.push(player.spriteData.id);
+                if (!Prompt.isOpen) {
+                    // Assign this NPC as the current NPC in the Prompt system
+                    Prompt.currentNpc = this;
+                    // Open the Prompt panel with this NPC's details
+                    Prompt.openPromptPanel(this);
                 }
             });
-            // Join all player names inside the proximity
-            if (names.length > 0) {
-                this.handleResponse(`Hello, ${names.join(', ')}`);
-                const quiz = this.quiz;
-                const question = this.getRandomQuestion();
-                showCustomPrompt(`${quiz}\n${question}`, async (input) => {
-                    const score = await submitAnswer(input, 1);
-                    this.handleResponse(`${score} points have been added to your balance.`);
-                });
-            }
         }
     }
 }
-
 export default Npc;

@@ -12,9 +12,6 @@ permalink: /media
 <body>
     <p>Drag the images into the correct bins (Left, Center, or Right). You have 3 lives!</p>
     <div id="username-container" style="margin-bottom: 20px;">
-        <label for="username">Enter your username:</label>
-        <input type="text" id="username" placeholder="Username">
-        <button id="set-username">Set Username</button>
         <p id="display-username" style="font-size: 18px; margin-top: 10px;">Username: <span id="current-username">Guest</span></p>
     </div>
     <div id="info" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
@@ -72,19 +69,31 @@ permalink: /media
         const livesElement = document.getElementById('lives');
         const scoreElement = document.getElementById('score');
         const usernameInput = document.getElementById('username');
-        const setUsernameButton = document.getElementById('set-username');
         const displayUsername = document.getElementById('current-username');
         let lives = 3;
         let score = 0;
-        setUsernameButton.addEventListener('click', () => {
-            const username = usernameInput.value.trim();
-            if (username) {
-                displayUsername.innerText = username;
-                usernameInput.value = '';
-            } else {
-                alert('Please enter a valid username.');
+        async function fetchUser() {
+            const response = await fetch(javaURI + `/api/person/get`, {
+                method: 'GET',
+                cache: "no-cache",
+                credentials: 'include',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-Origin': 'client' 
+                }
+            });
+            if (response.ok) {
+                const userInfo = await response.json();
+                const person = userInfo.name;
+                console.log(person);
+                displayUsername.textContent = person;
+            } else if (response.status === 401 || response.status === 201) {
+                // 401 is the code for unauthorized
+                console.log("guest");
+                displayUsername.textContent = "Guest";
             }
-        });
+        }
+        fetchUser()
         images.forEach(img => {
             img.addEventListener('dragstart', e => {
                 e.dataTransfer.setData('image-id', e.target.id);
