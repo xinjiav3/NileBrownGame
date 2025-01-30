@@ -19,15 +19,20 @@ console.log(URL)
 // timer function to start countdown for person
 function startTimer() {
     let time = timerlength;
+    document.getElementById('beginTimer').style.display = 'none';
     timerInterval = setInterval(() => {
         const minutes = Math.floor(time / 60);
         const seconds = time % 60;
         document.getElementById('timerDisplay').textContent =
             `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        document.title = "" + `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} | Presentation Queue`;
         time--;
         if (time < 0) {
             clearInterval(timerInterval);
             moveToDoneQueue();
+            alert("Timer is up! Your presentation is over.")
+            document.getElementById('beginTimer').style.display = 'block';
+            document.title = "Presentation Queue | Nighthawk Pages"
         }
     }, 1000);
 }
@@ -56,12 +61,21 @@ async function fetchTimerLength() {
 
 // add user to waiting
 async function addToQueue() {
-    await fetch(URL + `addToWaiting/${assignment}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify([person])
+    let list = document.getElementById("notGoneList").children;
+    let names = [];
+    Array.from(list).forEach(child => {
+        names.push(child.textContent);
     });
-    fetchQueue();
+    if (names.includes(person)) {
+        await fetch(URL + `addToWaiting/${assignment}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify([person])
+        });
+        fetchQueue();
+    } else {
+        alert("ERROR: You are not in the waiting list.")
+    }
 }
 
 // remove user from waiting
