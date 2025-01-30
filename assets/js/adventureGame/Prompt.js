@@ -23,9 +23,11 @@ const Prompt = {
             const dimDiv = document.getElementById("dim");
             dimDiv.remove();
             Prompt.isOpen = false
-            promptDropDown.style.width = this.isOpen?"70%":"0px";
-            promptDropDown.style.top = this.isOpen?"15%":"0px";
-            promptDropDown.style.left = this.isOpen?"15%":"0px";
+            promptTitle.style.display = "none";
+            promptDropDown.style.width = "0"; 
+            promptDropDown.style.top = "0";  
+            promptDropDown.style.left = "-100%"; 
+            promptDropDown.style.transition = "all 0.3s ease-in-out";
         },
     },
 
@@ -176,7 +178,9 @@ const Prompt = {
     
         // Ensure the previous content inside promptDropDown is removed
         promptDropDown.innerHTML = ""; 
-    
+        
+        promptTitle.style.display = "block";
+
         // Add the new title
         promptTitle.innerHTML = npc.quiz.title || "Questions";
         promptDropDown.appendChild(promptTitle);
@@ -189,10 +193,10 @@ const Prompt = {
     
         promptDropDown.style.position = "fixed";
         promptDropDown.style.zIndex = "9999";
-        promptDropDown.style.width = "70%";
+        promptDropDown.style.width = "70%"; 
         promptDropDown.style.top = "15%";
-        promptDropDown.style.left = "15%";
-        promptDropDown.style.transition = "all 0.3s ease-in-out";
+        promptDropDown.style.left = "15%"; 
+        promptDropDown.style.transition = "all 0.3s ease-in-out"; 
     },
     
 
