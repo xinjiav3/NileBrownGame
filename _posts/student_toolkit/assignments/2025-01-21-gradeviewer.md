@@ -68,13 +68,13 @@ comments: false
     </tbody>
 </table>
 
+
 <script type="module">
     import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
-    let userId=-1;
-    let grades=[];
+    let userId = -1;
+    let grades = [];
     let assignment;
 
-    
     function populateTable(grades) {
         const tableBody = document.getElementById("gradesTable").getElementsByTagName("tbody")[0];
         
@@ -89,9 +89,32 @@ comments: false
             let cell2 = row.insertCell(1);
             cell2.textContent = stugrade[0];
         });
+
+        displayAverage(grades);
     }
 
-    async function getUserId(){
+    function displayAverage(grades) {
+        let total = 0;
+        let count = grades.length;
+
+        grades.forEach(stugrade => {
+            total += parseFloat(stugrade[0]); 
+        });
+
+        let average = (total / count).toFixed(2); 
+
+        const averageDiv = document.getElementById("averageDiv");
+        if (averageDiv) {
+            averageDiv.innerHTML = `<strong>Average Grade: ${average}</strong>`;
+        } else {
+            const newAverageDiv = document.createElement("div");
+            newAverageDiv.id = "averageDiv";
+            newAverageDiv.innerHTML = `<strong>Average Grade: ${average}</strong>`;
+            document.body.appendChild(newAverageDiv);
+        }
+    }
+
+    async function getUserId() {
         const url_persons = `${javaURI}/api/person/get`;
         await fetch(url_persons, fetchOptions)
             .then(response => {
@@ -101,9 +124,7 @@ comments: false
                 return response.json();
             })
             .then(data => {
-                userId=data.id;
-
-
+                userId = data.id;
             })
             .catch(error => {
                 console.error("Java Database Error:", error);
@@ -124,7 +145,6 @@ comments: false
             }
 
             const assignment = await response.text();
-            console.log(assignment + " ----");
             return assignment;  
 
         } catch (error) {
@@ -132,9 +152,7 @@ comments: false
         }
     }
 
-    
     async function getGrades() {
-        console.log("here");
         const urlGrade = javaURI + '/api/synergy/grades';
 
         try {
@@ -155,7 +173,6 @@ comments: false
                     let stugrade = [];
                     stugrade.push(grade.grade);
                     
-                    
                     const assignmentDetails = await fetchAssignmentbyId(grade.assignmentId);
                     stugrade.push(assignmentDetails);
                     
@@ -163,7 +180,6 @@ comments: false
                 }
             }
 
-            console.log(grades);  
             populateTable(grades);
 
         } catch (error) {
@@ -171,10 +187,8 @@ comments: false
         }
     }
 
-
     window.onload = async function() {
         await getUserId();
         await getGrades(); 
     };
-    
 </script>
