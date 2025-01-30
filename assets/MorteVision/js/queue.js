@@ -74,18 +74,27 @@ async function addToQueue() {
         });
         fetchQueue();
     } else {
-        alert("ERROR: You are not in the waiting list.")
+        alert("ERROR: You are not in the working list.")
     }
 }
 
 // remove user from waiting
 async function removeFromQueue() {
-    await fetch(URL + `removeToWorking/${assignment}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify([person])
+    let list = document.getElementById("waitingList").children;
+    let names = [];
+    Array.from(list).forEach(child => {
+        names.push(child.textContent);
     });
-    fetchQueue();
+    if (names.includes(person)) {
+        await fetch(URL + `removeToWorking/${assignment}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify([person])
+        });
+        fetchQueue();
+    } else {
+        alert("ERROR: You are not in the waiting list.")
+    }
 }
 
 // move user to completed
