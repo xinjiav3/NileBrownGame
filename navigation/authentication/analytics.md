@@ -140,7 +140,7 @@ search_exclude: true
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'Github')">Github</button>
     <button class="tablinks" onclick="openTab(event, 'Bathroom')">Bathroom</button>
-    <button class="tablinks" onclick="openTab(event, 'Something else')">Something else</button>
+    <button class="tablinks" onclick="openTab(event, 'Grades')">Grades</button>
 </div>
 
 <div id="Github" class="tabcontent">
@@ -152,7 +152,6 @@ search_exclude: true
             <pre id="modalData"></pre>
         </div>
     </div>
-
     <!-- Analytics Page -->
     <!-- Analytics Page -->
     <div class="container animate__animated animate__fadeIn">
@@ -176,48 +175,54 @@ search_exclude: true
     </div>
 </div>
 
+<!-- Bathroom Tab -->
 <div id="Bathroom" class="tabcontent">
     <h3 style="padding-left: 32px;" class="animate__animated animate__fadeIn">Bathroom</h3>
     <div class="container">
         <div class="components">
-
-            <!-- frequency charts -->
-            <div class="div3 animate__animated animate__fadeIn" style="background-color: #2c3e50; padding: 20px; color: white; border-radius: 15px;">
-                <!-- graph Data Sections -->
-                <div class="additional-info">
-
-                    <div class="comparison">
-                        <h3 style="color: white;">Comparison with Class Data</h3>
-                        <canvas id="comparisonGraph"></canvas> <!-- Embedded mini-graph -->
-                    </div>
-                </div>
-            </div>
-            <br>
-            <br>
-            <!-- personal stats -->
-            <div class="div4 animate__animated animate__fadeIn" style="background-color: #2c3e50; padding: 20px; color: white; border-radius: 15px;">
-                <!-- Visit Frequency and Average Duration -->
-                <div class="info-div">
-                    <div class="frequency">
-                        <h3>Visit Frequency</h3>
-                        <p>Frequency per day: <span id="freq-per-day">--</span></p>
-                        <p>Frequency per week: <span id="freq-per-week">--</span></p>
-                    </div>
-
-                    <div class="duration">
-                        <h3>Average Duration</h3>
-                        <p><span id="avg-duration">--</span> minutes</p>
-                        <p>&nbsp;</p>
-                    </div>
-                </div>
-            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Statistic</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Average Duration (minutes)</td>
+                        <td id="avg-duration">placeholder</td>
+                    </tr>
+                    <tr>
+                        <td>Number of Times Gone</td>
+                        <td id="num-times">placeholder</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 
-<div id="Something else" class="tabcontent">
-    <h3>Something else</h3>
-    <p>Your content here</p>
+<!-- Grades Tab -->
+<div id="Grades" class="tabcontent">
+    <h3 style="padding-left: 32px;" class="animate__animated animate__fadeIn">Grades</h3>
+    <div class="container">
+        <div class="components">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Assignment</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody id="gradesTableBody">
+                    <tr>
+                        <td>Placeholder</td>
+                        <td>Placeholder</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -368,187 +373,122 @@ search_exclude: true
     fetchData();
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script type="module">
-    // Load the graph within the Comparison with Class Data section
-    function loadMiniGraph() {
-        const ctx = document.getElementById('comparisonGraph').getContext('2d');
-
-        new Chart(ctx, {
-            type: 'bar', // Use 'line', 'pie', etc., for different chart types
-            data: {
-                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-                datasets: [{
-                    label: 'Visits per Day',
-                    data: [12, 19, 3, 5, 2], // Sample data, replace with dynamic data as needed
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    color: 'rgba(255, 255, 255, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                maintainAspectRatio: true, // Allows better fit in small containers
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Days of the Week' // Label for x-axis
-                        }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Number of Visits' // Label for y-axis
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false // Hide the legend to save space
-                    },
-                    title: {
-                        display: true,
-                        text: 'Weekly Bathroom Visit Frequency' // Title of the graph
-                    }
-                }
-            }
-        });
-    }
-
-    // Initialize the mini-graph when the page loads
-    document.addEventListener("DOMContentLoaded", loadMiniGraph);
-</script>
-
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-<script>
-    import { javaURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js'
+<script type="module">
+    import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-    const url = javaURI + '/api/queue';
-    const getUrl = url + '/all';
-    const addUrl = url + '/add';
-    const removeUrl = url + '/remove';
-    const approveUrl = url + '/approve';
+    function calculateAverageDuration(timeIn) {
+        const visits = timeIn.split(',');
 
-    const fetchOptions = {
-        headers: {
-            "Content-Type": "application/json"
-        }
-    };
+        let totalDuration = 0;
+        visits.forEach(visit => {
+            const [checkIn, checkOut] = visit.split('-');
 
-    const postOptions = {
-        ...fetchOptions,
-        method: 'POST',
-    };
-    const deleteOptions = {
-        ...fetchOptions,
-        method: 'DELETE',
-    };
+            // Ensure HH format by padding single-digit hours
+            const formatTime = time => {
+                const parts = time.split(':');
+                if (parts[0].length === 1) parts[0] = '0' + parts[0]; // Pad single-digit hour
+                return parts.join(':');
+            };
 
-    // Get teacher name and student name from local storage or variables
-    const teacherName = "Mortensen"; // Replace with dynamic teacher name if needed
-    const studentName = localStorage.getItem("email"); // Assume stored from login
+            const checkInTime = new Date('1970-01-01T' + formatTime(checkIn)).getTime();
+            const checkOutTime = new Date('1970-01-01T' + formatTime(checkOut)).getTime();
 
-    function fetchQueueData() {
-        fetch(getUrl, fetchOptions)
+            const duration = (checkOutTime - checkInTime) / 1000 / 60; // Convert to minutes
+            totalDuration += duration;
+        });
+
+        return totalDuration / visits.length; // Return the average duration in minutes
+    }
+
+
+    function getTinkle(personName) {
+        const tinkleURL = javaURI + `/api/tinkle/${personName}`;
+        console.log(tinkleURL);
+        
+        fetch(tinkleURL, { ...fetchOptions, credentials: 'include' })
             .then(response => {
                 if (response.status !== 200) {
-                    console.error("Failed to fetch queue data.");
-                    return;
+                    console.error("HTTP status code: " + response.status);
+                    return null;
                 }
-                return response.json();
+                return response.json(); // Parse the response to JSON
             })
             .then(data => {
-                console.log("Queue data:", data);
-                const mortensenQueue = data.find(queue => queue.teacherName === teacherName);
-                if (mortensenQueue) {
-                    window.studentsInQueue = mortensenQueue.peopleQueue.split(','); // Convert the queue string into an array
-                    displayQueue();
+                if (data === null) return null;
 
-                    // Run approveStudent if there is at least one student in queue and the first student is the current user
-                    if (window.studentsInQueue.length > 0 && window.studentsInQueue[0] === studentName) {
-                        approveStudent();
-                    }
-                } else {
-                    console.error("Mortensen's queue not found.");
-                }
+                // Extract timeIn data
+                const timeIn = data.timeIn; // Assuming the timeIn field is like "11:12:05-11:13:06,12:15:10-12:19:12"
+                console.log("Time in data:", timeIn);
+
+                // Calculate number of times gone (by counting the commas, add 1)
+                const numVisits = timeIn.split(',').length;
+                document.getElementById('num-times').textContent = numVisits;
+
+                // Calculate average duration
+                const avgDuration = calculateAverageDuration(timeIn);
+                document.getElementById('avg-duration').textContent = avgDuration.toFixed(2);
             })
-            .catch(error => console.error("Error fetching data:", error));
+            .catch(err => {
+                console.error("Fetch error: ", err);
+            });
     }
 
-    // Function to add student to the queue
-    function addToQueue() {
-        const queuer = {
-            teacherName: teacherName,
-            studentName: studentName,
-        };
-
-        fetch(addUrl, {
-            ...postOptions,
-            body: JSON.stringify(queuer),
-        })
+    function getPerson() {
+        const personButton = document.getElementById("fetch_person");
+        const URL = javaURI + '/api/person/get';
+        
+        fetch(URL, { ...fetchOptions, credentials: 'include' })
             .then(response => {
-                if (response.ok) {
-                    fetchQueueData(); // Refresh the queue after adding
-                } else {
-                    alert("Failed to add to queue.");
+                if (response.status !== 200) {
+                    console.error("HTTP status code: " + response.status);
+                    return null;
                 }
+                return response.json(); // Get the person data
             })
-            .catch(error => console.error("Error adding to queue:", error));
-        console.log("Added to queue:", queuer);
+            .then(data => {
+                if (data === null) return null;
+                console.log("Person data:", data);
+                window.id = data.id;
+                getTinkle(encodeURIComponent(data.name)); // Fetch tinkle data for the person
+            })
+            .catch(err => {
+                console.error("Fetch error: ", err);
+            });
     }
 
-    // Function to remove student from the queue
-    function removeFromQueue() {
-        const queuer = {
-            teacherName: teacherName,
-            studentName: studentName,
-        };
-
-        fetch(removeUrl, {
-            ...deleteOptions,
-            body: JSON.stringify(queuer),
-        })
-            .then(response => {
-                if (response.ok) {
-                    fetchQueueData(); // Refresh the queue after removing
-                } else {
-                    alert("Failed to remove from queue.");
-                }
-            })
-            .catch(error => console.error("Error removing from queue:", error));
-        console.log("Removed from queue:", queuer);
+    window.onload = async function () {
+        getPerson(); // Fetch person data when the page loads
     }
-
-    // Function to approve student who is first in line
-    function approveStudent() {
-        const queuer = {
-            teacherName: teacherName,
-            studentName: window.studentsInQueue[0],
-        };
-
-        fetch(approveUrl, {
-            ...postOptions,
-            body: JSON.stringify(queuer),
-        })
-            .then(response => {
-                if (response.ok) {
-                    window.location.href = "{{site.baseurl}}/hallpass";
-                }
-                else {
-                    alert("Failed to approve student.");
-                }
-            })
-            .catch(error => console.error("Error approving student:", error));
-    }
-
-    // Fetch data every 10 seconds
-    setInterval(fetchQueueData, 10000);
-
-    // Initial fetch
-    fetchQueueData();
 </script>
 
+<script type="module">
+    import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+
+    function loadGrades() {
+        const gradesURL = `${javaURI}/api/synergy/grades/map/${window.id}`;
+        
+        fetch(gradesURL, { ...fetchOptions, credentials: 'include' })
+            .then(response => response.json())
+            .then(grades => {
+                const tableBody = document.getElementById('gradesTableBody');
+                tableBody.innerHTML = ''; // Clear existing content
+                
+                for (const [assignment, grade] of Object.entries(grades)) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>Assignment #${assignment}</td>
+                        <td>${grade.toFixed(2)}</td>
+                    `;
+                    tableBody.appendChild(row);
+                }
+            })
+            .catch(error => console.error('Error loading grades:', error));
+    }
+
+    // Load grades when the tab is clicked
+    document.querySelector('button[onclick="openTab(event, \'Grades\')"]')
+        .addEventListener('click', loadGrades);
+</script>
