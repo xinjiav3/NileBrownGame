@@ -166,35 +166,34 @@ const Prompt = {
         const promptDropDown = document.querySelector('.promptDropDown');
         const promptTitle = document.getElementById("promptTitle");
     
-        this.currentNpc = npc; // Assign the current NPC when opening the panel
-        promptTitle.innerHTML = npc.quiz.title || "Questions";
+        // Close any existing prompt before opening a new one
+        if (this.isOpen) {
+            this.backgroundDim.remove(); // Ensures previous dim is removed
+        }
     
-        // Toggle `isOpen` state
+        this.currentNpc = npc; // Assign the current NPC when opening the panel
         this.isOpen = true;
     
-        // Handle the prompt drop-down visibility
-        if (this.isOpen) {
-            Prompt.backgroundDim.create();
+        // Ensure the previous content inside promptDropDown is removed
+        promptDropDown.innerHTML = ""; 
     
-            // Remove old table if it exists
-            const table = document.getElementsByClassName("table scores")[0];
-            if (table) {
-                table.remove(); 
-            }
+        // Add the new title
+        promptTitle.innerHTML = npc.quiz.title || "Questions";
+        promptDropDown.appendChild(promptTitle);
     
-            // Update the prompt display with questions
-            Prompt.updatePromptDisplay();
+        // Display the new questions
+        promptDropDown.appendChild(this.updatePromptTable());
     
-            // Style the prompt drop-down
-            promptDropDown.style.position = "fixed";
-            promptDropDown.style.zIndex = "9999";
-            promptDropDown.style.width = "70%";
-            promptDropDown.style.top = "15%";
-            promptDropDown.style.left = "15%";
-            promptDropDown.style.transition = "all 0.3s ease-in-out";
-        }
+        // Handle the background dim effect
+        this.backgroundDim.create();
+    
+        promptDropDown.style.position = "fixed";
+        promptDropDown.style.zIndex = "9999";
+        promptDropDown.style.width = "70%";
+        promptDropDown.style.top = "15%";
+        promptDropDown.style.left = "15%";
+        promptDropDown.style.transition = "all 0.3s ease-in-out";
     },
-
     
 
     initializePrompt () {
