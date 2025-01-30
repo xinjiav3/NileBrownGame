@@ -10,7 +10,6 @@ title: Stocks Game
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stocks Game - Simulate 5 Years</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -94,23 +93,18 @@ title: Stocks Game
 
 </head>
 <body>
-
     <nav class="navbar">
         <div class="logo">NITD</div>
     </nav>
-
     <div class="container">
         <h1>Stock Market Simulation Game</h1>
         <p>Pick stocks and simulate their growth over 5 years!</p>
-
         <div class="money-display" id="moneyDisplay">Balance: $10,000</div>
-
         <div class="search-container">
             <input type="text" id="stockSearch" placeholder="Search Stock Symbol">
             <input type="number" id="stockQuantity" placeholder="Qty" min="1">
             <button class="search-button" onclick="addStock()">Add Stock</button>
         </div>
-
         <div class="selected-stocks">
             <h2>Your Selected Stocks</h2>
             <table id="stockTable">
@@ -122,140 +116,130 @@ title: Stocks Game
                 </tr>
             </table>
         </div>
-
         <button class="simulate-button" onclick="submitStocks()">Submit Stocks</button>
     </div>
+    <script type="module">
+    import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+    window.javaURI = javaURI; // Make sure javaURI is accessible globally
+</script>
 
     <script>
-        const javaURI = "http://127.0.0.1:8085";
-        const STOCK_API = "https://nitdpython.stu.nighthawkcodingsociety.com/api/stocks/price_five_years_ago/";
-        let balance = 10000;
-        let userStocks = {};
+    const STOCK_API = "https://nitdpython.stu.nighthawkcodingsociety.com/api/stocks/price_five_years_ago/";
+    let balance = 10000;
+    let userStocks = {};
 
-        document.getElementById("moneyDisplay").textContent = `Balance: $${balance.toFixed(2)}`;
+    document.getElementById("moneyDisplay").textContent = `Balance: $${balance.toFixed(2)}`;
 
-        async function getCredentialsJava() {
-            const URL = javaURI + '/api/person/get';
-            return fetch(URL)
-                .then(response => response.ok ? response.json() : null)
-                .catch(err => console.error("Fetch error:", err));
+    async function getStockPrice(symbol) {
+        try {
+            const response = await fetch(`${STOCK_API}${symbol}`);
+            if (!response.ok) throw new Error("Stock not found.");
+            const data = await response.json();
+            return data.price_five_years_ago;
+        } catch (err) {
+            console.error("Stock fetch error:", err);
+            return null;
+        }
+    }
+
+    async function addStock() {
+        const stockSymbol = document.getElementById("stockSearch").value.trim().toUpperCase();
+        const quantity = parseInt(document.getElementById("stockQuantity").value.trim(), 10);
+        
+        if (!stockSymbol || isNaN(quantity) || quantity <= 0) {
+            alert("Enter a valid stock symbol and quantity.");
+            return;
         }
 
-        async function getStockPrice(symbol) {
-            try {
-                const response = await fetch(`${STOCK_API}${symbol}`);
-                if (!response.ok) throw new Error("Stock not found.");
-                const data = await response.json();
-                return data.price_five_years_ago;
-            } catch (err) {
-                console.error("Stock fetch error:", err);
-                return null;
-            }
+        const stockPrice = await getStockPrice(stockSymbol);
+        if (stockPrice === null) {
+            alert("Stock not found.");
+            return;
         }
 
-        async function addStock() {
-            const stockSymbol = document.getElementById("stockSearch").value.trim().toUpperCase();
-            const quantity = parseInt(document.getElementById("stockQuantity").value.trim(), 10);
+        const totalCost = stockPrice * quantity;
+        if (totalCost > balance) {
+            alert("Insufficient funds!");
+            return;
+        }
 
-            if (!stockSymbol || isNaN(quantity) || quantity <= 0) {
-                alert("Enter a valid stock symbol and quantity.");
-                return;
-            }
+        balance -= totalCost;
+        userStocks[stockSymbol] = (userStocks[stockSymbol] || 0) + quantity;
+        updateUI();
+    }
 
-            const stockPrice = await getStockPrice(stockSymbol);
-            if (stockPrice === null) {
-                alert("Stock not found.");
-                return;
-            }
-
-            const totalCost = stockPrice * quantity;
-            if (totalCost > balance) {
-                alert("Insufficient funds!");
-                return;
-            }
-
-            balance -= totalCost;
-            userStocks[stockSymbol] = (userStocks[stockSymbol] || 0) + quantity;
+    function removeStock(symbol) {
+        if (!userStocks[symbol]) return;
+        getStockPrice(symbol).then(stockPrice => {
+            balance += stockPrice * userStocks[symbol];
+            delete userStocks[symbol];
             updateUI();
-        }
+        });
+    }
 
-        function removeStock(symbol) {
-            if (!userStocks[symbol]) return;
+    function updateUI() {
+        document.getElementById("moneyDisplay").textContent = `Balance: $${balance.toFixed(2)}`;
+        const table = document.getElementById("stockTable");
+        table.innerHTML = `
+            <tr>
+                <th>Stock</th>
+                <th>Shares</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        `;
 
-            getStockPrice(symbol).then(stockPrice => {
-                balance += stockPrice * userStocks[symbol];
-                delete userStocks[symbol];
-                updateUI();
+        Object.keys(userStocks).forEach(symbol => {
+            getStockPrice(symbol).then(price => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${symbol}</td>
+                    <td>${userStocks[symbol]}</td>
+                    <td>$${price.toFixed(2)}</td>
+                    <td><button onclick="removeStock('${symbol}')">Sell</button></td>
+                `;
+                table.appendChild(row);
             });
-        }
+        });
+    }
 
-        function updateUI() {
-            document.getElementById("moneyDisplay").textContent = `Balance: $${balance.toFixed(2)}`;
-            const table = document.getElementById("stockTable");
-            table.innerHTML = `
-                <tr>
-                    <th>Stock</th>
-                    <th>Shares</th>
-                    <th>Price</th>
-                    <th>Action</th>
-                </tr>
-            `;
+    async function submitStocks() {
+        const stockList = Object.entries(userStocks).map(([symbol, quantity]) => ({
+            stockSymbol: symbol,
+            quantity: quantity
+        }));      
+        const payload = { username: "toby@gmail.com", stocks: stockList };       
+        console.log("Submitting payload:", JSON.stringify(payload, null, 2));       
 
-            Object.keys(userStocks).forEach(symbol => {
-                getStockPrice(symbol).then(price => {
-                    const row = document.createElement("tr");
-                    row.innerHTML = `
-                        <td>${symbol}</td>
-                        <td>${userStocks[symbol]}</td>
-                        <td>$${price.toFixed(2)}</td>
-                        <td><button onclick="removeStock('${symbol}')">Sell</button></td>
-                    `;
-                    table.appendChild(row);
-                });
-            });
-        }
+        try {
+            const response = await fetch(`${javaURI}/stocks/table/simulateStocks`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });     
 
-        async function submitStocks() {
-            /*const credentials = await getCredentialsJava();
-            const email = credentials?.email;
-            if (!email) {
-                alert("Error: User email not found.");
+            const result = await response.text(); // Log raw response
+            console.log("Server response:", result);        
+
+            if (!response.ok) {
+                alert("Error submitting stocks: " + result);
                 return;
-            }*/
-        
-            const stockList = Object.entries(userStocks).map(([symbol, quantity]) => ({
-                stockSymbol: symbol,
-                quantity: quantity
-            }));
-        
-            const payload = { username: "toby@gmail.com", stocks: stockList };
-        
-            console.log("Submitting payload:", JSON.stringify(payload, null, 2));
-        
-            try {
-                const response = await fetch(`${javaURI}/stocks/table/simulateStocks`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(payload)
-                });
-        
-                const result = await response.text(); // Log raw response
-                console.log("Server response:", result);
-        
-                if (!response.ok) {
-                    alert("Error submitting stocks: " + result);
-                    return;
-                }
-        
-                alert("Stocks successfully purchased!");
-            } catch (err) {
-                console.error("Stock purchase error:", err);
-            }
+            }        
+
+            alert("Stocks successfully purchased!");
+        } catch (err) {
+            console.error("Stock purchase error:", err);
         }
-        
-    </script>
+    }
+
+    // Make functions globally available
+    window.addStock = addStock;
+    window.removeStock = removeStock;
+    window.submitStocks = submitStocks;
+
+</script>
 
 </body>
 </html>
