@@ -164,7 +164,13 @@ async function fetchUser() {
     if (response.ok) {
         const userInfo = await response.json();
         person = userInfo.name;
-        console.log(person);
+        console.log(typeof person);
+        if (typeof person == 'undefined') {
+            alert("Error: You are not logged in. Redirecting you to the login page.")
+            let loc = window.location.href
+            loc = loc => loc.split('/').slice(0, -2).join('/') || loc;
+            window.location.href = loc + "/toolkit-login"
+        }
     }
 }
 
