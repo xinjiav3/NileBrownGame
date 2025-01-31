@@ -181,6 +181,8 @@ title: Stocks Home
             <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
             <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
             <a href="{{site.baseurl}}/stocks/leaderboard">Leaderboard</a>
+            <a href="{{site.baseurl}}/stocks/game">Stocks Game</a>
+
         </div>
     </nav>
     <!-- Dashboard -->
@@ -262,31 +264,43 @@ title: Stocks Home
 </html>
    <script type="module">
     import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
-    async function getUserId(){
-        const url_persons = `${javaURI}/api/person/get`;
-        await fetch(url_persons, fetchOptions)
+   function getCredentialsJava() {
+        const URL = javaURI + '/api/person/get';
+        return fetch(URL, fetchOptions)
             .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Spring server response: ${response.status}`);
+                if (response.status !== 200) {
+                    console.error("HTTP status code: " + response.status);
+                    return null;
                 }
                 return response.json();
             })
             .then(data => {
-                userID=data.id;
+                if (data === null) return null;
+                console.log(data);
+                return data;
             })
-            .catch(error => {
-                console.error("Java Database Error:", error);
+            .catch(err => {
+                console.error("Fetch error: ", err);
+                return null;
             });
     }
-    async function getUserStocks() {
-        try {
-            const response = await fetch(javaURI + `/stocks/table/getStocks?username=${userID}`);
-            return await response.json();
-        } catch (error) {
-            console.error("Error fetching user stocks:", error);
-            return [];
+   async function getUserStocks() {
+    try {
+        const credentials = await getCredentialsJava(); // Get user data
+        const email = credentials?.email; // Extract email
+        if (!email) {
+            throw new Error("User email not found");
         }
+        const response = await fetch(javaURI + `/stocks/table/getStocks?username=${encodeURIComponent(email)}`);
+        if (!response.ok) {
+            throw new Error(`Error fetching stocks: ${response.statusText}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching user stocks:", error);
+        return [];
     }
+}
     async function updateYourStocksTable() {
         const userStocks = await getUserStocks();
         const table = document.getElementById("yourStocksTable");
@@ -312,10 +326,10 @@ title: Stocks Home
         updateYourStocksTable();
     });
     let stockChart; // Declare stockChart globally
-    async function getStockData() {
-        const stockSymbol = document.getElementById("searchBar").value;
-        document.getElementById("output").textContent = ""; // Clear previous messages
-     try {
+   window.getStockData = async function() {
+    const stockSymbol = document.getElementById("searchBar").value;
+    document.getElementById("output").textContent = ""; // Clear previous messages
+    try {
         const response = await fetch(javaURI + `/api/stocks/${stockSymbol}`);
         const data = await response.json();
         // Extract timestamps and prices
@@ -323,18 +337,17 @@ title: Stocks Home
         const prices = data?.chart?.result?.[0]?.indicators?.quote?.[0]?.close;
         // Check if data exists
         if (timestamps && prices) {
-                // Convert timestamps to readable dates
-                const labels = timestamps.map(ts => new Date(ts * 1000).toLocaleString());
-               displayChart(labels, prices, stockSymbol);
-            } else {
-                console.error(`Data not found for ${stockSymbol}. Response structure:`, data);
-                document.getElementById("output").textContent = `Data not found for ${stockSymbol}.`;
-            }
-        } catch (error) {
-            console.error('Error fetching stock data:', error);
-            document.getElementById("output").textContent = "Error fetching stock data. Please try again later.";
+            // Convert timestamps to readable dates
+            const labels = timestamps.map(ts => new Date(ts * 1000).toLocaleString());
+            displayChart(labels, prices, stockSymbol);
+        } else {
+            document.getElementById("output").textContent = `Data not found for ${stockSymbol}.`;
         }
-}
+    } catch (error) {
+        console.error('Error fetching stock data:', error);
+        document.getElementById("output").textContent = "Error fetching stock data. Please try again later.";
+    }
+};
 function displayChart(labels, prices, tickerSymbol) {
     const ctx = document.getElementById('stockChart').getContext('2d');
     // Destroy the old chart if it exists
@@ -426,8 +439,9 @@ return new Promise((resolve) => {
             }); 
       }
       document.addEventListener("DOMContentLoaded", () => {
+            getCredentialsJava();
             updateStockPrices(); // Call the function after DOM is fully loaded
-            getPortfolioPerformance(userID);
+            getPortfolioPerformance();
             //getUserIdFromAPI();
         });
 async function updateStockPrices() {
@@ -451,33 +465,41 @@ async function updateStockPrices() {
                 //console.log(counter);
             }
         }
-async function getPortfolioPerformance(user) {
-            // Fetch user's stocks and quantities
-            const userStocks = await getUserStock(user);
-            const userValue = await getUserValue(user);
-            let totalGain = 0;
-            let totalLatestValue = 0;
-            let totalOldValue = 0;
-            for (const { stockSymbol, quantity } of userStocks) {
-                const latestPrice = await getStockPrice(stockSymbol);
-                const oldPrice = await getOldStockPrice(stockSymbol);
-                // Calculate gain for each stock
-                const stockGain = (latestPrice - oldPrice) * quantity;
-                totalGain += stockGain;
-                // Calculate total values for percent increase calculation
-                totalLatestValue += latestPrice * quantity;
-                totalOldValue += oldPrice * quantity;
-            }
-            // Calculate percent increase
-            const percentIncrease = ((totalLatestValue - totalOldValue) / totalOldValue) * 100;
-            console.log(`total increase: $${totalGain.toFixed(2)}, percent increase: ${percentIncrease.toFixed(2)}%`);
-            const totalElement = document.getElementById("totalGain");
-            const percentElement = document.getElementById("percentIncrease");
-            const valueElement = document.getElementById("portfolioValue");
-            totalElement.textContent = `$${totalGain.toFixed(2)}`;
-            percentElement.textContent = `${percentIncrease.toFixed(2)}%`;
-            valueElement.textContent = `$${userValue.toFixed(2)}`;
+async function getPortfolioPerformance() {
+    try {
+        // Fetch user credentials
+        const credentials = await getCredentialsJava();
+        const email = credentials?.email;
+        if (!email) {
+            throw new Error("User email not found");
         }
+        // Fetch user's stocks and portfolio value using the email
+        const userStocks = await getUserStock(email);
+        const userValue = await getUserValue(email);
+        let totalGain = 0;
+        let totalLatestValue = 0;
+        let totalOldValue = 0;
+        for (const { stockSymbol, quantity } of userStocks) {
+            const latestPrice = await getStockPrice(stockSymbol);
+            const oldPrice = await getOldStockPrice(stockSymbol);
+            // Calculate gain for each stock
+            const stockGain = (latestPrice - oldPrice) * quantity;
+            totalGain += stockGain;
+            // Calculate total values for percent increase calculation
+            totalLatestValue += latestPrice * quantity;
+            totalOldValue += oldPrice * quantity;
+        }
+        // Calculate percent increase
+        const percentIncrease = ((totalLatestValue - totalOldValue) / totalOldValue) * 100;
+        console.log(`Total increase: $${totalGain.toFixed(2)}, Percent increase: ${percentIncrease.toFixed(2)}%`);
+        // Update UI elements
+        document.getElementById("totalGain").textContent = `$${totalGain.toFixed(2)}`;
+        document.getElementById("percentIncrease").textContent = `${percentIncrease.toFixed(2)}%`;
+        document.getElementById("portfolioValue").textContent = `$${userValue.toFixed(2)}`;
+    } catch (error) {
+        console.error("Error fetching portfolio performance:", error);
+    }
+}
 async function getUserStock(user) {
             try {
                 const response = await fetch(javaURI + `/stocks/table/getStocks?username=${user}`);
@@ -520,76 +542,6 @@ async function getUserValue(user) {
                 return [];
             }
         }
-async function logout() {
-            userID = "";
-            console.log(userID);
-            localStorage.setItem('userID', userID)
-            return(userID);   
-        }
-document.getElementById("leaderboardButton").addEventListener("click", function () {
-    openLeaderboard(); // Open the leaderboard modal when the button is clicked
-});
-document.getElementById("closeLeaderboardButton").addEventListener("click", function () {
-    closeLeaderboard(); // Close the leaderboard modal when the close button is clicked
-});
-// Open leaderboard modal
-function openLeaderboard() {
-    const modal = document.getElementById("leaderboardModal");
-    const overlay = document.getElementById("modalOverlay");
-    modal.style.display = "block";
-    overlay.style.display = "block";
-    fetchLeaderboard(); // Fetch and display leaderboard data
-}
-// Close leaderboard modal
-function closeLeaderboard() {
-    const modal = document.getElementById("leaderboardModal");
-    const overlay = document.getElementById("modalOverlay");
-    modal.style.display = "none";
-    overlay.style.display = "none";
-}
-// Fetch leaderboard data
-function fetchLeaderboard() {
-    const leaderboardTable = document.getElementById("leaderboardTable");
-    leaderboardTable.innerHTML = `<tr><td colspan="3" style="text-align: center;">Loading...</td></tr>`; // Display loading text
-    fetch(javaURI + "/user/leaderboard") // Update API endpoint if needed
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Failed to fetch leaderboard");
-            }
-            return response.json();
-        })
-        .then((data) => {
-            leaderboardTable.innerHTML = ""; // Clear the loading text
-            if (Array.isArray(data)) {
-                // Sort data by balance descending for proper ranking
-                const sortedData = data.sort((a, b) => b.balance - a.balance);
-                sortedData.forEach((entry, index) => {
-                    const rank = index + 1; // Calculate rank based on order
-                    const username = entry.username; // Extract username
-                    const portfolioValue = entry.balance.toFixed(2); // Extract portfolio value and format it
-                    // Append each entry to the leaderboard table
-                    leaderboardTable.innerHTML += `
-                        <tr>
-                            <td>${rank}</td>
-                            <td>${username}</td>
-                            <td>$${portfolioValue}</td>
-                        </tr>
-                    `;
-                });
-            } else {
-                leaderboardTable.innerHTML = `
-                    <tr>
-                        <td colspan="3" style="text-align: center; color: red;">Invalid leaderboard data format</td>
-                    </tr>
-                `;
-            }
-        })
-        .catch((error) => {
-            console.error("Error fetching leaderboard:", error);
-            leaderboardTable.innerHTML = `
-                <tr>
-                    <td colspan="3" style="text-align: center; color: red;">Failed to load leaderboard data</td>
-                </tr>
-            `;
-        });
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
