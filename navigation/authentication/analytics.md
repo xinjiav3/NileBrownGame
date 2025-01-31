@@ -682,10 +682,12 @@ search_exclude: true
         };
         const userTrace = {
             y: [userData],
+            x: ['Grades'],  // Ensures the dot aligns with the box plot's category
             mode: 'markers',
             name: 'Your Grade',
             marker: { color: 'red', size: 10 }
         };
+
         const data = [trace, userTrace];
         const layout = {
             title: 'Grades Box and Whisker Plot',
