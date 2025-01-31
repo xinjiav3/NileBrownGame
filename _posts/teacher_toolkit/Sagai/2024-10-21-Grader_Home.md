@@ -6,8 +6,6 @@ description: Grade popcorn hacks, generate hacks, or ask questions here
 permalink: /student/sagai
 ---
 
-{% include nav/home.html %}
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
