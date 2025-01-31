@@ -207,18 +207,15 @@ search_exclude: true
     <h3 style="padding-left: 32px;" class="animate__animated animate__fadeIn">Grades</h3>
     <div class="container">
         <div class="components">
-            <table>
+            <table id="gradesTable" class="styled-table">
                 <thead>
                     <tr>
                         <th>Assignment</th>
                         <th>Grade</th>
                     </tr>
                 </thead>
-                <tbody id="gradesTableBody">
-                    <tr>
-                        <td>Placeholder</td>
-                        <td>Placeholder</td>
-                    </tr>
+                <tbody>
+                    <!-- Dynamic content will be inserted here -->
                 </tbody>
             </table>
         </div>
@@ -466,29 +463,124 @@ search_exclude: true
 
 <script type="module">
     import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+    let userId = -1;
+    let grades = [];
+    let assignment;
 
-    function loadGrades() {
-        const gradesURL = `${javaURI}/api/synergy/grades/map/${window.id}`;
+    function populateTable(grades) {
+        const tableBody = document.getElementById("gradesTable").getElementsByTagName("tbody")[0];
         
-        fetch(gradesURL, { ...fetchOptions, credentials: 'include' })
-            .then(response => response.json())
-            .then(grades => {
-                const tableBody = document.getElementById('gradesTableBody');
-                tableBody.innerHTML = ''; // Clear existing content
-                
-                for (const [assignment, grade] of Object.entries(grades)) {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>Assignment #${assignment}</td>
-                        <td>${grade.toFixed(2)}</td>
-                    `;
-                    tableBody.appendChild(row);
-                }
-            })
-            .catch(error => console.error('Error loading grades:', error));
+        tableBody.innerHTML = "";
+
+        grades.forEach(stugrade => {
+            let row = tableBody.insertRow();
+
+            let cell1 = row.insertCell(0);
+            cell1.textContent = stugrade[1];
+
+            let cell2 = row.insertCell(1);
+            cell2.textContent = stugrade[0];
+        });
+
+        displayAverage(grades);
     }
 
-    // Load grades when the tab is clicked
-    document.querySelector('button[onclick="openTab(event, \'Grades\')"]')
-        .addEventListener('click', loadGrades);
+    function displayAverage(grades) {
+        let total = 0;
+        let count = grades.length;
+
+        grades.forEach(stugrade => {
+            total += parseFloat(stugrade[0]); 
+        });
+
+        let average = (total / count).toFixed(2); 
+
+        const averageDiv = document.getElementById("averageDiv");
+        if (averageDiv) {
+            averageDiv.innerHTML = `<strong>Average Grade: ${average}</strong>`;
+        } else {
+            const newAverageDiv = document.createElement("div");
+            newAverageDiv.id = "averageDiv";
+            newAverageDiv.innerHTML = `<strong>Average Grade: ${average}</strong>`;
+            document.body.appendChild(newAverageDiv);
+        }
+    }
+
+    async function getUserId() {
+        const url_persons = `${javaURI}/api/person/get`;
+        await fetch(url_persons, fetchOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Spring server response: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                userId = data.id;
+            })
+            .catch(error => {
+                console.error("Java Database Error:", error);
+            });
+    }
+
+    async function fetchAssignmentbyId(assignmentId) {
+        try {
+            const response = await fetch(javaURI + "/api/assignments/" + String(assignmentId), {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch assignments: ${response.statusText}`);
+            }
+
+            const assignment = await response.text();
+            return assignment;  
+
+        } catch (error) {
+            console.error('Error fetching assignments:', error);
+        }
+    }
+
+    async function getGrades() {
+        const urlGrade = javaURI + '/api/synergy/grades';
+
+        try {
+            const response = await fetch(urlGrade, {
+                method: 'GET',
+                credentials: 'include',
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to get data: ' + response.statusText);
+            }
+
+            const data = await response.json();
+            await getUserId();  
+
+            for (const grade of data) {
+                if (grade.studentId == userId) {
+                    let stugrade = [];
+                    stugrade.push(grade.grade);
+                    
+                    const assignmentDetails = await fetchAssignmentbyId(grade.assignmentId);
+                    stugrade.push(assignmentDetails);
+                    
+                    grades.push(stugrade);
+                }
+            }
+
+            populateTable(grades);
+
+        } catch (error) {
+            console.error('Error fetching grades:', error);
+        }
+    }
+
+    window.onload = async function() {
+        await getUserId();
+        await getGrades(); 
+    };
 </script>
