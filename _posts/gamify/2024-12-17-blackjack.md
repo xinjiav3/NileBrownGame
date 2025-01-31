@@ -109,5 +109,3 @@ permalink: /gamify/blackjack
             document.getElementById("gameStatus").innerText = data.message || "";
         }
     </script>
-</body>
-</html>
