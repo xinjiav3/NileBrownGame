@@ -13,6 +13,69 @@ permalink: /crypto/mining
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <style>
+       .notification { /* This entire style, ".notification", is what makes the notification pops out from the top right! */
+       position: fixed;
+       top: 20px;
+       right: 20px;
+       background-color: #333;
+       color: white;
+       padding: 10px;
+       border-radius: 5px;
+       z-index: 1000; // Ensure it appears above other elements
+   }
+   /* GPU Inventory Styles */
+   .dashboard-card {
+       @apply bg-gray-800 rounded-lg p-4 shadow-lg;
+   }
+   #gpu-inventory {
+       @apply mt-4;
+       min-height: 200px; /* Ensure minimum height even when empty */
+   }
+   .gpu-card {
+       @apply bg-gray-800 rounded-lg p-4 shadow-lg mb-4;
+       border: 1px solid rgba(255, 255, 255, 0.1);
+   }
+    /* Navigation Bar */
+    .navbar-logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    .navbar-links {
+        display: flex;
+        gap: 15px;
+    }
+    .navbar-links a:hover {
+        background-color: #575757;
+    }
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #001f3f; /* Dark blue background */
+        color: #fff;
+    }
+    .navbar .logo {
+        font-size: 24px;
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+    .navbar .nav-buttons {
+        display: flex;
+        gap: 20px;
+    }
+    .navbar .nav-buttons a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 16px;
+        padding: 8px 16px;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+    .navbar .nav-buttons a:hover {
+        background-color: #ff8c00; /* Orange hover effect */
+    }
+    
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
