@@ -198,6 +198,7 @@ search_exclude: true
                     </tr>
                 </tbody>
             </table>
+            <canvas id="bathroomChart" width="400" height="200"></canvas> </div>
         </div>
     </div>
 </div>
@@ -391,88 +392,74 @@ search_exclude: true
 
     function calculateAverageDuration(timeIn) {
         const visits = timeIn.split(',');
-
         let totalDuration = 0;
         visits.forEach(visit => {
             const [checkIn, checkOut] = visit.split('-');
-
-            // Ensure HH format by padding single-digit hours
-            const formatTime = time => {
-                const parts = time.split(':');
-                if (parts[0].length === 1) parts[0] = '0' + parts[0]; // Pad single-digit hour
-                return parts.join(':');
-            };
-
+            const formatTime = time => time.padStart(5, '0');
             const checkInTime = new Date('1970-01-01T' + formatTime(checkIn)).getTime();
             const checkOutTime = new Date('1970-01-01T' + formatTime(checkOut)).getTime();
-
-            const duration = (checkOutTime - checkInTime) / 1000 / 60; // Convert to minutes
-            totalDuration += duration;
+            totalDuration += (checkOutTime - checkInTime) / 1000 / 60;
         });
-
-        return totalDuration / visits.length; // Return the average duration in minutes
+        return totalDuration / visits.length;
     }
 
-
     function getTinkle(personName) {
-        const tinkleURL = javaURI + `/api/tinkle/${personName}`;
-        console.log(tinkleURL);
-        
-        fetch(tinkleURL, { ...fetchOptions, credentials: 'include' })
-            .then(response => {
-                if (response.status !== 200) {
-                    console.error("HTTP status code: " + response.status);
-                    return null;
-                }
-                return response.json(); // Parse the response to JSON
-            })
+        fetch(`${javaURI}/api/tinkle/${personName}`, { ...fetchOptions, credentials: 'include' })
+            .then(response => response.ok ? response.json() : null)
             .then(data => {
-                if (data === null) return null;
-
-                // Extract timeIn data
-                const timeIn = data.timeIn; // Assuming the timeIn field is like "11:12:05-11:13:06,12:15:10-12:19:12"
-                console.log("Time in data:", timeIn);
-
-                // Calculate number of times gone (by counting the commas, add 1)
-                const numVisits = timeIn.split(',').length;
-                document.getElementById('num-times').textContent = numVisits;
-
-                // Calculate average duration
-                const avgDuration = calculateAverageDuration(timeIn);
-                document.getElementById('avg-duration').textContent = avgDuration.toFixed(2);
+                if (!data) return;
+                const timeIn = data.timeIn;
+                document.getElementById('num-times').textContent = timeIn.split(',').length;
+                document.getElementById('avg-duration').textContent = calculateAverageDuration(timeIn).toFixed(2);
+                updateChart(timeIn);
             })
-            .catch(err => {
-                console.error("Fetch error: ", err);
-            });
+            .catch(console.error);
     }
 
     function getPerson() {
-        const personButton = document.getElementById("fetch_person");
-        const URL = javaURI + '/api/person/get';
-        
-        fetch(URL, { ...fetchOptions, credentials: 'include' })
-            .then(response => {
-                if (response.status !== 200) {
-                    console.error("HTTP status code: " + response.status);
-                    return null;
-                }
-                return response.json(); // Get the person data
-            })
-            .then(data => {
-                if (data === null) return null;
-                console.log("Person data:", data);
-                window.id = data.id;
-                getTinkle(encodeURIComponent(data.name)); // Fetch tinkle data for the person
-            })
-            .catch(err => {
-                console.error("Fetch error: ", err);
-            });
+        fetch(`${javaURI}/api/person/get`, { ...fetchOptions, credentials: 'include' })
+            .then(response => response.ok ? response.json() : null)
+            .then(data => { if (data) getTinkle(encodeURIComponent(data.name)); })
+            .catch(console.error);
     }
 
-    window.addEventListener('load', () => {
-        // Your initialization code here
-        getPerson();
-    });
+    function getPeriod(time) {
+        const periods = [
+            ['08:35', '09:41'],
+            ['09:46', '10:55'],
+            ['11:37', '12:43'],
+            ['13:18', '14:24'],
+            ['14:29', '15:35']
+        ];
+        const t = new Date('1970-01-01T' + time).getTime();
+        return periods.findIndex(([start, end]) => t >= new Date('1970-01-01T' + start).getTime() && t <= new Date('1970-01-01T' + end).getTime()) + 1;
+    }
+
+    function updateChart(timeIn) {
+        const periodCounts = Array(5).fill(0);
+        timeIn.split(',').forEach(visit => {
+            const checkIn = visit.split('-')[0];
+            const period = getPeriod(checkIn);
+            if (period) periodCounts[period - 1]++;
+        });
+        const ctx = document.getElementById('bathroomChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['P1', 'P2', 'P3', 'P4', 'P5'],
+                datasets: [{
+                    label: 'Bathroom Usage',
+                    data: periodCounts,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: { scales: { y: { beginAtZero: true } } }
+        });
+    }
+
+    window.addEventListener('load', getPerson);
 </script>
 
 <script type="module">
