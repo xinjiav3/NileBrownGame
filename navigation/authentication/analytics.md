@@ -218,6 +218,17 @@ search_exclude: true
                     <!-- Dynamic content will be inserted here -->
                 </tbody>
             </table>
+            <label for="assignmentSelect">Choose an Assignment:</label>
+            <select id="assignmentSelect"></select>
+            <!-- Box and Whisker Plot Section -->
+            <div class="chart-section" id="boxPlotSection">
+                <h2>📦 Box and Whisker Plot</h2>
+                <div id="boxPlot"></div>
+            </div>
+            <div class="chart-section" id="userGradeSection">
+                <h2>🎓 Your Grade</h2>
+                <p id="userGrade">Loading your grade...</p>
+            </div>
         </div>
     </div>
 </div>
@@ -372,6 +383,8 @@ search_exclude: true
 
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 <script type="module">
     import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
@@ -584,4 +597,119 @@ search_exclude: true
         await getUserId();
         await getGrades(); 
     };
+</script>
+
+<script type="module">
+    import { javaURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+    document.getElementById('assignmentSelect').addEventListener('change', fetchGrades);
+
+    async function loadAssignments() {
+        const options = {
+            URL: `${javaURI}/api/synergy/grades`,
+            method: "GET",
+            cache: "no-cache",
+        };
+        console.log(options.URL);
+        try {
+            const response = await fetch(options.URL, fetchOptions);
+            if (!response.ok) {
+                throw new Error(`Failed to load assignments: ${response.status}`);
+            }
+            const responseData = await response.json();
+            const assignmentIds = [...new Set(responseData.map(item => item.assignmentId))];
+            console.log("API Response Data:", responseData);
+            console.log("assignment IDS:", assignmentIds);
+            const assignmentSelect = document.getElementById('assignmentSelect');
+            assignmentSelect.innerHTML = "";
+            assignmentIds.forEach(id => {
+                const option = document.createElement('option');
+                option.value = id;
+                option.text = `Assignment ${id}`;
+                assignmentSelect.add(option);
+            });
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
+    async function fetchGrades() {
+        const assignmentId = document.getElementById('assignmentSelect').value;
+        const options = {
+            method: "GET",
+            cache: "no-cache",
+        };
+        try {
+            const gradesResponse = await fetch(`${javaURI}/api/analytics/assignment/${assignmentId}/grades`, fetchOptions);
+            if (!gradesResponse.ok) {
+                throw new Error(`Failed to fetch grades data: ${gradesResponse.status}`);
+            }
+            const gradesText = await gradesResponse.text();
+            console.log("Grades Response Text:", gradesText);
+            if (!gradesText) {
+                throw new Error("Response body is empty");
+            }
+            const gradesData = JSON.parse(gradesText);
+            const grades = gradesData.grades;
+            console.log("grades:", grades);
+            const userResponse = await fetch(`${javaURI}/api/analytics/assignment/${assignmentId}/student/grade`, fetchOptions);
+            if (!userResponse.ok) {
+                throw new Error(`Failed to fetch user-specific grades: ${userResponse.status}`);
+            }
+            const userData = await userResponse.json();
+            console.log("Grades Data:", grades);
+            console.log("User Data:", userData);
+            createBoxPlot(grades, userData);
+            showCharts();
+            displayUserData(userData);
+        } catch (error) {
+            console.error("Error fetching or parsing grades:", error.message);
+        }
+    }
+
+    let thereIsABoxPlot = false;
+    function createBoxPlot(grades, userData) {
+        if (!thereIsABoxPlot) {
+            thereIsABoxPlot = true;
+        } else {
+            Plotly.purge(document.getElementById("boxPlot"));
+        }
+        const trace = {
+            y: grades,
+            type: 'box',
+            name: 'Grades',
+            marker: { color: 'rgba(255, 193, 7, 0.6)' },
+            line: { color: '#ffa726' }
+        };
+        const userTrace = {
+            y: [userData],
+            mode: 'markers',
+            name: 'Your Grade',
+            marker: { color: 'red', size: 10 }
+        };
+        const data = [trace, userTrace];
+        const layout = {
+            title: 'Grades Box and Whisker Plot',
+            titlefont: { color: '#ffa726' },
+            yaxis: { title: 'Grades', zeroline: false, color: '#ffffff' },
+            paper_bgcolor: '#2c2c2e',
+            plot_bgcolor: '#2c2c2e'
+        };
+        Plotly.newPlot('boxPlot', data, layout);
+    }
+
+    function showCharts() {
+        document.getElementById('boxPlotSection').classList.add('visible');
+    }
+
+    window.onload = loadAssignments;
+
+    function displayUserData(userData) {
+        const userGradeElement = document.getElementById('userGrade');
+        if (userData) {
+            userGradeElement.textContent = `Your grade for this assignment is: ${userData}`;
+        } else {
+            console.warn("Unexpected User Data Structure:", userData);
+            userGradeElement.textContent = "No grade available for this assignment.";
+        }
+    }
 </script>
