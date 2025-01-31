@@ -6,6 +6,7 @@ permalink: /crypto/portfolio
 ---
 <link rel="stylesheet" href="{{site.baseurl}}/assets/css/portfolio.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
     h1 {
         color: #333;
@@ -18,11 +19,6 @@ permalink: /crypto/portfolio
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         text-align: center;
     }
-    .user-balance {
-        margin: 20px 0;
-        font-weight: bold;
-    }
-    /* Crypto List Styling */
     .crypto-list {
         display: flex;
         flex-wrap: wrap;
@@ -51,7 +47,6 @@ permalink: /crypto/portfolio
         transform: scale(1.05);
         background-color: #444;
     }
-    /* Modal Styling */
     .modal {
         display: none;
         position: fixed;
@@ -87,7 +82,6 @@ permalink: /crypto/portfolio
         font-size: 18px;
         color: #333;
     }
-    /* Buttons */
     .btn {
         padding: 10px 20px;
         margin: 10px;
@@ -100,18 +94,6 @@ permalink: /crypto/portfolio
     .btn-buy { background-color: #4CAF50; }
     .btn-sell { background-color: #f44336; }
     .btn-close { background-color: #555; }
-         /* Navigation Bar */
-        .navbar-logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        .navbar-links {
-            display: flex;
-            gap: 15px;
-        }
-        .navbar-links a:hover {
-            background-color: #575757;
-        }
 </style>
 
 <!-- Navigation Bar -->
@@ -125,7 +107,7 @@ permalink: /crypto/portfolio
 </div>
 
 <div class="container">
-    <h1>Current Balance: $<span id="user-balance">5000</span></h1>
+    <h1>Current Balance: $<span id="user-balance">Loading...</span></h1>
     <div class="crypto-list" id="crypto-list-container"></div>
 </div>
 
@@ -148,16 +130,38 @@ permalink: /crypto/portfolio
 <script type="module">
     import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-    // Prompt user for email
-    const userEmail = "toby@gmail.com"
+    const userEmail = localStorage.getItem("userEmail");
+    let userBalance = localStorage.getItem("userBalance");
 
-    let userBalance = 5000;
-    document.getElementById('user-balance').innerText = userBalance;
+    if (!userEmail) {
+        alert("No user email found. Please log in.");
+        window.location.href = "/login";
+    }
+
+    function updateBalance(balance) {
+        const formattedBalance = parseFloat(balance).toFixed(2);
+        document.getElementById('user-balance').innerText = formattedBalance;
+        localStorage.setItem("userBalance", formattedBalance);
+    }
+
+    async function fetchUserBalance() {
+        try {
+            const response = await fetch(`${javaURI}/api/crypto/balance?email=${encodeURIComponent(userEmail)}`, fetchOptions);
+            if (!response.ok) throw new Error(`Failed to fetch balance: ${response.status}`);
+            const balanceData = await response.json();
+            updateBalance(balanceData.balance);
+        } catch (error) {
+            console.error("Error fetching balance:", error);
+            document.getElementById('user-balance').innerText = "Error";
+        }
+    }
+
+    setInterval(fetchUserBalance, 5000);
 
     async function fetchCryptos() {
         try {
             const response = await fetch(`${javaURI}/api/crypto/live`, fetchOptions);
-            if (!response.ok) throw new Error(`Failed to fetch crypto data: ${response.status} ${response.statusText}`);
+            if (!response.ok) throw new Error(`Failed to fetch crypto data: ${response.status}`);
             const container = document.getElementById('crypto-list-container');
             container.innerHTML = '';
             const cryptos = await response.json();
@@ -173,26 +177,18 @@ permalink: /crypto/portfolio
         }
     }
 
-    window.openModal = function (crypto) {
-        document.getElementById('modal-crypto-name').innerText = crypto.name;
-        document.getElementById('modal-crypto-price').innerText = crypto.price.toFixed(2);
-        document.getElementById('modal-crypto-change').innerText = crypto.changePercentage.toFixed(2);
-        fetchCryptoTrend(crypto.symbol.toLowerCase(), 7);
-        document.getElementById('crypto-modal').style.display = 'flex';
-    };
-
-    window.closeModal = function () {
-        document.getElementById('crypto-modal').style.display = 'none';
-    };
-
-    async function fetchCryptoTrend(cryptoId, days) {
+    let cryptoChart;
+    async function fetchCryptoTrend(cryptoId) {
         try {
-            const response = await fetch(`${javaURI}/api/crypto/trend?cryptoId=${cryptoId}&days=${days}`, fetchOptions);
+            const response = await fetch(`${javaURI}/api/crypto/trend?cryptoId=${cryptoId}&days=7`, fetchOptions);
             if (!response.ok) throw new Error("Failed to fetch trend data");
             const prices = await response.json();
+
             const ctx = document.getElementById('crypto-chart').getContext('2d');
-            if (window.cryptoChart) window.cryptoChart.destroy();
-            window.cryptoChart = new Chart(ctx, {
+            if (cryptoChart) {
+                cryptoChart.destroy();
+            }
+            cryptoChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: Array.from({ length: prices.length }, (_, i) => `Day ${i + 1}`),
@@ -210,6 +206,17 @@ permalink: /crypto/portfolio
         }
     }
 
+    window.openModal = function (crypto) {
+        document.getElementById('modal-crypto-name').innerText = crypto.name;
+        document.getElementById('modal-crypto-price').innerText = crypto.price.toFixed(2);
+        document.getElementById('modal-crypto-change').innerText = crypto.changePercentage.toFixed(2);
+        document.getElementById('crypto-modal').style.display = 'flex';
+        fetchCryptoTrend(crypto.symbol.toLowerCase());
+    };
+
+    window.closeModal = function () {
+        document.getElementById('crypto-modal').style.display = 'none';
+    };
     window.buyCrypto = async function () {
         const cryptoId = document.getElementById('modal-crypto-name').innerText;
         const usdAmount = prompt("Enter USD amount to buy:");
@@ -248,5 +255,6 @@ permalink: /crypto/portfolio
         }
     };
 
+    fetchUserBalance();
     fetchCryptos();
 </script>
