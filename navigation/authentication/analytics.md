@@ -456,9 +456,10 @@ search_exclude: true
             });
     }
 
-    window.onload = async function () {
-        getPerson(); // Fetch person data when the page loads
-    }
+    window.addEventListener('load', () => {
+        // Your initialization code here
+        getPerson();
+    });
 </script>
 
 <script type="module">
