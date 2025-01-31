@@ -1,5 +1,5 @@
 ---
-layout: none
+layout: base
 permalink: /stocks/viewer
 title: Stocks Viewer
 ---
@@ -55,11 +55,13 @@ title: Stocks Viewer
       height: 92vh; /* Adjusted height for navbar */
     }
     .sidebar {
-      width: 20%;
+      width: 30%;
       background-color: #ffffff;
       border-right: 1px solid #ddd;
       padding: 20px;
-      overflow-y:scroll
+      overflow-y:scroll;
+      position: relative; 
+      height: 100%
     }
     .sidebar h2 {
       font-size: 1.2em;
@@ -117,12 +119,13 @@ title: Stocks Viewer
       margin: 20px 0;
     }
     .metric {
-      background-color: #ffffff;
+      background-color: #081e3d;
       border: 1px solid #ddd;
       padding: 15px;
       border-radius: 4px;
       text-align: center;
       flex: 1;
+      color: #6ab8f9
     }
     .chart {
       background-color: #ffffff;
@@ -146,11 +149,13 @@ title: Stocks Viewer
     <div class="logo">NITD</div>
     <div class="nav-buttons">
       <a href="{{site.baseurl}}/stocks/home">Home</a>
-      <a href="{{site.baseurl}}/crypto/portfolio">Crypto</a>
-      <a href="{{site.baseurl}}/stocks/viewer">Stocks</a>
-      <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
-      <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
-      <a href="{{site.baseurl}}/stocks/leaderboard">Leaderboard</a>
+            <a href="{{site.baseurl}}/crypto/portfolio">Crypto</a>
+            <a href="{{site.baseurl}}/stocks/viewer">Stocks</a>
+            <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
+            <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
+            <a href="{{site.baseurl}}/stocks/leaderboard">Leaderboard</a>
+            <a href="{{site.baseurl}}/stocks/game">Stocks Game</a>
+
     </div>
   </nav>
 

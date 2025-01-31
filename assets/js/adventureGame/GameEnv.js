@@ -11,15 +11,20 @@
  * consistency and simplifies the management of shared resources like the canvas and its dimensions.
  * 
  * @class GameEnv
+ * @property {Array} gameObjects - An array of game objects for the current level.
  * @property {Object} canvas - The canvas element.
  * @property {Object} ctx - The 2D rendering context of the canvas.
  * @property {number} innerWidth - The inner width of the game area.
  * @property {number} innerHeight - The inner height of the game area.
  * @property {number} top - The top offset of the game area.
  * @property {number} bottom - The bottom offset of the game area.
+ * @property {boolean} timerActive - Flag to indicate if the timer is active.
+ * @property {number} timerInterval - The interval for the timer.
+ * @property {number} time - The current time.
  */
 class GameEnv {
     static gameObjects = [];
+    static continueLevel = true;
     static canvas;
     static ctx;
     static innerWidth;
@@ -29,8 +34,6 @@ class GameEnv {
     static timerActive = false;
     static timerInterval = 10;
     static time = 0;
-    static levels = [];
-    static currentLevel = null;
     
     /**
      * Private constructor to prevent instantiation.

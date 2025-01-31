@@ -8,7 +8,6 @@ let person;
 
 document.getElementById('addQueue').addEventListener('click', addToQueue);
 document.getElementById('removeQueue').addEventListener('click', removeFromQueue);
-document.getElementById('resetQueue').addEventListener('click', resetQueue);
 
 let timerInterval;
 let timerlength;
@@ -20,15 +19,20 @@ console.log(URL)
 // timer function to start countdown for person
 function startTimer() {
     let time = timerlength;
+    document.getElementById('beginTimer').style.display = 'none';
     timerInterval = setInterval(() => {
         const minutes = Math.floor(time / 60);
         const seconds = time % 60;
         document.getElementById('timerDisplay').textContent =
             `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        document.title = "" + `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} | Presentation Queue`;
         time--;
         if (time < 0) {
             clearInterval(timerInterval);
             moveToDoneQueue();
+            alert("Timer is up! Your presentation is over.")
+            document.getElementById('beginTimer').style.display = 'block';
+            document.title = "Presentation Queue | Nighthawk Pages"
         }
     }, 1000);
 }
@@ -57,22 +61,40 @@ async function fetchTimerLength() {
 
 // add user to waiting
 async function addToQueue() {
-    await fetch(URL + `addToWaiting/${assignment}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify([person])
+    let list = document.getElementById("notGoneList").children;
+    let names = [];
+    Array.from(list).forEach(child => {
+        names.push(child.textContent);
     });
-    fetchQueue();
+    if (names.includes(person)) {
+        await fetch(URL + `addToWaiting/${assignment}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify([person])
+        });
+        fetchQueue();
+    } else {
+        alert("ERROR: You are not in the working list.")
+    }
 }
 
 // remove user from waiting
 async function removeFromQueue() {
-    await fetch(URL + `removeToWorking/${assignment}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify([person])
+    let list = document.getElementById("waitingList").children;
+    let names = [];
+    Array.from(list).forEach(child => {
+        names.push(child.textContent);
     });
-    fetchQueue();
+    if (names.includes(person)) {
+        await fetch(URL + `removeToWorking/${assignment}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify([person])
+        });
+        fetchQueue();
+    } else {
+        alert("ERROR: You are not in the waiting list.")
+    }
 }
 
 // move user to completed
@@ -107,43 +129,7 @@ function updateQueueDisplay(queue) {
     doneList.innerHTML = queue.completed.map(person => `<div class="card">${person}</div>`).join('');
 }
 
-document.getElementById('initializeQueue').addEventListener('click', initializeQueue);
 document.getElementById('beginTimer').addEventListener('click', startTimer);
-
-// get assignments, used for initialization and popup connection
-async function fetchAssignments() {
-    console.log(URL + 'debug')
-    const response = await fetch(URL + 'debug');
-    if (response.ok) {
-        const assignments = await response.json();
-        const dropdown = document.getElementById('assignmentDropdown');
-        dropdown.innerHTML = assignments.map(assignment =>
-            `<option value="${assignment.id}">${assignment.name}</option>`
-        ).join('');
-    }
-}
-
-async function initializeQueue() {
-    let peopleList;
-    timerlength = document.getElementById("durationInput").value;
-    const assignmentId = document.getElementById('assignmentDropdown').value;
-    if (document.getElementById("presenterInput").value == "tester") {
-        peopleList = ["Alexander Graham Bell",
-            "Grace Hopper",
-            "John Mortensen",
-            "Madam Curie",
-            "Nikola Tesla",
-            "Thomas Edison"]
-    }
-
-    await fetch(URL + `initQueue/${assignmentId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify([peopleList, [timerlength]])
-    });
-    assignment = assignmentId;
-    fetchQueue();
-}
 
 // Start the interval to periodically update the queue
 function startQueueUpdateInterval(intervalInSeconds) {
@@ -151,6 +137,7 @@ function startQueueUpdateInterval(intervalInSeconds) {
     queueUpdateInterval = setInterval(() => {
         console.log("Updating queue...");
         fetchQueue();
+        fetchTimerLength();
     }, intervalInSeconds * 1000);
 }
 
@@ -177,18 +164,27 @@ async function fetchUser() {
     if (response.ok) {
         const userInfo = await response.json();
         person = userInfo.name;
-        console.log(person);
+        console.log(typeof person);
+        if (typeof person == 'undefined') {
+            alert("Error: You are not logged in. Redirecting you to the login page.")
+            let loc = window.location.href
+            loc = loc => loc.split('/').slice(0, -2).join('/') || loc;
+            window.location.href = loc + "/toolkit-login"
+        }
     }
 }
-function showAssignmentModal() {
+
+async function showAssignmentModal() {
     const modal = document.getElementById('assignmentModal');
     const modalDropdown = document.getElementById('modalAssignmentDropdown');
-    
-    // Fetch assignments and populate the dropdown
-    fetchAssignments().then(() => {
-        const dropdown = document.getElementById('assignmentDropdown');
-        modalDropdown.innerHTML = dropdown.innerHTML; // Use the same data as the main dropdown
-    });
+
+    const response = await fetch(URL + 'debug');
+    if (response.ok) {
+        const assignments = await response.json();
+        modalDropdown.innerHTML = assignments.map(assignment =>
+            `<option value="${assignment.id}">${assignment.name}</option>`
+        ).join('');
+    }
 
     modal.style.display = 'block';
 
