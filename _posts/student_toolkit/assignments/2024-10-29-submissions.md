@@ -134,34 +134,33 @@ layout: post
             <!-- Submissions will be populated here -->
         </tbody>
     </table>
-    
 </div>
-
 
 <script type="module">
     import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
     let selectedTask = "";
     let tasks = "";
     let assignmentIds = [];
-    let submissions=[];
+    let submissions = [];
     let assignIndex = 0;
     let assignments;
-    let userId=-1;
+    let userId = -1;
     let Student;
 
     document.getElementById("submit-assignment").addEventListener("click", Submit);
+
     function Submit() {
-        let urllink_submit=javaURI+"/api/submissions/submit/";
+        let urllink_submit = javaURI + "/api/submissions/submit/";
         const submissionContent = document.getElementById('submissionContent').value;
-        const comment=document.getElementById('comments').value;
+        const comment = document.getElementById('comments').value;
         getUserId();
-        if(userId==-1){
+        if (userId == -1) {
             alert("Please login first");
             return;
         }
-        const student_id=userId;
-        const assigmentId=assignments[assignIndex-1].id;
-        urllink_submit+=assigmentId.toString();
+        const student_id = userId;
+        const assigmentId = assignments[assignIndex - 1].id;
+        urllink_submit += assigmentId.toString();
         const data = new FormData();
         data.append("studentId", student_id);
         data.append("content", submissionContent);
@@ -182,8 +181,6 @@ layout: post
                 outputBox.innerText = 'Failed Submission! ';
                 throw new Error('Failed to submit data: ' + response.statusText);
             }
-            
-
         })
         .then(result => {
             console.log('Submission successful:', result);
@@ -193,17 +190,15 @@ layout: post
         });
     }
 
-
-
     async function fetchAssignments() {
         try {
-            const response = await fetch(javaURI+"/api/assignments/debug", {
+            const response = await fetch(javaURI + "/api/assignments/debug", {
                 method: 'GET',
                 headers: {
-                  'Content-Type': 'application/json',
+                    'Content-Type': 'application/json',
                 }
             });
-            assignments=await response.json();
+            assignments = await response.json();
             populateAssignmentDropdown(assignments);
         } catch (error) {
             console.error('Error fetching tasks:', error);
@@ -220,15 +215,11 @@ layout: post
             assignmentIds.push(assignment.id);
         });
     }
-    
+
     document.getElementById("assignment-select").addEventListener("change", function() {
         selectedTask = this.value;
         assignIndex = this.selectedIndex;
-        document.getElementById("Assignment-Content").innerText=assignments[assignIndex-1].description;
-        console.log(assignments[assignIndex-1].dueDate);
-        console.log(calculateTimeLeft(assignments[assignIndex-1].dueDate));
-        console.log(assignments[assignIndex-1].timestamp);
-        document.getElementById("Assignment-name").innerText= this.value;
+        document.getElementById("Assignment-Content").innerText = assignments[assignIndex - 1].description;
         fetchSubmissions();
     });
 
@@ -241,15 +232,12 @@ layout: post
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        
-            const totalTime = deadlineDate - new Date(deadline);  
-            const timeLeft = deadlineDate - now;
-            const percentageLeft = (timeLeft / totalTime) * 100;
-            updateTimeText(days,hours,minutes);
+
+            updateTimeText(days, hours, minutes);
 
             return `${days}d ${hours}h ${minutes}m left`;
         } else {
-            updateTimeText(-0.5,-0.5,-0.5); 
+            updateTimeText(-0.5, -0.5, -0.5);
             return "Deadline Passed";
         }
     }
@@ -285,8 +273,7 @@ layout: post
         }
     }
 
-
-     async function getUserId(){
+    async function getUserId() {
         const url_persons = `${javaURI}/api/person/get`;
         await fetch(url_persons, fetchOptions)
             .then(response => {
@@ -296,30 +283,24 @@ layout: post
                 return response.json();
             })
             .then(data => {
-                userId=data.id;
-
-
+                userId = data.id;
             })
             .catch(error => {
                 console.error("Java Database Error:", error);
             });
     }
 
-
-    
-
-    async function fetchSubmissions(){
-        const urllink=javaURI+"/api/submissions/getSubmissions";
-        const urllink2=javaURI+"/assignment/"+assignIndex.toString();
-        const theUserId=await getUserId();
+    async function fetchSubmissions() {
+        const urllink = javaURI + "/api/submissions/getSubmissions";
+        const theUserId = await getUserId();
         try {
             const response = await fetch(`${urllink}/${userId}`, {
                 method: 'GET',
                 headers: {
-                  'Content-Type': 'application/json',
+                    'Content-Type': 'application/json',
                 }
             });
-            const Submissions=await response.json();
+            const Submissions = await response.json();
             populateSubmissionsTable(Submissions);
         } catch (error) {
             console.error('Error fetching submissions:', error);
@@ -328,73 +309,60 @@ layout: post
 
     function populateSubmissionsTable(submissions) {
         const tableBody = document.getElementById('submissions-table').getElementsByTagName('tbody')[0];
-        tableBody.innerHTML = ''; 
-    
+        tableBody.innerHTML = '';
+
         submissions.forEach(submission => {
             const row = document.createElement('tr');
-            //console.log(submission.assignmentid+" "+assignIndex);
-            if(submission.assignmentid==assignIndex){
+            if (submission.assignmentid == assignIndex) {
                 const contentCell = document.createElement('td');
-                contentCell.textContent = submission.content || 'N/A'; 
+                contentCell.textContent = submission.content || 'N/A';
                 row.appendChild(contentCell);
-    
+
                 const gradeCell = document.createElement('td');
-                gradeCell.textContent = submission.grade || 'Ungraded'; 
+                gradeCell.textContent = submission.grade || 'Ungraded';
                 row.appendChild(gradeCell);
-    
+
                 const feedbackCell = document.createElement('td');
-                feedbackCell.textContent = submission.feedback || 'No feedback yet'; 
+                feedbackCell.textContent = submission.feedback || 'No feedback yet';
                 row.appendChild(feedbackCell);
-    
-    
-                
+
                 tableBody.appendChild(row);
             }
-    
-           
         });
     }
+
     document.getElementById("assignment-select").addEventListener("change", function() {
-    selectedTask = this.value;
-    assignIndex = this.selectedIndex;
+        selectedTask = this.value;
+        assignIndex = this.selectedIndex;
 
-    // If seed is selected, show the seed tracker
-    if (selectedTask === "seed") {
-        showSeedTracker();
-    } else {
-        // Reset everything else if something else is selected
-        hideSeedTracker();
+        if (selectedTask === "seed") {
+            showSeedTracker();
+        } else {
+            hideSeedTracker();
+        }
+
+        document.getElementById("Assignment-Content").innerText = assignments[assignIndex - 1].description;
+        fetchSubmissions();
+    });
+
+    function showSeedTracker() {
+        document.getElementById('comments').parentElement.style.display = 'none';
+
+        const seedTrackerHtml = `
+            <div id="seed-tracker-container">
+                <!-- Seed Tracker content goes here -->
+            </div>
+        `;
+        document.getElementById("modal").insertAdjacentHTML('beforeend', seedTrackerHtml);
     }
 
-    document.getElementById("Assignment-Content").innerText = assignments[assignIndex-1].description;
-    fetchSubmissions();
-});
-
-function showSeedTracker() {
-    // Remove the comment section
-    document.getElementById('comments').parentElement.style.display = 'none'; // hide comments
-
-    // Create a container for the seed tracker and insert it below the assignment form
-    const seedTrackerHtml = `
-        <div id="seed-tracker-container">
-            <!-- Your Seed Tracker code (the whole div for the seed tracker) goes here -->
-        </div>
-    `;
-    document.getElementById("modal").insertAdjacentHTML('beforeend', seedTrackerHtml);
-}
-
-function hideSeedTracker() {
-    // Show the comment section again
-    document.getElementById('comments').parentElement.style.display = 'block'; // show comments
-
-    // Remove the seed tracker if it exists
-    const seedTrackerContainer = document.getElementById("seed-tracker-container");
-    if (seedTrackerContainer) {
-        seedTrackerContainer.remove();
+    function hideSeedTracker() {
+        document.getElementById('comments').parentElement.style.display = 'block';
+        const seedTrackerContainer = document.getElementById("seed-tracker-container");
+        if (seedTrackerContainer) {
+            seedTrackerContainer.remove();
+        }
     }
-}
-
-
 
     getUserId();
     fetchSubmissions();
