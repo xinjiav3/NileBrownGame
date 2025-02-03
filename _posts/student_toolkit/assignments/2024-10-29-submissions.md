@@ -354,6 +354,47 @@ layout: post
            
         });
     }
+    document.getElementById("assignment-select").addEventListener("change", function() {
+    selectedTask = this.value;
+    assignIndex = this.selectedIndex;
+
+    // If seed is selected, show the seed tracker
+    if (selectedTask === "seed") {
+        showSeedTracker();
+    } else {
+        // Reset everything else if something else is selected
+        hideSeedTracker();
+    }
+
+    document.getElementById("Assignment-Content").innerText = assignments[assignIndex-1].description;
+    fetchSubmissions();
+});
+
+function showSeedTracker() {
+    // Remove the comment section
+    document.getElementById('comments').parentElement.style.display = 'none'; // hide comments
+
+    // Create a container for the seed tracker and insert it below the assignment form
+    const seedTrackerHtml = `
+        <div id="seed-tracker-container">
+            <!-- Your Seed Tracker code (the whole div for the seed tracker) goes here -->
+        </div>
+    `;
+    document.getElementById("modal").insertAdjacentHTML('beforeend', seedTrackerHtml);
+}
+
+function hideSeedTracker() {
+    // Show the comment section again
+    document.getElementById('comments').parentElement.style.display = 'block'; // show comments
+
+    // Remove the seed tracker if it exists
+    const seedTrackerContainer = document.getElementById("seed-tracker-container");
+    if (seedTrackerContainer) {
+        seedTrackerContainer.remove();
+    }
+}
+
+
 
     getUserId();
     fetchSubmissions();
