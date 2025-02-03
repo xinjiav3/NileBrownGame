@@ -154,7 +154,7 @@ title: Stocks Viewer
             <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
             <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
             <a href="{{site.baseurl}}/stocks/leaderboard">Leaderboard</a>
-            <a href="{{site.baseurl}}/stocks/game">Stocks Game</a>
+            <a href="{{site.baseurl}}/stocks/game">Game</a>
 
     </div>
   </nav>
