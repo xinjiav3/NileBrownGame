@@ -97,7 +97,7 @@ layout: post
 
 <div id="modal" class="modal">
     <div class="modal-content">
-        <h2>Submit here ---</h2>
+        <h2>Submit here --</h2>
         <!-- Dropdown with the "Seed" option included -->
         <select id="assignment-select">
             <option value="" disabled selected>Select a Assignment</option>
