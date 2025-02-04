@@ -52,7 +52,6 @@ permalink: /gamify/blackjack
     <div id="playerHand"></div>
     <p id="gameStatus" class="error"></p>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
 <script type="module">
     import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
@@ -116,3 +115,7 @@ permalink: /gamify/blackjack
         document.getElementById("betValue").innerText = `$${document.getElementById("betAmount").value}`;
     }
 </script>
+
+
+
+
