@@ -60,19 +60,49 @@ permalink: /project/mort-translator/teacher-seed-log
     }
 }
 
+  // Generate an array of dates from August 21 to today
+  function generateDateRange() {
+    const startDate = new Date('2024-08-21'); // Start from August 21, 2024
+    const today = new Date(); // Current date
+    const dateRange = [];
+
+    // Loop through and create dates between the start and today
+    while (startDate <= today) {
+      dateRange.push(new Date(startDate)); // Add the current date to the array
+      startDate.setDate(startDate.getDate() + 1); // Move to the next day
+    }
+
+    return dateRange;
+  }
+
+  // Format the date into a readable format (e.g., "MM/DD/YYYY")
+  function formatDate(date) {
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Get the month with leading 0
+    const day = ('0' + date.getDate()).slice(-2); // Get the day with leading 0
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  }
+
   // Fetch and display the seed graph for the selected student
   async function fetchSeedLog(studentName) {
     try {
       const response = await fetch(`${javaURI}/api/seeds/?name=${studentName}`);
       const seedLog = await response.json();
 
-      const dates = [];
-      const seeds = [];
+      const dateRange = generateDateRange();
+      const dates = dateRange.map(formatDate);  // Format the dates
+      const seeds = new Array(dates.length).fill(null); // Initialize seed values array
 
-      // Extract data for graph plotting
+      // Populate seed values for corresponding dates
       seedLog.forEach(entry => {
-        dates.push(new Date(entry.timestamp).toLocaleDateString()); // Format date as string
-        seeds.push(Math.min(Math.max(entry.newSeed, 0), 1)); // Scale seed between 0 and 1
+        const entryDate = new Date(entry.timestamp);
+        const formattedEntryDate = formatDate(entryDate);
+
+        // Find the index of the date in the date range
+        const index = dates.indexOf(formattedEntryDate);
+        if (index !== -1) {
+          seeds[index] = Math.min(Math.max(entry.newSeed, 0), 1); // Scale seed value between 0 and 1
+        }
       });
 
       // Generate the graph
@@ -106,7 +136,11 @@ permalink: /project/mort-translator/teacher-seed-log
             title: {
               display: true,
               text: 'Date'
-            }
+            },
+            ticks: {
+              autoSkip: true, // Skip ticks if they overlap
+              maxRotation: 45, // Rotate labels to avoid overlap
+            },
           },
           y: {
             min: 0, // Minimum seed value
