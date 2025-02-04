@@ -23,9 +23,11 @@ const Prompt = {
             const dimDiv = document.getElementById("dim");
             dimDiv.remove();
             Prompt.isOpen = false
-            promptDropDown.style.width = this.isOpen?"70%":"0px";
-            promptDropDown.style.top = this.isOpen?"15%":"0px";
-            promptDropDown.style.left = this.isOpen?"15%":"0px";
+            promptTitle.style.display = "none";
+            promptDropDown.style.width = "0"; 
+            promptDropDown.style.top = "0";  
+            promptDropDown.style.left = "-100%"; 
+            promptDropDown.style.transition = "all 0.3s ease-in-out";
         },
     },
 
@@ -166,35 +168,36 @@ const Prompt = {
         const promptDropDown = document.querySelector('.promptDropDown');
         const promptTitle = document.getElementById("promptTitle");
     
-        this.currentNpc = npc; // Assign the current NPC when opening the panel
-        promptTitle.innerHTML = npc.quiz.title || "Questions";
+        // Close any existing prompt before opening a new one
+        if (this.isOpen) {
+            this.backgroundDim.remove(); // Ensures previous dim is removed
+        }
     
-        // Toggle `isOpen` state
+        this.currentNpc = npc; // Assign the current NPC when opening the panel
         this.isOpen = true;
     
-        // Handle the prompt drop-down visibility
-        if (this.isOpen) {
-            Prompt.backgroundDim.create();
-    
-            // Remove old table if it exists
-            const table = document.getElementsByClassName("table scores")[0];
-            if (table) {
-                table.remove(); 
-            }
-    
-            // Update the prompt display with questions
-            Prompt.updatePromptDisplay();
-    
-            // Style the prompt drop-down
-            promptDropDown.style.position = "fixed";
-            promptDropDown.style.zIndex = "9999";
-            promptDropDown.style.width = "70%";
-            promptDropDown.style.top = "15%";
-            promptDropDown.style.left = "15%";
-            promptDropDown.style.transition = "all 0.3s ease-in-out";
-        }
-    },
+        // Ensure the previous content inside promptDropDown is removed
+        promptDropDown.innerHTML = ""; 
+        
+        promptTitle.style.display = "block";
 
+        // Add the new title
+        promptTitle.innerHTML = npc.quiz.title || "Questions";
+        promptDropDown.appendChild(promptTitle);
+    
+        // Display the new questions
+        promptDropDown.appendChild(this.updatePromptTable());
+    
+        // Handle the background dim effect
+        this.backgroundDim.create();
+    
+        promptDropDown.style.position = "fixed";
+        promptDropDown.style.zIndex = "9999";
+        promptDropDown.style.width = "70%"; 
+        promptDropDown.style.top = "15%";
+        promptDropDown.style.left = "15%"; 
+        promptDropDown.style.transition = "all 0.3s ease-in-out"; 
+    },
     
 
     initializePrompt () {
