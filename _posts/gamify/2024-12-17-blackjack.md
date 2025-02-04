@@ -3,6 +3,7 @@ layout: post
 title: Blackjack
 permalink: /gamify/blackjack
 ---
+
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -50,6 +51,66 @@ permalink: /gamify/blackjack
     <h2>Your Hand</h2>
     <div id="playerHand"></div>
     <p id="gameStatus" class="error"></p>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+<script type="module">
+    import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+    let uid = "";
+    // Ensure proper headers including authentication token
+    function getFetchOptions() {
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+            console.error("No auth token found");
+            return null;
+        }
+        return {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        };
+    }
+    async function getUID() {
+        console.log("Fetching UID...");
+        const options = getFetchOptions();
+        if (!options) {
+            document.getElementById("gameStatus").innerText = "Login required.";
+            return;
+        }
+        try {
+            const response = await fetch(`${javaURI}/api/person/get`, options);
+            if (!response.ok) throw new Error(`Server response: ${response.status}`);
+            const data = await response.json();
+            if (!data || !data.uid) throw new Error("UID not found in response");
+            uid = data.uid;
+            console.log("UID:", uid);
+        } catch (error) {
+            console.error("Error fetching UID:", error);
+            document.getElementById("gameStatus").innerText = "Error fetching UID. Please log in.";
+        }
+    }
+    document.getElementById("startGame").addEventListener("click", async function () {
+        try {
+            await getUID();
+            if (!uid) return;
+            const bet = parseInt(document.getElementById("betAmount").value);
+            const requestData = { uid, betAmount: bet };
+            const response = await fetch(`${javaURI}/api/casino/blackjack/start`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+                },
+                body: JSON.stringify(requestData),
+            });
+            if (!response.ok) throw new Error("Failed to start game.");
+            const data = await response.json();
+            updateUI(data, bet);
+        } catch (error) {
+            document.getElementById("gameStatus").innerText = error.message;
+
     <h2>Balance: <span id="balance">$1000</span></h2>
 </div>
 
@@ -123,8 +184,19 @@ permalink: /gamify/blackjack
         if (bet > 0) {
             balance -= bet;
             document.getElementById("balance").innerText = `$${balance}`;
+
         }
+    });
+    function updateBetDisplay() {
+        document.getElementById("betValue").innerText = `$${document.getElementById("betAmount").value}`;
     }
+
+</script>
+
+
+
+
+
 
     function adjustBalance(data) {
         let bet = parseInt(document.getElementById("betAmount").value);
@@ -138,3 +210,4 @@ permalink: /gamify/blackjack
         document.getElementById("balance").innerText = `$${balance}`;
     }
 </script>
+
