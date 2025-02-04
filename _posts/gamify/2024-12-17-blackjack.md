@@ -55,10 +55,8 @@ permalink: /gamify/blackjack
 
 <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
 <script type="module">
-    import { javaURI } from '{{site.baseurl}}/assets/js/api/config.js';
-
+    import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
     let uid = "";
-
     // Ensure proper headers including authentication token
     function getFetchOptions() {
         const token = localStorage.getItem("authToken");
@@ -74,7 +72,6 @@ permalink: /gamify/blackjack
             },
         };
     }
-
     async function getUID() {
         console.log("Fetching UID...");
         const options = getFetchOptions();
@@ -82,14 +79,11 @@ permalink: /gamify/blackjack
             document.getElementById("gameStatus").innerText = "Login required.";
             return;
         }
-
         try {
             const response = await fetch(`${javaURI}/api/person/get`, options);
             if (!response.ok) throw new Error(`Server response: ${response.status}`);
-
             const data = await response.json();
             if (!data || !data.uid) throw new Error("UID not found in response");
-
             uid = data.uid;
             console.log("UID:", uid);
         } catch (error) {
@@ -97,15 +91,12 @@ permalink: /gamify/blackjack
             document.getElementById("gameStatus").innerText = "Error fetching UID. Please log in.";
         }
     }
-
     document.getElementById("startGame").addEventListener("click", async function () {
         try {
             await getUID();
             if (!uid) return;
-
             const bet = parseInt(document.getElementById("betAmount").value);
             const requestData = { uid, betAmount: bet };
-
             const response = await fetch(`${javaURI}/api/casino/blackjack/start`, {
                 method: "POST",
                 headers: {
@@ -114,7 +105,6 @@ permalink: /gamify/blackjack
                 },
                 body: JSON.stringify(requestData),
             });
-
             if (!response.ok) throw new Error("Failed to start game.");
             const data = await response.json();
             updateUI(data, bet);
