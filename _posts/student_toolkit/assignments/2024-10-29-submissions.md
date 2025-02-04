@@ -8,6 +8,7 @@ layout: post
 
 <title>Submission Form</title>
 <style>
+    /* ---------- Global Styles ---------- */
     #timer-container {
         text-align: center;
         font-size: 24px;
@@ -18,7 +19,7 @@ layout: post
         font-weight: bold;
         transition: color 0.3s ease;
     }
-    select, input[type="url"], textarea, button {
+    select, input[type="url"], textarea, button, input[type="text"], input[type="range"] {
         width: 100%;
         padding: 15px; 
         font-size: 18px; 
@@ -53,11 +54,11 @@ layout: post
         color: #ffffff;
         animation: moving-glow2 2s infinite;
     }
-    .Assignment-Name{
+    .Assignment-Name {
         font-size: 20px; 
         color: white;
     }
-    .Assignment-Content{
+    .Assignment-Content {
         font-size: 16px; 
         color: white;
     }
@@ -91,13 +92,16 @@ layout: post
     .shake {
         animation: shake 0.5s infinite;
     }
+    /* ---------- End Styles ---------- */
 </style>
 
 <div id="modal" class="modal">
     <div class="modal-content">
-        <h2>Submit here</h2>
+        <h2>Submit here --</h2>
+        <!-- Dropdown with the "Seed" option included -->
         <select id="assignment-select">
             <option value="" disabled selected>Select a Assignment</option>
+            <option value="Seed">Seed</option>
         </select>
     </div>
     <div class="Assignment-Content" id="Assignment-Content">Assignment-Content</div>
@@ -105,14 +109,17 @@ layout: post
         <p id="time-left"></p>
     </div>
     <br><br>
-    <div>
-        <label for="submissionContent" style="font-size: 18px;">Submission Content:</label>
-        <input type="url" id="submissionContent" required />
-    </div>
-    <br><br>
-    <div>
-        <label for="comments" style="font-size: 18px;">Comments:</label>
-        <textarea id="comments" rows="4" style="width: 100%;"></textarea>
+    <!-- Wrap submission content and comments in a section so we can inject Seed Tracker after it -->
+    <div id="submission-section">
+        <div>
+            <label for="submissionContent" style="font-size: 18px;">Submission Content:</label>
+            <input type="url" id="submissionContent" required />
+        </div>
+        <br><br>
+        <div id="comment-section">
+            <label for="comments" style="font-size: 18px;">Comments:</label>
+            <textarea id="comments" rows="4" style="width: 100%;"></textarea>
+        </div>
     </div>
     <br><br>
     <button id="submit-assignment">Submit Assignment</button>
@@ -125,7 +132,7 @@ layout: post
     <table id="submissions-table" style="width: 100%; margin-top: 20px;">
         <thead>
             <tr>
-                <th>Submisssion Content</th>
+                <th>Submission Content</th>
                 <th>Grade</th>
                 <th>Feedback</th>
             </tr>
@@ -134,34 +141,30 @@ layout: post
             <!-- Submissions will be populated here -->
         </tbody>
     </table>
-    
 </div>
-
 
 <script type="module">
     import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
     let selectedTask = "";
-    let tasks = "";
     let assignmentIds = [];
-    let submissions=[];
     let assignIndex = 0;
     let assignments;
-    let userId=-1;
-    let Student;
+    let userId = -1;
 
+    // ----------------- Submission Button Logic -----------------
     document.getElementById("submit-assignment").addEventListener("click", Submit);
     function Submit() {
-        let urllink_submit=javaURI+"/api/submissions/submit/";
+        let urllink_submit = javaURI + "/api/submissions/submit/";
         const submissionContent = document.getElementById('submissionContent').value;
-        const comment=document.getElementById('comments').value;
+        const comment = document.getElementById('comments').value;
         getUserId();
-        if(userId==-1){
+        if(userId === -1) {
             alert("Please login first");
             return;
         }
-        const student_id=userId;
-        const assigmentId=assignments[assignIndex-1].id;
-        urllink_submit+=assigmentId.toString();
+        const student_id = userId;
+        const assigmentId = assignments[assignIndex - 1].id;
+        urllink_submit += assigmentId.toString();
         const data = new FormData();
         data.append("studentId", student_id);
         data.append("content", submissionContent);
@@ -174,16 +177,14 @@ layout: post
         })
         .then(response => {
             const outputBox = document.getElementById('outputBox');
-            if (response.ok) {
-                outputBox.innerText = 'Successful Submission! ';
+            if(response.ok) {
+                outputBox.innerText = 'Successful Submission!';
                 fetchSubmissions();
                 return response.json();
             } else {
-                outputBox.innerText = 'Failed Submission! ';
+                outputBox.innerText = 'Failed Submission!';
                 throw new Error('Failed to submit data: ' + response.statusText);
             }
-            
-
         })
         .then(result => {
             console.log('Submission successful:', result);
@@ -192,18 +193,16 @@ layout: post
             console.error('Error:', error);
         });
     }
+    // ----------------- End Submission Logic -----------------
 
-
-
+    // ----------------- Fetching Assignments & Submissions -----------------
     async function fetchAssignments() {
         try {
-            const response = await fetch(javaURI+"/api/assignments/debug", {
+            const response = await fetch(javaURI + "/api/assignments/debug", {
                 method: 'GET',
-                headers: {
-                  'Content-Type': 'application/json',
-                }
+                headers: {'Content-Type': 'application/json'}
             });
-            assignments=await response.json();
+            assignments = await response.json();
             populateAssignmentDropdown(assignments);
         } catch (error) {
             console.error('Error fetching tasks:', error);
@@ -212,6 +211,7 @@ layout: post
 
     function populateAssignmentDropdown(Assignments) {
         const assignmentSelect = document.getElementById('assignment-select');
+        // Loop through assignments and add options (besides the Seed option)
         Assignments.forEach(assignment => {
             const option = document.createElement('option');
             option.value = assignment.name;
@@ -220,142 +220,113 @@ layout: post
             assignmentIds.push(assignment.id);
         });
     }
-    
-    document.getElementById("assignment-select").addEventListener("change", function() {
-        selectedTask = this.value;
-        assignIndex = this.selectedIndex;
-        document.getElementById("Assignment-Content").innerText=assignments[assignIndex-1].description;
-        console.log(assignments[assignIndex-1].dueDate);
-        console.log(calculateTimeLeft(assignments[assignIndex-1].dueDate));
-        console.log(assignments[assignIndex-1].timestamp);
-        document.getElementById("Assignment-name").innerText= this.value;
-        fetchSubmissions();
-    });
 
-    function calculateTimeLeft(deadline) {
-        const now = new Date();
-        const deadlineDate = new Date(deadline);
-        const diff = deadlineDate - now;
-
-        if (diff > 0) {
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        
-            const totalTime = deadlineDate - new Date(deadline);  
-            const timeLeft = deadlineDate - now;
-            const percentageLeft = (timeLeft / totalTime) * 100;
-            updateTimeText(days,hours,minutes);
-
-            return `${days}d ${hours}h ${minutes}m left`;
-        } else {
-            updateTimeText(-0.5,-0.5,-0.5); 
-            return "Deadline Passed";
-        }
-    }
-
-    function updateTimeText(days, hours, minutes) {
-        const timeLeftElement = document.getElementById('time-left');
-        let message = '';
-        let color = '';
-        let shouldShake = false;
-        if (days > 3) {
-            message = `Time Left: ${days}d ${hours}h ${minutes}m`;
-            color = 'green';
-        } else if (days <= 3 && days > 0) {
-            message = `Time Left: ${days}d ${hours}h ${minutes}m (Hurry up!)`;
-            color = 'orange';
-        } else if (days <= 0 && (hours > 0 || minutes > 0)) {
-            message = `Time Left: ${hours}h ${minutes}m (Almost due!)`;
-            color = 'red';
-            shouldShake = true;
-        } else {
-            message = 'Deadline Passed';
-            color = 'red';
-            shouldShake = true;
-        }
-
-        timeLeftElement.textContent = message;
-        timeLeftElement.style.color = color;
-
-        if (shouldShake) {
-            timeLeftElement.classList.add('shake');
-        } else {
-            timeLeftElement.classList.remove('shake');
-        }
-    }
-
-
-     async function getUserId(){
-        const url_persons = `${javaURI}/api/person/get`;
-        await fetch(url_persons, fetchOptions)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Spring server response: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                userId=data.id;
-
-
-            })
-            .catch(error => {
-                console.error("Java Database Error:", error);
-            });
-    }
-
-
-    
-
-    async function fetchSubmissions(){
-        const urllink=javaURI+"/api/submissions/getSubmissions";
-        const urllink2=javaURI+"/assignment/"+assignIndex.toString();
-        const theUserId=await getUserId();
+    async function fetchSubmissions() {
+        const urllink = javaURI + "/api/submissions/getSubmissions";
+        await getUserId();
         try {
             const response = await fetch(`${urllink}/${userId}`, {
                 method: 'GET',
-                headers: {
-                  'Content-Type': 'application/json',
-                }
+                headers: {'Content-Type': 'application/json'}
             });
-            const Submissions=await response.json();
-            populateSubmissionsTable(Submissions);
+            const submissions = await response.json();
+            populateSubmissionsTable(submissions);
         } catch (error) {
             console.error('Error fetching submissions:', error);
         }
     }
 
     function populateSubmissionsTable(submissions) {
-        const tableBody = document.getElementById('submissions-table').getElementsByTagName('tbody')[0];
-        tableBody.innerHTML = ''; 
-    
+        const tableBody = document.getElementById('submissions-table').querySelector('tbody');
+        tableBody.innerHTML = "";
         submissions.forEach(submission => {
-            const row = document.createElement('tr');
-            //console.log(submission.assignmentid+" "+assignIndex);
-            if(submission.assignmentid==assignIndex){
+            if(submission.assignmentid == assignIndex) {
+                const row = document.createElement('tr');
                 const contentCell = document.createElement('td');
-                contentCell.textContent = submission.content || 'N/A'; 
+                contentCell.textContent = submission.content || 'N/A';
                 row.appendChild(contentCell);
-    
                 const gradeCell = document.createElement('td');
-                gradeCell.textContent = submission.grade || 'Ungraded'; 
+                gradeCell.textContent = submission.grade || 'Ungraded';
                 row.appendChild(gradeCell);
-    
                 const feedbackCell = document.createElement('td');
-                feedbackCell.textContent = submission.feedback || 'No feedback yet'; 
+                feedbackCell.textContent = submission.feedback || 'No feedback yet';
                 row.appendChild(feedbackCell);
-    
-    
-                
                 tableBody.appendChild(row);
             }
-    
-           
         });
     }
 
+    async function getUserId() {
+        const url_persons = `${javaURI}/api/person/get`;
+        await fetch(url_persons, fetchOptions)
+            .then(response => {
+                if(!response.ok) { throw new Error(`Spring server response: ${response.status}`); }
+                return response.json();
+            })
+            .then(data => { userId = data.id; })
+            .catch(error => { console.error("Java Database Error:", error); });
+    }
+    // ----------------- End Fetching -----------------
+
+    // ----------------- Assignment Select Event Listener -----------------
+    document.getElementById("assignment-select").addEventListener("change", function() {
+        selectedTask = this.value;
+        assignIndex = this.selectedIndex;
+        // If "Seed" is selected (exact match) then trigger the Seed Tracker pop-up
+        if(selectedTask === "Seed") {
+            // Hide the comment section
+            document.getElementById("comment-section").style.display = "none";
+            // Insert the Seed Tracker form immediately below the submission section (if not already there)
+            if(!document.getElementById("seed-tracker-container")) {
+                const seedTrackerHtml = `
+                    <div id="seed-tracker-container" style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
+                        <h3>Seed Tracker</h3>
+                        <div class="form-group">
+                            <label for="studentName">Student Name</label>
+                            <input type="text" id="studentName" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gradeRequest">Requested Grade (Seed)</label>
+                            <input type="range" id="gradeRequest" min="0" max="1" step="0.1" value="0.5" oninput="document.getElementById('rangeValue').innerText=this.value">
+                            <div class="range-value" id="rangeValue">0.5</div>
+                        </div>
+                        <div class="form-group">
+                            <button onclick="submitEntry()">Submit Entry</button>
+                        </div>
+                        <div class="range-value" id="message"></div>
+                    </div>
+                `;
+                document.getElementById("submission-section").insertAdjacentHTML('afterend', seedTrackerHtml);
+            }
+        } else {
+            // If any other assignment is selected, show the comment section and remove the Seed Tracker if it exists
+            document.getElementById("comment-section").style.display = "block";
+            const seedTrackerContainer = document.getElementById("seed-tracker-container");
+            if(seedTrackerContainer) {
+                seedTrackerContainer.remove();
+            }
+        }
+        // Update Assignment Content if available
+        if(assignments && assignments[assignIndex-1]) {
+            document.getElementById("Assignment-Content").innerText = assignments[assignIndex-1].description;
+        }
+        fetchSubmissions();
+    });
+    // ----------------- End Event Listener -----------------
+
+    // ----------------- Seed Tracker Submit Entry Function -----------------
+    // This function handles seed tracker submissions (dummy alert for now)
+    window.submitEntry = function() {
+        const studentName = document.getElementById("studentName").value;
+        const gradeRequest = document.getElementById("gradeRequest").value;
+        alert("Seed tracker submitted:\nStudent: " + studentName + "\nRequested Grade: " + gradeRequest);
+        // Additional logic for seed tracker submission goes here
+    }
+    // ----------------- End Seed Tracker Function -----------------
+
+    // ----------------- Initial Load -----------------
     getUserId();
     fetchSubmissions();
     fetchAssignments();
+    // ----------------- End Load -----------------
 </script>
