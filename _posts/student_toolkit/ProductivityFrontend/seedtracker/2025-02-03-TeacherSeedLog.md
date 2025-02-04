@@ -6,11 +6,12 @@ type: ccc
 permalink: /project/mort-translator/teacher-seed-log
 ---
 
-
 <html lang="en">
 <head>
     <title>Seed Tracker Log</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js CDN -->
 </head>
+<body>
 <h1>Teacher Seed Log</h1>
 
 <!-- Dropdown to select a student -->
@@ -19,25 +20,14 @@ permalink: /project/mort-translator/teacher-seed-log
   <option value="">-- Choose a Student --</option>
 </select>
 
-<!-- Table for seed change log -->
-<table id="seedLogTable">
-  <thead>
-    <tr>
-      <th>Date/Time</th>
-      <th>Old Seed</th>
-      <th>New Seed</th>
-      <th>Comment</th>
-    </tr>
-  </thead>
-  <tbody>
-  </tbody>
-</table>
+<!-- Canvas for the graph -->
+<canvas id="seedGraph" width="600" height="400"></canvas>
 
 <script type="module">
   import {javaURI} from '{{site.baseurl}}/assets/js/api/config.js';
 
   // Fetch student list and populate dropdown
-   async function fetchStudents() {
+  async function fetchStudents() {
     try {
         const response = await fetch(`${javaURI}/api/seeds/`);
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
@@ -70,41 +60,83 @@ permalink: /project/mort-translator/teacher-seed-log
     }
 }
 
-  // Fetch and display the seed log for the selected student
-  async function fetchSeedLog(studentId) {
+  // Fetch and display the seed graph for the selected student
+  async function fetchSeedLog(studentName) {
     try {
-      const response = await fetch(`${javaURI}/api/seeds/${studentId}`);
+      const response = await fetch(`${javaURI}/api/seeds/?name=${studentName}`);
       const seedLog = await response.json();
 
-      const tableBody = document.getElementById('seedLogTable').querySelector('tbody');
-      tableBody.innerHTML = '';  // Clear existing rows
+      const dates = [];
+      const seeds = [];
 
-      if (seedLog.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="4">No seed changes found</td></tr>`;
-      } else {
-        seedLog.forEach(entry => {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${entry.timestamp}</td>
-            <td>${entry.oldSeed}</td>
-            <td>${entry.newSeed}</td>
-            <td>${entry.comment || 'No comment'}</td>
-          `;
-          tableBody.appendChild(row);
-        });
-      }
+      // Extract data for graph plotting
+      seedLog.forEach(entry => {
+        dates.push(new Date(entry.timestamp).toLocaleDateString()); // Format date as string
+        seeds.push(Math.min(Math.max(entry.newSeed, 0), 1)); // Scale seed between 0 and 1
+      });
+
+      // Generate the graph
+      createGraph(dates, seeds);
     } catch (error) {
       console.error('Error fetching seed log:', error);
     }
   }
 
+  // Create the seed change graph
+  function createGraph(dates, seeds) {
+    const ctx = document.getElementById('seedGraph').getContext('2d');
+
+    // Create a new chart
+    new Chart(ctx, {
+      type: 'line',  // Line chart type
+      data: {
+        labels: dates,  // Dates on the X-axis
+        datasets: [{
+          label: 'Seed Value',
+          data: seeds,  // Seed values on the Y-axis
+          borderColor: 'rgba(75, 192, 192, 1)', // Line color
+          fill: false, // No fill under the line
+          tension: 0.1,  // Smooth line
+          pointBackgroundColor: 'rgba(75, 192, 192, 1)', // Points color
+        }]
+      },
+      options: {
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Date'
+            }
+          },
+          y: {
+            min: 0, // Minimum seed value
+            max: 1, // Maximum seed value
+            ticks: {
+              stepSize: 0.05 // Scaling the y-axis in increments of 0.05
+            },
+            title: {
+              display: true,
+              text: 'Seed Value'
+            }
+          }
+        },
+        responsive: true,  // Responsive chart
+        plugins: {
+          legend: {
+            position: 'top',  // Position of the legend
+          },
+        },
+      }
+    });
+  }
+
   // Event listener for student selection
   document.getElementById('studentSelect').addEventListener('change', (event) => {
-    const studentId = event.target.value;
-    if (studentId) {
-      fetchSeedLog(studentId);
+    const studentName = event.target.value;
+    if (studentName) {
+      fetchSeedLog(studentName);
     } else {
-      document.getElementById('seedLogTable').querySelector('tbody').innerHTML = '';
+      document.getElementById('seedGraph').innerHTML = ''; // Clear the graph if no student is selected
     }
   });
 
@@ -112,3 +144,5 @@ permalink: /project/mort-translator/teacher-seed-log
   document.addEventListener('DOMContentLoaded', fetchStudents);
 </script>
 
+</body>
+</html>
