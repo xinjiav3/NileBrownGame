@@ -412,11 +412,6 @@ permalink: /student/sagai/QNA
       response.json().then(data => {
           console.log(data);
                 addCommenttoReplyDiv(replyDiv, data);
-            // const replyDivText = document.createElement('div');
-            // replyDivText.classList.add('reply-text');
-            // replyDivText.innerHTML = `<p>${data.content}</p>`;
-            // replyDiv.appendChild(replyDivText);
-         
       })
     })
     // catch fetch errors (ie Nginx ACCESS to server blocked)
