@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Button Page</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #fullPageButton {
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="fullPageButton">
+        <!-- Image Carousel -->
+        <img id="carouselImage" src="" alt="Cycling Images">
+    </div>
+
+    <!-- JavaScript for Carousel -->
+    <script>
+        // Array of image URLs
+        const images = [
+            '_notebooks\Zhengji&Advait-game\foreward.jpg',
+            '_notebooks\Zhengji&Advait-game\.top.jpg',
+            '_notebooks\Zhengji&Advait-game\down.jpg'
+        ];
+
+        let currentIndex = 0;
+
+        // Function to change the image
+        function changeImage() {
+            const imgElement = document.getElementById('carouselImage');
+            imgElement.src = images[currentIndex];
+            currentIndex = (currentIndex + 1) % images.length;
+        }
+
+        // Initial setup
+        document.addEventListener('DOMContentLoaded', () => {
+            changeImage(); // Display the first image immediately
+            setInterval(changeImage, 20000); // Cycle every 20 seconds
+        });
+    </script>
+
+    <!-- JavaScript for Button Functionality -->
+    <script>
+        document.getElementById('fullPageButton').addEventListener('click', function() {
+            alert('The entire page was clicked!');
+            // Add any other functionality here
+        });
+    </script>
+</body>
+</html>
