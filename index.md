@@ -8,6 +8,9 @@ hide: true
 menu: nav/home.html
 ---
 
+Zhengji and Advait's flowchart:
+![FlowChart](final flowchart.png)
+
 <!-- Liquid:  statements-->
 
 <!--- Concatenation of site URL to frontmatter image  --->
