@@ -2,7 +2,7 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 const spriteSheet = new Image();
-spriteSheet.src = "sprite.wepb"; // Load your sprite sheet
+spriteSheet.src = "Sprite_2.png"; // Load your sprite sheet
 
 // Sprite details
 const spriteWidth = 64;  // Width of each frame
