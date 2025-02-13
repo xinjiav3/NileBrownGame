@@ -59,9 +59,9 @@ class GameLevelWater {
     };
 
     // NPC sprite data (frog)
-    const sprite_src_frog = path + "/images/rpg/fishies.png";
+    const sprite_src_frog = path + "/images/rpg/burrit.jpg";
     const sprite_data_frog = {
-        name: 'npc',
+        name: 'burrit',
         src: sprite_src_frog,
         SCALE_FACTOR: 16,  // Adjust this based on your scaling needs
         ANIMATION_RATE: 50,
