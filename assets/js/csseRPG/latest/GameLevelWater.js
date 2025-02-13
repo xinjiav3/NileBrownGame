@@ -16,7 +16,7 @@ class GameLevelColorado {
     let height = GameEnv.innerHeight;
 
     // Background data
-    const image_src_colorado = path + "/images/rpg/delnorte.png";
+    const image_src_colorado = path + "/images/rpg/YangtzeBlueSprites/delnorte.png";
     const image_data_colorado = {
         name: 'colorado',
         src: image_src_colorado,
@@ -25,7 +25,7 @@ class GameLevelColorado {
 
     // Player 1 sprite data (turtle)
     const SaraS_SCALE_FACTOR = 10;
-    const sprite_src_SaraS = path + "/images/rpg/SaraS.png";
+    const sprite_src_SaraS = path + "images/rpg/YangtzeBlueSprites/SaraS.png";
     const sprite_data_SaraS = {
         name: 'SaraS',
         src: sprite_src_SaraS,
@@ -42,7 +42,7 @@ class GameLevelColorado {
     };
 
     // Player 2 sprite data (fish)
-    const sprite_src_fish = path + "/images/rpg/burrit.png";
+    const sprite_src_fish = path + "/images/rpg/YangtzeBlueSprites/burrit.png";
     const sprite_data_fish = {
         name: 'fish',
         src: sprite_src_fish,
