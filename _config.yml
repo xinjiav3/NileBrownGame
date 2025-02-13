@@ -1,9 +1,9 @@
-title: Nighthawk Pages 
-description: "Class of 2025"
-owner_name: John Mortensen
-github_username: nighthawkcoders
-github_repo: "portfolio_2025" 
-baseurl: "/portfolio_2025"
+title: Nile Brown Game
+description: "genshjn1"
+owner_name: Zhengji Li
+github_username: xinjiav3
+github_repo: "NileBrownGame" 
+baseurl: "/NileBrownGame"
 future: true
 remote_theme: jekyll/minima
 minima:
