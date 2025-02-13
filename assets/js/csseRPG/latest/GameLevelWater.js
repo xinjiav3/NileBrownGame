@@ -16,7 +16,7 @@ class GameLevelWater {
     let height = GameEnv.innerHeight;
 
     // Background data
-    const image_src_water = path + "/images/rpg/water.png";
+    const image_src_water = path + "/images/rpg/delnorte.jpg";
     const image_data_water = {
         name: 'water',
         src: image_src_water,
@@ -25,7 +25,7 @@ class GameLevelWater {
 
     // Player 1 sprite data (turtle)
     const TURTLE_SCALE_FACTOR = 10;
-    const sprite_src_turtle = path + "/images/rpg/turtle.png";
+    const sprite_src_turtle = path + "/images/rpg/Sara-S.png";
     const sprite_data_turtle = {
         name: 'turtle',
         src: sprite_src_turtle,
@@ -42,7 +42,7 @@ class GameLevelWater {
     };
 
     // Player 2 sprite data (fish)
-    const sprite_src_fish = path + "/images/rpg/fishies.png";
+    const sprite_src_fish = path + "/images/rpg/burrit.png";
     const sprite_data_fish = {
         name: 'fish',
         src: sprite_src_fish,
