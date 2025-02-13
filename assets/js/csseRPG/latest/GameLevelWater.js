@@ -6,7 +6,7 @@ import PlayerTwo from './PlayerTwo.js';
 import NpcFrog from './NpcFrog.js';
 
 
-class GameLevelWater {
+class GameLevelColorado {
   constructor(path) {
     const header = document.querySelector('header');
     const footer = document.querySelector('footer');
@@ -16,23 +16,23 @@ class GameLevelWater {
     let height = GameEnv.innerHeight;
 
     // Background data
-    const image_src_water = path + "/images/rpg/delnorte.png";
-    const image_data_water = {
-        name: 'water',
-        src: image_src_water,
-        pixels: {height: 580, width: 1038}
+    const image_src_colorado = path + "/images/rpg/delnorte.png";
+    const image_data_colorado = {
+        name: 'colorado',
+        src: image_src_colorado,
+        pixels: {height: 640, width: 1280}
     };
 
     // Player 1 sprite data (turtle)
-    const TURTLE_SCALE_FACTOR = 10;
-    const sprite_src_turtle = path + "/images/rpg/Sara-S.png";
-    const sprite_data_turtle = {
-        name: 'turtle',
-        src: sprite_src_turtle,
-        SCALE_FACTOR: TURTLE_SCALE_FACTOR,
+    const SaraS_SCALE_FACTOR = 10;
+    const sprite_src_SaraS = path + "/images/rpg/SaraS.png";
+    const sprite_data_SaraS = {
+        name: 'SaraS',
+        src: sprite_src_SaraS,
+        SCALE_FACTOR: SaraS_SCALE_FACTOR,
         STEP_FACTOR: 1000,
         ANIMATION_RATE: 50,
-        INIT_POSITION: { x: 0, y: height - (height/TURTLE_SCALE_FACTOR) }, 
+        INIT_POSITION: { x: 0, y: height - (height/SaraS_SCALE_FACTOR) }, 
         pixels: {height: 280, width: 256},
         orientation: {rows: 4, columns: 3 },
         down: {row: 0, start: 0, columns: 3 },
