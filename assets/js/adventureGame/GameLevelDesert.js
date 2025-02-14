@@ -14,9 +14,9 @@ class GameLevelDesert {
 
 
     // Background data
-    const image_src_desert = path + "/images/gamify/desert.png"; // be sure to include the path
+    const image_src_desert = path + "/images/cyberpunk_background.jpg"; // be sure to include the path
     const image_data_desert = {
-        name: 'desert',
+        name: 'Cyberpunk',
         greeting: "Welcome to the desert!  It is hot and dry here, but there are many adventures to be had!",
         src: image_src_desert,
         pixels: {height: 580, width: 1038}
