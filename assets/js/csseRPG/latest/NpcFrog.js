@@ -101,7 +101,7 @@ class NpcFrog extends GameObject {
             });
             // Join all player names inside the proximity
             if (names.length > 0) {
-                this.handleResponse(`Hello, ${names.join(', ')}`);
+                this.handleResponse("eat me");
             }
         }
     }
