@@ -5,8 +5,7 @@ import PlayerOne from './PlayerOne.js';
 import PlayerTwo from './PlayerTwo.js';
 import NpcFrog from './NpcFrog.js';
 
-
-class GameLevelColorado {
+class GameLevelWater {
   constructor(path) {
     const header = document.querySelector('header');
     const footer = document.querySelector('footer');
@@ -16,17 +15,17 @@ class GameLevelColorado {
     let height = GameEnv.innerHeight;
 
     // Background data
-    const image_src_colorado = path + "/images/rpg/YangtzeBlueSprites/delnorte.png";
-    const image_data_colorado = {
-        name: 'colorado',
-        src: image_src_colorado,
+    const image_src_water = path + "/images/rpg/YangtzeBlueSprites/delnorte.png";
+    const image_data_water = {
+        name: 'water',
+        src: image_src_water,
         pixels: {height: 640, width: 1280}
     };
 
     // Player 1 sprite data (turtle)
     const SaraS_SCALE_FACTOR = 10;
     const sprite_src_SaraS = path + "images/rpg/YangtzeBlueSprites/SaraS.png";
-    const sprite_data_SaraS = {
+    const sprite_data_turtle = {
         name: 'SaraS',
         src: sprite_src_SaraS,
         SCALE_FACTOR: SaraS_SCALE_FACTOR,
@@ -71,7 +70,7 @@ class GameLevelColorado {
         down: {row: 0, start: 9, columns: 3 },  // This is the stationary npc, down is default 
     };
 
-    // List of objects defnitions for this level
+    // List of objects definitions for this level
     this.objects = [
       { class: Background, data: image_data_water },
       { class: PlayerOne, data: sprite_data_turtle },
@@ -79,7 +78,6 @@ class GameLevelColorado {
       { class: NpcFrog, data: sprite_data_frog }
     ];
   }
-
 }
 
 export default GameLevelWater;
