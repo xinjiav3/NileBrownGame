@@ -4,6 +4,7 @@ import Background from './Background.js';
 import PlayerOne from './PlayerOne.js';
 import PlayerTwo from './PlayerTwo.js';
 import NpcFrog from './NpcFrog.js';
+import Maze from './Maze.js';
 
 class GameLevelWater {
   constructor(path) {
@@ -70,13 +71,27 @@ class GameLevelWater {
         down: {row: 0, start: 9, columns: 3 },  // This is the stationary npc, down is default 
     };
 
+    // Maze data
+    const maze = new Maze(width, height, 40);
+
     // List of objects definitions for this level
     this.objects = [
       { class: Background, data: image_data_water },
       { class: PlayerOne, data: sprite_data_turtle },
       { class: PlayerTwo, data: sprite_data_fish },
-      { class: NpcFrog, data: sprite_data_frog }
+      { class: NpcFrog, data: sprite_data_frog },
+      { class: Maze, data: maze }
     ];
+  }
+
+  render(ctx) {
+    this.objects.forEach(obj => {
+      if (obj.class === Maze) {
+        obj.data.render(ctx);
+      } else {
+        // Render other objects
+      }
+    });
   }
 }
 
