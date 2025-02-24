@@ -85,7 +85,9 @@ class GameLevelWater {
   }
 
   render(ctx) {
+    console.log('Rendering game level...');
     this.objects.forEach(obj => {
+      console.log(`Rendering object: ${obj.class.name}`);
       if (obj.class === Maze) {
         obj.data.render(ctx);
       } else {
