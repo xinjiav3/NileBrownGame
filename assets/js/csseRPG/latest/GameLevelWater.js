@@ -90,6 +90,8 @@ class GameLevelWater {
         obj.data.render(ctx);
       } else {
         // Render other objects
+        const instance = new obj.class(obj.data);
+        instance.render(ctx);
       }
     });
   }
