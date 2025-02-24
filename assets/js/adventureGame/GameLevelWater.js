@@ -1,6 +1,6 @@
 // To build GameLevels, each contains GameObjects from below imports
 import GameEnv from './GameEnv.js';
-import Background from './Background.js';
+import Background from './Backgroundwater.js';
 import PlayerOne from './PlayerOne.js';
 import PlayerTwo from './PlayerTwo.js';
 import NpcFrog from './NpcFrog.js';
