@@ -3,26 +3,34 @@ class Maze {
     this.width = width;
     this.height = height;
     this.cellSize = cellSize;
-    this.grid = this.generateMaze();
+    this.rows = Math.floor(height / cellSize);
+    this.cols = Math.floor(width / cellSize);
+    this.grid = Array.from({ length: this.rows }, () => Array(this.cols).fill(1)); // Start with walls
+
+    this.generateMaze(0, 0); // Start maze generation from (0,0)
   }
 
-  generateMaze() {
-    // Simple maze generation logic (e.g., recursive division, random walk, etc.)
-    // For simplicity, we'll create a grid with random walls
-    const rows = Math.floor(this.height / this.cellSize);
-    const cols = Math.floor(this.width / this.cellSize);
-    const grid = Array.from({ length: rows }, () => Array(cols).fill(0));
+  generateMaze(row, col) {
+    const directions = [
+      [0, -1], // Left
+      [0, 1],  // Right
+      [-1, 0], // Up
+      [1, 0],  // Down
+    ];
 
-    // Add random walls
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < cols; col++) {
-        if (Math.random() > 0.7) {
-          grid[row][col] = 1; // Wall
-        }
+    this.grid[row][col] = 0; // Mark current cell as a path
+
+    directions.sort(() => Math.random() - 0.5); // Shuffle directions
+
+    for (let [dx, dy] of directions) {
+      const newRow = row + dy * 2;
+      const newCol = col + dx * 2;
+
+      if (newRow >= 0 && newRow < this.rows && newCol >= 0 && newCol < this.cols && this.grid[newRow][newCol] === 1) {
+        this.grid[row + dy][col + dx] = 0; // Remove wall between
+        this.generateMaze(newRow, newCol);
       }
     }
-
-    return grid;
   }
 
   render(ctx) {
