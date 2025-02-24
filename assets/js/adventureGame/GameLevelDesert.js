@@ -1,6 +1,6 @@
 // To build GameLevels, each contains GameObjects from below imports
 import GameEnv from './GameEnv.js';
-import Background from './Background.js';
+import Background from '/images/cyberpunk_background.jpg';
 import Player from './Player.js';
 import Npc from './Npc.js';
 
