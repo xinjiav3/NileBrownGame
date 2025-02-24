@@ -5,7 +5,7 @@ export class Background extends GameObject {
     constructor(data = null) {
         super();
         this.image = new Image();
-        this.image.src = data?.src || 'assets/background.png'; // Use uploaded image
+        this.image.src = data?.src || 'images/cyberpunk_background.jpg'; // Use uploaded image
 
         GameEnv.gameObjects.push(this);
     }
