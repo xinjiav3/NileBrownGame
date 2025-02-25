@@ -3,8 +3,8 @@ import Background from './Background.js';
 import Player from './Player.js';
 import Npc from './Npc.js';
 import Quiz from './Quiz.js';
-// import GameControl from './GameControl.js';
-// import GameLevelStarWars from './GameLevelStarWars.js';
+import GameControl from './GameControl.js';
+import GameLevelStarWars from './GameLevelStarWars.js';
 
 class GameLevelDesert {
   constructor(gameEnv) {
@@ -14,10 +14,10 @@ class GameLevelDesert {
     let path = gameEnv.path;
 
     // Background data
-    const image_src_desert = path + "/images/gamify/desert.png"; // be sure to include the path
+    const image_src_desert = path + "/images/gamify/placehold.png"; // be sure to include the path
     const image_data_desert = {
-        name: 'desert',
-        greeting: "Welcome to the desert!  It is hot and dry here, but there are many adventures to be had!",
+        name: 'colorado',
+        greeting: "Welcome to the wonderful state of Colorado!  It is hot and dry here, but there are many adventures to be had!",
         src: image_src_desert,
         pixels: {height: 580, width: 1038}
     };
