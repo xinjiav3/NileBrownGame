@@ -14,7 +14,7 @@ class GameLevelDesert {
     let path = gameEnv.path;
 
     // Background data
-    const image_src_desert = path + "/images/gamify/placehold.png"; // be sure to include the path
+    const image_src_desert = path + "/images/gamify/cyberpunk_background.png"; // be sure to include the path
     const image_data_desert = {
         name: 'colorado',
         greeting: "Welcome to the wonderful state of Colorado!  It is hot and dry here, but there are many adventures to be had!",
