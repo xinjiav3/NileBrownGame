@@ -1,101 +1,91 @@
-// To build GameLevels, each contains GameObjects from below imports
-import GameEnv from './GameEnv.js';
-import Background from './Backgroundwater.js';
-import PlayerOne from './PlayerOne.js';
-import PlayerTwo from './PlayerTwo.js';
-import NpcFrog from './NpcFrog.js';
-import Maze from './Maze.js';
+import Background from './Background.js';
+import Npc from './Npc.js';
+import Player from './Player.js';
+import GameControl from './GameControl.js';
+import GameLevelStarWars from './GameLevelStarWars.js';
 
 class GameLevelWater {
-  constructor(path) {
-    const header = document.querySelector('header');
-    const footer = document.querySelector('footer');
-
-    // Values dependent on GameEnv.create()
-    let width = GameEnv.innerWidth;
-    let height = GameEnv.innerHeight;
+  /**
+   * Properties and methods to define a game level
+   * @param {*} gameEnv - The active game environment
+   */
+  constructor(gameEnv) {
+    // Dependencies to support game level creation
+    let width = gameEnv.innerWidth;
+    let height = gameEnv.innerHeight;
+    let path = gameEnv.path;
 
     // Background data
-    const image_src_water = path + "/images/rpg/YangtzeBlueSprites/delnorte.png";
+    const image_src_water = path + "/images/gamify/deepseadungeon.jpeg";
     const image_data_water = {
-        name: 'water',
+        id: 'Water',
         src: image_src_water,
-        pixels: {height: 640, width: 1280}
+        pixels: {height: 597, width: 340}
     };
 
-    // Player 1 sprite data (turtle)
-    const SaraS_SCALE_FACTOR = 10;
-    const sprite_src_SaraS = path + "images/rpg/YangtzeBlueSprites/SaraS.png";
-    const sprite_data_turtle = {
-        name: 'SaraS',
-        src: sprite_src_SaraS,
-        SCALE_FACTOR: SaraS_SCALE_FACTOR,
+    // Player Data for Octopus
+    const sprite_src_octopus = path + "/images/gamify/octopus.png"; // be sure to include the path
+    const OCTOPUS_SCALE_FACTOR = 5;
+    const sprite_data_octopus = {
+        id: 'Octopus',
+        greeting: "Hi I am Octopus, the water wanderer. I am looking for wisdome and adventure!",
+        src: sprite_src_octopus,
+        SCALE_FACTOR: OCTOPUS_SCALE_FACTOR,
         STEP_FACTOR: 1000,
         ANIMATION_RATE: 50,
-        INIT_POSITION: { x: 0, y: height - (height/SaraS_SCALE_FACTOR) }, 
-        pixels: {height: 280, width: 256},
-        orientation: {rows: 4, columns: 3 },
-        down: {row: 0, start: 0, columns: 3 },
-        left: {row: 1, start: 0, columns: 3 },
-        right: {row: 2, start: 0, columns: 3 },
-        up: {row: 3, start: 0, columns: 3 },
+        INIT_POSITION: { x: 0, y: height - (height/OCTOPUS_SCALE_FACTOR) }, 
+        pixels: {height: 250, width: 167},
+        orientation: {rows: 3, columns: 2 },
+        down: {row: 0, start: 0, columns: 2 },
+        left: {row: 1, start: 0, columns: 2, mirror: true }, // mirror is used to flip the sprite
+        right: {row: 1, start: 0, columns: 2 },
+        up: {row: 0, start: 0, columns: 2},
+        hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
+        keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
     };
 
-    // Player 2 sprite data (fish)
-    const sprite_src_fish = path + "/images/rpg/YangtzeBlueSprites/burrit.png";
-    const sprite_data_fish = {
-        name: 'fish',
-        src: sprite_src_fish,
-        SCALE_FACTOR: 16,
-        STEP_FACTOR: 400,
-        ANIMATION_RATE: 50,
-        pixels: {height: 256, width: 384},
-        INIT_POSITION: { x: 0, y: 0 },
-        orientation: {rows: 8, columns: 12 },
-        down: {row: 0, start: 0, columns: 3 },  // 1st row
-        left: {row: 1, start: 0, columns: 3 },  // 2nd row
-        right: {row: 2, start: 0, columns: 3 }, // 3rd row
-        up: {row: 3, start: 0, columns: 3 },    // 4th row
-    };
+    // NPC Data for Byte Nomad (Smaller Version)
+    const sprite_src_nomad = path + "/images/gamify/animwizard.png"; // be sure to include the path
+    const sprite_data_nomad = {
+        id: 'JavaWorld',
+        greeting: "Hi I am Java Portal.  Leave this world and go on a Java adventure!",
+        src: sprite_src_nomad,
+        SCALE_FACTOR: 10,  // Adjust this based on your scaling needs
+        ANIMATION_RATE: 100,
+        pixels: {height: 307, width: 813},
+        INIT_POSITION: { x: (width * 3 / 4), y: (height * 3 / 4)},
+        orientation: {rows: 3, columns: 7 },
+        down: {row: 1, start: 0, columns: 6 },  // This is the stationary npc, down is default 
+        hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+        /* Interact function
+        *  This function is called when the player interacts with the NPC
+        *  It pauses the main game, creates a new GameControl instance with the StarWars level,
+        */
+        interact: function() {
+          // Set a primary game reference from the game environment
+          let primaryGame = gameEnv.gameControl;
+          // Define the game in game level
+          let levelArray = [GameLevelStarWars];
+          // Define a new GameControl instance with the StarWars level
+          let gameInGame = new GameControl(path,levelArray);
+          // Pause the primary game 
+          primaryGame.pause();
+          // Start the game in game
+          gameInGame.start();
+          // Setup "callback" function to allow transition from game in gaame to the underlying game
+          gameInGame.gameOver = function() {
+            // Call .resume on primary game
+            primaryGame.resume();
+          }
+        }
+      };
 
-    // NPC sprite data (frog)
-    const sprite_src_frog = path + "/images/rpg/burrit.jpg";
-    const sprite_data_frog = {
-        name: 'burrit',
-        src: sprite_src_frog,
-        SCALE_FACTOR: 16,  // Adjust this based on your scaling needs
-        ANIMATION_RATE: 50,
-        pixels: {height: 256, width: 384},
-        INIT_POSITION: { x: (width / 2), y: (height / 2)},
-        orientation: {rows: 8, columns: 12 },
-        down: {row: 0, start: 9, columns: 3 },  // This is the stationary npc, down is default 
-    };
-
-    // Maze data
-    const maze = new Maze(width, height, 40);
-
-    // List of objects definitions for this level
-    this.objects = [
+    // List of classes and supporting definitions to create the game level
+    this.classes = [
       { class: Background, data: image_data_water },
-      { class: PlayerOne, data: sprite_data_turtle },
-      { class: PlayerTwo, data: sprite_data_fish },
-      { class: NpcFrog, data: sprite_data_frog },
-      { class: Maze, data: maze }
+      { class: Player, data: sprite_data_octopus },
+      { class: Npc, data: sprite_data_nomad },
     ];
-  }
-
-  render(ctx) {
-    console.log('Rendering game level...');
-    this.objects.forEach(obj => {
-      console.log(`Rendering object: ${obj.class.name}`);
-      if (obj.class === Maze) {
-        obj.data.render(ctx);
-      } else {
-        // Render other objects
-        const instance = new obj.class(obj.data);
-        instance.render(ctx);
-      }
-    });
   }
 }
 
